@@ -1,0 +1,269 @@
+{
+  "comment": "Mile-anchored rider notes: ferries, detours, hard roads, service gaps, climbs, traffic. Sourced from ACA public route/section text, official alerts, and 2007–2026 public ride journals during the 2026-08-18 corridor research. 'at' = single point [lng,lat]; 'span' = [[lng,lat],[lng,lat]]. ingest-notes.mjs projects these onto route miles.",
+  "notes": [
+    {
+      "kind": "traffic",
+      "title": "Pensacola city traffic",
+      "detail": "ACA's own text: 'traffic increases tremendously through Pensacola.' Leave early on Day 1 and get clear of the city before rush hour.",
+      "at": [-87.2169, 30.4213],
+      "source": "ACA Southern Tier route page",
+      "confidence": "high"
+    },
+    {
+      "kind": "trail",
+      "title": "Gulf State Park Backcountry Trail",
+      "detail": "Paved, car-free trail network through Gulf State Park between Orange Beach and Gulf Shores — one of the nicest riding stretches of the whole trip.",
+      "span": [[-87.574, 30.270], [-87.701, 30.246]],
+      "source": "ACA Southern Tier route page",
+      "confidence": "high"
+    },
+    {
+      "kind": "ferry",
+      "title": "Mobile Bay Ferry (Fort Morgan → Dauphin Island)",
+      "detail": "~40-min crossing, $6 walk-on fare with the bike free — cash at the dock, no advance tickets. IMPORTANT for a late-September start: after Labor Day the schedule drops from twice-hourly to about 8 sailings a day, roughly every 90 minutes from ~8:45am at the Fort Morgan side. Miss one and you wait an hour and a half. Weather cancels it and dock repairs close it for days (last multi-day outage 2023); call 251-861-3000 or check their Facebook the morning of. If it's out, ACA's official Mobile Bay Alternate detours through Mobile (+41.6 mi).",
+      "at": [-88.011, 30.229],
+      "source": "mobilebayferry.com schedule/pricing, verified Aug 2026",
+      "confidence": "high"
+    },
+    {
+      "kind": "traffic",
+      "title": "US 90 beachfront: Biloxi–Gulfport",
+      "detail": "Beachfront highway with casino traffic; shoulders are generally wide. Watch driveway crossings. Active roadwork as of Aug 2026: a westbound lane closed in Biloxi (Beauvoir Rd–Oakmont Pl) and westbound lanes closed daytime 7:30a–5p in Pass Christian for water-line replacement — expect shoulder pinches and delays through this stretch.",
+      "span": [[-88.885, 30.396], [-89.248, 30.316]],
+      "source": "WLOX construction reports, Jul–Aug 2026",
+      "confidence": "high"
+    },
+    {
+      "kind": "detour",
+      "title": "Official Pearl River bridge detour",
+      "detail": "US 90's West Pearl River bridge has been shut since 2022 with NO reopening estimate — replacement needs $300M+ and funding still wasn't secured as of Aug 2025, so assume it stays closed. This is ACA's official 117-mile detour: good shoulders on the Louisiana side, narrow-to-none on the Mississippi side. Quiet roads, thin services between Picayune and Slidell. (Bikes are banned from the I-10/I-59 alternative, so this or a vehicle shuttle are the only options.)",
+      "span": [[-89.248, 30.316], [-89.781, 30.275]],
+      "source": "ACA route alert (Sept 2022, still active)",
+      "confidence": "high"
+    },
+    {
+      "kind": "traffic",
+      "title": "Slidell → New Orleans on US 90",
+      "detail": "The Rigolets crossing and Chef Menteur Hwy into New Orleans East — narrow in spots, and urban traffic builds steadily into the city.",
+      "span": [[-89.781, 30.275], [-90.072, 29.951]],
+      "source": "route corridor (journal-attested)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trail",
+      "title": "Mississippi River levee paths",
+      "detail": "Much of New Orleans → Baton Rouge rides the Mississippi River Trail levee — car-free but fully exposed to sun and wind. Known breaks: you're forced off the levee at the Bonnet Carré Spillway (the River Road bypass floods in high water; fallback is up to Airline Hwy), then about 6 miles of gravel before pavement resumes near Reserve, after which it's River Road shoulder riding to Baton Rouge. The Army Corps' West Shore Lake Pontchartrain levee project runs through LaPlace–Garyville until roughly 2028, so expect construction zones and haul traffic on this stretch.",
+      "span": [[-90.072, 29.951], [-91.187, 30.451]],
+      "source": "ACA Section 5 text; Bike Easy NOLA guide; USACE West Shore project (ongoing to ~2028)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "bridge",
+      "title": "John James Audubon Bridge (Mississippi River)",
+      "detail": "The trip's Mississippi crossing: long and high, 4 lanes with wide shoulders. Windy on the deck.",
+      "at": [-91.340, 30.724],
+      "source": "corridor research (bridge opened 2011, replaced the ferry)",
+      "confidence": "high"
+    },
+    {
+      "kind": "bridge",
+      "title": "Atchafalaya bridge at Simmesport",
+      "detail": "The LA 1 bridge over the Atchafalaya has minimal shoulder — take the lane and time your crossing between truck platoons.",
+      "at": [-91.816, 30.984],
+      "source": "corridor research (USBR 90 geometry notes)",
+      "confidence": "high"
+    },
+    {
+      "kind": "traffic",
+      "title": "DeRidder traffic",
+      "detail": "ACA notes traffic increases near DeRidder (US 171/US 190 junction town).",
+      "at": [-93.286, 30.847],
+      "source": "ACA Southern Tier route page",
+      "confidence": "high"
+    },
+    {
+      "kind": "caution",
+      "title": "Montopolis Dr into Austin — then the bikeway",
+      "detail": "ACA's map literally says 'ride defensively' on Montopolis Dr entering Austin. Reward: the Lance Armstrong Bikeway then carries you through downtown car-free — though Project Connect light-rail construction is relocating the bikeway toward 4th St and reworking the Nueces–Trinity section, so expect downtown detour signage (as of early 2026).",
+      "at": [-97.714, 30.230],
+      "source": "ACA Section 4 map text; City of Austin 311 response, Jan 2026",
+      "confidence": "high"
+    },
+    {
+      "kind": "caution",
+      "title": "US 281 into Johnson City",
+      "detail": "Riders report US 281 into Johnson City is now freeway-like with no shoulder — worse than the map text suggests. Ride it early in the morning.",
+      "at": [-98.412, 30.277],
+      "source": "rider report, 2023 (CGOAB doc 24914)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "no_services",
+      "title": "Camp Wood ↔ Brackettville: ~37 mi empty",
+      "detail": "Nothing on SH 55/RM 334 between Camp Wood and Brackettville. Top up water before leaving town.",
+      "span": [[-100.009, 29.668], [-100.418, 29.311]],
+      "source": "ACA Section 3/4 text",
+      "confidence": "high"
+    },
+    {
+      "kind": "no_services",
+      "title": "Comstock → Sanderson: 89 miles, no services",
+      "detail": "The famous one. Langtry has water at the visitor center but no store; Dryden has nothing dependable. Carry a full day of water and food — this is the stretch that ends underprepared tours.",
+      "span": [[-101.175, 29.688], [-102.394, 30.142]],
+      "source": "ACA Section 3 text + journals",
+      "confidence": "high"
+    },
+    {
+      "kind": "bridge",
+      "title": "Pecos River high bridge",
+      "detail": "US 90's high bridge over the Pecos — spectacular, exposed, and gusty. Walk it if the crosswind is blowing.",
+      "at": [-101.351, 29.703],
+      "source": "corridor research + journals",
+      "confidence": "high"
+    },
+    {
+      "kind": "no_services",
+      "title": "Sanderson ↔ Marathon: 55 mi, no services",
+      "detail": "Another empty US 90 stretch — nothing between the two towns. Marathon is the better resupply.",
+      "span": [[-102.394, 30.142], [-103.243, 30.204]],
+      "source": "ACA route page",
+      "confidence": "high"
+    },
+    {
+      "kind": "highway",
+      "title": "Van Horn → Sierra Blanca: I-10 shoulder",
+      "detail": "~33 miles riding the interstate shoulder — legal here because no parallel road exists. Wide shoulder, loud trucks, tire-eating debris: check tires before and after.",
+      "span": [[-104.831, 31.040], [-105.357, 31.175]],
+      "source": "ACA Section 3 text",
+      "confidence": "high"
+    },
+    {
+      "kind": "highway",
+      "title": "Sierra Blanca → Fort Hancock: frontage + 2 mi of I-10",
+      "detail": "~20 miles of I-10 frontage road plus roughly 2 miles on the interstate itself descending toward the river valley, then quiet TX 20 through the farm towns.",
+      "span": [[-105.357, 31.175], [-105.845, 31.298]],
+      "source": "ACA Section 3 text",
+      "confidence": "high"
+    },
+    {
+      "kind": "trail",
+      "title": "El Paso: Mission Trail + Rio Grande path",
+      "detail": "Through the El Paso valley on the historic Mission Trail (San Elizario, Socorro) and ~8 miles of paved Rio Grande bike path leaving the city.",
+      "span": [[-106.303, 31.655], [-106.600, 31.911]],
+      "source": "corridor research + journals",
+      "confidence": "medium"
+    },
+    {
+      "kind": "climb",
+      "title": "Emory Pass — 8,228 ft, the roof of the trip",
+      "detail": "Long steady climb west from Kingston (last water) to the highest point of the entire Southern Tier. Start early, carry layers — mountain weather flips fast — then enjoy a ~20-mile descent to San Lorenzo. No seasonal closure, but NM 152 closes for events like the 2022 Black Fire; check nmroads.com or dial 511 the day before. The state bans vehicles over 40 ft here, which tells you how narrow and twisty the Kingston side is.",
+      "span": [[-107.703, 32.918], [-107.955, 32.803]],
+      "source": "ACA Section 2 text + journals",
+      "confidence": "high"
+    },
+    {
+      "kind": "no_services",
+      "title": "Silver City → Lordsburg: Continental Divide, ~44 mi empty",
+      "detail": "NM 90 crosses the Continental Divide with no services until Lordsburg (which itself is a 2-mile detour off the line).",
+      "span": [[-108.280, 32.770], [-108.708, 32.350]],
+      "source": "ACA Section 2 text",
+      "confidence": "high"
+    },
+    {
+      "kind": "no_services",
+      "title": "Lordsburg → Duncan: remote US 70",
+      "detail": "~40 empty miles on US 70's shoulder; Duncan is the first Arizona services.",
+      "span": [[-108.708, 32.350], [-109.101, 32.715]],
+      "source": "corridor research",
+      "confidence": "medium"
+    },
+    {
+      "kind": "no_services",
+      "title": "San Carlos Reservation stretch",
+      "detail": "Long gaps on US 70 across the San Carlos Apache Reservation — Bylas and Peridot have small stores, not much else between Fort Thomas and Globe.",
+      "span": [[-109.965, 33.037], [-110.787, 33.396]],
+      "source": "journals",
+      "confidence": "medium"
+    },
+    {
+      "kind": "detour",
+      "title": "US 60 roadwork around Globe/Miami",
+      "detail": "ADOT work on US 60 west of Globe caused intermittent FULL daytime closures (9am–2pm) in spring 2026, with a long vehicle detour via SR 177/SR 77. It's episodic rather than constant — check az511.gov the day before you ride into Globe and turn north onto SR 188.",
+      "span": [[-110.787, 33.396], [-110.843, 33.406]],
+      "source": "ADOT project notices, spring 2026",
+      "confidence": "medium"
+    },
+    {
+      "kind": "climb",
+      "title": "Tonto Basin → Usery Pass: roller day",
+      "detail": "Constant rollers down SR 188 and up SR 87/Bush Hwy past Saguaro Lake, topping Usery Pass into the Valley — one of the biggest cumulative-climb days of the trip (~6,000 ft).",
+      "span": [[-111.300, 33.841], [-111.621, 33.489]],
+      "source": "elevation data + journals",
+      "confidence": "high"
+    },
+    {
+      "kind": "traffic",
+      "title": "Phoenix metro traverse",
+      "detail": "A full day threading the Valley on canal paths and city streets — the Arizona Canal stretches are car-free but slow, and our line approximates the metro routing: keep navigation handy.",
+      "span": [[-111.831, 33.415], [-112.368, 33.629]],
+      "source": "ACA route page (Arizona Canal Trail) + corridor research",
+      "confidence": "medium"
+    },
+    {
+      "kind": "highway",
+      "title": "US 60 → I-10 shoulder to Quartzsite",
+      "detail": "US 60 dead-ends into I-10 west of Brenda: ~28 miles of legal interstate shoulder to Quartzsite and on toward Ehrenberg.",
+      "span": [[-113.945, 33.680], [-114.217, 33.667]],
+      "source": "ACA Section 1 text + journals",
+      "confidence": "high"
+    },
+    {
+      "kind": "bridge",
+      "title": "Colorado River: use the NORTH sidewalk",
+      "detail": "Bikes are prohibited on the I-10 bridge roadway at Ehrenberg. Take the frontage road to the dirt path and cross on the bridge's north sidewalk into Blythe.",
+      "at": [-114.532, 33.606],
+      "source": "ACA map text (journal-quoted)",
+      "confidence": "high"
+    },
+    {
+      "kind": "caution",
+      "title": "SR 78 + Glamis dunes: ACA advisory stretch",
+      "detail": "ACA has an ACTIVE Major Detour advisory off SR 78 — winding, narrow, hilly, with hazardous truck and RV traffic. This build keeps the classic mainline: ~65 mi Palo Verde→Brawley with only the seasonal Glamis store. High-vis, early start, maximum water. The official alternative swings south through Yuma on I-8 shoulders (16 mi shorter) but carries its own 49-mile no-services gap between Dateland and Gila Bend — neither option is easy, so pick deliberately rather than by accident.",
+      "span": [[-114.728, 33.427], [-115.530, 32.979]],
+      "source": "ACA route alert: Major Detour on Section 1 (active Aug 2026)",
+      "confidence": "high"
+    },
+    {
+      "kind": "caution",
+      "title": "Imperial Valley heat + SR 98",
+      "detail": "Below-sea-level desert, extreme heat most of the year — this is the stretch to ride at dawn. I-8 is prohibited to bikes east of Ocotillo, so SR 98 is the road; the good news is Caltrans finished a $70M repave with bike lanes in 2024, so it's in the best shape it's been in years.",
+      "span": [[-115.530, 32.733], [-116.009, 32.742]],
+      "source": "ACA Section 1 text",
+      "confidence": "high"
+    },
+    {
+      "kind": "climb",
+      "title": "In-Ko-Pah grade: I-8 shoulder climb",
+      "detail": "~3,000 ft out of the desert on the interstate shoulder (legal — no parallel road exists), then Old Hwy 80 through Jacumba. Heat at the bottom, wind at the top: the hardest sustained climb after Emory Pass.",
+      "span": [[-116.009, 32.742], [-116.190, 32.618]],
+      "source": "ACA Section 1 text + journals",
+      "confidence": "high"
+    },
+    {
+      "kind": "caution",
+      "title": "Camp Pendleton passage",
+      "detail": "Riding through the base needs a DBIDS bike pass: apply in person at the Main Gate visitor center with a REAL ID licence or passport (background check, photo, prints; good for a year, helmet required), then the route runs Vandegrift → Stuart Mesa Rd → Las Pulgas gate → Old Pacific Hwy. Passes were suspended from 2023 into mid-2024 while the visitor center was closed, and a rider reported it open again in April 2026 — call 760-763-8435 to confirm before you get there. No pass? Riding the I-5 shoulder between Las Pulgas Rd and Basilone Rd is legal precisely because there's no other through-route; exit at every off-ramp. Rarely, the military closes I-5 entirely for live-fire events.",
+      "span": [[-117.379, 33.196], [-117.612, 33.427]],
+      "source": "OC Bike Coalition, Camp Pendleton visitor center, rider reports (Apr 2026)",
+      "confidence": "medium"
+    },
+    {
+      "kind": "trail",
+      "title": "LA beach-path finale",
+      "detail": "Long Beach to Santa Monica runs mostly on beach bike paths — slow, crowded with pedestrians, and completely scenic. Ideal arrival conditions for a clown.",
+      "span": [[-118.193, 33.770], [-118.4965, 34.0086]],
+      "source": "Pacific Coast corridor",
+      "confidence": "medium"
+    }
+  ]
+}

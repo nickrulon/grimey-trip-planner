@@ -1,0 +1,23 @@
+# Purchased/proprietary route data — personal use only, never commit
+data/private/
+
+# Env / secrets
+.env
+.env.*
+
+# Node
+node_modules/
+dist/
+
+# Local database
+*.sqlite
+*.sqlite-journal
+*.db
+
+# sqlite sidecars
+*.sqlite-wal
+*.sqlite-shm
+
+# large regenerable ingest caches (keep small ones)
+data/route/leg-cache.json
+data/route/osm-ways-cache*.json
