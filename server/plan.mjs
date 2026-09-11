@@ -1573,7 +1573,20 @@ export function makePlanner(db) {
 
   // Readiness: the app's answer to "do I still need to think about this day?"
   // Ordered worst-first; the first issue is the day's headline state.
-  function readinessFor(d, model, workStop, riderNotes, actual) {
+  const fmtMin = (m) => {
+    const h = Math.floor(m / 60), mm = m % 60;
+    return h ? (mm ? `${h}h${String(mm).padStart(2, '0')}` : `${h}h`) : `${mm} min`;
+  };
+
+  /**
+   * `extra` is what only a simulated day knows — the Trip list calls this
+   * without it and sees exactly the issues it always did:
+   *   workCreditMin / owedMin   → 'work_short' when the sit-downs (plus combos)
+   *                               do not add up to a work day
+   *   missedMarks [{ label }]   → 'mark_missed' per fixed appointment the walk
+   *                               reaches too late
+   */
+  function readinessFor(d, model, workStop, riderNotes, actual, extra = {}) {
     if (actual) return { state: 'done', issues: [] };
     const issues = [];
     const miles = d.end_mile - d.start_mile;
@@ -1587,7 +1600,16 @@ export function makePlanner(db) {
         if (!workStop) issues.push({ kind: 'work', label: 'Needs work stop' });
         else if (workStop.wifiStatus === 'none') issues.push({ kind: 'work_wifi', label: 'No wi-fi reported at work stop' });
         else if (!workStop.wifiStatus || workStop.wifiStatus === 'unknown') issues.push({ kind: 'work_wifi', label: 'Wi-Fi unverified at work stop' });
+        // A stop is chosen, but two hours at a library is not a work day.
+        if (workStop && extra.workCreditMin != null && extra.owedMin != null
+          && extra.workCreditMin < extra.owedMin - 5) {
+          issues.push({
+            kind: 'work_short',
+            label: `Work day short by ${fmtMin(Math.round(extra.owedMin - extra.workCreditMin))}`,
+          });
+        }
       }
+      for (const m of extra.missedMarks ?? []) issues.push({ kind: 'mark_missed', label: m.label });
     }
     if (!d.overnight_resource_id && !d.overnight_camp_id) {
       issues.push({ kind: 'sleep', label: 'Needs sleep anchor' });
@@ -1598,7 +1620,10 @@ export function makePlanner(db) {
         break;
       }
     }
-    const worst = issues.find((i) => ['daylight', 'mileage', 'work', 'sleep'].includes(i.kind))
+    // Headline = the most consequential issue present, in THIS order — not the
+    // first one that happened to be pushed. A missed boat outranks everything.
+    const RANK = ['mark_missed', 'daylight', 'mileage', 'work', 'work_short', 'sleep'];
+    const worst = RANK.map((k) => issues.find((i) => i.kind === k)).find(Boolean)
       ?? issues[0] ?? null;
     return { state: worst ? worst.kind : 'ready', issues };
   }

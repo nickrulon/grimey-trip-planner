@@ -115,6 +115,48 @@ const dayOf = (n) => p.activeDays().days.find((d) => d.day_number === n);
   void m;
 }
 
+// ---- 3b. a mile-pinned mark the ride cannot make is a readiness issue --------
+// "Meet the 3:30 boat" stops being a note and becomes a constraint the day is
+// checked against. Day-scoped marks have no mile, so they are never checked.
+{
+  const { days } = p.activeDays();
+  const d = days.find((x) => x.day_number > 1 && x.end_mile - x.start_mile > 30);
+  const mile = Math.round((d.start_mile + (d.end_mile - d.start_mile) * 0.8) * 10) / 10;
+  const c0 = today.dayCanvas(d.day_number);
+  ok('fixture day has no missed marks to begin with', c0.missedMarks.length === 0);
+  // a mark at the day's very first minute of riding, 80% of the way along: unreachable
+  const m = p.addMark({ scope: 'mile', routeMile: mile, label: 'Boat', shape: 'line', color: 'red', startMin: c0.departMin + 1 });
+  const c1 = today.dayCanvas(d.day_number);
+  ok('unreachable mile mark is reported as missed', c1.missedMarks.length === 1 && c1.missedMarks[0].id === m.id, JSON.stringify(c1.missedMarks));
+  ok('…as a mark_missed readiness issue that names the times',
+    c1.readiness.issues.some((i) => i.kind === 'mark_missed' && /Boat: reach mi .* at .*, need /.test(i.label)),
+    JSON.stringify(c1.readiness.issues));
+  ok('…and it is the day\'s headline state', c1.readiness.state === 'mark_missed', c1.readiness.state);
+  p.updateMark({ id: m.id, startMin: 23 * 60 + 50 });
+  ok('a mark late enough is not missed', today.dayCanvas(d.day_number).missedMarks.length === 0);
+  p.updateMark({ id: m.id, scope: 'day', dayNumber: d.day_number, startMin: c0.departMin + 1 });
+  ok('a day-scoped mark is never checked (no mile to check)', today.dayCanvas(d.day_number).missedMarks.length === 0);
+  p.removeMark({ id: m.id });
+  // work_short: a workday whose ONLY sit is two hours (a day with two sits keeps
+  // its credit from the other one, and re-anchors on it — correctly)
+  const wd = days.find((x) => {
+    if (x.day_number <= 1) return false;
+    const c = today.dayCanvas(x.day_number);
+    return c.sun?.workday && c.workStops.length === 1 && c.combos.length === 0;
+  });
+  if (wd) {
+    const before = today.dayCanvas(wd.day_number).readiness.issues.some((i) => i.kind === 'work_short');
+    ok('a full work day is not short', !before);
+    const ws = today.dayCanvas(wd.day_number).workStop;
+    p.updateStop({ id: ws.id, dwellMin: 120 });
+    const c = today.dayCanvas(wd.day_number);
+    ok('two hours at the library is a short work day', c.readiness.issues.some((i) => i.kind === 'work_short' && /short by 5h30/.test(i.label)),
+      JSON.stringify({ day: wd.day_number, date: c.date, workday: c.sun?.workday, workStop: c.workStop && [c.workStop.id, c.workStop.dwellMin], stops: c.workStops.map((w) => [w.id, w.dwellMin]), work: c.work, issues: c.readiness.issues.map((i) => i.kind) }));
+    p.updateStop({ id: ws.id, dwellMin: ws.dwellMin });
+    ok('restored', !today.dayCanvas(wd.day_number).readiness.issues.some((i) => i.kind === 'work_short'));
+  }
+}
+
 // ---- 4. validation refuses what a half-filled form would leak ---------------
 {
   ok('mile scope without routeMile rejected', /routeMile required/.test(throws(() => p.addMark({ scope: 'mile', label: 'x', shape: 'line', startMin: 600 })) ?? ''));

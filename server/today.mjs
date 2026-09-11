@@ -515,6 +515,36 @@ export function makeToday(db, planner, camping, intel = null) {
     const elev = planner.elevationForRange(d.start_mile, d.end_mile);
     const { effort } = effortMiles(d.start_mile, d.end_mile);
 
+    // The rider's own marks. Deliberately NOT folded into `blocks`: blocks are
+    // derived state that the canvas slides when roll-out moves, and a mark that
+    // slid would be the one thing this feature exists to prevent.
+    const marks = planner.marksFor(d, {
+      isLastDay,
+      // A ridden day is judged by the miles it actually covered, not the ones
+      // it was planned to cover — otherwise a mile-pinned mark shows both on
+      // the day that was ridden and on the day that now covers that mile.
+      startMile: covered.startMile, endMile: covered.endMile,
+    });
+    // A fixed appointment the ride cannot make: a mile-pinned mark whose mile
+    // the walk reaches after the mark's time. "Meet the 3:30 boat" stops being
+    // a note to remember and becomes a constraint the day is checked against.
+    // (A day-scoped mark has no mile to check — that is what the pin offer is
+    // for.) Five minutes of grace, like every other check on the canvas.
+    const clock = (min) => {
+      const m = ((Math.round(min) % 1440) + 1440) % 1440;
+      const H = Math.floor(m / 60), Mi = m % 60;
+      return `${((H + 11) % 12) + 1}:${String(Mi).padStart(2, '0')}${H < 12 ? 'a' : 'p'}`;
+    };
+    const missedMarks = rest ? [] : marks.flatMap((m) => {
+      if (m.routeMile == null) return [];
+      const at = minAtMile(progress, m.routeMile);
+      if (at == null || at <= m.startMin + 5) return [];
+      return [{
+        id: m.id, lateMin: Math.round(at - m.startMin),
+        label: `${m.label}: reach mi ${m.routeMile} at ${clock(at)}, need ${clock(m.startMin)}`,
+      }];
+    });
+
     return {
       dayNumber: d.day_number,
       preview: !!overrides,
@@ -568,16 +598,8 @@ export function makeToday(db, planner, camping, intel = null) {
         milesFromStart: r1(b.routeMile - d.start_mile),
         rideMinFromStart: Math.round(rideMinutes(d.start_mile, b.routeMile, speed)),
       })),
-      // The rider's own marks. Deliberately NOT folded into `blocks`: blocks
-      // are derived state that the canvas slides when roll-out moves, and a
-      // mark that slid would be the one thing this feature exists to prevent.
-      marks: planner.marksFor(d, {
-        isLastDay,
-        // A ridden day is judged by the miles it actually covered, not the ones
-        // it was planned to cover — otherwise a mile-pinned mark shows both on
-        // the day that was ridden and on the day that now covers that mile.
-        startMile: covered.startMile, endMile: covered.endMile,
-      }),
+      marks,
+      missedMarks,
       // Crossings this day touches, with when the ride reaches them. A mark
       // whose window lands on one of these is really the crossing's, not the
       // day's — that is the moment to offer pinning it to the mile. Same ridden
@@ -616,7 +638,8 @@ export function makeToday(db, planner, camping, intel = null) {
         ]).slice(0, 6),
       } : null,
       readiness: model
-        ? planner.readinessFor(d, model, workStop, notes, actual)
+        ? planner.readinessFor(d, model, workStop, notes, actual,
+          { workCreditMin: workCredit, owedMin, missedMarks })
         : { state: actual ? 'done' : 'unknown', issues: [] },
       actual: actual ? {
         endMile: r1(actual.end_mile), miles: r1(actual.end_mile - actual.start_mile),

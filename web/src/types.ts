@@ -181,7 +181,11 @@ export interface DayCanvas {
   work: { owedMin: number; creditMin: number; shortMin: number; overMin: number; comboMin: number } | null;
   breaks: DayBreak[];
   marks: CanvasMark[];
+  /** Mile-pinned marks the simulated ride reaches too late. */
+  missedMarks: { id: number; lateMin: number; label: string }[];
   transits: DayTransit[];
+  /** True when this canvas is a dry run of a proposed chain, nothing saved. */
+  preview?: boolean;
   workFallbacks: { id: string; name: string; routeMile: number; offRouteMi: number | null; wifiStatus: string | null }[];
   movingMeeting: {
     fromMile: number;

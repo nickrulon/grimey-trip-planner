@@ -161,7 +161,7 @@ button.primary:disabled, button.ghost:disabled { opacity: 0.5; cursor: default; 
   font-size: 11.5px; padding: 2px 8px; background: var(--paper2);
   border-left: 3px solid var(--orange); color: var(--ink-soft);
 }
-.issue-daylight, .issue-mileage { border-left-color: var(--red); }
+.issue-daylight, .issue-mileage, .issue-mark_missed { border-left-color: var(--red); }
 .issue-route { border-left-color: var(--sky); }
 .fit-btn {
   background: var(--orange); color: #fff; border: none; border-radius: 3px;

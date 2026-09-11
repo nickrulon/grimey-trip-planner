@@ -71,6 +71,8 @@ export const READINESS_META: Record<string, { label: string; cls: string }> = {
   work: { label: 'NEEDS WORK STOP', cls: 'rd-warn' },
   work_wifi: { label: 'WI-FI UNVERIFIED', cls: 'rd-warn' },
   sleep: { label: 'NEEDS SLEEP', cls: 'rd-warn' },
+  work_short: { label: 'WORK DAY SHORT', cls: 'rd-warn' },
+  mark_missed: { label: 'MISSES A FIXED TIME', cls: 'rd-bad' },
   route: { label: 'ROUTE NOTE', cls: 'rd-note' },
   unknown: { label: '—', cls: 'rd-note' },
 };
