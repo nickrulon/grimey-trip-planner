@@ -329,16 +329,21 @@ export function makeToday(db, planner, camping, intel = null) {
       const fallback = kind === 'work' ? 'Work stop' : kind === 'combo' ? 'Work + bike' : 'Break';
       const name = String(st.name ?? res?.name ?? fallback).trim().slice(0, 80) || fallback;
       const notes = st.notes != null ? String(st.notes).slice(0, 400) : null;
-      const base = { id: -(i + 1), name, routeMile: r1(mile), dwellMin: dwell, resourceId: res?.id ?? null };
-      if (kind === 'break') out.breaks.push({ ...base, note: notes });
-      else if (kind === 'combo') out.combos.push({ ...base, minutes: dwell, note: notes });
+      // Exactly the shapes breaksFor / combosFor / workStopsFor return, so a
+      // preview and the canvas read back after saving are the same object.
+      const id = -(i + 1);
+      if (kind === 'break') out.breaks.push({ id, name, routeMile: r1(mile), dwellMin: dwell, note: notes });
+      else if (kind === 'combo') out.combos.push({ id, name, routeMile: r1(mile), minutes: dwell, note: notes });
       else {
+        const place = planner.placeOf(res?.lat ?? null, res?.lng ?? null, mile);
         out.workStops.push({
-          ...base, brand: res?.brand ?? null, offRouteMi: r2(res?.off_route_mi), cost: null,
+          id, resourceId: res?.id ?? null, name, brand: res?.brand ?? null,
+          routeMile: r1(mile), offRouteMi: r2(res?.off_route_mi),
+          dwellMin: dwell, cost: null,
           wifiStatus: res?.wifi_status ?? null, hours: res?.hours ?? null,
           address: res?.address ?? null, phone: res?.phone ?? null, website: res?.website ?? null,
           lat: res?.lat ?? null, lng: res?.lng ?? null,
-          ...planner.placeOf(res?.lat ?? null, res?.lng ?? null, mile),
+          town: place.town, state: place.state,
         });
       }
       prevMile = mile;
@@ -371,13 +376,16 @@ export function makeToday(db, planner, camping, intel = null) {
       overnight_phone: null, overnight_website: null, overnight_hours: null,
       overnight_lat: null, overnight_lng: null, overnight_mile: null, lodging_cost: null,
     };
-    let over = cleared;
+    // Same bed as tonight: its recorded price is still good (applyDayEnd keeps it).
+    const sameBed = (bed.resourceId ?? null) === (d0.overnight_resource_id ?? null)
+      && (bed.campId ?? null) === (d0.overnight_camp_id ?? null);
+    let over = sameBed ? { ...cleared, lodging_cost: d0.lodging_cost } : cleared;
     let endName = o.endName ? String(o.endName) : null;
     if (bed.resourceId) {
       const r = db.prepare(`SELECT * FROM resources WHERE id = ?`).get(String(bed.resourceId));
       if (!r) throw new Error(`No resource ${bed.resourceId}`);
       over = {
-        ...cleared, overnight_resource_id: r.id, overnight_name: r.name,
+        ...over, overnight_resource_id: r.id, overnight_name: r.name,
         overnight_category: r.category_id, overnight_off_mi: r.off_route_mi,
         overnight_address: r.address, overnight_phone: r.phone, overnight_website: r.website,
         overnight_hours: r.hours, overnight_lat: r.lat, overnight_lng: r.lng, overnight_mile: r.route_mile,
@@ -386,10 +394,65 @@ export function makeToday(db, planner, camping, intel = null) {
     } else if (bed.campId) {
       const spot = camping.spotById(String(bed.campId));
       if (!spot) throw new Error(`No camping spot ${bed.campId}`);
-      over = { ...cleared, overnight_camp_id: spot.id };
+      over = { ...over, overnight_camp_id: spot.id };
       endName ??= spot.name;
     }
-    return { ...d0, end_mile: endMile, end_name: endName ?? nameNearMile(endMile), ...over };
+    return {
+      ...d0, end_mile: endMile, end_name: endName ?? nameNearMile(endMile), ...over,
+      // the same flags the save will write, so the mileage chip cannot differ
+      flags: planner.dayFlags(d0.start_mile, endMile, !!(over.overnight_resource_id ?? over.overnight_camp_id)),
+    };
+  }
+
+  /**
+   * Save a proposed chain: replace the day's stops and, if given, move its
+   * endpoint and bed — in ONE transaction, so a half-saved chain is impossible.
+   * The chain IS the day: every break, work stop and combo inside it, up to
+   * wherever it now ends, is replaced by the proposal; stops that a farther
+   * endpoint swallows from the next day go too, because they are inside this
+   * day now and the preview never showed them.
+   *
+   * Goes through exactly the resolvers the preview uses, then returns the
+   * fresh canvas — which is why preview and saved state agree by construction.
+   */
+  function saveDayChain(n, body = {}) {
+    const { d: d0, days } = dayRow(n);
+    if (d0.status !== 'planned') throw new Error(`Day ${n} is ${d0.status}; only planned days can be edited`);
+    if (db.prepare(`SELECT 1 FROM actual_days WHERE day_number = ?`).get(d0.day_number)) {
+      throw new Error(`Day ${n} has already been ridden`);
+    }
+    const speed = ridingSpeed();
+    const overrides = { endMile: body.endMile, endName: body.endName, end: body.end };
+    const d = proposedDay(d0, days, overrides);
+    const proposed = resolveProposedStops(d, body.stops ?? [], speed);
+    const endChanged = d !== d0;
+
+    const ins = db.prepare(
+      `INSERT INTO planned_stops (route_mile, resource_id, name, category, off_route_mi, dwell_min, kind, cost, notes)
+       VALUES (?,?,?,?,?,?,?,?,?)`
+    );
+    db.transaction(() => {
+      db.prepare(
+        `DELETE FROM planned_stops WHERE kind IN ('break','work','combo')
+         AND route_mile > ? AND route_mile < ?`
+      ).run(d0.start_mile, Math.max(d0.end_mile, d.end_mile));
+      for (const b of proposed.breaks) ins.run(b.routeMile, null, b.name, null, null, b.dwellMin, 'break', null, b.note);
+      for (const w of proposed.workStops) {
+        ins.run(w.routeMile, w.resourceId, w.name, w.resourceId ? 'wifi_work' : null,
+          w.offRouteMi, w.dwellMin, 'work', null, null);
+      }
+      for (const c of proposed.combos) ins.run(c.routeMile, null, c.name, null, null, c.minutes, 'combo', null, c.note);
+      if (endChanged) {
+        planner.applyDayEnd({
+          dayNumber: d0.day_number, endMile: d.end_mile, endName: d.end_name,
+          overnightResourceId: d.overnight_resource_id, overnightCampId: d.overnight_camp_id,
+        });
+      }
+    })();
+    if (endChanged && body.end && body.end.cost !== undefined) {
+      planner.setDayCosts({ dayNumber: d0.day_number, lodgingCost: body.end.cost });
+    }
+    return dayCanvas(n);
   }
 
   // ---- the Day Canvas -------------------------------------------------------
@@ -1186,7 +1249,7 @@ export function makeToday(db, planner, camping, intel = null) {
 
   return {
     dayCanvas, workOptions, sleepOptions, fitOptions, applyFitOption, dayplanMigration,
-    buildCandidates,
+    buildCandidates, saveDayChain,
     // the proposal resolvers, shared with the save path so preview == saved
     resolveProposedStops, proposedDay,
   };

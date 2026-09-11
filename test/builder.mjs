@@ -109,7 +109,108 @@ const stack = (db) => {
 }
 
 // ================= save (throwaway copy) ======================================
-// filled in by step 4
+{
+  const copy = path.join(os.tmpdir(), `grimey-builder-test-${process.pid}.sqlite`);
+  const live = new Database(DB_PATH, { readonly: true });
+  await live.backup(copy);
+  live.close();
+  const db = new Database(copy);
+  applyMigrations(db);
+  const { planner, today } = stack(db);
+  const { days } = planner.activeDays();
+  const d = days.find((x) => x.day_number > 1 && x.end_mile - x.start_mile > 40 && days.some((y) => y.day_number === x.day_number + 1));
+  const n = d.day_number;
+  const next0 = days.find((y) => y.day_number === n + 1);
+  const stopsIn = (lo, hi) => db.prepare(
+    `SELECT id, kind, name, route_mile, dwell_min, resource_id FROM planned_stops
+     WHERE kind IN ('break','work','combo') AND route_mile > ? AND route_mile < ? ORDER BY route_mile`).all(lo, hi);
+  const before = stopsIn(d.start_mile, d.end_mile);
+  ok('fixture day has saved work stops to replace', before.length > 0);
+
+  // A chain: ride 45 min → 20 min break; work at a real wi-fi stop for 5h;
+  // a 1h combo after it; then a bed PAST the planned end (a researched camp).
+  const canvas0 = today.dayCanvas(n);
+  const work = today.buildCandidates(n, { fromMile: d.start_mile, fromMin: canvas0.departMin, kind: 'work' })
+    .candidates.find((c) => c.routeMile > d.start_mile + 8 && c.routeMile < d.end_mile - 8);
+  const beds = today.buildCandidates(n, { fromMile: work.routeMile, fromMin: 15 * 60, reachMi: 120, kind: 'sleep', limit: 200 }).candidates;
+  const bed = beds.find((c) => c.kind === 'camp' && c.routeMile > d.end_mile + 3) ?? beds.find((c) => c.routeMile > d.end_mile + 3);
+  ok('fixture: a bed past the planned end exists', !!bed, `planned end ${d.end_mile}`);
+  const body = {
+    stops: [
+      { kind: 'break', afterRideMin: 45, dwellMin: 20, name: 'Snack' },
+      { kind: 'work', routeMile: work.routeMile, dwellMin: 300, resourceId: work.id },
+      { kind: 'combo', dwellMin: 60, name: 'Standup on the bike' },
+    ],
+    endMile: bed.routeMile,
+    end: bed.kind === 'camp' ? { campId: bed.id } : { resourceId: bed.id },
+  };
+
+  // ---- 7. preview == saved ------------------------------------------------------
+  const preview = today.dayCanvas(n, body);
+  const saved = today.saveDayChain(n, body);
+  // Canonical (key-sorted) so only VALUES can differ; ids are the one thing
+  // allowed to (proposed stops are negative, saved rows are real).
+  const canon = (v) => Array.isArray(v) ? v.map(canon)
+    : v && typeof v === 'object' ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, canon(v[k])]))
+    : v;
+  const strip = (c) => canon({
+    ...c, preview: undefined, dayCount: undefined,
+    blocks: c.blocks.map(({ id, ...b }) => b),
+    breaks: c.breaks.map(({ id, ...b }) => b),
+    workStops: c.workStops.map(({ id, ...w }) => w),
+    combos: c.combos.map(({ id, ...x }) => x),
+    workStop: c.workStop && (({ id, ...w }) => w)(c.workStop),
+    workFallbacks: undefined, movingMeeting: undefined,
+  });
+  const sp = strip(preview), ss = strip(saved);
+  ok('PREVIEW == SAVED (everything but the ids)', JSON.stringify(sp) === JSON.stringify(ss),
+    Object.keys(sp).filter((k) => JSON.stringify(sp[k]) !== JSON.stringify(ss[k]))
+      .map((k) => `${k}: ${JSON.stringify(sp[k]).slice(0, 160)} ≠ ${JSON.stringify(ss[k]).slice(0, 160)}`).join(' | '));
+  ok('saved canvas is not a preview', saved.preview === false);
+  ok('the chain has the expected shape', JSON.stringify(saved.blocks.map((b) => b.kind)).includes('"break","ride","work","combo"'), saved.blocks.map((b) => b.kind).join());
+  ok('proposed stops carried negative ids; saved ones are real rows', preview.blocks.filter((b) => b.id != null).every((b) => b.id < 0) && saved.blocks.filter((b) => b.id != null).every((b) => b.id > 0));
+
+  // ---- 8. persisted rows -----------------------------------------------------
+  const after = stopsIn(d.start_mile, bed.routeMile);
+  ok('old stops gone, chain persisted as 3 rows', after.length === 3 && after.map((s) => s.kind).sort().join() === 'break,combo,work', after.map((s) => s.kind).join());
+  ok('the work row keeps its resource', after.find((s) => s.kind === 'work').resource_id === work.id);
+  const dNow = planner.activeDays().days.find((x) => x.day_number === n);
+  const nextNow = planner.activeDays().days.find((x) => x.day_number === n + 1);
+  ok('the endpoint moved to the bed', Math.abs(dNow.end_mile - bed.routeMile) < 0.01, `${dNow.end_mile} vs ${bed.routeMile}`);
+  ok('the bed is recorded', bed.kind === 'camp' ? dNow.overnight_camp_id === bed.id : dNow.overnight_resource_id === bed.id);
+  ok('the next day now starts at the new end', Math.abs(nextNow.start_mile - bed.routeMile) < 0.01);
+  ok('the next day\'s end is untouched', Math.abs(nextNow.end_mile - next0.end_mile) < 0.01);
+
+  // ---- 9. atomic: an invalid end changes NOTHING ------------------------------
+  const rowsBefore = stopsIn(d.start_mile, bed.routeMile).map((s) => s.id).join();
+  const endBefore = planner.activeDays().days.find((x) => x.day_number === n).end_mile;
+  const err = (() => { try { today.saveDayChain(n, { stops: [{ kind: 'break', afterRideMin: 30, dwellMin: 10 }], endMile: next0.end_mile + 5 }); return null; } catch (e) { return e.message; } })();
+  ok('an end past the next day is refused', /would pass day/.test(err ?? ''), err);
+  ok('…and the stops were not touched', stopsIn(d.start_mile, bed.routeMile).map((s) => s.id).join() === rowsBefore);
+  ok('…and the end was not touched', planner.activeDays().days.find((x) => x.day_number === n).end_mile === endBefore);
+  const err2 = (() => { try { today.saveDayChain(n, { stops: [{ kind: 'work', routeMile: d.start_mile - 5, dwellMin: 60 }] }); return null; } catch (e) { return e.message; } })();
+  ok('a stop outside the day is refused, nothing written', /outside the day/.test(err2 ?? '') && stopsIn(d.start_mile, bed.routeMile).map((s) => s.id).join() === rowsBefore);
+
+  // ---- 10. an empty chain clears the day; a locked day refuses -----------------
+  today.saveDayChain(n, { stops: [] });
+  ok('empty chain clears the day\'s stops', stopsIn(d.start_mile, bed.routeMile).length === 0);
+  ok('…and leaves the endpoint alone', Math.abs(planner.activeDays().days.find((x) => x.day_number === n).end_mile - bed.routeMile) < 0.01);
+  planner.recordActual({ dayNumber: 1, endMile: days[0].end_mile - 1, notes: 'test' });
+  const locked = (() => { try { today.saveDayChain(1, { stops: [] }); return null; } catch (e) { return e.message; } })();
+  ok('a ridden day refuses a new chain', /already been ridden|is done|only planned/.test(locked ?? ''), locked);
+
+  // ---- 11. the chain survives a replan by mile anchoring ------------------------
+  today.saveDayChain(n, body);
+  const rows = stopsIn(d.start_mile, bed.routeMile).map((s) => [s.kind, Math.round(s.route_mile * 10) / 10, s.dwell_min]);
+  planner.replanApply('rebuild');
+  const rowsAfter = stopsIn(d.start_mile, bed.routeMile).map((s) => [s.kind, Math.round(s.route_mile * 10) / 10, s.dwell_min]);
+  ok('stops survive a replan at their miles', JSON.stringify(rows) === JSON.stringify(rowsAfter));
+  const coveringDay = planner.activeDays().days.find((x) => x.start_mile < work.routeMile && x.end_mile > work.routeMile);
+  ok('…and whichever day now covers that mile walks them', coveringDay && today.dayCanvas(coveringDay.day_number).blocks.some((b) => b.kind === 'work' && b.routeMile === work.routeMile));
+
+  db.close();
+  for (const f of [copy, `${copy}-wal`, `${copy}-shm`]) fs.rmSync(f, { force: true });
+}
 
 console.log(`\nday builder: ${pass} passed, ${failures.length} failed`);
 if (failures.length) {

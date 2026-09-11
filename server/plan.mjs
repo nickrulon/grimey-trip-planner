@@ -1944,7 +1944,31 @@ export function makePlanner(db) {
 
   // ---- Manual edits, in place on the active revision (pre-trip churn).
   // Moving a day's end shifts the next day's start; anchors elsewhere stay put.
-  function editDayEnd({ dayNumber, endMile, endName, overnightResourceId, overnightCampId }) {
+  /**
+   * Flags describe the day as it now stands. An over-cap day the rider chose
+   * on purpose is allowed — it is marked, not blocked. Shared with the Today
+   * layer so a PREVIEW of a proposed endpoint carries the same flags the save
+   * will write.
+   */
+  function dayFlags(startM, endM, hasAnchor) {
+    const shape = dayShape();
+    const f = [];
+    const len = endM - startM;
+    if (len > shape.maxMiles + 0.5) f.push('over_cap');
+    if (len < DAY_BOUNDS.veryShort) f.push('very_short');
+    if (!hasAnchor) f.push('no_anchor');
+    return JSON.stringify(f);
+  }
+
+  /**
+   * Move a day's endpoint (and bed) — the writes only, NO transaction of its
+   * own, so a caller that has to change more than one thing atomically (the
+   * Day Builder replaces the day's stops in the same breath) can wrap it in
+   * one. The WASM database cannot nest transactions, so this split is what
+   * makes an atomic save possible on Netlify at all. editDayEnd below is the
+   * stand-alone, transactional form.
+   */
+  function applyDayEnd({ dayNumber, endMile, endName, overnightResourceId, overnightCampId }) {
     const { rev, days } = activeDays();
     if (!rev) throw new Error('No active plan');
     const idx = days.findIndex((d) => d.day_number === dayNumber);
@@ -1955,47 +1979,37 @@ export function makePlanner(db) {
     const next = days[idx + 1];
     if (next && endMile >= next.end_mile) throw new Error(`End would pass day ${next.day_number}'s endpoint`);
     const name = endName || nameNearMile(endMile);
-    const shape = dayShape();
-    // Flags describe the day as it now stands. An over-cap day the rider chose
-    // on purpose is allowed — it is marked, not blocked.
-    const flagsFor = (startM, endM, hasAnchor) => {
-      const f = [];
-      const len = endM - startM;
-      if (len > shape.maxMiles + 0.5) f.push('over_cap');
-      if (len < DAY_BOUNDS.veryShort) f.push('very_short');
-      if (!hasAnchor) f.push('no_anchor');
-      return JSON.stringify(f);
-    };
     // A different bed means the old bed's recorded price is stale.
     const sameBed =
       (overnightResourceId ?? null) === (day.overnight_resource_id ?? null) &&
       (overnightCampId ?? null) === (day.overnight_camp_id ?? null);
-    const tx = db.transaction(() => {
+    db.prepare(
+      `UPDATE planned_days SET end_mile=?, end_name=?, overnight_resource_id=?,
+         overnight_camp_id=?, flags=?,
+         lodging_cost = CASE WHEN ? THEN lodging_cost ELSE NULL END
+       WHERE revision_id=? AND day_number=?`
+    ).run(endMile, name, overnightResourceId ?? null, overnightCampId ?? null,
+      dayFlags(day.start_mile, endMile, !!(overnightResourceId ?? overnightCampId ?? null)),
+      sameBed ? 1 : 0,
+      rev.id, dayNumber);
+    if (next) {
       db.prepare(
-        `UPDATE planned_days SET end_mile=?, end_name=?, overnight_resource_id=?,
-           overnight_camp_id=?, flags=?,
-           lodging_cost = CASE WHEN ? THEN lodging_cost ELSE NULL END
+        `UPDATE planned_days SET start_mile=?, start_name=?, flags=?
          WHERE revision_id=? AND day_number=?`
-      ).run(endMile, name, overnightResourceId ?? null, overnightCampId ?? null,
-        flagsFor(day.start_mile, endMile, !!(overnightResourceId ?? overnightCampId ?? null)),
-        sameBed ? 1 : 0,
-        rev.id, dayNumber);
-      if (next) {
-        db.prepare(
-          `UPDATE planned_days SET start_mile=?, start_name=?, flags=?
-           WHERE revision_id=? AND day_number=?`
-        ).run(endMile, name,
-          flagsFor(endMile, next.end_mile, !!next.overnight_resource_id),
-          rev.id, next.day_number);
-      }
-    });
-    tx();
+      ).run(endMile, name,
+        dayFlags(endMile, next.end_mile, !!next.overnight_resource_id),
+        rev.id, next.day_number);
+    }
     geomCache.delete(rev.id);
     return {
       ok: true,
       day: { dayNumber, miles: r1(endMile - day.start_mile) },
       next: next ? { dayNumber: next.day_number, miles: r1(next.end_mile - endMile) } : null,
     };
+  }
+
+  function editDayEnd(args) {
+    return db.transaction(() => applyDayEnd(args))();
   }
 
   // Per-day money. Sleeping and riding decisions are one decision on a
@@ -2379,7 +2393,7 @@ export function makePlanner(db) {
     proposeDayItinerary, autoItineraries, previewAutoPlan,
     locate, positionInfo, elevationForRange, activeDays,
     // canonical-plan extensions
-    setDayCosts, setWorkStop, setSleep, insertRestDay, removeRestDay,
+    setDayCosts, setWorkStop, setSleep, insertRestDay, removeRestDay, applyDayEnd, dayFlags,
     activateRevision, workStopFor, workStopsFor, combosFor, addCombo,
     readinessFor, placeOf, tripStartMile, workSettings,
     setDayTimes, dayTimes, addBreak, breaksFor, mileAfterRideMinutes,

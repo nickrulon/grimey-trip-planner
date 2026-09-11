@@ -214,6 +214,10 @@ app.post('/api/plan/day/fit-apply', handle((req) =>
 // the timeline goes red the moment a day stops fitting.
 app.post('/api/plan/day/:n/simulate', handle((req) =>
   today.dayCanvas(Number(req.params.n), req.body ?? {})));
+// …and the same proposal, saved: the day's stops replaced and its endpoint
+// moved in one transaction, so a half-saved chain is impossible.
+app.post('/api/plan/day/:n/stops', handle((req) =>
+  today.saveDayChain(Number(req.params.n), req.body ?? {})));
 
 app.post('/api/plan/day/times', handle((req) => planner.setDayTimes(req.body ?? {})));
 app.post('/api/plan/day/break', handle((req) => planner.addBreak(req.body ?? {})));
