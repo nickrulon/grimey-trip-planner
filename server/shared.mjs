@@ -1,3 +1,5 @@
+import { fmtClock } from './daylight.mjs';
+
 // Small facts both the planner and the Today layer need, kept in one place so
 // the app has ONE vocabulary for "is this a good place to sit down" — the work
 // chooser, the moving-meeting hint and the Day Builder's candidate pins all
@@ -23,8 +25,4 @@ export function venueScore({ wifi_status, brand, name }) {
 }
 
 /** Local minutes-from-midnight → "3:38p", the same shape the client prints. */
-export function clock12(min) {
-  const m = ((Math.round(min) % 1440) + 1440) % 1440;
-  const H = Math.floor(m / 60), Mi = m % 60;
-  return `${((H + 11) % 12) + 1}:${String(Mi).padStart(2, '0')}${H < 12 ? 'a' : 'p'}`;
-}
+export const clock12 = (min) => fmtClock(min / 60);

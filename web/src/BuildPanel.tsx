@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Map as MLMap } from 'maplibre-gl';
 import { apiGet, apiPost, apiQuery } from './api';
 import type {
-  DayCanvas, BuildCandidate, BuildCandidatesResponse, ChainStop, ChainEnd,
+  CanvasBlock, DayCanvas, BuildCandidate, BuildCandidatesResponse, ChainStop, ChainEnd,
 } from './types';
 import type { PickerContext } from './MapPicker';
 import { Timeline } from './Timeline';
@@ -52,18 +52,25 @@ function sortChain(chain: ChainStop[]): ChainStop[] {
   });
 }
 
+/** The block each chain entry produced, by key — never by position. */
+function blockByKey(c: DayCanvas): Map<string, CanvasBlock> {
+  const m = new Map<string, CanvasBlock>();
+  for (const b of c.blocks) if (b.key) m.set(b.key, b);
+  return m;
+}
+
 /**
- * After a preview, pin every stop to the mile the walk gave it. The k-th stop
- * block is the k-th chain entry — both are in mile order — so an "after 45
+ * After a preview, pin every stop to the mile the walk gave it, so an "after 45
  * minutes" break becomes a fixed mile and the chain stays stable from then on.
+ * Matched by key: a stop the walk did not place (a work stop on a weekend) is
+ * simply left alone.
  */
 function resolveMiles(chain: ChainStop[], c: DayCanvas): ChainStop[] {
-  const stops = c.blocks.filter((b) => b.kind === 'work' || b.kind === 'break' || b.kind === 'combo');
-  if (stops.length !== chain.length) return chain;
+  const byKey = blockByKey(c);
   let changed = false;
-  const next = chain.map((s, i) => {
-    const b = stops[i];
-    if (b.routeMile == null || (s.routeMile != null && s.afterRideMin == null)) return s;
+  const next = chain.map((s) => {
+    const b = byKey.get(s.key);
+    if (!b || b.routeMile == null || (s.routeMile != null && s.afterRideMin == null)) return s;
     changed = true;
     const { afterRideMin: _drop, ...rest } = s;
     void _drop;
@@ -81,7 +88,9 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
   const [end, setEnd] = useState<ChainEnd | null>(null);
   const [preview, setPreview] = useState<DayCanvas>(day);
   const [simErr, setSimErr] = useState<string | null>(null);
-  const [kind, setKind] = useState<Kind>(day.sun?.workday && day.workStops.length === 0 ? 'work' : day.sun?.workday ? 'work' : 'sleep');
+  // A workday's binding constraint is the sit, so start there; a weekend's is
+  // the bed (and a weekend does not walk work stops at all).
+  const [kind, setKind] = useState<Kind>(day.sun?.workday ? 'work' : 'sleep');
   const [cands, setCands] = useState<BuildCandidatesResponse | null>(null);
   const [candErr, setCandErr] = useState<string | null>(null);
   const [extraReach, setExtraReach] = useState(0);
@@ -100,7 +109,7 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
   // ---- the proposal, as the server wants it ------------------------------------
   const body = useMemo(() => ({
     stops: chain.map((s) => ({
-      kind: s.kind, routeMile: s.routeMile, afterRideMin: s.afterRideMin,
+      key: s.key, kind: s.kind, routeMile: s.routeMile, afterRideMin: s.afterRideMin,
       dwellMin: s.dwellMin, name: s.name, resourceId: s.resourceId ?? undefined,
     })),
     endMile: end?.endMile, endName: end?.endName,
@@ -125,6 +134,11 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
   // ---- the cursor: where the chain has got to, and when --------------------------
   const stopBlocks = preview.blocks.filter((b) => b.kind === 'work' || b.kind === 'break' || b.kind === 'combo');
   const lastStop = stopBlocks[stopBlocks.length - 1] ?? null;
+  const byKey = useMemo(() => blockByKey(preview), [preview]);
+  // A stop the walk did not place: a work stop on a weekend, which the canvas
+  // keeps as a wi-fi stop but never sits at. Saying so beats leaving a row the
+  // rider added silently missing from the timeline.
+  const unwalked = chain.filter((s) => !byKey.has(s.key));
   const cursorMile = lastStop
     ? (lastStop.kind === 'combo' ? (lastStop.routeMile ?? preview.startMile) + (lastStop.miles ?? 0) : lastStop.routeMile ?? preview.startMile)
     : preview.startMile;
@@ -185,9 +199,9 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
       const out: AnchorFeature[] = [];
       const s = await pointAtMile(preview.startMile);
       if (s) out.push({ label: `START · ${clockMin(preview.departMin)}`, lat: s.lat, lng: s.lng, kind: 'start' });
-      for (const [i, st] of chain.entries()) {
+      for (const st of chain) {
         if (st.routeMile == null) continue;
-        const b = stopBlocks[i];
+        const b = byKey.get(st.key);
         const pt = st.lat != null && st.lng != null ? { lat: st.lat, lng: st.lng } : await pointAtMile(st.routeMile);
         if (pt) out.push({ label: `${st.name.slice(0, 22)}${b ? ` · ${clockMin(b.startMin)}` : ''}`, lat: pt.lat, lng: pt.lng, kind: 'chain' });
       }
@@ -208,10 +222,10 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
   // ---- editing the chain ----------------------------------------------------------
   const touch = () => setDirty(true);
   const addStop = (s: Omit<ChainStop, 'key'>) => { setChain((cur) => sortChain([...cur, { ...s, key: newKey() }])); setSelId(null); touch(); };
-  const removeStop = (i: number) => { setChain((cur) => cur.filter((_, k) => k !== i)); touch(); };
-  const setDwell = (i: number, v: number) => {
+  const removeStop = (key: string) => { setChain((cur) => cur.filter((s) => s.key !== key)); touch(); };
+  const setDwell = (key: string, v: number) => {
     if (!Number.isFinite(v) || v < 0) return;
-    setChain((cur) => cur.map((s, k) => (k === i ? { ...s, dwellMin: Math.round(v) } : s))); touch();
+    setChain((cur) => cur.map((s) => (s.key === key ? { ...s, dwellMin: Math.round(v) } : s))); touch();
   };
   const owed = preview.work?.owedMin ?? 0;
   const credit = preview.work?.creditMin ?? 0;
@@ -228,12 +242,10 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
       return;
     }
     // A place at or behind the cursor — the library beside the McDonald's you
-    // are sitting in — happens WHERE YOU ARE: anchored just past the last stop,
-    // as combos are, so the chain keeps the order the rider meant.
-    const here = c.behind || c.routeMile <= cursorMile;
+    // are sitting in — keeps its real mile; the walk puts it where the rider
+    // actually is, and the chain order decides which comes first.
     addStop({
-      kind: kind === 'work' ? 'work' : 'break',
-      routeMile: here ? Math.round((cursorMile + 0.02) * 100) / 100 : c.routeMile,
+      kind: kind === 'work' ? 'work' : 'break', routeMile: c.routeMile,
       dwellMin: kind === 'work' ? defaultWorkDwell : 30,
       name: c.name, resourceId: c.kind === 'resource' ? c.id : null, lat: c.lat, lng: c.lng,
     });
@@ -340,8 +352,7 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
                 </li>
               );
             }
-            const idx = stopBlocks.indexOf(b);
-            const st = chain[idx];
+            const st = b.key ? chain.find((x) => x.key === b.key) ?? null : null;
             return (
               <li key={`b${i}`} className={`bd-stop bd-${b.kind}`}>
                 <span className="bd-ic">{KIND_ICON[b.kind as ChainStop['kind']]}</span>
@@ -353,11 +364,11 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
                   {st ? (
                     <input className="bd-dwell" type="number" min={0} step={5} defaultValue={st.dwellMin}
                       key={`${st.key}-${st.dwellMin}`}
-                      onBlur={(e) => { const v = Number(e.target.value); if (v !== st.dwellMin) setDwell(idx, v); }}
+                      onBlur={(e) => { const v = Number(e.target.value); if (v !== st.dwellMin) setDwell(st.key, v); }}
                       aria-label={`${b.label} minutes`} />
                   ) : durMin(b.dwellMin)} min
                 </span>
-                {st && <button className="brk-x" title="Remove this stop" onClick={() => removeStop(idx)}>✕</button>}
+                {st && <button className="brk-x" title="Remove this stop" onClick={() => removeStop(st.key)}>✕</button>}
               </li>
             );
           })}
@@ -372,6 +383,20 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
             {end && <button className="brk-x" title="Back to the planned end" onClick={() => { setEnd(null); touch(); }}>✕</button>}
           </li>
         </ol>
+
+        {unwalked.length > 0 && (
+          <div className="bd-unwalked">
+            <b>Not on today's timeline:</b>{' '}
+            {unwalked.map((s) => s.name).join(', ')} —{' '}
+            {preview.sun?.workday === false
+              ? 'no work is owed on a weekend, so a sit is kept as a wi-fi stop, not scheduled.'
+              : 'this day has no work window to hold them.'}
+            {' '}
+            {unwalked.map((s) => (
+              <button key={s.key} className="linkish" onClick={() => removeStop(s.key)}>remove {s.name.slice(0, 18)}</button>
+            ))}
+          </div>
+        )}
 
         {/* links that need no venue */}
         <div className="bd-quick">
@@ -421,7 +446,10 @@ export default function BuildPanel({ ctx, map }: { ctx: PickerContext; map: MLMa
             </div>
             <div className="bd-arrive">
               {card.behind
-                ? <>next door <span className="dim">· at or just behind where the chain is — no riding</span></>
+                ? <>next door <span className="dim">
+                    · no riding — but a day is walked mile by mile, so this slots in
+                    <b> before</b> the stop you are at now
+                  </span></>
                 : <>arrive <b>{card.arriveClock ?? '—'}</b>
                     <span className="dim"> · {card.milesFromStart} mi · {durMin(card.rideMinFromStart)} from the cursor</span></>}
             </div>

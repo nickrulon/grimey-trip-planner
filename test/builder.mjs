@@ -16,6 +16,7 @@ import { makePlanner } from '../server/plan.mjs';
 import { makeCamping } from '../server/camping.mjs';
 import { makeToday } from '../server/today.mjs';
 import { makeIntel } from '../server/intel.mjs';
+import { simulateDay } from '../server/today.mjs';
 
 let pass = 0; const failures = [];
 const ok = (name, cond, detail = '') => {
@@ -118,6 +119,44 @@ const stack = (db) => {
   db.close();
 }
 
+// ================= the walk never goes backwards ==============================
+// Regressions from the adversarial review. A stop at a mile already passed —
+// a combo rides through the next stop, or the rider goes back to the library
+// next door — must happen WHERE THEY ARE, not send the cursor backwards so the
+// last leg re-rides the stretch.
+{
+  const MPH = 11;
+  const legMin = (a, b) => Math.round((Math.max(0, b - a) / MPH) * 60);
+  const mileAfter = (from, m) => from + (m / 60) * MPH;
+  const base = { legMin, mileAfter, departMin: 360, onTheClock: true, workStartMin: 300, workday: true, owedMin: 450 };
+  const acct = (r) => r.blocks.reduce((s, b) => s + (b.miles ?? 0), 0);
+
+  const combo = simulateDay({ ...base, startMile: 0, endMile: 60, stops: [
+    { type: 'combo', routeMile: 30, dwellMin: 60, name: 'Call', seq: 0 },   // rides 30 -> 41
+    { type: 'break', routeMile: 35, dwellMin: 10, name: 'Snack', seq: 1 },  // behind the combo's end
+  ] });
+  ok('a stop a combo rode past does not re-ride the stretch', Math.abs(acct(combo) - 60) < 0.15, `${acct(combo)} of 60`);
+  ok('…and it is placed where the rider actually is', combo.blocks.find((b) => b.kind === 'break').routeMile === 41);
+  ok('…and progress stays monotonic', combo.progress.every((s, i, a) => i === 0 || (s.mile >= a[i - 1].mile && s.min >= a[i - 1].min)));
+
+  const back = simulateDay({ ...base, startMile: 0, endMile: 60, stops: [
+    { type: 'work', routeMile: 30, dwellMin: 120, name: 'Library', seq: 0 },
+    { type: 'work', routeMile: 30.2, dwellMin: 60, name: "McDonald's", seq: 1 },
+    { type: 'work', routeMile: 30, dwellMin: 90, name: 'Library again', seq: 2 },
+  ] });
+  ok('going back next door rides nothing and never rewinds', Math.abs(acct(back) - 60) < 0.15, `${acct(back)} of 60`);
+  ok('…all three sits are walked', back.blocks.filter((b) => b.kind === 'work').length === 3);
+
+  // Two stops that round onto the SAME mile keep the order they were composed in.
+  const tie = simulateDay({ ...base, startMile: 0, endMile: 60, stops: [
+    { type: 'break', routeMile: 30, dwellMin: 15, name: 'SECOND', seq: 1 },
+    { type: 'work', routeMile: 30, dwellMin: 120, name: 'FIRST', seq: 0 },
+  ] });
+  ok('a mile tie is broken by composition order, not array order',
+    tie.blocks.filter((b) => b.kind !== 'ride').map((b) => b.label).join('>') === 'FIRST>SECOND',
+    tie.blocks.filter((b) => b.kind !== 'ride').map((b) => b.label).join('>'));
+}
+
 // ================= save (throwaway copy) ======================================
 {
   const copy = path.join(os.tmpdir(), `grimey-builder-test-${process.pid}.sqlite`);
@@ -165,7 +204,9 @@ const stack = (db) => {
     : v;
   const strip = (c) => canon({
     ...c, preview: undefined, dayCount: undefined,
-    blocks: c.blocks.map(({ id, ...b }) => b),
+    // ids differ (proposed stops are negative) and `key` only exists on a
+    // preview — it is how the builder maps a block back to its chain entry.
+    blocks: c.blocks.map(({ id, key, ...b }) => b),
     breaks: c.breaks.map(({ id, ...b }) => b),
     workStops: c.workStops.map(({ id, ...w }) => w),
     combos: c.combos.map(({ id, ...x }) => x),
@@ -179,6 +220,17 @@ const stack = (db) => {
   ok('saved canvas is not a preview', saved.preview === false);
   ok('the chain has the expected shape', JSON.stringify(saved.blocks.map((b) => b.kind)).includes('"break","ride","work","combo"'), saved.blocks.map((b) => b.kind).join());
   ok('proposed stops carried negative ids; saved ones are real rows', preview.blocks.filter((b) => b.id != null).every((b) => b.id < 0) && saved.blocks.filter((b) => b.id != null).every((b) => b.id > 0));
+
+  // ---- 7b. every proposed stop echoes its key, so the client never maps by position
+  const keyed = today.dayCanvas(n, { stops: [
+    { key: 'aa', kind: 'break', afterRideMin: 30, dwellMin: 15, name: 'One' },
+    { key: 'bb', kind: 'work', routeMile: work.routeMile, dwellMin: 60, resourceId: work.id },
+  ] });
+  const echoed = keyed.blocks.filter((b) => b.kind !== 'ride' && b.kind !== 'slack').map((b) => b.key);
+  ok('proposed stops echo their keys onto the blocks', JSON.stringify(echoed) === '["aa","bb"]', JSON.stringify(echoed));
+  ok('a saved canvas carries no keys', today.dayCanvas(n).blocks.every((b) => b.key === undefined));
+  ok('the payload arrays keep the saved shape (no seq/key leaking)',
+    keyed.breaks.every((b) => !('seq' in b) && !('key' in b)) && keyed.workStops.every((w) => !('seq' in w) && !('key' in w)));
 
   // ---- 8. persisted rows -----------------------------------------------------
   const after = stopsIn(d.start_mile, bed.routeMile);

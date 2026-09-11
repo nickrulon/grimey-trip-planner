@@ -83,6 +83,20 @@ const dayOf = (n) => p.activeDays().days.find((d) => d.day_number === n);
   ok('Call Mum back on day 4', JSON.stringify(on('Call Mum')) === '[4]', `on ${on('Call Mum')}`);
   ok('07:15 back on day 4', p.dayTimes(4).startTime === '07:15');
 
+  // A rest day carrying its own roll-out override: removing it must not collide
+  // with the next day's row (day_plans.day_number is the primary key).
+  p.insertRestDay({ afterDay: 1 });
+  p.setDayTimes({ dayNumber: 2, startTime: '05:45' });
+  p.setDayTimes({ dayNumber: 3, startTime: '06:30' });
+  p.addMark({ scope: 'day', dayNumber: 2, label: 'Laundry', shape: 'line', color: 'teal', startMin: 600 });
+  let removed = null;
+  try { p.removeRestDay({ dayNumber: 2 }); } catch (e) { removed = e.message; }
+  ok('a rest day with its own times can be removed', removed === null, removed);
+  ok('…and the next day keeps its own roll-out', p.dayTimes(2).startTime === '06:30', p.dayTimes(2).startTime);
+  ok('…and the rest day\'s mark lands on the day that took its slot', JSON.stringify(on('Laundry')) === '[2]', `on ${on('Laundry')}`);
+  p.setDayTimes({ dayNumber: 2, startTime: null });
+  p.removeMark({ id: p.activeDays().days && db.prepare(`SELECT id FROM canvas_marks WHERE label='Laundry'`).get().id });
+
   p.mergeDays({ dayNumber: 2 });
   ok('merge: the swallowed day\'s mark lands on the merged day', JSON.stringify(on('Dentist')) === '[2]', `on ${on('Dentist')}`);
   ok('merge: later marks shift down', JSON.stringify(on('Call Mum')) === '[3]', `on ${on('Call Mum')}`);

@@ -9,7 +9,7 @@
 const r1 = (n) => Math.round(n * 10) / 10;
 const r2 = (n) => (n == null ? null : Math.round(n * 100) / 100);
 
-import { LOITER, isLibrary, WIFI_W, clock12 } from './shared.mjs';
+import { LOITER, isLibrary, venueScore, clock12 } from './shared.mjs';
 
 /**
  * Append a (mile, minute) sample, keeping the series monotonic in BOTH.
@@ -85,7 +85,11 @@ export function simulateDay({
   const progress = [];
   let conflict = null;
 
-  const ordered = [...stops].sort((a, b) => a.routeMile - b.routeMile);
+  // Mile order, and where two stops round onto the SAME mile — the library
+  // next door to the McDonald's — the order they were composed in. Relying on
+  // sort stability for that would be relying on the order the caller happened
+  // to concatenate its arrays.
+  const ordered = [...stops].sort((a, b) => a.routeMile - b.routeMile || (a.seq ?? 0) - (b.seq ?? 0));
 
   let cursorMile = startMile;
   let cursorMin = departMin;
@@ -99,17 +103,22 @@ export function simulateDay({
   };
 
   for (const st of ordered) {
-    const m = legMin(cursorMile, st.routeMile);
-    if (st.routeMile > cursorMile + 0.01) {
+    // A stop at a mile already passed happens WHERE YOU ARE — a combo can ride
+    // straight through the next stop's mile, and "back to the library" is a
+    // real link in a day. The cursor only ever moves forward, so no stretch is
+    // ever ridden twice and the progress series is monotonic by construction.
+    const atMile = Math.max(st.routeMile, cursorMile);
+    const m = legMin(cursorMile, atMile);
+    if (atMile > cursorMile + 0.01) {
       blocks.push({
         kind: 'ride', label: legLabel(),
         startMin: cursorMin, endMin: cursorMin + m,
-        miles: r1(st.routeMile - cursorMile), rideMin: m,
+        miles: r1(atMile - cursorMile), rideMin: m,
       });
       legIndex++;
     }
     let arrive = cursorMin + m;
-    pushProgress(progress, st.routeMile, arrive);
+    pushProgress(progress, atMile, arrive);
 
     // The work day starts on a clock, not on arrival: the first work-ish
     // block waits for it, and that wait is honest dead time.
@@ -119,7 +128,7 @@ export function simulateDay({
         arrive = workStartMin;
         // The wait happens standing still at this mile. Without this sample a
         // combo (which then MOVES) would smear the buffer over its miles.
-        pushProgress(progress, st.routeMile, arrive);
+        pushProgress(progress, atMile, arrive);
       } else if (arrive > workStartMin + 5) {
         conflict ??= {
           kind: 'work_late',
@@ -132,37 +141,34 @@ export function simulateDay({
 
     if (st.type === 'work') {
       blocks.push({
-        kind: 'work', id: st.id, label: st.name,
+        kind: 'work', id: st.id, key: st.key, label: st.name,
         startMin: arrive, endMin: arrive + st.dwellMin,
-        dwellMin: st.dwellMin, routeMile: st.routeMile,
+        dwellMin: st.dwellMin, routeMile: r1(atMile),
       });
       workCredit += st.dwellMin;
       cursorMin = arrive + st.dwellMin;
-      cursorMile = st.routeMile;
+      cursorMile = atMile;
     } else if (st.type === 'combo') {
-      // Logged in AND moving: the clock and the odometer both run — from the
-      // combo's own mile. (Measuring from the previous cursor double-counted
-      // the ride leg that led here whenever a combo did not sit exactly on a
-      // work stop; the builder lets it sit anywhere.)
-      cursorMile = st.routeMile;
-      const comboEnd = Math.min(endMile, mileAfter(cursorMile, st.dwellMin));
+      // Logged in AND moving: the clock and the odometer both run, from where
+      // the rider actually is.
+      const comboEnd = Math.min(endMile, mileAfter(atMile, st.dwellMin));
       blocks.push({
-        kind: 'combo', id: st.id, label: st.name,
+        kind: 'combo', id: st.id, key: st.key, label: st.name,
         startMin: arrive, endMin: arrive + st.dwellMin,
-        dwellMin: st.dwellMin, miles: r1(comboEnd - cursorMile),
-        routeMile: r1(cursorMile),
+        dwellMin: st.dwellMin, miles: r1(comboEnd - atMile),
+        routeMile: r1(atMile),
       });
       workCredit += st.dwellMin;
       cursorMin = arrive + st.dwellMin;
       cursorMile = comboEnd;
     } else {
       blocks.push({
-        kind: 'break', id: st.id, label: st.name,
+        kind: 'break', id: st.id, key: st.key, label: st.name,
         startMin: arrive, endMin: arrive + st.dwellMin,
-        dwellMin: st.dwellMin, routeMile: st.routeMile,
+        dwellMin: st.dwellMin, routeMile: r1(atMile),
       });
       cursorMin = arrive + st.dwellMin;
-      cursorMile = st.routeMile;
+      cursorMile = atMile;
     }
     pushProgress(progress, cursorMile, cursorMin);
   }
@@ -215,17 +221,10 @@ export function makeToday(db, planner, camping, intel = null) {
     return { d, days };
   }
 
-  function modelFor(d) {
-    const date = startDate() ? dateForDay(startDate(), d.day_number) : null;
-    if (!date) return null;
-    const { effort } = effortMiles(d.start_mile, d.end_mile);
-    const t = planner.dayTimes(d.day_number);
-    return daylight.dayModel({
-      date, startMile: d.start_mile, endMile: d.end_mile,
-      effortMi: effort, speedMph: ridingSpeed(),
-      departH: t.departH, workStartH: t.workStartH, rideUntilH: t.rideUntilH,
-    });
-  }
+  // One builder for the day's daylight model, shared with the planner (the
+  // builder's candidates judge arrival against the same work clock the canvas
+  // draws).
+  const modelFor = (d) => planner.modelForDay(d, ridingSpeed());
 
   const toMin = (hhmm, dflt = 6 * 60) => {
     if (!hhmm) return dflt;
@@ -300,8 +299,11 @@ export function makeToday(db, planner, camping, intel = null) {
    * afterRideMin is measured from the previous stop in the list (or the day
    * start): "ride 45 minutes, then stop" is how a break is actually thought.
    * A combo with no mile of its own anchors just past the previous stop, as
-   * addCombo does. Proposed stops get negative ids so the client can key them
-   * and they can never collide with a saved row.
+   * addCombo does. Proposed stops get negative ids so they can never collide
+   * with a saved row, carry their chain position as `seq` (so two stops that
+   * round onto the same mile keep the order the rider composed them in), and
+   * echo the client's `key` back on the block they produce — the client maps
+   * blocks to chain entries by that key rather than by position.
    */
   function resolveProposedStops(d, raw, speed) {
     if (!Array.isArray(raw)) throw new Error('stops must be an array');
@@ -320,8 +322,17 @@ export function makeToday(db, planner, camping, intel = null) {
       } else if (kind === 'combo') mile = prevMile + 0.02;
       else throw new Error(`${at}: routeMile or afterRideMin required`);
       if (!Number.isFinite(mile)) throw new Error(`${at}: could not work out where it lands`);
-      if (mile <= d.start_mile + 0.05 || mile >= d.end_mile - 0.05) {
-        throw new Error(`${at} lands at mi ${r1(mile)}, outside the day (mi ${r1(d.start_mile)}–${r1(d.end_mile)})`);
+      // Miles are stored rounded to 0.1, and the readers take stops strictly
+      // inside the day — so round FIRST and judge the mile that will actually
+      // be saved. A stop the rounding pushes onto a boundary is nudged inside
+      // rather than refused: it is a real stop, a tenth of a mile from the edge.
+      mile = r1(mile);
+      if (mile <= d.start_mile || mile >= d.end_mile) {
+        const inside = Math.min(Math.max(mile, r1(d.start_mile + 0.1)), r1(d.end_mile - 0.1));
+        if (Math.abs(inside - mile) > 0.25 || inside <= d.start_mile || inside >= d.end_mile) {
+          throw new Error(`${at} lands at mi ${mile}, outside the day (mi ${r1(d.start_mile)}–${r1(d.end_mile)})`);
+        }
+        mile = inside;
       }
       const res = st.resourceId
         ? db.prepare(`SELECT * FROM resources WHERE id = ?`).get(String(st.resourceId)) ?? null
@@ -332,13 +343,15 @@ export function makeToday(db, planner, camping, intel = null) {
       // Exactly the shapes breaksFor / combosFor / workStopsFor return, so a
       // preview and the canvas read back after saving are the same object.
       const id = -(i + 1);
-      if (kind === 'break') out.breaks.push({ id, name, routeMile: r1(mile), dwellMin: dwell, note: notes });
-      else if (kind === 'combo') out.combos.push({ id, name, routeMile: r1(mile), minutes: dwell, note: notes });
+      const seq = i;
+      const key = st.key != null ? String(st.key).slice(0, 40) : null;
+      if (kind === 'break') out.breaks.push({ id, seq, key, name, routeMile: mile, dwellMin: dwell, note: notes });
+      else if (kind === 'combo') out.combos.push({ id, seq, key, name, routeMile: mile, minutes: dwell, note: notes });
       else {
         const place = planner.placeOf(res?.lat ?? null, res?.lng ?? null, mile);
         out.workStops.push({
-          id, resourceId: res?.id ?? null, name, brand: res?.brand ?? null,
-          routeMile: r1(mile), offRouteMi: r2(res?.off_route_mi),
+          id, seq, key, resourceId: res?.id ?? null, name, brand: res?.brand ?? null,
+          routeMile: mile, offRouteMi: r2(res?.off_route_mi),
           dwellMin: dwell, cost: null,
           wifiStatus: res?.wifi_status ?? null, hours: res?.hours ?? null,
           address: res?.address ?? null, phone: res?.phone ?? null, website: res?.website ?? null,
@@ -346,9 +359,13 @@ export function makeToday(db, planner, camping, intel = null) {
           town: place.town, state: place.state,
         });
       }
-      prevMile = mile;
+      // A combo RIDES for its dwell, so "then ride 45 minutes" after one starts
+      // from where it puts you down, not from where it began.
+      prevMile = kind === 'combo'
+        ? Math.min(d.end_mile, planner.mileAfterRideMinutes(mile, dwell, speed))
+        : mile;
     });
-    for (const k of Object.keys(out)) out[k].sort((a, b) => a.routeMile - b.routeMile);
+    for (const k of Object.keys(out)) out[k].sort((a, b) => a.routeMile - b.routeMile || a.seq - b.seq);
     return out;
   }
 
@@ -374,7 +391,8 @@ export function makeToday(db, planner, camping, intel = null) {
       overnight_resource_id: null, overnight_camp_id: null, overnight_name: null,
       overnight_category: null, overnight_off_mi: null, overnight_address: null,
       overnight_phone: null, overnight_website: null, overnight_hours: null,
-      overnight_lat: null, overnight_lng: null, overnight_mile: null, lodging_cost: null,
+      overnight_lat: null, overnight_lng: null, overnight_mile: null,
+      overnight_attrs: null, lodging_cost: null,
     };
     // Same bed as tonight: its recorded price is still good (applyDayEnd keeps it).
     const sameBed = (bed.resourceId ?? null) === (d0.overnight_resource_id ?? null)
@@ -502,11 +520,14 @@ export function makeToday(db, planner, camping, intel = null) {
     const onTheClock = !!(model?.workday && model.work);
     const sim = rest ? emptyDay() : simulateDay({
       startMile: d.start_mile, endMile: d.end_mile, departMin,
+      // seq breaks ties at a shared mile. For a PROPOSAL it is the rider's
+      // chain order (set by resolveProposedStops); for saved stops it is this
+      // concatenation order, which is what the walk has always used.
       stops: [
         ...breaks.map((b) => ({ ...b, type: 'break' })),
         ...(onTheClock ? workStops.map((w) => ({ ...w, type: 'work' })) : []),
         ...(onTheClock ? combos.map((c) => ({ ...c, type: 'combo', dwellMin: c.minutes })) : []),
-      ],
+      ].map((st, i) => ({ ...st, seq: st.seq ?? i })),
       // Leg labels split the day around the FIRST work stop even on a weekend,
       // where the stop is kept as a wi-fi stop but not walked.
       firstWorkMile: workStops.length ? workStops[0].routeMile : null,
@@ -585,14 +606,13 @@ export function makeToday(db, planner, camping, intel = null) {
     // a note to remember and becomes a constraint the day is checked against.
     // (A day-scoped mark has no mile to check — that is what the pin offer is
     // for.) Five minutes of grace, like every other check on the canvas.
-    const clock = clock12;
     const missedMarks = rest ? [] : marks.flatMap((m) => {
       if (m.routeMile == null) return [];
       const at = minAtMile(progress, m.routeMile);
       if (at == null || at <= m.startMin + 5) return [];
       return [{
         id: m.id, lateMin: Math.round(at - m.startMin),
-        label: `${m.label}: reach mi ${m.routeMile} at ${clock(at)}, need ${clock(m.startMin)}`,
+        label: `${m.label}: reach mi ${m.routeMile} at ${clock12(at)}, need ${clock12(m.startMin)}`,
       }];
     });
 
@@ -633,8 +653,8 @@ export function makeToday(db, planner, camping, intel = null) {
         overrides: model.overrides,
         fit: model.status,
       } : null,
-      workStop, workFallbacks, movingMeeting,
-      workStops, combos,
+      workStop: workStop && bare(workStop), workFallbacks, movingMeeting,
+      workStops: workStops.map(bare), combos: combos.map(bare),
       // Does the day actually add up to a work day? Sitting + riding-on-a-call
       // both count; the shortfall is stated rather than assumed away.
       work: model?.workday ? {
@@ -645,7 +665,7 @@ export function makeToday(db, planner, camping, intel = null) {
         comboMin: combos.reduce((s, c) => s + c.minutes, 0),
       } : null,
       breaks: breaks.map((b) => ({
-        ...b,
+        ...bare(b),
         milesFromStart: r1(b.routeMile - d.start_mile),
         rideMinFromStart: Math.round(rideMinutes(d.start_mile, b.routeMile, speed)),
       })),
@@ -716,9 +736,7 @@ export function makeToday(db, planner, camping, intel = null) {
        ORDER BY route_mile`
     ).all(d.start_mile + 0.3, d.end_mile - 0.3);
     const out = rows.map((x) => {
-      const score = (WIFI_W[x.wifi_status] ?? 0.5)
-        + (LOITER[x.brand] ?? 0)
-        + (isLibrary(x.name) ? 4 : 0)
+      const score = venueScore(x)
         - x.off_route_mi * 1.5
         - Math.abs(x.route_mile - idealMile) * 0.25;
       const morningMi = x.route_mile - d.start_mile;
@@ -868,6 +886,9 @@ export function makeToday(db, planner, camping, intel = null) {
   // Off-route limits are the ones each existing chooser already uses (work 3,
   // stop 4, sleep 6): a laptop sit tolerates less detour than a bed.
   const OFF_ROUTE_MI = { work: 3, break: 4, sleep: 6 };
+
+  /** A resolved stop as the payload publishes it: without the walk's wiring. */
+  const bare = ({ seq, key, ...rest }) => rest;
   const wifiNearStmt = db.prepare(
     `SELECT COUNT(*) c FROM resources WHERE category_id='wifi_work'
      AND route_mile BETWEEN ? AND ? AND off_route_mi <= 2`
@@ -882,16 +903,16 @@ export function makeToday(db, planner, camping, intel = null) {
     const min = fromMin != null && fromMin !== '' ? Number(fromMin) : null;
     if (min != null && !Number.isFinite(min)) throw new Error('fromMin must be a number');
     const next = days.find((x) => x.day_number === d.day_number + 1) ?? null;
-    const farthest = Math.min(planner.totalMiles, next ? next.end_mile - 0.05 : planner.totalMiles);
     const reach = reachMi != null && reachMi !== '' ? Number(reachMi) : d.end_mile - from;
     const lim = Math.max(1, Math.min(200, Number(limit) || 60));
     const cats = kind === 'work' ? ['wifi_work'] : kind === 'sleep' ? ['hotel', 'campground'] : ['wifi_work', 'campground', 'hotel'];
+    const maxOff = OFF_ROUTE_MI[kind];
     const base = planner.stopCandidates({
       dayNumber: d.day_number, fromMile: from, fromMin: min, reachMi: reach, cats, limit: lim * 3,
       // a sit "next door" can be a step back along the route; a bed cannot
       behindMi: kind === 'sleep' ? 0 : 1,
+      maxOffRouteMi: maxOff,
     });
-    const maxOff = OFF_ROUTE_MI[kind];
     const rideTo = base.rideToMin ?? null;
     const direction = (mile) => {
       const delta = mile - d.end_mile;
@@ -920,7 +941,7 @@ export function makeToday(db, planner, camping, intel = null) {
 
     if (kind === 'sleep') {
       // Curated camping-guide spots (the hand-researched gold), same as sleepOptions.
-      for (const s of camping.spotsNear(from, -0.05, Math.max(0, Math.min(reach, farthest - from)))) {
+      for (const s of camping.spotsNear(from, -0.05, Math.max(0, base.farthestMile - from))) {
         const rideMin = Math.round(rideMinutes(from, s.routeMile, speed));
         const arriveMin = min != null ? Math.round(min + rideMin) : null;
         out.push({
@@ -969,7 +990,7 @@ export function makeToday(db, planner, camping, intel = null) {
       fromMile: r1(from), fromMin: min, reachTo: base.reachTo,
       startMile: r1(d.start_mile), startName: d.start_name,
       endMile: r1(d.end_mile), endName: d.end_name,
-      farthestMile: r1(farthest), nextDayEndMile: next ? r1(next.end_mile) : null,
+      farthestMile: base.farthestMile, nextDayEndMile: next ? r1(next.end_mile) : null,
       workOpenMin: base.workOpenMin ?? null, rideToMin: rideTo,
       candidates: out.slice(0, lim),
     };

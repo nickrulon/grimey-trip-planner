@@ -899,7 +899,10 @@ export function makePlanner(db) {
    * as planned. In a builder the endpoint is an OUTCOME, so clamping to it
    * would make the last leg unplannable.
    */
-  function stopCandidates({ dayNumber, fromMile, fromMin = null, reachMi = null, behindMi = 0, cats, limit = 40 }) {
+  function stopCandidates({
+    dayNumber, fromMile, fromMin = null, reachMi = null, behindMi = 0,
+    maxOffRouteMi = 4, cats, limit = 40,
+  }) {
     const { days } = activeDays();
     const day = days.find((d) => d.day_number === dayNumber);
     if (!day) throw new Error(`No day ${dayNumber}`);
@@ -911,9 +914,14 @@ export function makePlanner(db) {
     const back = Math.max(0, Number(behindMi) || 0);
     const lo = Math.max(day.start_mile + 0.05, back > 0 ? from - back : from + 0.05);
     const next = days.find((d) => d.day_number === day.day_number + 1) ?? null;
-    const farthest = Math.min(totalMiles, next ? next.end_mile - 0.05 : totalMiles);
+    // The farthest a day can legally end: the next day's own endpoint, or the
+    // end of the route. One definition, returned so callers never re-derive it.
+    const farthest = next ? Math.min(totalMiles, next.end_mile - 0.05) : totalMiles;
     const hi = reachMi != null ? Math.min(from + Number(reachMi), farthest) : day.end_mile - 0.05;
-    if (hi <= lo) return { candidates: [], speedMph: speed, fromMile: r1(from), reachTo: r1(hi) };
+    const off = Number(maxOffRouteMi);
+    const maxOff = Number.isFinite(off) && off > 0 ? off : 4;
+    const frame = { speedMph: speed, fromMile: r1(from), reachTo: r1(hi), farthestMile: r1(farthest) };
+    if (hi <= lo) return { candidates: [], ...frame };
     const catList = cats && cats.length ? cats : ['wifi_work', 'campground', 'hotel'];
     const rows = db.prepare(
       `SELECT id, category_id, name, brand, route_mile, off_route_mi, address,
@@ -921,9 +929,9 @@ export function makePlanner(db) {
        FROM resources
        WHERE status='active' AND route_mile BETWEEN ? AND ?
          AND category_id IN (${catList.map(() => '?').join(',')})
-         AND off_route_mi <= 4
+         AND off_route_mi <= ?
        ORDER BY route_mile LIMIT ?`
-    ).all(lo, hi, ...catList, limit * 3);
+    ).all(lo, hi, ...catList, maxOff, limit * 3);
 
     // The clock the arrival is judged against: when work opens, when the rider
     // said they would stop riding. Only meaningful once a start date exists.
@@ -956,11 +964,7 @@ export function makePlanner(db) {
     });
     // Prefer close-to-route options, but keep the list in ride order.
     out.sort((a, b) => a.rideMinutes - b.rideMinutes || a.offRouteMi - b.offRouteMi);
-    return {
-      candidates: out.slice(0, limit), speedMph: speed,
-      fromMile: r1(from), reachTo: r1(hi),
-      workOpenMin: workOpen, rideToMin: rideTo,
-    };
+    return { candidates: out.slice(0, limit), ...frame, workOpenMin: workOpen, rideToMin: rideTo };
   }
 
   function addStop({ routeMile, resourceId, name, category, offRouteMi, dwellMin, notes }) {
@@ -1633,10 +1637,7 @@ export function makePlanner(db) {
 
   // Readiness: the app's answer to "do I still need to think about this day?"
   // Ordered worst-first; the first issue is the day's headline state.
-  const fmtMin = (m) => {
-    const h = Math.floor(m / 60), mm = m % 60;
-    return h ? (mm ? `${h}h${String(mm).padStart(2, '0')}` : `${h}h`) : `${mm} min`;
-  };
+  const fmtMin = (m) => fmtDur(m / 60);
 
   /**
    * `extra` is what only a simulated day knows — the Trip list calls this
@@ -2003,7 +2004,7 @@ export function makePlanner(db) {
         `UPDATE planned_days SET start_mile=?, start_name=?, flags=?
          WHERE revision_id=? AND day_number=?`
       ).run(endMile, name,
-        dayFlags(endMile, next.end_mile, !!next.overnight_resource_id),
+        dayFlags(endMile, next.end_mile, !!(next.overnight_resource_id ?? next.overnight_camp_id)),
         rev.id, next.day_number);
     }
     geomCache.delete(rev.id);
@@ -2198,6 +2199,13 @@ export function makePlanner(db) {
         .run(rev.id, day.day_number);
       db.prepare(`UPDATE planned_days SET day_number = day_number - 1001 WHERE revision_id=? AND day_number > 1000`)
         .run(rev.id);
+      // The removed day's OWN day-keyed rows go first: day_plans.day_number is
+      // the primary key, so shifting the next day down onto a surviving row
+      // would fail the whole transaction. A mark on the rest day happens on
+      // whatever day now occupies that slot.
+      db.prepare(`DELETE FROM day_plans WHERE day_number=?`).run(day.day_number);
+      db.prepare(`UPDATE canvas_marks SET day_number=? WHERE scope='day' AND day_number=?`)
+        .run(day.day_number + 1, day.day_number);
       shiftDayKeyed(day.day_number + 1, -1);
     });
     tx();
@@ -2402,7 +2410,7 @@ export function makePlanner(db) {
     setDayCosts, setWorkStop, setSleep, insertRestDay, removeRestDay, applyDayEnd, dayFlags,
     activateRevision, workStopFor, workStopsFor, combosFor, addCombo,
     readinessFor, placeOf, tripStartMile, workSettings,
-    setDayTimes, dayTimes, addBreak, breaksFor, mileAfterRideMinutes,
+    setDayTimes, dayTimes, addBreak, breaksFor, mileAfterRideMinutes, modelForDay,
     addMark, updateMark, removeMark, marksFor, MARK_COLORS,
     // internals shared with the Today layer
     daylight, effortMiles, dayShape, stateAtMile, ridingSpeed, rideMinutes,

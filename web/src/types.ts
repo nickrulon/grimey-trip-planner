@@ -97,6 +97,8 @@ export interface CanvasBlock {
   label: string; startMin: number; endMin: number;
   miles?: number; rideMin?: number;
   id?: number; dwellMin?: number; routeMile?: number;
+  /** Only on a preview: the chain entry this block came from. */
+  key?: string | null;
 }
 
 export interface IntelRecord {

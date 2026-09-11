@@ -904,6 +904,10 @@ button.primary:disabled, button.ghost:disabled { opacity: 0.5; cursor: default; 
 }
 .bd-quick input { width: 54px; padding: 3px 5px; border: 1px solid var(--line-hard); background: var(--card); }
 .bd-sep { color: var(--dim); padding: 0 4px; }
+.bd-unwalked {
+  font-size: 12px; background: var(--orange-soft); border-left: 3px solid var(--orange);
+  padding: 5px 8px; margin: 4px 0;
+}
 .bd-card { padding-top: 8px; }
 .bd-card.empty .pm-hint { font-size: 15px; }
 .bd-arrive { font-size: 15px; margin: 4px 0 2px; }
