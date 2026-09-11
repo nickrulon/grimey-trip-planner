@@ -161,7 +161,16 @@ app.get('/api/plan/day/:n/itinerary', handle((req) =>
 app.get('/api/plan/day/:n/stop-candidates', handle((req) => planner.stopCandidates({
   dayNumber: Number(req.params.n),
   fromMile: req.query.fromMile != null ? Number(req.query.fromMile) : undefined,
+  fromMin: req.query.fromMin != null ? Number(req.query.fromMin) : null,
+  reachMi: req.query.reachMi != null ? Number(req.query.reachMi) : null,
   cats: req.query.cats ? String(req.query.cats).split(',') : undefined,
+  limit: req.query.limit != null ? Number(req.query.limit) : undefined,
+})));
+
+// The Day Builder's next-link candidates, measured from the chain's cursor.
+app.get('/api/plan/day/:n/build-candidates', handle((req) => today.buildCandidates(Number(req.params.n), {
+  fromMile: req.query.fromMile, fromMin: req.query.fromMin, reachMi: req.query.reachMi,
+  kind: String(req.query.kind ?? 'work'), limit: req.query.limit,
 })));
 
 app.post('/api/plan/stop', handle((req) => planner.addStop(req.body ?? {})));

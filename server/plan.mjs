@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as turf from '@turf/turf';
 import { makeDaylight, fmtClock, fmtDur } from './daylight.mjs';
+import { venueScore, clock12 } from './shared.mjs';
 
 
 // Bundlers that emit CJS leave import.meta.url empty; fall back to the process
@@ -869,16 +870,46 @@ export function makePlanner(db) {
     };
   }
 
-  // Candidates for the next stop: everything reachable further along today,
-  // annotated with how long the ride there takes from where you already are.
-  function stopCandidates({ dayNumber, fromMile, cats, limit = 40 }) {
+  /** The daylight model for one planned day, or null before a start date is set. */
+  function modelForDay(day, speed = ridingSpeed()) {
+    const startDateSetting = settingStmt.get('startDate')?.value ?? null;
+    const date = startDateSetting ? dateForDay(startDateSetting, day.day_number) : null;
+    if (!date) return null;
+    const { effort } = effortMiles(day.start_mile, day.end_mile);
+    const times = dayTimes(day.day_number);
+    return daylight.dayModel({
+      date, startMile: day.start_mile, endMile: day.end_mile,
+      effortMi: effort, speedMph: speed,
+      departH: times.departH, workStartH: times.workStartH, rideUntilH: times.rideUntilH,
+    });
+  }
+
+  /**
+   * Candidates for the next stop: everything reachable further along, from
+   * where you already are (`fromMile`), with how long the ride there takes.
+   *
+   * With `fromMin` — the clock at the cursor — every candidate also carries an
+   * ARRIVAL time, which is the number the rider actually decides on: "Library,
+   * 25 mi, 2h20" is far less useful than "arrive 9:47a", because on a workday
+   * the question is whether he can be sitting down before the window opens.
+   *
+   * With `reachMi` the search runs that far past the cursor — past the day's
+   * planned end if need be, but never past the next day's endpoint, which is
+   * the farthest a day can legally end. Without it, the old behaviour: the day
+   * as planned. In a builder the endpoint is an OUTCOME, so clamping to it
+   * would make the last leg unplannable.
+   */
+  function stopCandidates({ dayNumber, fromMile, fromMin = null, reachMi = null, cats, limit = 40 }) {
     const { days } = activeDays();
     const day = days.find((d) => d.day_number === dayNumber);
     if (!day) throw new Error(`No day ${dayNumber}`);
     const speed = ridingSpeed();
-    const lo = Math.max(day.start_mile, fromMile ?? day.start_mile) + 0.05;
-    const hi = day.end_mile - 0.05;
-    if (hi <= lo) return { candidates: [], speedMph: speed };
+    const from = fromMile ?? day.start_mile;
+    const lo = Math.max(day.start_mile, from) + 0.05;
+    const next = days.find((d) => d.day_number === day.day_number + 1) ?? null;
+    const farthest = Math.min(totalMiles, next ? next.end_mile - 0.05 : totalMiles);
+    const hi = reachMi != null ? Math.min(from + Number(reachMi), farthest) : day.end_mile - 0.05;
+    if (hi <= lo) return { candidates: [], speedMph: speed, fromMile: r1(from), reachTo: r1(hi) };
     const catList = cats && cats.length ? cats : ['wifi_work', 'campground', 'hotel'];
     const rows = db.prepare(
       `SELECT id, category_id, name, brand, route_mile, off_route_mi, address,
@@ -890,17 +921,40 @@ export function makePlanner(db) {
        ORDER BY route_mile LIMIT ?`
     ).all(lo, hi, ...catList, limit * 3);
 
-    const out = rows.map((r) => ({
-      resourceId: r.id, name: r.name, brand: r.brand, category: r.category_id,
-      routeMile: r1(r.route_mile), offRouteMi: r2(r.off_route_mi),
-      rideMiles: r1(r.route_mile - (fromMile ?? day.start_mile)),
-      rideMinutes: Math.round(rideMinutes(fromMile ?? day.start_mile, r.route_mile, speed)),
-      wifiStatus: r.wifi_status, address: r.address, phone: r.phone,
-      website: r.website, hours: r.hours, lat: r.lat, lng: r.lng,
-    }));
+    // The clock the arrival is judged against: when work opens, when the rider
+    // said they would stop riding. Only meaningful once a start date exists.
+    const model = fromMin != null ? modelForDay(day, speed) : null;
+    const workOpen = model?.workday && model.work ? Math.round(model.work.localStart * 60) : null;
+    const rideTo = model ? Math.round(model.rideTo * 60) : null;
+
+    const out = rows.map((r) => {
+      const rideMin = Math.round(rideMinutes(from, r.route_mile, speed));
+      const arriveMin = fromMin != null ? Math.round(Number(fromMin) + rideMin) : null;
+      return {
+        resourceId: r.id, name: r.name, brand: r.brand, category: r.category_id,
+        routeMile: r1(r.route_mile), offRouteMi: r2(r.off_route_mi),
+        rideMiles: r1(r.route_mile - from),
+        rideMinutes: rideMin,
+        wifiStatus: r.wifi_status, address: r.address, phone: r.phone,
+        website: r.website, hours: r.hours, lat: r.lat, lng: r.lng,
+        // the headline number on a builder pin
+        arriveMin,
+        arriveClock: arriveMin != null ? clock12(arriveMin) : null,
+        beforeWorkOpen: arriveMin != null && workOpen != null ? arriveMin <= workOpen : null,
+        minsLateForWork: arriveMin != null && workOpen != null && arriveMin > workOpen ? arriveMin - workOpen : null,
+        // minutes of riding left before the time the rider said they would stop
+        lightLeftMin: arriveMin != null && rideTo != null ? rideTo - arriveMin : null,
+        // one venue vocabulary for the whole app (see shared.mjs)
+        score: r.category_id === 'wifi_work' ? r1(venueScore(r) - r.off_route_mi * 1.5) : r1(-r.off_route_mi * 1.5),
+      };
+    });
     // Prefer close-to-route options, but keep the list in ride order.
     out.sort((a, b) => a.rideMinutes - b.rideMinutes || a.offRouteMi - b.offRouteMi);
-    return { candidates: out.slice(0, limit), speedMph: speed };
+    return {
+      candidates: out.slice(0, limit), speedMph: speed,
+      fromMile: r1(from), reachTo: r1(hi),
+      workOpenMin: workOpen, rideToMin: rideTo,
+    };
   }
 
   function addStop({ routeMile, resourceId, name, category, offRouteMi, dwellMin, notes }) {

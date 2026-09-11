@@ -9,15 +9,7 @@
 const r1 = (n) => Math.round(n * 10) / 10;
 const r2 = (n) => (n == null ? null : Math.round(n * 100) / 100);
 
-// Brands where a laptop can genuinely sit for hours (from the Daylight Blocks
-// prototype — loiterability is a real work-planning signal, not a joke).
-const LOITER = {
-  "McDonald's": 3, Starbucks: 3, 'Panera Bread': 3, Panera: 3, "Dunkin'": 2.5, Dunkin: 2.5,
-  'Burger King': 2.5, "Wendy's": 2.5, Whataburger: 2.5, "Denny's": 2.5, IHOP: 2,
-  'Waffle House': 2, 'Jack in the Box': 2, "Carl's Jr.": 2, "Hardee's": 2,
-  Subway: 1.5, 'Taco Bell': 1.5, Pilot: 2, "Love's": 2, 'Flying J': 2,
-};
-const isLibrary = (name) => /librar|bibliot/i.test(name ?? '');
+import { LOITER, isLibrary, WIFI_W, clock12 } from './shared.mjs';
 
 /**
  * Append a (mile, minute) sample, keeping the series monotonic in BOTH.
@@ -530,11 +522,7 @@ export function makeToday(db, planner, camping, intel = null) {
     // a note to remember and becomes a constraint the day is checked against.
     // (A day-scoped mark has no mile to check — that is what the pin offer is
     // for.) Five minutes of grace, like every other check on the canvas.
-    const clock = (min) => {
-      const m = ((Math.round(min) % 1440) + 1440) % 1440;
-      const H = Math.floor(m / 60), Mi = m % 60;
-      return `${((H + 11) % 12) + 1}:${String(Mi).padStart(2, '0')}${H < 12 ? 'a' : 'p'}`;
-    };
+    const clock = clock12;
     const missedMarks = rest ? [] : marks.flatMap((m) => {
       if (m.routeMile == null) return [];
       const at = minAtMile(progress, m.routeMile);
@@ -664,9 +652,8 @@ export function makeToday(db, planner, camping, intel = null) {
          AND route_mile BETWEEN ? AND ? AND off_route_mi <= 3
        ORDER BY route_mile`
     ).all(d.start_mile + 0.3, d.end_mile - 0.3);
-    const wifiW = { confirmed: 4, likely: 2.5, unknown: 0.5, none: -6 };
     const out = rows.map((x) => {
-      const score = (wifiW[x.wifi_status] ?? 0.5)
+      const score = (WIFI_W[x.wifi_status] ?? 0.5)
         + (LOITER[x.brand] ?? 0)
         + (isLibrary(x.name) ? 4 : 0)
         - x.off_route_mi * 1.5
@@ -805,6 +792,121 @@ export function makeToday(db, planner, camping, intel = null) {
       speedMph: speed,
       window: { lo: r1(lo), hi: r1(hi) },
       options: options.slice(0, 120),
+    };
+  }
+
+  // ---- the Day Builder's candidates -------------------------------------------
+  // One query for every link in the chain — the next place to WORK, to BREAK,
+  // or to SLEEP — measured from the cursor (where the chain has got to, and
+  // when), so each pin can say when you would arrive. The bed step blends the
+  // hand-researched camping guide with OSM hotels and campgrounds exactly as
+  // the sleep chooser does; the builder must not know less than the picker.
+  //
+  // Off-route limits are the ones each existing chooser already uses (work 3,
+  // stop 4, sleep 6): a laptop sit tolerates less detour than a bed.
+  const OFF_ROUTE_MI = { work: 3, break: 4, sleep: 6 };
+  const wifiNearStmt = db.prepare(
+    `SELECT COUNT(*) c FROM resources WHERE category_id='wifi_work'
+     AND route_mile BETWEEN ? AND ? AND off_route_mi <= 2`
+  );
+
+  function buildCandidates(n, { fromMile, fromMin, reachMi, kind = 'work', limit = 60 } = {}) {
+    if (!['work', 'break', 'sleep'].includes(kind)) throw new Error('kind must be work, break or sleep');
+    const { d, days } = dayRow(n);
+    const speed = ridingSpeed();
+    const from = fromMile != null && fromMile !== '' ? Number(fromMile) : d.start_mile;
+    if (!Number.isFinite(from)) throw new Error('fromMile must be a number');
+    const min = fromMin != null && fromMin !== '' ? Number(fromMin) : null;
+    if (min != null && !Number.isFinite(min)) throw new Error('fromMin must be a number');
+    const next = days.find((x) => x.day_number === d.day_number + 1) ?? null;
+    const farthest = Math.min(planner.totalMiles, next ? next.end_mile - 0.05 : planner.totalMiles);
+    const reach = reachMi != null && reachMi !== '' ? Number(reachMi) : d.end_mile - from;
+    const lim = Math.max(1, Math.min(200, Number(limit) || 60));
+    const cats = kind === 'work' ? ['wifi_work'] : kind === 'sleep' ? ['hotel', 'campground'] : ['wifi_work', 'campground', 'hotel'];
+    const base = planner.stopCandidates({
+      dayNumber: d.day_number, fromMile: from, fromMin: min, reachMi: reach, cats, limit: lim * 3,
+    });
+    const maxOff = OFF_ROUTE_MI[kind];
+    const rideTo = base.rideToMin ?? null;
+    const direction = (mile) => {
+      const delta = mile - d.end_mile;
+      return delta > 2 ? 'farther' : delta < -2 ? 'earlier' : 'on_plan';
+    };
+
+    const out = base.candidates
+      .filter((c) => (c.offRouteMi ?? 0) <= maxOff)
+      .map((c) => ({
+        id: c.resourceId, kind: 'resource', name: c.name, brand: c.brand, type: c.category,
+        routeMile: c.routeMile, offRouteMi: c.offRouteMi, lat: c.lat, lng: c.lng,
+        // consequence, measured from the CURSOR, not the day start
+        milesFromStart: c.rideMiles, rideMinFromStart: c.rideMinutes,
+        arriveMin: c.arriveMin, arriveClock: c.arriveClock,
+        beforeWorkOpen: c.beforeWorkOpen, minsLateForWork: c.minsLateForWork, lightLeftMin: c.lightLeftMin,
+        deltaMi: r1(c.routeMile - d.end_mile), direction: direction(c.routeMile),
+        detour: (c.offRouteMi ?? 0) > 1.5,
+        wifiStatus: c.wifiStatus, hours: c.hours, address: c.address, phone: c.phone, website: c.website,
+        ...planner.placeOf(c.lat, c.lng, c.routeMile),
+        price: null, tier: c.category === 'hotel' ? 'room' : c.category === 'campground' ? 'unknown' : undefined,
+        wifiNear: 0, confidence: null,
+        newDayMiles: r1(c.routeMile - d.start_mile),
+        nextDayMiles: next ? r1(next.end_mile - c.routeMile) : null,
+        score: c.score,
+      }));
+
+    if (kind === 'sleep') {
+      // Curated camping-guide spots (the hand-researched gold), same as sleepOptions.
+      for (const s of camping.spotsNear(from, -0.05, Math.max(0, Math.min(reach, farthest - from)))) {
+        const rideMin = Math.round(rideMinutes(from, s.routeMile, speed));
+        const arriveMin = min != null ? Math.round(min + rideMin) : null;
+        out.push({
+          id: s.id, kind: 'camp', name: s.name, type: s.type ?? 'campground',
+          routeMile: r1(s.routeMile), offRouteMi: null, lat: s.lat, lng: s.lng,
+          milesFromStart: r1(s.routeMile - from), rideMinFromStart: rideMin,
+          arriveMin, arriveClock: arriveMin != null ? clock12(arriveMin) : null,
+          beforeWorkOpen: null, minsLateForWork: null,
+          lightLeftMin: arriveMin != null && rideTo != null ? rideTo - arriveMin : null,
+          deltaMi: r1(s.routeMile - d.end_mile), direction: direction(s.routeMile), detour: false,
+          price: s.price ?? null, priceNote: s.priceNote ?? null, tier: s.tier,
+          water: !!s.water, showers: !!s.showers, toilets: !!s.toilets, tentsOk: s.tentsOk !== false,
+          legalityNote: s.legalityNote ?? null, cyclistIntel: s.cyclistIntel ?? null,
+          seasonalNote: s.seasonalNote ?? null, booking: s.booking ?? null,
+          website: s.website ?? null, phone: s.phone ?? null,
+          sources: s.sources ?? [], confidence: s.confidence ?? 'medium',
+          ...planner.placeOf(s.lat, s.lng, s.routeMile),
+          wifiNear: 0,
+          newDayMiles: r1(s.routeMile - d.start_mile),
+          nextDayMiles: next ? r1(next.end_mile - s.routeMile) : null,
+          score: 0,
+        });
+      }
+      for (const o of out) {
+        o.wifiNear = wifiNearStmt.get(o.routeMile - 2, o.routeMile + 2).c;
+        // Same recommendation shape as the sleep chooser, plus: arriving after
+        // the time you said you would stop riding costs a point per half hour.
+        o.score = r1(
+          10
+          - (o.offRouteMi ?? 0) * 2
+          + (o.kind === 'camp' ? 3 : 0)
+          + (o.confidence === 'high' ? 2 : 0)
+          + (o.price === 0 ? 2.5 : o.price != null && o.price <= 15 ? 1.5 : 0)
+          + (o.showers ? 0.8 : 0)
+          + Math.min(o.wifiNear, 4) * 0.3
+          - (o.lightLeftMin != null && o.lightLeftMin < 0 ? Math.min(6, -o.lightLeftMin / 30) : 0)
+        );
+      }
+    } else if (kind === 'break') {
+      for (const o of out) o.score = r1(5 - (o.offRouteMi ?? 0) * 2);
+    }
+    out.sort((a, b) => b.score - a.score || a.rideMinFromStart - b.rideMinFromStart);
+
+    return {
+      dayNumber: d.day_number, kind, speedMph: speed,
+      fromMile: r1(from), fromMin: min, reachTo: base.reachTo,
+      startMile: r1(d.start_mile), startName: d.start_name,
+      endMile: r1(d.end_mile), endName: d.end_name,
+      farthestMile: r1(farthest), nextDayEndMile: next ? r1(next.end_mile) : null,
+      workOpenMin: base.workOpenMin ?? null, rideToMin: rideTo,
+      candidates: out.slice(0, lim),
     };
   }
 
@@ -1084,6 +1186,7 @@ export function makeToday(db, planner, camping, intel = null) {
 
   return {
     dayCanvas, workOptions, sleepOptions, fitOptions, applyFitOption, dayplanMigration,
+    buildCandidates,
     // the proposal resolvers, shared with the save path so preview == saved
     resolveProposedStops, proposedDay,
   };
