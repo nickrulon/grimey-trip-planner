@@ -200,6 +200,12 @@ app.get('/api/plan/day/:n/fit-options', handle((req) => today.fitOptions(Number(
 app.post('/api/plan/day/fit-apply', handle((req) =>
   today.applyFitOption(Number(req.body?.dayNumber), String(req.body?.optionId ?? ''))));
 
+// Dry run: the same day assembled from a PROPOSED chain of stops (and maybe a
+// new endpoint), nothing written. The builder calls this on every change so
+// the timeline goes red the moment a day stops fitting.
+app.post('/api/plan/day/:n/simulate', handle((req) =>
+  today.dayCanvas(Number(req.params.n), req.body ?? {})));
+
 app.post('/api/plan/day/times', handle((req) => planner.setDayTimes(req.body ?? {})));
 app.post('/api/plan/day/break', handle((req) => planner.addBreak(req.body ?? {})));
 app.post('/api/plan/day/combo', handle((req) => planner.addCombo(req.body ?? {})));

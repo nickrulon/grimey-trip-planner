@@ -37,7 +37,7 @@ function pushProgress(progress, mile, min) {
  * break dwell, the work sit and the wait for the work clock to start. Returns
  * the FIRST time that mile is reached; null on a rest day, which covers none.
  */
-function minAtMile(progress, mile) {
+export function minAtMile(progress, mile) {
   if (!progress.length) return null;
   if (mile <= progress[0].mile) return progress[0].min;
   for (let i = 1; i < progress.length; i++) {
@@ -148,7 +148,11 @@ export function simulateDay({
       cursorMin = arrive + st.dwellMin;
       cursorMile = st.routeMile;
     } else if (st.type === 'combo') {
-      // Logged in AND moving: the clock and the odometer both run.
+      // Logged in AND moving: the clock and the odometer both run — from the
+      // combo's own mile. (Measuring from the previous cursor double-counted
+      // the ride leg that led here whenever a combo did not sit exactly on a
+      // work stop; the builder lets it sit anywhere.)
+      cursorMile = st.routeMile;
       const comboEnd = Math.min(endMile, mileAfter(cursorMile, st.dwellMin));
       blocks.push({
         kind: 'combo', id: st.id, label: st.name,
@@ -290,12 +294,126 @@ export function makeToday(db, planner, camping, intel = null) {
     ].sort((a, b) => a.startMile - b.startMile);
   }
 
+  // ---- proposals: a day the rider is still composing ------------------------
+  // The builder previews a chain of stops (and possibly a new endpoint) before
+  // anything is written. Both the preview and the eventual save go through the
+  // two resolvers below, so what the builder shows is exactly what gets saved.
+
+  /**
+   * The rider's proposed stops in the shape the walk and the payload use.
+   *
+   *   stops: [{ kind: 'break'|'work'|'combo', routeMile? | afterRideMin?,
+   *             dwellMin, name?, resourceId?, notes? }]   — in CHAIN order
+   *
+   * afterRideMin is measured from the previous stop in the list (or the day
+   * start): "ride 45 minutes, then stop" is how a break is actually thought.
+   * A combo with no mile of its own anchors just past the previous stop, as
+   * addCombo does. Proposed stops get negative ids so the client can key them
+   * and they can never collide with a saved row.
+   */
+  function resolveProposedStops(d, raw, speed) {
+    if (!Array.isArray(raw)) throw new Error('stops must be an array');
+    const out = { breaks: [], workStops: [], combos: [] };
+    let prevMile = d.start_mile;
+    raw.forEach((st, i) => {
+      const at = `stop ${i + 1}`;
+      const kind = st.kind ?? st.type;
+      if (!['break', 'work', 'combo'].includes(kind)) throw new Error(`${at}: kind must be break, work or combo`);
+      const dwell = Math.round(Number(st.dwellMin));
+      if (!Number.isFinite(dwell) || dwell < 0) throw new Error(`${at}: dwellMin must be a number of minutes`);
+      let mile;
+      if (st.routeMile != null && st.routeMile !== '') mile = Number(st.routeMile);
+      else if (st.afterRideMin != null && st.afterRideMin !== '') {
+        mile = planner.mileAfterRideMinutes(prevMile, Math.max(0, Number(st.afterRideMin)), speed);
+      } else if (kind === 'combo') mile = prevMile + 0.02;
+      else throw new Error(`${at}: routeMile or afterRideMin required`);
+      if (!Number.isFinite(mile)) throw new Error(`${at}: could not work out where it lands`);
+      if (mile <= d.start_mile + 0.05 || mile >= d.end_mile - 0.05) {
+        throw new Error(`${at} lands at mi ${r1(mile)}, outside the day (mi ${r1(d.start_mile)}–${r1(d.end_mile)})`);
+      }
+      const res = st.resourceId
+        ? db.prepare(`SELECT * FROM resources WHERE id = ?`).get(String(st.resourceId)) ?? null
+        : null;
+      const fallback = kind === 'work' ? 'Work stop' : kind === 'combo' ? 'Work + bike' : 'Break';
+      const name = String(st.name ?? res?.name ?? fallback).trim().slice(0, 80) || fallback;
+      const notes = st.notes != null ? String(st.notes).slice(0, 400) : null;
+      const base = { id: -(i + 1), name, routeMile: r1(mile), dwellMin: dwell, resourceId: res?.id ?? null };
+      if (kind === 'break') out.breaks.push({ ...base, note: notes });
+      else if (kind === 'combo') out.combos.push({ ...base, minutes: dwell, note: notes });
+      else {
+        out.workStops.push({
+          ...base, brand: res?.brand ?? null, offRouteMi: r2(res?.off_route_mi), cost: null,
+          wifiStatus: res?.wifi_status ?? null, hours: res?.hours ?? null,
+          address: res?.address ?? null, phone: res?.phone ?? null, website: res?.website ?? null,
+          lat: res?.lat ?? null, lng: res?.lng ?? null,
+          ...planner.placeOf(res?.lat ?? null, res?.lng ?? null, mile),
+        });
+      }
+      prevMile = mile;
+    });
+    for (const k of Object.keys(out)) out[k].sort((a, b) => a.routeMile - b.routeMile);
+    return out;
+  }
+
+  /**
+   * The day row as it WOULD stand if the proposal were saved: a new endpoint
+   * and, optionally, a new bed. Same constraints editDayEnd enforces, so a
+   * preview can never show a day the save would then refuse.
+   */
+  function proposedDay(d0, days, o) {
+    if (o?.endMile == null || o.endMile === '') return d0;
+    const endMile = Number(o.endMile);
+    if (!Number.isFinite(endMile)) throw new Error('endMile must be a number');
+    if (endMile <= d0.start_mile + 0.5) throw new Error('The day has to end past where it starts');
+    const next = days.find((x) => x.day_number === d0.day_number + 1);
+    if (next && endMile >= next.end_mile) {
+      throw new Error(`Ending at mi ${r1(endMile)} would pass day ${next.day_number}'s endpoint (mi ${r1(next.end_mile)})`);
+    }
+    if (endMile > planner.totalMiles + 0.05) throw new Error('That is past the end of the route');
+    const bed = o.end ?? {};
+    const sameEnd = Math.abs(endMile - d0.end_mile) < 0.01;
+    if (sameEnd && !bed.resourceId && !bed.campId) return d0;   // nothing about tonight changes
+    const cleared = {
+      overnight_resource_id: null, overnight_camp_id: null, overnight_name: null,
+      overnight_category: null, overnight_off_mi: null, overnight_address: null,
+      overnight_phone: null, overnight_website: null, overnight_hours: null,
+      overnight_lat: null, overnight_lng: null, overnight_mile: null, lodging_cost: null,
+    };
+    let over = cleared;
+    let endName = o.endName ? String(o.endName) : null;
+    if (bed.resourceId) {
+      const r = db.prepare(`SELECT * FROM resources WHERE id = ?`).get(String(bed.resourceId));
+      if (!r) throw new Error(`No resource ${bed.resourceId}`);
+      over = {
+        ...cleared, overnight_resource_id: r.id, overnight_name: r.name,
+        overnight_category: r.category_id, overnight_off_mi: r.off_route_mi,
+        overnight_address: r.address, overnight_phone: r.phone, overnight_website: r.website,
+        overnight_hours: r.hours, overnight_lat: r.lat, overnight_lng: r.lng, overnight_mile: r.route_mile,
+      };
+      endName ??= nameNearMile(r.route_mile);
+    } else if (bed.campId) {
+      const spot = camping.spotById(String(bed.campId));
+      if (!spot) throw new Error(`No camping spot ${bed.campId}`);
+      over = { ...cleared, overnight_camp_id: spot.id };
+      endName ??= spot.name;
+    }
+    return { ...d0, end_mile: endMile, end_name: endName ?? nameNearMile(endMile), ...over };
+  }
+
   // ---- the Day Canvas -------------------------------------------------------
-  function dayCanvas(n) {
-    const { d, days } = dayRow(n);
+  /**
+   * One day, understood at a glance. With `overrides` ({ stops, endMile,
+   * endName, end }) it is the same day AS PROPOSED — the builder's live
+   * preview — assembled by exactly the same code, flagged `preview: true`, and
+   * nothing is written.
+   */
+  function dayCanvas(n, overrides = null) {
+    const { d: d0, days } = dayRow(n);
+    const d = overrides ? proposedDay(d0, days, overrides) : d0;
     const model = modelFor(d);
     const speed = ridingSpeed();
-    const workStop = planner.workStopFor(d);
+    const proposed = overrides?.stops ? resolveProposedStops(d, overrides.stops, speed) : null;
+    const workStop = proposed ? (proposed.workStops[0] ?? null) : planner.workStopFor(d);
     const prev = days.find((x) => x.day_number === d.day_number - 1) ?? null;
     const actual = db.prepare(`SELECT * FROM actual_days WHERE day_number = ?`).get(d.day_number) ?? null;
     const rest = !!d.rest || d.end_mile - d.start_mile < 0.5;
@@ -319,9 +437,9 @@ export function makeToday(db, planner, camping, intel = null) {
     // legs are whatever falls between them. That is why a weekend with three
     // breaks and a workday with a 7.5-hour sit use the same code: only the work
     // block is pinned to a clock, everything else is elapsed time.
-    const breaks = planner.breaksFor(d);
-    const workStops = planner.workStopsFor(d);
-    const combos = planner.combosFor(d);
+    const breaks = proposed ? proposed.breaks : planner.breaksFor(d);
+    const workStops = proposed ? proposed.workStops : planner.workStopsFor(d);
+    const combos = proposed ? proposed.combos : planner.combosFor(d);
     const owedMin = model?.workday ? planner.workSettings().minutes : 0;
     // The walk itself is a pure function (below), so the same code answers
     // "what does this day look like" for the saved stops AND for a proposed
@@ -399,6 +517,7 @@ export function makeToday(db, planner, camping, intel = null) {
 
     return {
       dayNumber: d.day_number,
+      preview: !!overrides,
       date: startDate() ? dateForDay(startDate(), d.day_number) : null,
       rest,
       startMile: r1(d.start_mile), endMile: r1(d.end_mile),
@@ -940,5 +1059,9 @@ export function makeToday(db, planner, camping, intel = null) {
     };
   }
 
-  return { dayCanvas, workOptions, sleepOptions, fitOptions, applyFitOption, dayplanMigration };
+  return {
+    dayCanvas, workOptions, sleepOptions, fitOptions, applyFitOption, dayplanMigration,
+    // the proposal resolvers, shared with the save path so preview == saved
+    resolveProposedStops, proposedDay,
+  };
 }

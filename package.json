@@ -17,7 +17,7 @@
     "push-state": "node scripts/push-state.mjs && netlify blobs:set trip db-state --input /tmp/db-state.json",
     "build:intel": "node scripts/build-intel.mjs",
     "test:intel": "node test/regress.mjs",
-    "test": "node test/regress.mjs && node test/marks.mjs"
+    "test": "node test/regress.mjs && node test/marks.mjs && node test/simulate.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^11.0.1",
