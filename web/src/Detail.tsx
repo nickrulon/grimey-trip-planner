@@ -1,3 +1,5 @@
+import { fullAddress, appleMapsUrl, googleMapsUrl } from './format';
+
 // Resource detail card: everything we legitimately know about a stop, plus
 // deep links out to Apple/Google Maps for turn-by-turn and to Google for
 // photos/reviews/live hours. We never scrape those — the user's device does
@@ -28,12 +30,14 @@ export interface ResourceInfo {
   address?: string | null; phone?: string | null;
   attributes?: string | null; sources?: string | null; lastVerified?: string | null;
   lat: number; lng: number;
+  town?: string | null; state?: string | null;
 }
 
 export default function ResourceDetail({ r, onClose }: { r: ResourceInfo; onClose: () => void }) {
   let attrs: Record<string, string> = {};
   try { attrs = JSON.parse(r.attributes ?? '{}'); } catch { /* absent on ride items */ }
-  const q = encodeURIComponent([r.name, r.address].filter(Boolean).join(' '));
+  const addr = fullAddress(r);
+  const q = encodeURIComponent([r.name, addr].filter(Boolean).join(' '));
   const osmSrc = (r.sources ?? '').split(',').find((s) => s.startsWith('osm:'));
   const osmUrl = osmSrc ? `https://www.openstreetmap.org/${osmSrc.slice(4)}` : null;
 
@@ -57,7 +61,7 @@ export default function ResourceDetail({ r, onClose }: { r: ResourceInfo; onClos
         </div>
         {r.wifiStatus && <div className="badge">{WIFI_TEXT[r.wifiStatus] ?? r.wifiStatus}</div>}
         {r.hours && <div className="dim">Hours: {r.hours}</div>}
-        {r.address && <div className="dim">{r.address}</div>}
+        {addr && <div className="addr-line">{addr}</div>}
         {Object.keys(attrs).length > 0 && (
           <div className="attr-chips">
             {Object.entries(attrs).map(([k, v]) => (
@@ -71,9 +75,9 @@ export default function ResourceDetail({ r, onClose }: { r: ResourceInfo; onClos
 
       <div className="detail-actions">
         <a className="act" target="_blank" rel="noreferrer"
-          href={`https://maps.apple.com/?daddr=${r.lat},${r.lng}`}> Apple Maps</a>
+          href={appleMapsUrl(r.lat, r.lng, r)}>Apple Maps</a>
         <a className="act" target="_blank" rel="noreferrer"
-          href={`https://www.google.com/maps/dir/?api=1&destination=${r.lat},${r.lng}&travelmode=bicycling`}>🚲 Google Maps</a>
+          href={googleMapsUrl(r.lat, r.lng)}>🚲 Google Maps</a>
         <a className="act" target="_blank" rel="noreferrer"
           href={`https://www.google.com/search?q=${q}`}>🔎 Google</a>
         {r.website && <a className="act" target="_blank" rel="noreferrer" href={r.website}>🌐 Website</a>}

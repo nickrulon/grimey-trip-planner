@@ -1,0 +1,44 @@
+# Static deploy of the locally-built snapshot (data comes from a local SQLite
+# DB, so there is no Netlify build step).
+[build]
+  publish = "dist"
+  command = "true"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # The engine reads the reference database and the SQLite WASM binary at runtime.
+  included_files = [
+    "data/trip.sqlite",
+    "data/route/waypoints.json",
+    "data/camping/camping.json",
+    "data/intel/intel.json",
+    "node_modules/sql.js/dist/sql-wasm.wasm",
+  ]
+
+# Big, never-changing payloads stay on the CDN — the function is for state.
+[[redirects]]
+  from = "/api/resources"
+  to = "/api-data/resources.json"
+  status = 200
+
+[[redirects]]
+  from = "/api/route"
+  to = "/api-data/route.json"
+  status = 200
+
+[[redirects]]
+  from = "/api/camping"
+  to = "/api-data/camping.json"
+  status = 200
+
+# Everything else is served live by the planning engine.
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[headers]]
+  for = "/api-data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=300"

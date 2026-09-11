@@ -1,0 +1,3682 @@
+[
+ {
+  "day": 1,
+  "date": "2026-09-21",
+  "endMile": 78.1,
+  "miles": 78.1,
+  "endName": "near Bon Secour",
+  "lat": 30.23803,
+  "lng": -87.87373,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 76.2,
+    "offRoute": 0.2,
+    "lat": 30.24505,
+    "lng": -87.84644
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 69.3,
+    "offRoute": 2.6,
+    "lat": 30.29222,
+    "lng": -87.73527
+   },
+   {
+    "name": "Doc's RV Park",
+    "mile": 68.6,
+    "offRoute": 0.2,
+    "lat": 30.25822,
+    "lng": -87.72374
+   },
+   {
+    "name": "Island Retreat RV Park",
+    "mile": 68.1,
+    "offRoute": 0.1,
+    "lat": 30.25896,
+    "lng": -87.71383
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 66.8,
+    "offRoute": 3.2,
+    "lat": 30.31074,
+    "lng": -87.69618
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 66.8,
+    "offRoute": 3,
+    "lat": 30.30813,
+    "lng": -87.69964
+   },
+   {
+    "name": "Gulf Shores RV Resort",
+    "mile": 66.8,
+    "offRoute": 3.1,
+    "lat": 30.30806,
+    "lng": -87.70714
+   },
+   {
+    "name": "RV Storage",
+    "mile": 65.9,
+    "offRoute": 2.8,
+    "lat": 30.30655,
+    "lng": -87.68921
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 65.9,
+    "offRoute": 3,
+    "lat": 30.30998,
+    "lng": -87.68723
+   },
+   {
+    "name": "Sun Runners RV Park",
+    "mile": 65.9,
+    "offRoute": 4,
+    "lat": 30.32388,
+    "lng": -87.6907
+   },
+   {
+    "name": "Whispering Pines RV Resort West",
+    "mile": 65.9,
+    "offRoute": 4,
+    "lat": 30.32421,
+    "lng": -87.68884
+   },
+   {
+    "name": "Southport Campground",
+    "mile": 65.9,
+    "offRoute": 1.1,
+    "lat": 30.28128,
+    "lng": -87.68757,
+    "phone": "+1 251-968-6220"
+   },
+   {
+    "name": "Dauphin Island Campground",
+    "mile": 90.9,
+    "offRoute": 0.1,
+    "lat": 30.24987,
+    "lng": -88.08072,
+    "website": "https://townofdauphinisland.org",
+    "attrs": "{\"tents\":\"yes\",\"fee\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Gulf State Park",
+    "mile": 62.8,
+    "offRoute": 0.4,
+    "lat": 30.26024,
+    "lng": -87.64818
+   },
+   {
+    "name": "Gulf State Park Campground",
+    "mile": 62.3,
+    "offRoute": 0.5,
+    "lat": 30.26418,
+    "lng": -87.63942,
+    "website": "https://www.alapark.com/parks/gulf-state-park/rv-and-primitive-campground",
+    "attrs": "{\"drinking_water\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Pandion Ridge",
+    "mile": 61.7,
+    "offRoute": 1.7,
+    "lat": 30.28267,
+    "lng": -87.6371
+   },
+   {
+    "name": "Sugar Sands RV Resort",
+    "mile": 61.6,
+    "offRoute": 3.1,
+    "lat": 30.302,
+    "lng": -87.64216
+   },
+   {
+    "name": "Buena Vista Coastal RV Resort",
+    "mile": 61.2,
+    "offRoute": 0.1,
+    "lat": 30.26278,
+    "lng": -87.62097
+   },
+   {
+    "name": "Outpost Campsites",
+    "mile": 59.9,
+    "offRoute": 0.5,
+    "lat": 30.2739,
+    "lng": -87.60332
+   }
+  ]
+ },
+ {
+  "day": 2,
+  "date": "2026-09-22",
+  "endMile": 139.8,
+  "miles": 61.7,
+  "endName": "Pascagoula",
+  "lat": 30.3713,
+  "lng": -88.55724,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 133.3,
+    "offRoute": 0.8,
+    "lat": 30.39433,
+    "lng": -88.51019
+   },
+   {
+    "name": "RV Campground",
+    "mile": 153.8,
+    "offRoute": 0.8,
+    "lat": 30.39735,
+    "lng": -88.79591
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 120.4,
+    "offRoute": 1.3,
+    "lat": 30.49091,
+    "lng": -88.3397
+   }
+  ]
+ },
+ {
+  "day": 3,
+  "date": "2026-09-23",
+  "endMile": 200,
+  "miles": 60.2,
+  "endName": "Diamondhead",
+  "lat": 30.40983,
+  "lng": -89.39594,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 4,
+  "date": "2026-09-24",
+  "endMile": 263.1,
+  "miles": 63.1,
+  "endName": "Sun",
+  "lat": 30.65915,
+  "lng": -89.91726,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Berry Creek Cabins",
+    "mile": 261,
+    "offRoute": 3.4,
+    "lat": 30.69468,
+    "lng": -89.98682,
+    "website": "https://www.berrycreekcabins.com/",
+    "phone": "+1-985-730-4395"
+   }
+  ]
+ },
+ {
+  "day": 5,
+  "date": "2026-09-25",
+  "endMile": 334.9,
+  "miles": 71.8,
+  "endName": "New Orleans",
+  "lat": 29.9533,
+  "lng": -90.0752,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 333.4,
+    "offRoute": 1.8,
+    "lat": 29.98464,
+    "lng": -90.07712
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 337.1,
+    "offRoute": 4.4,
+    "lat": 29.8854,
+    "lng": -90.10376
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 331.7,
+    "offRoute": 0.7,
+    "lat": 29.98218,
+    "lng": -90.05756,
+    "attrs": "{\"fee\":\"no\"}"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 329.4,
+    "offRoute": 1.2,
+    "lat": 30.02516,
+    "lng": -90.03438
+   },
+   {
+    "name": "Group Camping Area",
+    "mile": 344.2,
+    "offRoute": 3.3,
+    "lat": 29.8927,
+    "lng": -90.1629
+   },
+   {
+    "name": "Bayou Segnette State Park Campground",
+    "mile": 344.4,
+    "offRoute": 3.5,
+    "lat": 29.8878,
+    "lng": -90.1638,
+    "website": "http://reservelastateparks.com",
+    "phone": "+1-833-609-0686",
+    "attrs": "{\"drinking_water\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "KOA Kampground",
+    "mile": 348.4,
+    "offRoute": 0.2,
+    "lat": 29.97139,
+    "lng": -90.23449
+   }
+  ]
+ },
+ {
+  "day": 6,
+  "date": "2026-09-26",
+  "endMile": 401.7,
+  "miles": 66.8,
+  "endName": "Donaldsonville",
+  "lat": 30.10002,
+  "lng": -90.90807,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 7,
+  "date": "2026-09-27",
+  "endMile": 469.3,
+  "miles": 67.6,
+  "endName": "Saint Francisville",
+  "lat": 30.76193,
+  "lng": -91.30659,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Peaceful Pines RV Park",
+    "mile": 469.3,
+    "offRoute": 2.9,
+    "lat": 30.80343,
+    "lng": -91.30337,
+    "website": "https://www.peacefulpinesrvpark.com/",
+    "phone": "+1 225-635-4903",
+    "attrs": "{\"reservation\":\"required\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Jim's Place",
+    "mile": 480.6,
+    "offRoute": 1.5,
+    "lat": 30.68986,
+    "lng": -91.41559
+   }
+  ]
+ },
+ {
+  "day": 8,
+  "date": "2026-09-28",
+  "endMile": 490.4,
+  "miles": 21.1,
+  "endName": "Morganza",
+  "lat": 30.73333,
+  "lng": -91.59041,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Maxey Care RV Park",
+    "mile": 490.4,
+    "offRoute": 0.1,
+    "lat": 30.73403,
+    "lng": -91.58916,
+    "website": "https://maxeycarervpark.yolasite.com/",
+    "phone": "+1-225-694-3929"
+   },
+   {
+    "name": "Jim's Place",
+    "mile": 480.6,
+    "offRoute": 1.5,
+    "lat": 30.68986,
+    "lng": -91.41559
+   }
+  ]
+ },
+ {
+  "day": 9,
+  "date": "2026-09-29",
+  "endMile": 527.4,
+  "miles": 37,
+  "endName": "Mile 527",
+  "lat": 30.99972,
+  "lng": -91.87852,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 10,
+  "date": "2026-09-30",
+  "endMile": 591.1,
+  "miles": 63.7,
+  "endName": "Mamou",
+  "lat": 30.6301,
+  "lng": -92.41954,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 11,
+  "date": "2026-10-01",
+  "endMile": 652.6,
+  "miles": 61.5,
+  "endName": "DeRidder",
+  "lat": 30.84672,
+  "lng": -93.2888,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 12,
+  "date": "2026-10-02",
+  "endMile": 694.8,
+  "miles": 42.2,
+  "endName": "Kirbyville",
+  "lat": 30.65764,
+  "lng": -93.89291,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 13,
+  "date": "2026-10-03",
+  "endMile": 746.8,
+  "miles": 52,
+  "endName": "Kountze",
+  "lat": 30.37464,
+  "lng": -94.31795,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Red Cloud RV Park",
+    "mile": 733.2,
+    "offRoute": 0.2,
+    "lat": 30.35147,
+    "lng": -94.14451,
+    "phone": "+1-409-385-3322"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 733.2,
+    "offRoute": 0.4,
+    "lat": 30.35419,
+    "lng": -94.14732
+   }
+  ]
+ },
+ {
+  "day": 14,
+  "date": "2026-10-04",
+  "endMile": 817.1,
+  "miles": 70.3,
+  "endName": "Coldspring",
+  "lat": 30.57596,
+  "lng": -95.1397,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Double Lake Recreation Area",
+    "mile": 817.6,
+    "offRoute": 1.4,
+    "lat": 30.5526,
+    "lng": -95.1325
+   },
+   {
+    "name": "Double Lake Tail Camp",
+    "mile": 813.6,
+    "offRoute": 2.2,
+    "lat": 30.54161,
+    "lng": -95.12507,
+    "attrs": "{\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Magnolia Trail Camp",
+    "mile": 821.6,
+    "offRoute": 2.8,
+    "lat": 30.52652,
+    "lng": -95.20307
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 812.5,
+    "offRoute": 2.7,
+    "lat": 30.6002,
+    "lng": -95.06182
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 812.5,
+    "offRoute": 1.2,
+    "lat": 30.58708,
+    "lng": -95.08282
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 812.5,
+    "offRoute": 4,
+    "lat": 30.61347,
+    "lng": -95.04629
+   },
+   {
+    "name": "Tarkington Trail Camp",
+    "mile": 810.3,
+    "offRoute": 4.6,
+    "lat": 30.48806,
+    "lng": -95.11227,
+    "attrs": "{\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Big Woods Trail Camp",
+    "mile": 825.2,
+    "offRoute": 3,
+    "lat": 30.59299,
+    "lng": -95.28549,
+    "attrs": "{\"tents\":\"yes\"}"
+   }
+  ]
+ },
+ {
+  "day": 15,
+  "date": "2026-10-05",
+  "endMile": 865.2,
+  "miles": 48.1,
+  "endName": "Montgomery",
+  "lat": 30.5012,
+  "lng": -95.71325,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Little Lake Creek Wilderness Camp",
+    "mile": 865.2,
+    "offRoute": 0.9,
+    "lat": 30.49367,
+    "lng": -95.72512,
+    "attrs": "{\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Sand Branch Trail Camp",
+    "mile": 865.2,
+    "offRoute": 2.1,
+    "lat": 30.48372,
+    "lng": -95.74306,
+    "attrs": "{\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Caney Creek Trail Camp",
+    "mile": 864.6,
+    "offRoute": 2.1,
+    "lat": 30.51398,
+    "lng": -95.6761,
+    "attrs": "{\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Kelly's Pond Campground",
+    "mile": 864.3,
+    "offRoute": 2.7,
+    "lat": 30.51077,
+    "lng": -95.6618,
+    "phone": "+1-936-344-6205"
+   },
+   {
+    "name": "Kelly's Pond Campground",
+    "mile": 864.3,
+    "offRoute": 2.7,
+    "lat": 30.51041,
+    "lng": -95.66165,
+    "phone": "+1-936-344-6205"
+   },
+   {
+    "name": "Pole Creek Trail Camp",
+    "mile": 864.1,
+    "offRoute": 0.9,
+    "lat": 30.48267,
+    "lng": -95.71269,
+    "attrs": "{\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 868.2,
+    "offRoute": 3.8,
+    "lat": 30.58978,
+    "lng": -95.73528
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 861.4,
+    "offRoute": 1.7,
+    "lat": 30.44667,
+    "lng": -95.6989
+   },
+   {
+    "name": "KOA Holiday",
+    "mile": 857.5,
+    "offRoute": 3.4,
+    "lat": 30.38525,
+    "lng": -95.66988,
+    "website": "https://koa.com/campgrounds/lake-conroe/",
+    "phone": "+1-936-582-1200",
+    "attrs": "{\"tents\":\"yes\",\"fee\":\"yes\",\"opening_hours\":\"09:00-17:00\",\"internet_access\":\"yes\"}"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 857.5,
+    "offRoute": 3.6,
+    "lat": 30.38229,
+    "lng": -95.66949
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 856.9,
+    "offRoute": 2.2,
+    "lat": 30.40242,
+    "lng": -95.64473
+   },
+   {
+    "name": "End of the Road Spot",
+    "mile": 854.3,
+    "offRoute": 3.9,
+    "lat": 30.49314,
+    "lng": -95.60025
+   },
+   {
+    "name": "Thousand Trails Lake Conroe RV & Camping Resort",
+    "mile": 851.6,
+    "offRoute": 3.3,
+    "lat": 30.39382,
+    "lng": -95.53361
+   },
+   {
+    "name": "Thousand Trails Lake Conroe RV & Camping Resort",
+    "mile": 851.6,
+    "offRoute": 3.1,
+    "lat": 30.397,
+    "lng": -95.53484,
+    "website": "https://thousandtrails.com/texas/lake-conroe-rv-camping-resort/",
+    "phone": "+1-936-856-7888",
+    "attrs": "{\"internet_access\":\"yes\"}"
+   },
+   {
+    "name": "Lake Conroe RV Campground",
+    "mile": 851.6,
+    "offRoute": 2.3,
+    "lat": 30.40461,
+    "lng": -95.54448,
+    "website": "https://rjourney.com/park/tx/lake-conroe/?utm_campaign=fb",
+    "phone": "+19362563268"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 846.9,
+    "offRoute": 1.9,
+    "lat": 30.41091,
+    "lng": -95.5039
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 846,
+    "offRoute": 2.5,
+    "lat": 30.43803,
+    "lng": -95.45514
+   }
+  ]
+ },
+ {
+  "day": 16,
+  "date": "2026-10-06",
+  "endMile": 932.6,
+  "miles": 67.4,
+  "endName": "Gay Hill",
+  "lat": 30.27171,
+  "lng": -96.49295,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Overlook Park",
+    "mile": 932.6,
+    "offRoute": 2.9,
+    "lat": 30.30957,
+    "lng": -96.51566
+   },
+   {
+    "name": "Ycre Loop - Somerville Lake",
+    "mile": 932.6,
+    "offRoute": 3.7,
+    "lat": 30.30783,
+    "lng": -96.54023,
+    "website": "https://www.recreation.gov/camping/campsites/60345",
+    "attrs": "{\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Yegua Creek Park",
+    "mile": 932.8,
+    "offRoute": 3.3,
+    "lat": 30.30113,
+    "lng": -96.53643
+   },
+   {
+    "name": "105",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.30448,
+    "lng": -96.56322
+   },
+   {
+    "name": "192",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29893,
+    "lng": -96.57154
+   },
+   {
+    "name": "193",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29909,
+    "lng": -96.5715
+   },
+   {
+    "name": "194",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29924,
+    "lng": -96.57146
+   },
+   {
+    "name": "195",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29939,
+    "lng": -96.57142
+   },
+   {
+    "name": "187",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.2976,
+    "lng": -96.5718
+   },
+   {
+    "name": "188",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29774,
+    "lng": -96.57192
+   },
+   {
+    "name": "189",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29787,
+    "lng": -96.57175
+   },
+   {
+    "name": "190",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29861,
+    "lng": -96.57162
+   },
+   {
+    "name": "191",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29878,
+    "lng": -96.57158
+   },
+   {
+    "name": "182",
+    "mile": 934.7,
+    "offRoute": 4.6,
+    "lat": 30.29573,
+    "lng": -96.57162
+   },
+   {
+    "name": "183",
+    "mile": 934.7,
+    "offRoute": 4.6,
+    "lat": 30.29597,
+    "lng": -96.57164
+   },
+   {
+    "name": "184",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29727,
+    "lng": -96.57189
+   },
+   {
+    "name": "185",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29732,
+    "lng": -96.57172
+   },
+   {
+    "name": "186",
+    "mile": 934.7,
+    "offRoute": 4.7,
+    "lat": 30.29746,
+    "lng": -96.57194
+   },
+   {
+    "name": "201",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.2979,
+    "lng": -96.56767
+   },
+   {
+    "name": "202",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.29782,
+    "lng": -96.56827
+   },
+   {
+    "name": "203",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.2975,
+    "lng": -96.56801
+   },
+   {
+    "name": "181",
+    "mile": 934.7,
+    "offRoute": 4.6,
+    "lat": 30.29551,
+    "lng": -96.5716
+   },
+   {
+    "name": "196",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.29733,
+    "lng": -96.56777
+   },
+   {
+    "name": "197",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.29748,
+    "lng": -96.56765
+   },
+   {
+    "name": "198",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.29767,
+    "lng": -96.56749
+   },
+   {
+    "name": "199",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.29798,
+    "lng": -96.56701
+   },
+   {
+    "name": "200",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.2982,
+    "lng": -96.56727
+   },
+   {
+    "name": "176",
+    "mile": 934.7,
+    "offRoute": 4.4,
+    "lat": 30.29268,
+    "lng": -96.56973
+   },
+   {
+    "name": "177",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.2924,
+    "lng": -96.5698
+   },
+   {
+    "name": "178",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29215,
+    "lng": -96.56985
+   },
+   {
+    "name": "179",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29172,
+    "lng": -96.56989
+   },
+   {
+    "name": "180",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.2915,
+    "lng": -96.56995
+   },
+   {
+    "name": "171",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29235,
+    "lng": -96.56915
+   },
+   {
+    "name": "172",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29255,
+    "lng": -96.56912
+   },
+   {
+    "name": "173",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29272,
+    "lng": -96.56911
+   },
+   {
+    "name": "174",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29287,
+    "lng": -96.56935
+   },
+   {
+    "name": "175",
+    "mile": 934.7,
+    "offRoute": 4.4,
+    "lat": 30.29289,
+    "lng": -96.56962
+   },
+   {
+    "name": "166",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29119,
+    "lng": -96.5693
+   },
+   {
+    "name": "167",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29133,
+    "lng": -96.56905
+   },
+   {
+    "name": "168",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.2915,
+    "lng": -96.56903
+   },
+   {
+    "name": "169",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29178,
+    "lng": -96.56914
+   },
+   {
+    "name": "170",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29209,
+    "lng": -96.56917
+   },
+   {
+    "name": "161",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29144,
+    "lng": -96.57029
+   },
+   {
+    "name": "162",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29129,
+    "lng": -96.57037
+   },
+   {
+    "name": "163",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29117,
+    "lng": -96.57048
+   },
+   {
+    "name": "164",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29113,
+    "lng": -96.56981
+   },
+   {
+    "name": "165",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29116,
+    "lng": -96.56952
+   },
+   {
+    "name": "156",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29233,
+    "lng": -96.56878
+   },
+   {
+    "name": "157",
+    "mile": 934.7,
+    "offRoute": 4.4,
+    "lat": 30.29319,
+    "lng": -96.56936
+   },
+   {
+    "name": "158",
+    "mile": 934.7,
+    "offRoute": 4.4,
+    "lat": 30.29317,
+    "lng": -96.56976
+   },
+   {
+    "name": "159",
+    "mile": 934.7,
+    "offRoute": 4.4,
+    "lat": 30.29299,
+    "lng": -96.56993
+   },
+   {
+    "name": "160",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.2916,
+    "lng": -96.57023
+   },
+   {
+    "name": "151",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.2909,
+    "lng": -96.5693
+   },
+   {
+    "name": "152",
+    "mile": 934.7,
+    "offRoute": 4.2,
+    "lat": 30.29106,
+    "lng": -96.56884
+   },
+   {
+    "name": "153",
+    "mile": 934.7,
+    "offRoute": 4.2,
+    "lat": 30.29123,
+    "lng": -96.56876
+   },
+   {
+    "name": "154",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29186,
+    "lng": -96.56872
+   },
+   {
+    "name": "155",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.2921,
+    "lng": -96.56875
+   },
+   {
+    "name": "150",
+    "mile": 934.7,
+    "offRoute": 4.3,
+    "lat": 30.29086,
+    "lng": -96.56989
+   },
+   {
+    "name": "Rocky Creek Park",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.29648,
+    "lng": -96.56886
+   },
+   {
+    "name": "Rocky Creek (Somerville Lake)",
+    "mile": 934.7,
+    "offRoute": 4.5,
+    "lat": 30.30244,
+    "lng": -96.56229,
+    "website": "https://www.recreation.gov/camping/campsites/73603",
+    "attrs": "{\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 938.3,
+    "offRoute": 2.5,
+    "lat": 30.1889,
+    "lng": -96.5282
+   }
+  ]
+ },
+ {
+  "day": 17,
+  "date": "2026-10-07",
+  "endMile": 1004.6,
+  "miles": 72,
+  "endName": "Smithville",
+  "lat": 30.04504,
+  "lng": -97.16303,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Oak Haven Camping Area",
+    "mile": 1004.6,
+    "offRoute": 0.1,
+    "lat": 30.04397,
+    "lng": -97.16181,
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Cozy Circle Camping Area",
+    "mile": 1004.8,
+    "offRoute": 0.2,
+    "lat": 30.04734,
+    "lng": -97.16,
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Lakeview Camping Area",
+    "mile": 1004.8,
+    "offRoute": 0.1,
+    "lat": 30.04809,
+    "lng": -97.16197,
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1013.5,
+    "offRoute": 0.4,
+    "lat": 30.07012,
+    "lng": -97.22107
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 987.4,
+    "offRoute": 4.5,
+    "lat": 29.94316,
+    "lng": -97.02365
+   }
+  ]
+ },
+ {
+  "day": 18,
+  "date": "2026-10-08",
+  "endMile": 1066.5,
+  "miles": 61.9,
+  "endName": "Austin",
+  "lat": 30.2607,
+  "lng": -97.75773,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Pecan Grove RV Park",
+    "mile": 1066.5,
+    "offRoute": 0.2,
+    "lat": 30.26291,
+    "lng": -97.76018,
+    "phone": "+1-512-472-1067"
+   },
+   {
+    "name": "Camp Mabry RV Park",
+    "mile": 1065.1,
+    "offRoute": 3.7,
+    "lat": 30.31837,
+    "lng": -97.75855
+   },
+   {
+    "name": "Lonestar RV Park",
+    "mile": 1069.7,
+    "offRoute": 3.7,
+    "lat": 30.18484,
+    "lng": -97.77118
+   },
+   {
+    "name": "Youth Group Camping Area",
+    "mile": 1060.6,
+    "offRoute": 3.7,
+    "lat": 30.1768,
+    "lng": -97.73
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1072.8,
+    "offRoute": 0.1,
+    "lat": 30.23481,
+    "lng": -97.84878
+   },
+   {
+    "name": "Aero Mobile Home and RV Park",
+    "mile": 1059.1,
+    "offRoute": 0.2,
+    "lat": 30.24416,
+    "lng": -97.68818
+   },
+   {
+    "name": "Patton Courts R.V. Park",
+    "mile": 1055.3,
+    "offRoute": 2.8,
+    "lat": 30.32358,
+    "lng": -97.68236
+   },
+   {
+    "name": "Hills Oaks Mobile Estates",
+    "mile": 1077.8,
+    "offRoute": 0.1,
+    "lat": 30.24342,
+    "lng": -97.92644
+   },
+   {
+    "name": "Pecan Park Mobile Homes",
+    "mile": 1054.8,
+    "offRoute": 0.6,
+    "lat": 30.2915,
+    "lng": -97.65166
+   },
+   {
+    "name": "Walnut Creek Home Park",
+    "mile": 1054.8,
+    "offRoute": 1,
+    "lat": 30.2969,
+    "lng": -97.64888
+   },
+   {
+    "name": "Evergreen RV Park",
+    "mile": 1053.6,
+    "offRoute": 4.7,
+    "lat": 30.34168,
+    "lng": -97.61014
+   },
+   {
+    "name": "Oak Forest RV Resort",
+    "mile": 1053.6,
+    "offRoute": 0.4,
+    "lat": 30.2834,
+    "lng": -97.63562,
+    "website": "https://www.robertsresorts.com/resorts/oak-forest/"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1052.7,
+    "offRoute": 1.1,
+    "lat": 30.27688,
+    "lng": -97.61047
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1049.6,
+    "offRoute": 3.9,
+    "lat": 30.19153,
+    "lng": -97.59328
+   }
+  ]
+ },
+ {
+  "day": 19,
+  "date": "2026-10-09",
+  "endMile": 1119.5,
+  "miles": 53,
+  "endName": "Johnson City",
+  "lat": 30.27456,
+  "lng": -98.40174,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Roadrunner RV Park",
+    "mile": 1119.2,
+    "offRoute": 0.4,
+    "lat": 30.26923,
+    "lng": -98.39724
+   },
+   {
+    "name": "Miller Creek RV Park",
+    "mile": 1123.4,
+    "offRoute": 4.7,
+    "lat": 30.20149,
+    "lng": -98.3782
+   },
+   {
+    "name": "Flat Creek Crossing Ranch",
+    "mile": 1101.6,
+    "offRoute": 0.2,
+    "lat": 30.28052,
+    "lng": -98.22607
+   }
+  ]
+ },
+ {
+  "day": 20,
+  "date": "2026-10-10",
+  "endMile": 1178.6,
+  "miles": 59.1,
+  "endName": "Kerrville",
+  "lat": 30.06867,
+  "lng": -99.11334,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Happy Days RV Park",
+    "mile": 1180.8,
+    "offRoute": 2.4,
+    "lat": 30.01455,
+    "lng": -99.12583
+   },
+   {
+    "name": "River Trail RV Park",
+    "mile": 1180.8,
+    "offRoute": 2.5,
+    "lat": 30.01471,
+    "lng": -99.12428
+   },
+   {
+    "name": "Oak Grove Estates",
+    "mile": 1180.8,
+    "offRoute": 1.6,
+    "lat": 30.02462,
+    "lng": -99.14633
+   },
+   {
+    "name": "Rio Robles Mobile Home & RV Park",
+    "mile": 1180.8,
+    "offRoute": 0.7,
+    "lat": 30.03707,
+    "lng": -99.14157
+   },
+   {
+    "name": "Take-it-Easy RV Resort",
+    "mile": 1182.4,
+    "offRoute": 0.3,
+    "lat": 30.055,
+    "lng": -99.1615
+   },
+   {
+    "name": "Hill Country Camp",
+    "mile": 1183.9,
+    "offRoute": 3.4,
+    "lat": 30.11622,
+    "lng": -99.15001
+   },
+   {
+    "name": "Hill Country RV Park",
+    "mile": 1185.2,
+    "offRoute": 0.8,
+    "lat": 30.07246,
+    "lng": -99.20061,
+    "website": "http://hcrvpark.com/",
+    "phone": "+1-830-895-3661"
+   },
+   {
+    "name": "Buckhorn Lake RV Resort",
+    "mile": 1185.9,
+    "offRoute": 2.2,
+    "lat": 30.12015,
+    "lng": -99.19877
+   },
+   {
+    "name": "KOA - Kerrville",
+    "mile": 1185.9,
+    "offRoute": 0.3,
+    "lat": 30.09189,
+    "lng": -99.19956
+   },
+   {
+    "name": "Yogi Bear's Jellystone Park",
+    "mile": 1187.1,
+    "offRoute": 0.7,
+    "lat": 30.07098,
+    "lng": -99.20615,
+    "website": "https://jellystoneguadalupe.com/",
+    "phone": "+1-830-460-3262"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1187.7,
+    "offRoute": 0.4,
+    "lat": 30.06928,
+    "lng": -99.22646,
+    "website": "https://www.bytheriver.com/",
+    "phone": "+1-830-367-5566"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1187.7,
+    "offRoute": 0.4,
+    "lat": 30.06829,
+    "lng": -99.22467
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1189.9,
+    "offRoute": 0.7,
+    "lat": 30.06656,
+    "lng": -99.2359
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1165.8,
+    "offRoute": 0.6,
+    "lat": 30.2125,
+    "lng": -98.98839
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1192.9,
+    "offRoute": 2.3,
+    "lat": 30.10541,
+    "lng": -99.28121
+   },
+   {
+    "name": "Camp Rio Vista & Camp Sierra Vista",
+    "mile": 1193.2,
+    "offRoute": 0.3,
+    "lat": 30.06853,
+    "lng": -99.28039
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1159.8,
+    "offRoute": 0.5,
+    "lat": 30.24081,
+    "lng": -98.9104,
+    "website": "https://www.fbgtx.org/343/Lady-Bird-Johnson-RV-Park",
+    "phone": "+1 830-997-4202"
+   },
+   {
+    "name": "Lady Bird Johnson RV Park",
+    "mile": 1159.8,
+    "offRoute": 0.5,
+    "lat": 30.24118,
+    "lng": -98.91051,
+    "website": "https://www.fbgtx.org/index.aspx?NID=343",
+    "phone": "+1 830-997-4796"
+   }
+  ]
+ },
+ {
+  "day": 21,
+  "date": "2026-10-11",
+  "endMile": 1235.4,
+  "miles": 56.8,
+  "endName": "Vanderpool",
+  "lat": 29.75832,
+  "lng": -99.56296,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Lost Maples RV and Camping",
+    "mile": 1235.4,
+    "offRoute": 0.1,
+    "lat": 29.75938,
+    "lng": -99.5648
+   },
+   {
+    "name": "Area East",
+    "mile": 1232.1,
+    "offRoute": 2,
+    "lat": 29.8197,
+    "lng": -99.60286
+   },
+   {
+    "name": "Area G",
+    "mile": 1231.9,
+    "offRoute": 2.5,
+    "lat": 29.83061,
+    "lng": -99.6015
+   },
+   {
+    "name": "Area H",
+    "mile": 1231.9,
+    "offRoute": 2.6,
+    "lat": 29.82808,
+    "lng": -99.60763
+   },
+   {
+    "name": "Area F",
+    "mile": 1231.9,
+    "offRoute": 1.9,
+    "lat": 29.82205,
+    "lng": -99.59716
+   },
+   {
+    "name": "Area B",
+    "mile": 1231.8,
+    "offRoute": 2.1,
+    "lat": 29.83149,
+    "lng": -99.58897
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 1231.6,
+    "offRoute": 0.3,
+    "lat": 29.81003,
+    "lng": -99.5726
+   },
+   {
+    "name": "Area A",
+    "mile": 1229.9,
+    "offRoute": 1.3,
+    "lat": 29.83074,
+    "lng": -99.57025
+   },
+   {
+    "name": "Singing Hills",
+    "mile": 1223.3,
+    "offRoute": 4.7,
+    "lat": 29.85267,
+    "lng": -99.66213
+   },
+   {
+    "name": "Linnet Wings",
+    "mile": 1223.1,
+    "offRoute": 4.7,
+    "lat": 29.86316,
+    "lng": -99.66636
+   },
+   {
+    "name": "Lion's Den",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86481,
+    "lng": -99.66881
+   },
+   {
+    "name": "Kid's Club",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86611,
+    "lng": -99.66872
+   },
+   {
+    "name": "Blue Heron",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86572,
+    "lng": -99.66863
+   },
+   {
+    "name": "Cactus Patch",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86542,
+    "lng": -99.66853
+   },
+   {
+    "name": "Canyon Wren",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86534,
+    "lng": -99.66854
+   },
+   {
+    "name": "Catfish Run",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86523,
+    "lng": -99.66854
+   },
+   {
+    "name": "Firefly Glow",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86462,
+    "lng": -99.66858
+   },
+   {
+    "name": "Rudy's Roost",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86513,
+    "lng": -99.66898
+   },
+   {
+    "name": "Spotted Fawn",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86529,
+    "lng": -99.66904
+   },
+   {
+    "name": "Squirrel Run",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86536,
+    "lng": -99.66907
+   },
+   {
+    "name": "Turkey Trail",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86561,
+    "lng": -99.66902
+   },
+   {
+    "name": "Welcome House",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86624,
+    "lng": -99.66831
+   },
+   {
+    "name": "Crane Nest",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86496,
+    "lng": -99.66841
+   },
+   {
+    "name": "Hawk's Cry",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86464,
+    "lng": -99.66865
+   },
+   {
+    "name": "Horseshoe Bend",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.8647,
+    "lng": -99.66875
+   },
+   {
+    "name": "Boar's Landing",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86557,
+    "lng": -99.66859
+   },
+   {
+    "name": "Cliff Swallow",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86509,
+    "lng": -99.66846
+   },
+   {
+    "name": "Cypress Inn",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86481,
+    "lng": -99.66834
+   },
+   {
+    "name": "Possum Hollow",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86497,
+    "lng": -99.66892
+   },
+   {
+    "name": "Star Bright",
+    "mile": 1223,
+    "offRoute": 4.8,
+    "lat": 29.86546,
+    "lng": -99.66902
+   },
+   {
+    "name": "Headwaters",
+    "mile": 1223,
+    "offRoute": 4.7,
+    "lat": 29.86531,
+    "lng": -99.668
+   },
+   {
+    "name": "Ranch House",
+    "mile": 1222.8,
+    "offRoute": 4.7,
+    "lat": 29.86653,
+    "lng": -99.6689
+   }
+  ]
+ },
+ {
+  "day": 22,
+  "date": "2026-10-12",
+  "endMile": 1278.3,
+  "miles": 42.9,
+  "endName": "Camp Wood",
+  "lat": 29.60452,
+  "lng": -100.00693,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Big Oak River Camp",
+    "mile": 1278.3,
+    "offRoute": 0.3,
+    "lat": 29.60503,
+    "lng": -100.00258,
+    "website": "http://www.bigoakrivercamp.com",
+    "phone": "+1 830 597 5280"
+   },
+   {
+    "name": "Cooksey Park Uvalde County Camping",
+    "mile": 1277.2,
+    "offRoute": 0.1,
+    "lat": 29.62013,
+    "lng": -100.00864
+   },
+   {
+    "name": "Los Rios Campground",
+    "mile": 1273.9,
+    "offRoute": 0.7,
+    "lat": 29.66753,
+    "lng": -100.02332,
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Camp Fawcett",
+    "mile": 1269.8,
+    "offRoute": 4.1,
+    "lat": 29.74002,
+    "lng": -100.03394,
+    "website": "https://www.scoutingtsc.org/camp-fawcett/",
+    "attrs": "{\"fee\":\"yes\"}"
+   }
+  ]
+ },
+ {
+  "day": 23,
+  "date": "2026-10-13",
+  "endMile": 1346.3,
+  "miles": 68,
+  "endName": "near Del Rio",
+  "lat": 29.38284,
+  "lng": -100.7873,
+  "knownCampgroundsNearby": [
+   {
+    "name": "FamCamp",
+    "mile": 1346.3,
+    "offRoute": 2.2,
+    "lat": 29.35184,
+    "lng": -100.78178,
+    "website": "https://www.laughlinfss.com/famcamp",
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Hidden Valley RV Park",
+    "mile": 1354.7,
+    "offRoute": 1.6,
+    "lat": 29.34182,
+    "lng": -100.90783,
+    "attrs": "{\"fee\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Palomino Park Mobile Home Community",
+    "mile": 1358.1,
+    "offRoute": 0.2,
+    "lat": 29.40324,
+    "lng": -100.90786
+   },
+   {
+    "name": "Lonesome Dove RV Ranch",
+    "mile": 1359.9,
+    "offRoute": 0.2,
+    "lat": 29.43,
+    "lng": -100.91061
+   }
+  ]
+ },
+ {
+  "day": 24,
+  "date": "2026-10-14",
+  "endMile": 1417.9,
+  "miles": 71.6,
+  "endName": "Langtry",
+  "lat": 29.80825,
+  "lng": -101.55986,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 1417.9,
+    "offRoute": 0.1,
+    "lat": 29.80862,
+    "lng": -101.55846,
+    "attrs": "{\"fee\":\"no\"}"
+   },
+   {
+    "name": "Desert Vista Camping Area",
+    "mile": 1398.5,
+    "offRoute": 0.7,
+    "lat": 29.69511,
+    "lng": -101.32194,
+    "website": "https://tpwd.texas.gov/state-parks/seminole-canyon/fees-facilities/campsites"
+   },
+   {
+    "name": "Roadrunner Flat Primitive Camping Area",
+    "mile": 1398.5,
+    "offRoute": 0.9,
+    "lat": 29.69299,
+    "lng": -101.31933,
+    "website": "https://tpwd.texas.gov/state-parks/seminole-canyon/fees-facilities/campsites"
+   }
+  ]
+ },
+ {
+  "day": 25,
+  "date": "2026-10-15",
+  "endMile": 1478,
+  "miles": 60.1,
+  "endName": "Sanderson",
+  "lat": 30.13458,
+  "lng": -102.38563,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Canyon RV Park",
+    "mile": 1478.3,
+    "offRoute": 0.1,
+    "lat": 30.13728,
+    "lng": -102.3899
+   }
+  ]
+ },
+ {
+  "day": 26,
+  "date": "2026-10-16",
+  "endMile": 1548.8,
+  "miles": 70.8,
+  "endName": "Marathon",
+  "lat": 30.20744,
+  "lng": -103.24516,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Marathon Motel & RV Park",
+    "mile": 1550.1,
+    "offRoute": 0.1,
+    "lat": 30.20882,
+    "lng": -103.25413,
+    "website": "https://www.marathonmotel.com/",
+    "attrs": "{\"toilets\":\"yes\",\"fee\":\"yes\",\"internet_access\":\"wlan\"}"
+   }
+  ]
+ },
+ {
+  "day": 27,
+  "date": "2026-10-17",
+  "endMile": 1607.2,
+  "miles": 58.4,
+  "endName": "Marfa",
+  "lat": 30.30594,
+  "lng": -104.02655,
+  "knownCampgroundsNearby": [
+   {
+    "name": "El Cosmico",
+    "mile": 1607,
+    "offRoute": 0.4,
+    "lat": 30.30169,
+    "lng": -104.02126,
+    "website": "https://elcosmico.com/",
+    "phone": "+1-877-822-1950"
+   },
+   {
+    "name": "Dispersed Camping Marfa",
+    "mile": 1597.9,
+    "offRoute": 0.1,
+    "lat": 30.27451,
+    "lng": -103.8835
+   },
+   {
+    "name": "Paisano Baptist Encampment",
+    "mile": 1591.7,
+    "offRoute": 0.3,
+    "lat": 30.28918,
+    "lng": -103.78866,
+    "website": "http://www.paisanoencampment.org/"
+   }
+  ]
+ },
+ {
+  "day": 28,
+  "date": "2026-10-18",
+  "endMile": 1647.2,
+  "miles": 40,
+  "endName": "Valentine",
+  "lat": 30.63183,
+  "lng": -104.55417,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 29,
+  "date": "2026-10-19",
+  "endMile": 1721,
+  "miles": 73.8,
+  "endName": "Sierra Blanca",
+  "lat": 31.17439,
+  "lng": -105.35672,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 30,
+  "date": "2026-10-20",
+  "endMile": 1790,
+  "miles": 69,
+  "endName": "Fabens",
+  "lat": 31.51629,
+  "lng": -106.15943,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Cotton Valley Travel Center",
+    "mile": 1797.1,
+    "offRoute": 3,
+    "lat": 31.58533,
+    "lng": -106.27406
+   }
+  ]
+ },
+ {
+  "day": 31,
+  "date": "2026-10-21",
+  "endMile": 1848.5,
+  "miles": 58.5,
+  "endName": "Anthony",
+  "lat": 32.00875,
+  "lng": -106.66415,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 1848.5,
+    "offRoute": 3.6,
+    "lat": 32.02032,
+    "lng": -106.60456
+   },
+   {
+    "name": "Petro Truck Stops - Vinton",
+    "mile": 1837.8,
+    "offRoute": 3.1,
+    "lat": 31.9562,
+    "lng": -106.58084
+   },
+   {
+    "name": "El Paso West / Anthony Roadhost RV Daily Stay",
+    "mile": 1837.8,
+    "offRoute": 4.5,
+    "lat": 31.97721,
+    "lng": -106.57703
+   },
+   {
+    "name": "Gaslight Square RV Park",
+    "mile": 1837.4,
+    "offRoute": 0.5,
+    "lat": 31.90783,
+    "lng": -106.59365
+   }
+  ]
+ },
+ {
+  "day": 32,
+  "date": "2026-10-22",
+  "endMile": 1892.7,
+  "miles": 44.2,
+  "endName": "Radium Springs",
+  "lat": 32.49429,
+  "lng": -106.92164,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Cactus Patch Campground",
+    "mile": 1892.7,
+    "offRoute": 0.1,
+    "lat": 32.49331,
+    "lng": -106.91985,
+    "website": "https://newmexicostateparks.reserveamerica.com/camping/leasburg-dam/r/campgroundDetails.do?contractCode=NM&parkId=430016",
+    "attrs": "{\"shower\":\"no\",\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Greasewood Campground",
+    "mile": 1892.5,
+    "offRoute": 0.2,
+    "lat": 32.49066,
+    "lng": -106.92036,
+    "attrs": "{\"shower\":\"no\",\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Indian Springs Hill",
+    "mile": 1891.8,
+    "offRoute": 4.4,
+    "lat": 32.43379,
+    "lng": -106.97257
+   },
+   {
+    "name": "Sunny Acres RV Park",
+    "mile": 1875.1,
+    "offRoute": 0.5,
+    "lat": 32.31077,
+    "lng": -106.79847
+   }
+  ]
+ },
+ {
+  "day": 33,
+  "date": "2026-10-23",
+  "endMile": 1945.6,
+  "miles": 52.9,
+  "endName": "Caballo",
+  "lat": 32.95371,
+  "lng": -107.31185,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Lakeview RV Park",
+    "mile": 1945.6,
+    "offRoute": 0.1,
+    "lat": 32.95253,
+    "lng": -107.313
+   },
+   {
+    "name": "Lil Abner's RV Park",
+    "mile": 1944.3,
+    "offRoute": 0.1,
+    "lat": 32.93573,
+    "lng": -107.31535
+   },
+   {
+    "name": "Caballo Lake RV Park",
+    "mile": 1943.1,
+    "offRoute": 0,
+    "lat": 32.91854,
+    "lng": -107.31682
+   },
+   {
+    "name": "Palomino Campground",
+    "mile": 1942.3,
+    "offRoute": 0.2,
+    "lat": 32.90999,
+    "lng": -107.30866
+   },
+   {
+    "name": "Riverside Campground",
+    "mile": 1941.2,
+    "offRoute": 1,
+    "lat": 32.89109,
+    "lng": -107.29301
+   }
+  ]
+ },
+ {
+  "day": 34,
+  "date": "2026-10-24",
+  "endMile": 1986.6,
+  "miles": 41,
+  "endName": "Emory Pass",
+  "lat": 32.91018,
+  "lng": -107.80222,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Iron Creek Campground",
+    "mile": 1986.6,
+    "offRoute": 0.1,
+    "lat": 32.90934,
+    "lng": -107.80374,
+    "website": "https://www.fs.usda.gov/recarea/gila/recreation/camping-cabins/recarea/?recid=1975&actid=29",
+    "attrs": "{\"shower\":\"no\",\"drinking_water\":\"no\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"no\",\"reservation\":\"no\"}"
+   },
+   {
+    "name": "Railroad Canyon Campground",
+    "mile": 1987.5,
+    "offRoute": 0,
+    "lat": 32.90746,
+    "lng": -107.81693
+   },
+   {
+    "name": "Gallinas Campground - Upper",
+    "mile": 1988.4,
+    "offRoute": 0.1,
+    "lat": 32.89883,
+    "lng": -107.82371,
+    "website": "https://www.fs.usda.gov/recarea/gila/recreation/camping-cabins/recarea/?recid=1973&actid=29",
+    "attrs": "{\"shower\":\"no\",\"drinking_water\":\"no\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"no\",\"reservation\":\"no\"}"
+   },
+   {
+    "name": "Lower Gallinas",
+    "mile": 1990,
+    "offRoute": 0.1,
+    "lat": 32.89098,
+    "lng": -107.84206
+   },
+   {
+    "name": "Kingston Campground",
+    "mile": 1974.5,
+    "offRoute": 0.1,
+    "lat": 32.91848,
+    "lng": -107.70117
+   }
+  ]
+ },
+ {
+  "day": 35,
+  "date": "2026-10-25",
+  "endMile": 2042.1,
+  "miles": 55.5,
+  "endName": "near Silver City",
+  "lat": 32.5914,
+  "lng": -108.34475,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 2042.1,
+    "offRoute": 0.1,
+    "lat": 32.59123,
+    "lng": -108.34654
+   },
+   {
+    "name": "Burro Mountain Homestead",
+    "mile": 2048.3,
+    "offRoute": 4.9,
+    "lat": 32.61681,
+    "lng": -108.43665,
+    "website": "https://www.burromountainhomestead.com"
+   },
+   {
+    "name": "Burro Mountain Homestead",
+    "mile": 2048.3,
+    "offRoute": 4.8,
+    "lat": 32.61611,
+    "lng": -108.43665,
+    "website": "https://www.burromountainhomestead.com"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2048.3,
+    "offRoute": 4.7,
+    "lat": 32.61479,
+    "lng": -108.43542
+   },
+   {
+    "name": "Silver City RV Park",
+    "mile": 2027.1,
+    "offRoute": 0.1,
+    "lat": 32.77886,
+    "lng": -108.27181,
+    "website": "https://www.silvercityrv.com/",
+    "phone": "+1 575 538 2239",
+    "attrs": "{\"shower\":\"yes\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\",\"reservation\":\"required\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Roadrunner Trailer Park",
+    "mile": 2026.7,
+    "offRoute": 0.1,
+    "lat": 32.7856,
+    "lng": -108.26915,
+    "phone": "+1-575-388-5939"
+   }
+  ]
+ },
+ {
+  "day": 36,
+  "date": "2026-10-26",
+  "endMile": 2073.7,
+  "miles": 31.6,
+  "endName": "Lordsburg",
+  "lat": 32.34991,
+  "lng": -108.70762,
+  "knownCampgroundsNearby": [
+   {
+    "name": "KOA Lordsburg",
+    "mile": 2073.7,
+    "offRoute": 0.9,
+    "lat": 32.34077,
+    "lng": -108.71796,
+    "website": "https://koa.com/campgrounds/lordsburg/",
+    "attrs": "{\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Veterans Park",
+    "mile": 2073.7,
+    "offRoute": 1.5,
+    "lat": 32.33226,
+    "lng": -108.72076,
+    "attrs": "{\"fee\":\"no\"}"
+   },
+   {
+    "name": "Horseman RV Park",
+    "mile": 2073.9,
+    "offRoute": 1.1,
+    "lat": 32.34385,
+    "lng": -108.68946,
+    "attrs": "{\"opening_hours\":\"24/7\"}"
+   }
+  ]
+ },
+ {
+  "day": 37,
+  "date": "2026-10-27",
+  "endMile": 2111.1,
+  "miles": 37.4,
+  "endName": "Duncan",
+  "lat": 32.73149,
+  "lng": -109.11461,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 38,
+  "date": "2026-10-28",
+  "endMile": 2155.3,
+  "miles": 44.2,
+  "endName": "Thatcher",
+  "lat": 32.83893,
+  "lng": -109.75007,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 2153.9,
+    "offRoute": 1.2,
+    "lat": 32.81402,
+    "lng": -109.73412
+   },
+   {
+    "name": "Cottonwood Campground",
+    "mile": 2148.5,
+    "offRoute": 3.6,
+    "lat": 32.75507,
+    "lng": -109.70699,
+    "website": "http://AZStateParks.com",
+    "phone": "+1-520-586-2283"
+   },
+   {
+    "name": "Hacienda Campground",
+    "mile": 2148.5,
+    "offRoute": 3.6,
+    "lat": 32.75392,
+    "lng": -109.70615,
+    "website": "http://AZStateParks.com",
+    "phone": "+1-520-586-2283"
+   },
+   {
+    "name": "Gila Campground",
+    "mile": 2148.5,
+    "offRoute": 3.5,
+    "lat": 32.75631,
+    "lng": -109.70758,
+    "website": "http://AZStateParks.com",
+    "phone": "+1-520-586-2283"
+   }
+  ]
+ },
+ {
+  "day": 39,
+  "date": "2026-10-29",
+  "endMile": 2196.1,
+  "miles": 40.8,
+  "endName": "Bylas",
+  "lat": 33.14213,
+  "lng": -110.12565,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 40,
+  "date": "2026-10-30",
+  "endMile": 2249.1,
+  "miles": 53,
+  "endName": "Miami",
+  "lat": 33.42061,
+  "lng": -110.82579,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Cherry Flat Campground",
+    "mile": 2248.4,
+    "offRoute": 4.6,
+    "lat": 33.36228,
+    "lng": -110.87733
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2245.1,
+    "offRoute": 0.1,
+    "lat": 33.39415,
+    "lng": -110.78891
+   }
+  ]
+ },
+ {
+  "day": 41,
+  "date": "2026-10-31",
+  "endMile": 2307.5,
+  "miles": 58.4,
+  "endName": "near Tonto Basin",
+  "lat": 33.73137,
+  "lng": -111.34377,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 2307.5,
+    "offRoute": 2.5,
+    "lat": 33.70118,
+    "lng": -111.3198
+   },
+   {
+    "name": "Little Pine Flat",
+    "mile": 2314.8,
+    "offRoute": 0,
+    "lat": 33.7915,
+    "lng": -111.38814,
+    "attrs": "{\"tents\":\"yes\",\"fee\":\"no\"}"
+   },
+   {
+    "name": "boulder pool",
+    "mile": 2315.4,
+    "offRoute": 1.9,
+    "lat": 33.8252,
+    "lng": -111.39978
+   },
+   {
+    "name": "Indian Point",
+    "mile": 2287.7,
+    "offRoute": 0.9,
+    "lat": 33.76743,
+    "lng": -111.24035
+   }
+  ]
+ },
+ {
+  "day": 42,
+  "date": "2026-11-01",
+  "endMile": 2362.7,
+  "miles": 55.2,
+  "endName": "Gilbert",
+  "lat": 33.43002,
+  "lng": -111.74728,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Fiesta RV Resort",
+    "mile": 2362.7,
+    "offRoute": 0.6,
+    "lat": 33.42091,
+    "lng": -111.74801
+   },
+   {
+    "name": "Citrus Gardens Mobile Home Park",
+    "mile": 2362.4,
+    "offRoute": 0.7,
+    "lat": 33.41947,
+    "lng": -111.74374
+   },
+   {
+    "name": "Aztec RV Resort",
+    "mile": 2362.3,
+    "offRoute": 0.8,
+    "lat": 33.41777,
+    "lng": -111.73967
+   },
+   {
+    "name": "Legacy Adventures Ministry, Inc",
+    "mile": 2362.1,
+    "offRoute": 2.4,
+    "lat": 33.395,
+    "lng": -111.73771
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2363.5,
+    "offRoute": 1,
+    "lat": 33.41496,
+    "lng": -111.76089
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2363.5,
+    "offRoute": 1,
+    "lat": 33.41497,
+    "lng": -111.76033
+   },
+   {
+    "name": "Honey Bee Point Campsite",
+    "mile": 2361.8,
+    "offRoute": 4.7,
+    "lat": 33.36141,
+    "lng": -111.7325
+   },
+   {
+    "name": "Water Sedge Edge Campsite",
+    "mile": 2361.8,
+    "offRoute": 4.7,
+    "lat": 33.36203,
+    "lng": -111.73307
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2361.8,
+    "offRoute": 1.2,
+    "lat": 33.41216,
+    "lng": -111.73209
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2361.8,
+    "offRoute": 0.7,
+    "lat": 33.42001,
+    "lng": -111.73204
+   },
+   {
+    "name": "Orangewood Shadows RV Resort",
+    "mile": 2363.6,
+    "offRoute": 0.6,
+    "lat": 33.4211,
+    "lng": -111.76291
+   },
+   {
+    "name": "Canal Campsite",
+    "mile": 2361.7,
+    "offRoute": 4.6,
+    "lat": 33.36312,
+    "lng": -111.73162,
+    "attrs": "{\"tents\":\"yes\",\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Mesa Spirit RV Resort",
+    "mile": 2363.9,
+    "offRoute": 0.7,
+    "lat": 33.41955,
+    "lng": -111.76769
+   },
+   {
+    "name": "Venture Out",
+    "mile": 2361.4,
+    "offRoute": 1.3,
+    "lat": 33.41192,
+    "lng": -111.72348
+   },
+   {
+    "name": "Sun Life Vacation Resort",
+    "mile": 2361.2,
+    "offRoute": 0.7,
+    "lat": 33.41968,
+    "lng": -111.72187
+   },
+   {
+    "name": "XB Ranch Mobile Home & RV Park",
+    "mile": 2361,
+    "offRoute": 0.9,
+    "lat": 33.41657,
+    "lng": -111.71798
+   },
+   {
+    "name": "Trail Riders Holiday Park",
+    "mile": 2364.4,
+    "offRoute": 0.9,
+    "lat": 33.41729,
+    "lng": -111.77694
+   },
+   {
+    "name": "Desert Vista RV Resort",
+    "mile": 2360.8,
+    "offRoute": 1.2,
+    "lat": 33.41344,
+    "lng": -111.71601
+   },
+   {
+    "name": "Twin Palms RV Park",
+    "mile": 2364.7,
+    "offRoute": 1,
+    "lat": 33.41487,
+    "lng": -111.78308
+   },
+   {
+    "name": "Superstition Buttes",
+    "mile": 2355.6,
+    "offRoute": 3,
+    "lat": 33.40967,
+    "lng": -111.59366,
+    "website": "http://superstitionbuttes.com/",
+    "phone": "+1 480 984 1108"
+   },
+   {
+    "name": "Melrose RV Park",
+    "mile": 2355.5,
+    "offRoute": 3.8,
+    "lat": 33.41857,
+    "lng": -111.57184
+   },
+   {
+    "name": "Sundowner Mobile Home Park",
+    "mile": 2355.5,
+    "offRoute": 3.8,
+    "lat": 33.41688,
+    "lng": -111.57105
+   },
+   {
+    "name": "VIP RV Resort",
+    "mile": 2355.5,
+    "offRoute": 4.4,
+    "lat": 33.41167,
+    "lng": -111.56243,
+    "website": "https://viprvresort.com/"
+   },
+   {
+    "name": "Pleasant Acres RV Park",
+    "mile": 2355.5,
+    "offRoute": 4.1,
+    "lat": 33.41603,
+    "lng": -111.5673
+   },
+   {
+    "name": "Cholla Forest Primitive Group Camp",
+    "mile": 2353.1,
+    "offRoute": 0.7,
+    "lat": 33.46978,
+    "lng": -111.61625
+   },
+   {
+    "name": "Buckhorn Family Campground",
+    "mile": 2352.6,
+    "offRoute": 0.4,
+    "lat": 33.47626,
+    "lng": -111.61957
+   },
+   {
+    "name": "Usery Park Campground",
+    "mile": 2352.4,
+    "offRoute": 0.3,
+    "lat": 33.47758,
+    "lng": -111.61989,
+    "phone": "+1-480-984-0032"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2375.5,
+    "offRoute": 1.8,
+    "lat": 33.40251,
+    "lng": -111.95275
+   },
+   {
+    "name": "Eagle View RV Resort At Fort",
+    "mile": 2347.3,
+    "offRoute": 4.3,
+    "lat": 33.57449,
+    "lng": -111.67418,
+    "phone": "+1-480-836-5310"
+   }
+  ]
+ },
+ {
+  "day": 43,
+  "date": "2026-11-02",
+  "endMile": 2419.9,
+  "miles": 57.2,
+  "endName": "Sun City West",
+  "lat": 33.65513,
+  "lng": -112.3786,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Desertaire Adult RV Park",
+    "mile": 2414.6,
+    "offRoute": 0.4,
+    "lat": 33.62919,
+    "lng": -112.33928
+   },
+   {
+    "name": "Paradise RV Resort",
+    "mile": 2411,
+    "offRoute": 1.2,
+    "lat": 33.65579,
+    "lng": -112.29546
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2404,
+    "offRoute": 0.8,
+    "lat": 33.58919,
+    "lng": -112.25165
+   },
+   {
+    "name": "Sun City Townhouse Mobile Estates",
+    "mile": 2403.5,
+    "offRoute": 2,
+    "lat": 33.57642,
+    "lng": -112.27075
+   }
+  ]
+ },
+ {
+  "day": 44,
+  "date": "2026-11-03",
+  "endMile": 2492.7,
+  "miles": 72.8,
+  "endName": "Aguila",
+  "lat": 33.90243,
+  "lng": -113.3001,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Gladden Trailer & RV Park",
+    "mile": 2492.7,
+    "offRoute": 0.1,
+    "lat": 33.90169,
+    "lng": -113.29932
+   }
+  ]
+ },
+ {
+  "day": 45,
+  "date": "2026-11-04",
+  "endMile": 2552.3,
+  "miles": 59.6,
+  "endName": "Quartzsite",
+  "lat": 33.65769,
+  "lng": -114.2543,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Dome Rock Campground",
+    "mile": 2553.4,
+    "offRoute": 0.6,
+    "lat": 33.64902,
+    "lng": -114.26672,
+    "phone": "+1-602-927-5173",
+    "attrs": "{\"shower\":\"no\",\"drinking_water\":\"no\",\"toilets\":\"no\",\"tents\":\"yes\",\"fee\":\"yes\"}"
+   },
+   {
+    "name": "La Posa Tyson Wash Long Term Visitor Area",
+    "mile": 2551.1,
+    "offRoute": 3.3,
+    "lat": 33.61322,
+    "lng": -114.22816,
+    "website": "https://www.blm.gov/visit/la-posa-long-term-visitor-area",
+    "attrs": "{\"drinking_water\":\"no\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\",\"reservation\":\"no\",\"internet_access\":\"no\"}"
+   },
+   {
+    "name": "B10 RV Park and Campground",
+    "mile": 2550.7,
+    "offRoute": 0.1,
+    "lat": 33.66347,
+    "lng": -114.2276,
+    "website": "http://www.b10campground.com/",
+    "phone": "+1-928-927-4393",
+    "attrs": "{\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "La Posa West Long Term Visitor Area",
+    "mile": 2550.7,
+    "offRoute": 0.9,
+    "lat": 33.64842,
+    "lng": -114.22438,
+    "website": "https://www.blm.gov/visit/la-posa-long-term-visitor-area",
+    "attrs": "{\"drinking_water\":\"no\",\"toilets\":\"no\",\"tents\":\"no\",\"fee\":\"yes\",\"reservation\":\"no\",\"internet_access\":\"no\"}"
+   },
+   {
+    "name": "Holiday Palms RV Park",
+    "mile": 2550.4,
+    "offRoute": 0.1,
+    "lat": 33.66432,
+    "lng": -114.22289,
+    "website": "https://www.g7rvresorts.com/arizona/holiday-palms/",
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "88 Shades RV Park",
+    "mile": 2550.4,
+    "offRoute": 0.2,
+    "lat": 33.66394,
+    "lng": -114.22471,
+    "website": "https://88shadesquartzsitervpark.com/",
+    "phone": "+1-928-927-6336",
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Hassler's RV Park",
+    "mile": 2550.4,
+    "offRoute": 0.3,
+    "lat": 33.66676,
+    "lng": -114.22389,
+    "website": "https://hasslersrvpark.com/",
+    "phone": "+1-928-927-6950",
+    "attrs": "{\"shower\":\"yes\",\"toilets\":\"yes\",\"fee\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Shady Lane RV Park",
+    "mile": 2550.2,
+    "offRoute": 0.5,
+    "lat": 33.66954,
+    "lng": -114.21624,
+    "website": "https://www.shadylanequartzsite.com/",
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Kofa Mountain RV Park",
+    "mile": 2550.2,
+    "offRoute": 0.5,
+    "lat": 33.66997,
+    "lng": -114.21783,
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Quail Run RV Park",
+    "mile": 2550.2,
+    "offRoute": 1.2,
+    "lat": 33.68003,
+    "lng": -114.21934,
+    "website": "https://www.quailrv.com/",
+    "phone": "+1-928-927-8810",
+    "attrs": "{\"shower\":\"yes\",\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"tents\":\"no\",\"fee\":\"yes\",\"reservation\":\"required\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Jr's RV Park",
+    "mile": 2550.2,
+    "offRoute": 1.3,
+    "lat": 33.68156,
+    "lng": -114.21949,
+    "phone": "+1-928-927-5774",
+    "attrs": "{\"shower\":\"yes\",\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"tents\":\"no\"}"
+   },
+   {
+    "name": "Rice Ranch RV Park",
+    "mile": 2550.2,
+    "offRoute": 0.4,
+    "lat": 33.65847,
+    "lng": -114.21486,
+    "website": "https://www.riceranchrvpark.com/",
+    "phone": "+1-928-927-4782"
+   },
+   {
+    "name": "Dome Rock Road Camping Area",
+    "mile": 2555,
+    "offRoute": 0.4,
+    "lat": 33.64562,
+    "lng": -114.30093,
+    "attrs": "{\"drinking_water\":\"no\",\"toilets\":\"no\",\"tents\":\"yes\",\"fee\":\"no\",\"reservation\":\"no\"}"
+   },
+   {
+    "name": "Split Rail RV Park",
+    "mile": 2549.6,
+    "offRoute": 1.5,
+    "lat": 33.68528,
+    "lng": -114.21817,
+    "website": "http://www.splitrailrvparkquartzsite.com/",
+    "phone": "+1-928-927-5296",
+    "attrs": "{\"shower\":\"yes\",\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"fee\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Crawford's RV Park",
+    "mile": 2549.6,
+    "offRoute": 0.3,
+    "lat": 33.66632,
+    "lng": -114.21203,
+    "website": "https://www.crawfordsrvpark.com/",
+    "phone": "+1-928-927-6594",
+    "attrs": "{\"shower\":\"yes\",\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Pattie's RV Park & Propane",
+    "mile": 2549.6,
+    "offRoute": 0.1,
+    "lat": 33.66621,
+    "lng": -114.20915,
+    "phone": "+1-928-927-4223"
+   },
+   {
+    "name": "Rice Ranch North",
+    "mile": 2549.6,
+    "offRoute": 0.3,
+    "lat": 33.66194,
+    "lng": -114.21144,
+    "website": "https://riceranchnorth.com/",
+    "phone": "+1-928-916-3895"
+   },
+   {
+    "name": "Desert Edge RV Park",
+    "mile": 2549.4,
+    "offRoute": 0.3,
+    "lat": 33.66076,
+    "lng": -114.2023,
+    "website": "http://www.desertedgervpark.com/",
+    "phone": "+1-928-927-6605",
+    "attrs": "{\"drinking_water\":\"yes\",\"fee\":\"yes\",\"reservation\":\"recommended\"}"
+   },
+   {
+    "name": "Hi Jolly/MM112 Camping Area",
+    "mile": 2549.2,
+    "offRoute": 2.8,
+    "lat": 33.70566,
+    "lng": -114.20637,
+    "attrs": "{\"drinking_water\":\"no\",\"toilets\":\"no\",\"tents\":\"yes\",\"fee\":\"no\",\"reservation\":\"no\"}"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2549.2,
+    "offRoute": 0.6,
+    "lat": 33.67408,
+    "lng": -114.20301
+   },
+   {
+    "name": "La Posa South Long Term Visitor Area",
+    "mile": 2549,
+    "offRoute": 3.9,
+    "lat": 33.60986,
+    "lng": -114.18937,
+    "website": "https://www.blm.gov/visit/la-posa-long-term-visitor-area",
+    "attrs": "{\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\",\"reservation\":\"no\",\"internet_access\":\"no\"}"
+   },
+   {
+    "name": "Quartzsite RV Resort",
+    "mile": 2549,
+    "offRoute": 0.5,
+    "lat": 33.67225,
+    "lng": -114.20083,
+    "attrs": "{\"toilets\":\"yes\",\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "La Posa North Long Term Visitor Area",
+    "mile": 2548.7,
+    "offRoute": 1.2,
+    "lat": 33.64975,
+    "lng": -114.18976,
+    "website": "https://www.blm.gov/visit/la-posa-long-term-visitor-area",
+    "attrs": "{\"drinking_water\":\"no\",\"toilets\":\"yes\",\"tents\":\"yes\",\"fee\":\"yes\",\"reservation\":\"no\",\"internet_access\":\"no\"}"
+   },
+   {
+    "name": "Scaddan Wash Camping Area",
+    "mile": 2547.5,
+    "offRoute": 0.6,
+    "lat": 33.66077,
+    "lng": -114.16752,
+    "attrs": "{\"drinking_water\":\"no\",\"toilets\":\"no\",\"tents\":\"yes\",\"fee\":\"no\",\"reservation\":\"no\"}"
+   },
+   {
+    "name": "Brenda RV Resort",
+    "mile": 2534.5,
+    "offRoute": 0.2,
+    "lat": 33.67943,
+    "lng": -113.95464
+   },
+   {
+    "name": "Desert Gold RV Park",
+    "mile": 2534,
+    "offRoute": 0.2,
+    "lat": 33.67681,
+    "lng": -113.94548
+   },
+   {
+    "name": "Black Rock RV Village",
+    "mile": 2533.8,
+    "offRoute": 0.1,
+    "lat": 33.68035,
+    "lng": -113.9449,
+    "website": "https://www.blackrockrv.com/"
+   },
+   {
+    "name": "Gateway Ranch RV Resort",
+    "mile": 2532.6,
+    "offRoute": 0.1,
+    "lat": 33.68624,
+    "lng": -113.92429
+   }
+  ]
+ },
+ {
+  "day": 46,
+  "date": "2026-11-05",
+  "endMile": 2598.7,
+  "miles": 46.4,
+  "endName": "Palo Verde",
+  "lat": 33.38752,
+  "lng": -114.72186,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Oxbow Campground",
+    "mile": 2598.7,
+    "offRoute": 0.6,
+    "lat": 33.38789,
+    "lng": -114.71181,
+    "website": "https://www.blm.gov/az/st/en/prog/recreation/camping/dev_camps/oxbow.html"
+   },
+   {
+    "name": "Tamarisk Mobile Home Park & Campground (Cyclists Welcome)",
+    "mile": 2594.3,
+    "offRoute": 0.1,
+    "lat": 33.42853,
+    "lng": -114.73129,
+    "attrs": "{\"internet_access\":\"yes\"}"
+   }
+  ]
+ },
+ {
+  "day": 47,
+  "date": "2026-11-06",
+  "endMile": 2666.7,
+  "miles": 68,
+  "endName": "Brawley",
+  "lat": 32.97696,
+  "lng": -115.53108,
+  "knownCampgroundsNearby": []
+ },
+ {
+  "day": 48,
+  "date": "2026-11-07",
+  "endMile": 2693.7,
+  "miles": 27,
+  "endName": "Calexico",
+  "lat": 32.67401,
+  "lng": -115.49928,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Desert Trails RV Park",
+    "mile": 2684,
+    "offRoute": 0.8,
+    "lat": 32.76926,
+    "lng": -115.54856
+   },
+   {
+    "name": "Desert Trails RV Park",
+    "mile": 2684,
+    "offRoute": 0.6,
+    "lat": 32.7691,
+    "lng": -115.54625
+   },
+   {
+    "name": "Country Life RV Park",
+    "mile": 2683.2,
+    "offRoute": 1.9,
+    "lat": 32.78024,
+    "lng": -115.50309,
+    "website": "https://countrylifervpark.com/",
+    "phone": "+1-760-353-1040",
+    "attrs": "{\"tents\":\"no\"}"
+   }
+  ]
+ },
+ {
+  "day": 49,
+  "date": "2026-11-08",
+  "endMile": 2741,
+  "miles": 47.3,
+  "endName": "Jacumba Hot Springs",
+  "lat": 32.63892,
+  "lng": -116.10834,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Elliot Mine Area Dispersed Camping",
+    "mile": 2741,
+    "offRoute": 1.1,
+    "lat": 32.62579,
+    "lng": -116.09635
+   },
+   {
+    "name": "DeAnza Springs Resort",
+    "mile": 2746,
+    "offRoute": 2.4,
+    "lat": 32.65256,
+    "lng": -116.18657,
+    "website": "https://deanzasprings.com/"
+   },
+   {
+    "name": "Lark Canyon Campground",
+    "mile": 2754.1,
+    "offRoute": 4.2,
+    "lat": 32.72781,
+    "lng": -116.27361
+   },
+   {
+    "name": "Lark Canyon Campground",
+    "mile": 2754.1,
+    "offRoute": 4.3,
+    "lat": 32.73064,
+    "lng": -116.27545
+   }
+  ]
+ },
+ {
+  "day": 50,
+  "date": "2026-11-09",
+  "endMile": 2796.7,
+  "miles": 55.7,
+  "endName": "Alpine",
+  "lat": 32.83773,
+  "lng": -116.77814,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Unnamed campground",
+    "mile": 2802.7,
+    "offRoute": 2.7,
+    "lat": 32.88285,
+    "lng": -116.89708
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2805.3,
+    "offRoute": 0.1,
+    "lat": 32.83749,
+    "lng": -116.90206
+   },
+   {
+    "name": "Carson Trailer",
+    "mile": 2807.4,
+    "offRoute": 0.2,
+    "lat": 32.8106,
+    "lng": -116.91892
+   },
+   {
+    "name": "Vacationer RV Resort",
+    "mile": 2808.2,
+    "offRoute": 0.3,
+    "lat": 32.8057,
+    "lng": -116.92304
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2809.9,
+    "offRoute": 4.8,
+    "lat": 32.86331,
+    "lng": -117.00774
+   },
+   {
+    "name": "Green Valley Campground",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90308,
+    "lng": -116.58068,
+    "website": "https://www.parks.ca.gov/?page_id=667",
+    "phone": "+1 760 765 3024",
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "53",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90567,
+    "lng": -116.58549
+   },
+   {
+    "name": "30",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90479,
+    "lng": -116.5856
+   },
+   {
+    "name": "35",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90392,
+    "lng": -116.58518
+   },
+   {
+    "name": "34",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90419,
+    "lng": -116.58536
+   },
+   {
+    "name": "38",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90354,
+    "lng": -116.5848
+   },
+   {
+    "name": "54",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90568,
+    "lng": -116.58572,
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "31",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90466,
+    "lng": -116.58566
+   },
+   {
+    "name": "36",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90356,
+    "lng": -116.58509
+   },
+   {
+    "name": "29",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90554,
+    "lng": -116.58582
+   },
+   {
+    "name": "33",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.9041,
+    "lng": -116.58539
+   },
+   {
+    "name": "32",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90438,
+    "lng": -116.58554
+   },
+   {
+    "name": "37",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90353,
+    "lng": -116.58505
+   },
+   {
+    "name": "50",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90511,
+    "lng": -116.58456
+   },
+   {
+    "name": "43",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90349,
+    "lng": -116.58401
+   },
+   {
+    "name": "26",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90617,
+    "lng": -116.58512
+   },
+   {
+    "name": "12",
+    "mile": 2781.4,
+    "offRoute": 3.6,
+    "lat": 32.90749,
+    "lng": -116.58037
+   },
+   {
+    "name": "46",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90516,
+    "lng": -116.58409
+   },
+   {
+    "name": "67",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90322,
+    "lng": -116.58386
+   },
+   {
+    "name": "25",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90596,
+    "lng": -116.5847
+   },
+   {
+    "name": "61",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90453,
+    "lng": -116.58438
+   },
+   {
+    "name": "72",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90302,
+    "lng": -116.58341
+   },
+   {
+    "name": "58",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90426,
+    "lng": -116.58496
+   },
+   {
+    "name": "73",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90307,
+    "lng": -116.58321
+   },
+   {
+    "name": "2",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90662,
+    "lng": -116.58106
+   },
+   {
+    "name": "56",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90484,
+    "lng": -116.58498
+   },
+   {
+    "name": "80",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90384,
+    "lng": -116.58309
+   },
+   {
+    "name": "5",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90629,
+    "lng": -116.58062
+   },
+   {
+    "name": "63",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.9045,
+    "lng": -116.58377
+   },
+   {
+    "name": "78",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.9036,
+    "lng": -116.58275
+   },
+   {
+    "name": "9",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.907,
+    "lng": -116.58022
+   },
+   {
+    "name": "39",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.9039,
+    "lng": -116.58436
+   },
+   {
+    "name": "8",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90678,
+    "lng": -116.58052
+   },
+   {
+    "name": "51",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90505,
+    "lng": -116.58489
+   },
+   {
+    "name": "41",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90358,
+    "lng": -116.58427
+   },
+   {
+    "name": "28",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90571,
+    "lng": -116.58597
+   },
+   {
+    "name": "14",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90691,
+    "lng": -116.58094
+   },
+   {
+    "name": "48",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90515,
+    "lng": -116.5844
+   },
+   {
+    "name": "65",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90343,
+    "lng": -116.58384
+   },
+   {
+    "name": "23",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90572,
+    "lng": -116.58443
+   },
+   {
+    "name": "45",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90505,
+    "lng": -116.58398
+   },
+   {
+    "name": "68",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90342,
+    "lng": -116.58362
+   },
+   {
+    "name": "60",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90425,
+    "lng": -116.58433
+   },
+   {
+    "name": "71",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90283,
+    "lng": -116.58338
+   },
+   {
+    "name": "15",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90678,
+    "lng": -116.5813
+   },
+   {
+    "name": "55",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90451,
+    "lng": -116.5851
+   },
+   {
+    "name": "74",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90311,
+    "lng": -116.58306
+   },
+   {
+    "name": "3",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90653,
+    "lng": -116.58081
+   },
+   {
+    "name": "60",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90438,
+    "lng": -116.58422
+   },
+   {
+    "name": "81",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90368,
+    "lng": -116.58327
+   },
+   {
+    "name": "6",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90649,
+    "lng": -116.58024
+   },
+   {
+    "name": "64",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90383,
+    "lng": -116.5838
+   },
+   {
+    "name": "77",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90334,
+    "lng": -116.58268
+   },
+   {
+    "name": "10",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90714,
+    "lng": -116.58014
+   },
+   {
+    "name": "49",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90527,
+    "lng": -116.58474
+   },
+   {
+    "name": "42",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90341,
+    "lng": -116.58417
+   },
+   {
+    "name": "27",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.9062,
+    "lng": -116.58578
+   },
+   {
+    "name": "13",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90705,
+    "lng": -116.58094
+   },
+   {
+    "name": "47",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90522,
+    "lng": -116.58424
+   },
+   {
+    "name": "67",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90302,
+    "lng": -116.58375
+   },
+   {
+    "name": "24",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90546,
+    "lng": -116.58451
+   },
+   {
+    "name": "44",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90482,
+    "lng": -116.58382
+   },
+   {
+    "name": "69",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90327,
+    "lng": -116.58345
+   },
+   {
+    "name": "59",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90421,
+    "lng": -116.58458
+   },
+   {
+    "name": "70",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90257,
+    "lng": -116.58338
+   },
+   {
+    "name": "1",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90643,
+    "lng": -116.58144
+   },
+   {
+    "name": "57",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90457,
+    "lng": -116.58486
+   },
+   {
+    "name": "75",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.90315,
+    "lng": -116.58289
+   },
+   {
+    "name": "4",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90629,
+    "lng": -116.58083
+   },
+   {
+    "name": "62",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90441,
+    "lng": -116.58397
+   },
+   {
+    "name": "79",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90358,
+    "lng": -116.58293
+   },
+   {
+    "name": "7",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90677,
+    "lng": -116.58018
+   },
+   {
+    "name": "40",
+    "mile": 2781.4,
+    "offRoute": 3.3,
+    "lat": 32.90384,
+    "lng": -116.58407
+   },
+   {
+    "name": "76",
+    "mile": 2781.4,
+    "offRoute": 3.2,
+    "lat": 32.9031,
+    "lng": -116.58254
+   },
+   {
+    "name": "11",
+    "mile": 2781.4,
+    "offRoute": 3.5,
+    "lat": 32.90731,
+    "lng": -116.58018
+   },
+   {
+    "name": "52",
+    "mile": 2781.4,
+    "offRoute": 3.4,
+    "lat": 32.90524,
+    "lng": -116.58517
+   },
+   {
+    "name": "Thousand Trails Oakzanita Springs",
+    "mile": 2781.1,
+    "offRoute": 2,
+    "lat": 32.88487,
+    "lng": -116.57446
+   }
+  ]
+ },
+ {
+  "day": 51,
+  "date": "2026-11-10",
+  "endMile": 2857.8,
+  "miles": 61.1,
+  "endName": "Encinitas",
+  "lat": 33.05701,
+  "lng": -117.29845,
+  "knownCampgroundsNearby": [
+   {
+    "name": "San Elijo State Beach",
+    "mile": 2855.1,
+    "offRoute": 0,
+    "lat": 33.02124,
+    "lng": -117.28416,
+    "website": "http://www.parks.ca.gov/?page_id=662"
+   },
+   {
+    "name": "San Elijo SP Campground",
+    "mile": 2855.1,
+    "offRoute": 0.1,
+    "lat": 33.02015,
+    "lng": -117.28362
+   },
+   {
+    "name": "South Carlsbad State Beach Campground",
+    "mile": 2861,
+    "offRoute": 0.1,
+    "lat": 33.10195,
+    "lng": -117.31892,
+    "attrs": "{\"shower\":\"yes\",\"drinking_water\":\"yes\",\"toilets\":\"yes\",\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Surf and Turf RV Park",
+    "mile": 2851.8,
+    "offRoute": 0.8,
+    "lat": 32.97744,
+    "lng": -117.25508,
+    "website": "http://www.surfandturfrvpark.com/",
+    "attrs": "{\"fee\":\"yes\"}"
+   },
+   {
+    "name": "Santa Fe Resort RV Park",
+    "mile": 2840.5,
+    "offRoute": 0,
+    "lat": 32.82736,
+    "lng": -117.23167
+   },
+   {
+    "name": "Mission Bay RV Resort",
+    "mile": 2838.1,
+    "offRoute": 0.3,
+    "lat": 32.79796,
+    "lng": -117.2159,
+    "website": "https://www.missionbayrvresort.com/",
+    "phone": "+1 858-270-4300",
+    "attrs": "{\"opening_hours\":\"Mo-Su 09:00-17:00\"}"
+   },
+   {
+    "name": "Mission Bay RV Resort",
+    "mile": 2838.1,
+    "offRoute": 0.3,
+    "lat": 32.79468,
+    "lng": -117.21828,
+    "website": "https://www.missionbayrvresort.com/"
+   }
+  ]
+ },
+ {
+  "day": 52,
+  "date": "2026-11-11",
+  "endMile": 2920.3,
+  "miles": 62.5,
+  "endName": "Newport Beach",
+  "lat": 33.62576,
+  "lng": -117.94894,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Huntington by the Sea RV Resort",
+    "mile": 2924.2,
+    "offRoute": 0.8,
+    "lat": 33.64549,
+    "lng": -117.98118
+   },
+   {
+    "name": "Deer Canyon Campground",
+    "mile": 2910.7,
+    "offRoute": 2.5,
+    "lat": 33.5934,
+    "lng": -117.80098,
+    "attrs": "{\"tents\":\"yes\",\"internet_access\":\"no\"}"
+   },
+   {
+    "name": "Crystal Cove State Park Moro Campground",
+    "mile": 2910.4,
+    "offRoute": 0.1,
+    "lat": 33.56326,
+    "lng": -117.82218,
+    "website": "https://www.crystalcovestatepark.org/moro-campground-information/",
+    "attrs": "{\"shower\":\"yes\",\"toilets\":\"yes\"}"
+   },
+   {
+    "name": "Upper Moro Campground",
+    "mile": 2909.3,
+    "offRoute": 2.5,
+    "lat": 33.58515,
+    "lng": -117.78849,
+    "attrs": "{\"internet_access\":\"no\"}"
+   },
+   {
+    "name": "Lower Moro Campground",
+    "mile": 2909.3,
+    "offRoute": 1.8,
+    "lat": 33.5756,
+    "lng": -117.79416,
+    "attrs": "{\"internet_access\":\"no\"}"
+   }
+  ]
+ },
+ {
+  "day": 53,
+  "date": "2026-11-12",
+  "endMile": 2972.5,
+  "miles": 52.2,
+  "endName": "Santa Monica Pier",
+  "lat": 34.00879,
+  "lng": -118.49666,
+  "knownCampgroundsNearby": [
+   {
+    "name": "Dockweiler RV Park",
+    "mile": 2963,
+    "offRoute": 0.1,
+    "lat": 33.92866,
+    "lng": -118.43458,
+    "attrs": "{\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Dockweiler Beach RV Park",
+    "mile": 2962.8,
+    "offRoute": 0,
+    "lat": 33.92739,
+    "lng": -118.43392,
+    "attrs": "{\"internet_access\":\"wlan\"}"
+   },
+   {
+    "name": "Unnamed campground",
+    "mile": 2960.9,
+    "offRoute": 5,
+    "lat": 33.93125,
+    "lng": -118.34189
+   },
+   {
+    "name": "Pine Camp",
+    "mile": 2955.2,
+    "offRoute": 0.9,
+    "lat": 33.82981,
+    "lng": -118.37453,
+    "attrs": "{\"shower\":\"no\",\"drinking_water\":\"yes\",\"tents\":\"yes\",\"opening_hours\":\"Fr-Sa; Su-Th off\"}"
+   },
+   {
+    "name": "Gumwood Camp",
+    "mile": 2953.9,
+    "offRoute": 0.9,
+    "lat": 33.82876,
+    "lng": -118.37365,
+    "attrs": "{\"shower\":\"no\",\"drinking_water\":\"yes\",\"tents\":\"yes\"}"
+   },
+   {
+    "name": "Sycamore Camp",
+    "mile": 2953.9,
+    "offRoute": 0.9,
+    "lat": 33.82947,
+    "lng": -118.37373,
+    "attrs": "{\"shower\":\"no\",\"drinking_water\":\"yes\",\"tents\":\"yes\"}"
+   }
+  ]
+ }
+]

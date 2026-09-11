@@ -5,9 +5,11 @@ export default defineConfig({
   root: 'web',
   plugins: [react()],
   server: {
-    port: 5179,
+    // Overridable so a second dev instance can run beside the main one
+    // (e.g. WEB_PORT=5279 API_PORT=5281 npm run dev).
+    port: Number(process.env.WEB_PORT || 5179),
     proxy: {
-      '/api': 'http://localhost:5181',
+      '/api': `http://localhost:${process.env.API_PORT || 5181}`,
     },
   },
   build: {

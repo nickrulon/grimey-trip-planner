@@ -4,8 +4,38 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as turf from '@turf/turf';
+import { makeDaylight, fmtClock, fmtDur } from './daylight.mjs';
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+
+// Bundlers that emit CJS leave import.meta.url empty; fall back to the process
+// working directory so this module can be bundled for serverless.
+function moduleDir(metaUrl, fallbackSub) {
+  try {
+    return path.dirname(fileURLToPath(metaUrl));
+  } catch {
+    return path.join(process.cwd(), fallbackSub);
+  }
+}
+
+// Same hazard as the camping data: on a serverless bundle the module cannot
+// infer its root from cwd alone, and a miss here degrades day names to
+// "Mile 913" instead of failing loudly. Pick the root that actually has the
+// route data in it.
+const root = (() => {
+  const probe = path.join('data', 'route', 'waypoints.json');
+  const roots = [
+    path.resolve(moduleDir(import.meta.url, 'server'), '..'),
+    process.cwd(),
+    process.env.LAMBDA_TASK_ROOT,
+    '/var/task',
+    path.resolve(process.cwd(), '..'),
+  ];
+  for (const r of roots) {
+    if (!r) continue;
+    try { if (fs.existsSync(path.join(r, probe))) return r; } catch { /* next */ }
+  }
+  return roots[0];
+})();
 
 function haversineMi([lng1, lat1], [lng2, lat2]) {
   const R = 3958.8, toRad = (d) => (d * Math.PI) / 180;
@@ -41,6 +71,16 @@ export function makePlanner(db) {
 
   // Rider-tunable day shaping, stored in settings so the cap survives replans.
   const settingStmt = db.prepare(`SELECT value FROM settings WHERE key = ?`);
+  const daylight = makeDaylight(db, (k) => settingStmt.get(k)?.value);
+
+  // Where the ride actually begins. The rider may be dropped off somewhere
+  // other than route mile 0, and that is a schedule fact, not a route edit:
+  // the route, its resources, notes and camping research all stay anchored to
+  // the same miles — only the plan's first day moves.
+  function tripStartMile() {
+    const v = Number(settingStmt.get('tripStartMile')?.value);
+    return Number.isFinite(v) && v >= 0 && v < totalMiles ? v : 0;
+  }
   function dayShape(overrides = {}) {
     const num = (k, d) => {
       const v = Number(settingStmt.get(k)?.value);
@@ -145,6 +185,36 @@ export function makePlanner(db) {
     return cur;
   }
 
+  // ---- Town/state for a REAL POINT (not a route mile). A motel 3 miles off
+  // route belongs to the town it actually sits in, which is not always the
+  // town nearest its route mile. Used to complete addresses for hand-off to
+  // Apple/Google Maps and for anything the rider might read aloud on a phone.
+  const placePts = db.prepare(
+    `SELECT name, place_type, lat, lng FROM route_places`
+  ).all();
+  const PLACE_WEIGHT = { city: 3, town: 2, village: 1 };
+
+  function townNearPoint(lat, lng) {
+    if (lat == null || lng == null) return null;
+    let best = null, bestScore = -Infinity;
+    for (const p of placePts) {
+      const d = haversineMi([lng, lat], [p.lng, p.lat]);
+      if (d > 12) continue;
+      // Distance dominates; size only breaks near-ties.
+      const score = (PLACE_WEIGHT[p.place_type] ?? 1) * 0.6 - d;
+      if (score > bestScore) { bestScore = score; best = p; }
+    }
+    return best?.name ?? null;
+  }
+
+  /** { town, state } for a resource, from its own coordinates. */
+  function placeOf(lat, lng, routeMile) {
+    return {
+      town: townNearPoint(lat, lng) ?? (routeMile != null ? nameNearMile(routeMile) : null),
+      state: routeMile != null ? stateAtMile(routeMile) : null,
+    };
+  }
+
   // Prefer significant places, but not at the cost of accuracy: a village
   // 1 mile away beats a city 7 miles down the road.
   function nameNearMile(mile) {
@@ -183,11 +253,58 @@ export function makePlanner(db) {
      AND route_mile BETWEEN ? AND ? AND off_route_mi <= 2`
   );
 
+  // Elevation prefix sums, built once. The anchor search asks for the climb of
+  // thousands of candidate day-ranges; rescanning and re-smoothing the route
+  // for each one dominated planning time (~2s locally, ~9s serverless, against
+  // a 10s platform timeout). One pass up front makes each query two binary
+  // searches. Smoothing is global rather than per-range, which also stops a
+  // day's gain from shifting slightly depending on where the range was cut.
+  const elevPrefix = (() => {
+    const rows = db.prepare(
+      `SELECT mile, elevation_m FROM route_points
+       WHERE elevation_m IS NOT NULL ORDER BY mile`
+    ).all();
+    const n = rows.length;
+    const miles = new Float64Array(n);
+    const cumGain = new Float64Array(n);
+    if (n < 3) return { miles, cumGain, n };
+    const sm = new Float64Array(n);
+    for (let i = 0; i < n; i++) {
+      const a = rows[Math.max(0, i - 1)].elevation_m;
+      const c = rows[Math.min(n - 1, i + 1)].elevation_m;
+      sm[i] = (a + rows[i].elevation_m + c) / 3;
+      miles[i] = rows[i].mile;
+    }
+    for (let i = 1; i < n; i++) {
+      const d = sm[i] - sm[i - 1];
+      cumGain[i] = cumGain[i - 1] + (d > 0 ? d : 0);
+    }
+    return { miles, cumGain, n };
+  })();
+
+  function elevIndexAt(mile) {
+    const { miles, n } = elevPrefix;
+    let lo = 0, hi = n - 1;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (miles[mid] < mile) lo = mid + 1; else hi = mid;
+    }
+    return lo;
+  }
+
+  /** Climb in feet between two miles, O(log n). */
+  function gainFtBetween(fromMile, toMile) {
+    if (elevPrefix.n < 3) return null;
+    const i = elevIndexAt(fromMile), j = elevIndexAt(toMile);
+    if (j <= i) return 0;
+    return Math.round((elevPrefix.cumGain[j] - elevPrefix.cumGain[i]) * 3.28084);
+  }
+
   // Effort miles = flat-equivalent distance. A 45-mi day with 2,000 ft of climb
   // costs about the same as a 65-mi day on the Gulf Coast, which is exactly the
   // trade the rider makes in their legs.
   function effortMiles(fromMile, toMile) {
-    const gain = elevationForRange(fromMile, toMile)?.gainFt ?? null;
+    const gain = gainFtBetween(fromMile, toMile);
     const miles = toMile - fromMile;
     return { miles, gainFt: gain, effort: miles + (gain ?? 0) / CLIMB_FT_PER_EFFORT_MILE };
   }
@@ -252,7 +369,7 @@ export function makePlanner(db) {
       ?? (Number.isFinite(weekendSetting) && weekendSetting > 0 ? weekendSetting : maxMiles);
     if (workAware) {
       const ws = workSettings();
-      const rideable = toMin(ws.arriveBy) - toMin(ws.earliestDepart) - ws.minutes;
+      const rideable = toMin(ws.arriveBy) - toMin('05:30') - ws.minutes;
       weekdayCap = Math.max(minMiles, Math.min(maxMiles, (rideable / 60) * ridingSpeed()));
     }
     const capFor = (n) => {
@@ -261,7 +378,7 @@ export function makePlanner(db) {
     };
 
     const days = [];
-    let from = opts.startMile ?? 0, dayNum = opts.startDayNumber ?? 1;
+    let from = opts.startMile ?? tripStartMile(), dayNum = opts.startDayNumber ?? 1;
     let guard = 0;
 
     while (totalMiles - from > capFor(dayNum) && guard++ < 400) {
@@ -331,28 +448,68 @@ export function makePlanner(db) {
   const insertDay = db.prepare(
     `INSERT INTO planned_days
      (revision_id, day_number, start_mile, end_mile, start_name, end_name,
-      overnight_resource_id, status, flags, notes)
-     VALUES (?,?,?,?,?,?,?,?,?,?)`
+      overnight_resource_id, status, flags, notes,
+      rest, lodging_cost, misc_cost, overnight_camp_id)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
   );
   const deactivate = db.prepare(`UPDATE plan_revisions SET active=0 WHERE active=1`);
 
+  // Costs ride with the CHOICE, not the day number: when a new revision keeps
+  // an overnight (same resource / camp spot / end mile), its recorded cost
+  // follows it. A rebuilt day with a different bed honestly starts at no cost.
+  function carryCosts(days) {
+    const { days: prev } = activeDays();
+    if (!prev.length) return days;
+    return days.map((d) => {
+      if (d.lodging_cost != null || d.misc_cost != null || d.overnight_camp_id != null) return d;
+      const match = prev.find((p) =>
+        (d.overnight_resource_id && p.overnight_resource_id === d.overnight_resource_id) ||
+        (p.overnight_camp_id && Math.abs(p.end_mile - d.end_mile) < 0.5) ||
+        (!d.overnight_resource_id && Math.abs(p.end_mile - d.end_mile) < 0.5)
+      );
+      if (!match) return d;
+      return {
+        ...d,
+        lodging_cost: match.lodging_cost ?? null,
+        misc_cost: match.misc_cost ?? null,
+        overnight_camp_id: d.overnight_resource_id ? null : match.overnight_camp_id ?? null,
+      };
+    });
+  }
+
   const saveRevision = db.transaction((reason, days) => {
+    const carried = carryCosts(days);
     deactivate.run();
     const rev = insertRev.run(new Date().toISOString(), reason);
-    for (const d of days) {
+    for (const d of carried) {
       insertDay.run(
         rev.lastInsertRowid, d.day_number, d.start_mile, d.end_mile,
         d.start_name, d.end_name, d.overnight_resource_id,
-        d.status ?? 'planned', JSON.stringify(d.flags ?? []), d.notes ?? null
+        d.status ?? 'planned', JSON.stringify(d.flags ?? []), d.notes ?? null,
+        d.rest ? 1 : 0, d.lodging_cost ?? null, d.misc_cost ?? null,
+        d.overnight_camp_id ?? null
       );
     }
     return rev.lastInsertRowid;
   });
 
+  // Roll back = copy an old revision forward as a NEW active revision, so
+  // history stays append-only and "undo the undo" is always possible.
+  function activateRevision({ revisionId }) {
+    const rev = db.prepare(`SELECT * FROM plan_revisions WHERE id = ?`).get(revisionId);
+    if (!rev) throw new Error(`No revision #${revisionId}`);
+    const days = db.prepare(`SELECT * FROM planned_days WHERE revision_id = ? ORDER BY day_number`)
+      .all(revisionId)
+      .map((d) => ({ ...d, flags: JSON.parse(d.flags || '[]') }));
+    const newId = saveRevision(`rollback to rev #${revisionId} (${rev.reason})`, days);
+    geomCache.clear();
+    return { ok: true, revisionId: newId, dayCount: days.length };
+  }
+
   // Build without saving, so the rider can compare schedules before committing.
   function previewAutoPlan(opts = {}) {
     const lastDone = db.prepare(`SELECT * FROM actual_days ORDER BY day_number DESC LIMIT 1`).get();
-    const startMile = lastDone ? lastDone.end_mile : 0;
+    const startMile = lastDone ? lastDone.end_mile : tripStartMile();
     const startDayNumber = lastDone ? lastDone.day_number + 1 : 1;
     const built = buildAutoDays({ ...opts, startMile, startDayNumber });
     const total = (lastDone ? lastDone.day_number : 0) + built.length;
@@ -375,7 +532,7 @@ export function makePlanner(db) {
     const lastDone = opts.fromScratch ? null
       : db.prepare(`SELECT * FROM actual_days ORDER BY day_number DESC LIMIT 1`).get();
     let past = [];
-    let startMile = opts.startMile ?? 0;
+    let startMile = opts.startMile ?? tripStartMile();
     let startDayNumber = opts.startDayNumber ?? 1;
 
     if (lastDone) {
@@ -429,6 +586,236 @@ export function makePlanner(db) {
     `SELECT * FROM planned_stops WHERE route_mile >= ? AND route_mile <= ?
      ORDER BY route_mile`
   );
+
+  /**
+   * Inverse of rideMinutes: the mile reached after N minutes of riding from
+   * `fromMile`. Effort miles make this non-linear (a climb eats minutes), so
+   * binary-search it rather than multiplying by speed.
+   */
+  function mileAfterRideMinutes(fromMile, minutes, speed = ridingSpeed()) {
+    if (!(minutes > 0)) return fromMile;
+    let lo = fromMile, hi = Math.min(totalMiles, fromMile + (minutes / 60) * speed * 1.05 + 1);
+    for (let i = 0; i < 40; i++) {
+      const mid = (lo + hi) / 2;
+      if (rideMinutes(fromMile, mid, speed) < minutes) lo = mid; else hi = mid;
+    }
+    return r1((lo + hi) / 2);
+  }
+
+  /**
+   * A break: time off the bike that needs no venue. Anchored to a route mile
+   * like every other stop (a break happens somewhere), but the rider states it
+   * in the units they actually think in — "after two hours of riding".
+   */
+  function addBreak({ dayNumber, afterRideMin, afterMiles, atMile, dwellMin = 30, note }) {
+    const { days } = activeDays();
+    const day = days.find((d) => d.day_number === Number(dayNumber));
+    if (!day) throw new Error(`No day ${dayNumber}`);
+    const speed = ridingSpeed();
+
+    // Breaks stack on each other — "2 hours, then 3 hours" is two calls — but
+    // they stack independently of the WORK stop. Otherwise the first break of a
+    // workday would jump past lunch and land in the afternoon, which is never
+    // what "45 minutes in" means.
+    const priorBreaks = breaksStmt.all(day.start_mile, day.end_mile);
+    const lastMile = priorBreaks.length
+      ? Math.max(day.start_mile, ...priorBreaks.map((s) => s.route_mile))
+      : day.start_mile;
+
+    let mile;
+    if (atMile != null) mile = Number(atMile);
+    else if (afterMiles != null) mile = lastMile + Number(afterMiles);
+    else if (afterRideMin != null) mile = mileAfterRideMinutes(lastMile, Number(afterRideMin), speed);
+    else throw new Error('Say when: afterRideMin, afterMiles, or atMile');
+
+    if (!Number.isFinite(mile)) throw new Error('Could not work out where that break lands');
+    if (mile <= day.start_mile + 0.05 || mile >= day.end_mile - 0.05) {
+      throw new Error(
+        `That break lands at mile ${r1(mile)}, outside day ${dayNumber} (mi ${r1(day.start_mile)}–${r1(day.end_mile)})`
+      );
+    }
+    const dwell = Math.max(5, Math.round(Number(dwellMin) || 30));
+    const info = db.prepare(
+      `INSERT INTO planned_stops (route_mile, resource_id, name, category, off_route_mi, dwell_min, kind, notes)
+       VALUES (?, NULL, ?, NULL, NULL, ?, 'break', ?)`
+    ).run(mile, note || 'Break', dwell, note ?? null);
+    return { ok: true, id: info.lastInsertRowid, routeMile: r1(mile), dwellMin: dwell };
+  }
+
+  /** Every break inside a day, in ride order. */
+  const breaksStmt = db.prepare(
+    `SELECT id, route_mile, name, dwell_min, notes FROM planned_stops
+     WHERE kind='break' AND route_mile > ? AND route_mile < ? ORDER BY route_mile`
+  );
+  function breaksFor(day) {
+    return breaksStmt.all(day.start_mile, day.end_mile).map((b) => ({
+      id: b.id, name: b.name || 'Break',
+      routeMile: r1(b.route_mile), dwellMin: b.dwell_min, note: b.notes,
+    }));
+  }
+
+  // ---- canvas marks: the rider's own fixed appointments ----------------------
+  // A mark is time-anchored: it does NOT move when roll-out moves. That is the
+  // entire difference from a break, and it is why marks are a separate table
+  // and a separate array on the canvas payload — `blocks` is derived state the
+  // planner recomputes and the UI slides, so anything living there would drift.
+
+  /**
+   * The colour vocabulary. The DB stores the TOKEN NAME, never a hex value, so
+   * a future palette change updates every existing mark instead of stranding
+   * them. The first five deliberately match TIER_META in the camping code, so
+   * the app keeps one colour vocabulary. Mirrored in web/src/Today.tsx.
+   */
+  const MARK_COLORS = ['slate', 'red', 'amber', 'green', 'teal', 'blue', 'violet', 'pink'];
+
+  // Wire-level guards. '' / null / booleans are the classic ways a half-filled
+  // form leaks through Number() as midnight or mile 0, so they are refused
+  // outright rather than coerced.
+  const missing = (v) => v == null || v === '' || typeof v === 'boolean';
+  const minuteOf = (v, what) => {
+    if (missing(v)) throw new Error(`${what} time is missing`);
+    const n = Math.round(Number(v));
+    if (!Number.isFinite(n) || n < 0 || n > 1439) throw new Error(`${what} time must be a real time of day`);
+    return n;
+  };
+  const textOf = (v, what, max) => {
+    if (v == null) return '';
+    if (typeof v !== 'string') throw new Error(`${what} must be text`);
+    return v.slice(0, max).trim();   // slice THEN trim, so a cut never leaves trailing spaces
+  };
+
+  function markFields({ scope, dayNumber, routeMile, label, shape, color, startMin, endMin, notes }) {
+    if (scope != null && scope !== 'day' && scope !== 'mile') throw new Error(`Unknown scope "${scope}"`);
+    if (shape != null && shape !== 'block' && shape !== 'line') throw new Error(`Unknown shape "${shape}"`);
+    if (color != null && !MARK_COLORS.includes(color)) {
+      throw new Error(`Unknown colour "${color}" — one of ${MARK_COLORS.join(', ')}`);
+    }
+    const sc = scope ?? 'day';
+    const sh = shape ?? 'block';
+    const col = color ?? 'slate';
+    const text = textOf(label, 'Label', 80);
+    if (!text) throw new Error('A mark needs a label — "Ferry", "dentist", "call Mum"');
+
+    const s = minuteOf(startMin, 'Start');
+    let e = null;
+    if (sh === 'block') {
+      if (missing(endMin)) throw new Error('A block mark needs an end time');
+      e = minuteOf(endMin, 'End');
+      if (e <= s) throw new Error('A block mark has to end after it starts');
+    }
+
+    // Exactly one anchor, decided by the scope — never both, never neither.
+    let dn = null;
+    let mile = null;
+    const { days } = activeDays();
+    if (sc === 'day') {
+      if (missing(dayNumber)) throw new Error('dayNumber required for a day-scoped mark');
+      dn = Math.round(Number(dayNumber));
+      if (!Number.isFinite(dn) || dn < 1) throw new Error('dayNumber required for a day-scoped mark');
+      if (!days.some((d) => d.day_number === dn)) throw new Error(`No day ${dn}`);
+    } else {
+      if (missing(routeMile)) throw new Error('routeMile required for a mile-scoped mark');
+      mile = Number(routeMile);
+      // Only a mile the plan actually rides can ever show a mark: this trip
+      // starts at mile 50, not 0, and finishes where the last day ends.
+      const lo = days.length ? days[0].start_mile : 0;
+      const hi = days.length ? days[days.length - 1].end_mile : totalMiles;
+      if (!Number.isFinite(mile) || mile < lo - 0.05 || mile > hi + 0.05) {
+        throw new Error(`routeMile must be between ${r1(lo)} and ${r1(hi)} — the miles this plan rides`);
+      }
+      mile = r1(mile);
+    }
+
+    return {
+      scope: sc, day_number: dn, route_mile: mile,
+      label: text, shape: sh, color: col,
+      start_min: s, end_min: e,
+      notes: textOf(notes, 'Note', 400) || null,
+    };
+  }
+
+  const markRow = (m) => ({
+    id: m.id, scope: m.scope, label: m.label, shape: m.shape, color: m.color,
+    startMin: m.start_min, endMin: m.end_min,
+    notes: m.notes, routeMile: m.route_mile == null ? null : r1(m.route_mile),
+    dayNumber: m.day_number,
+  });
+
+  function addMark(body = {}) {
+    const f = markFields(body);
+    const info = db.prepare(
+      `INSERT INTO canvas_marks
+         (scope, day_number, route_mile, label, shape, color, start_min, end_min, notes)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    ).run(f.scope, f.day_number, f.route_mile, f.label, f.shape, f.color,
+      f.start_min, f.end_min, f.notes);
+    return { ok: true, id: info.lastInsertRowid, mark: markRow({ id: info.lastInsertRowid, ...f }) };
+  }
+
+  function updateMark(body = {}) {
+    const id = Number(body.id);
+    if (!Number.isFinite(id)) throw new Error('id required');
+    const cur = db.prepare(`SELECT * FROM canvas_marks WHERE id = ?`).get(id);
+    if (!cur) throw new Error(`No mark ${id}`);
+    // Anything not sent keeps its current value, so the edit form can send a
+    // partial patch without silently clearing the other fields.
+    const f = markFields({
+      scope: body.scope ?? cur.scope,
+      dayNumber: body.dayNumber ?? cur.day_number,
+      routeMile: body.routeMile ?? cur.route_mile,
+      label: body.label ?? cur.label,
+      shape: body.shape ?? cur.shape,
+      color: body.color ?? cur.color,
+      startMin: body.startMin ?? cur.start_min,
+      // A block being edited back from a line has no stored end to fall back on.
+      endMin: body.endMin ?? cur.end_min,
+      notes: body.notes !== undefined ? body.notes : cur.notes,
+    });
+    db.prepare(
+      `UPDATE canvas_marks SET scope=?, day_number=?, route_mile=?, label=?,
+              shape=?, color=?, start_min=?, end_min=?, notes=? WHERE id=?`
+    ).run(f.scope, f.day_number, f.route_mile, f.label, f.shape, f.color,
+      f.start_min, f.end_min, f.notes, id);
+    return { ok: true, mark: markRow({ id, ...f }) };
+  }
+
+  function removeMark({ id }) {
+    const n = Number(id);
+    if (!Number.isFinite(n)) throw new Error('id required');
+    const info = db.prepare(`DELETE FROM canvas_marks WHERE id = ?`).run(n);
+    return { ok: true, removed: info.changes };
+  }
+
+  const marksByDayStmt = db.prepare(
+    `SELECT * FROM canvas_marks WHERE scope='day' AND day_number = ? ORDER BY start_min`
+  );
+  const marksByMileStmt = db.prepare(
+    `SELECT * FROM canvas_marks WHERE scope='mile' AND route_mile >= ? AND route_mile < ?
+     ORDER BY start_min`
+  );
+
+  /**
+   * The marks that belong on one day's canvas: the ones pinned to this day
+   * number, plus the ones pinned to a mile this day rides. The mile window is
+   * half-open [start, end) so a mark exactly on a day boundary shows once, on
+   * the day that starts there; the trip's last day closes its interval, with a
+   * hair of slack because stored miles are rounded to 0.1 and the day's end is
+   * not. A rest day rides no miles, so it shows only day-scoped marks — a mile
+   * mark belongs to whichever riding day actually reaches it.
+   *
+   * startMile/endMile override the day row's own range. A completed day keeps
+   * its PLANNED miles in `planned_days` even after a short day is recorded, so
+   * without this a mile-pinned mark shows twice after a replan: once on the day
+   * that was actually ridden past it, and again on the day that now covers it.
+   */
+  function marksFor(day, { isLastDay = false, startMile, endMile } = {}) {
+    const s = startMile ?? day.start_mile;
+    const e = endMile ?? day.end_mile;
+    const hi = isLastDay ? e + 0.05 : e;
+    return [...marksByDayStmt.all(day.day_number), ...marksByMileStmt.all(s, hi)]
+      .sort((a, b) => a.start_min - b.start_min || a.id - b.id)
+      .map(markRow);
+  }
 
   function dayItinerary(dayNumber) {
     const { days } = activeDays();
@@ -549,7 +936,15 @@ export function makePlanner(db) {
   }
 
   function removeStop({ id }) {
+    const row = db.prepare(`SELECT * FROM planned_stops WHERE id = ?`).get(id);
     db.prepare(`DELETE FROM planned_stops WHERE id = ?`).run(id);
+    // Dropping a combo puts its minutes back in the chair, so the work day
+    // still adds up to a work day.
+    if (row?.kind === 'combo') {
+      const { days } = activeDays();
+      const day = days.find((d) => row.route_mile > d.start_mile && row.route_mile < d.end_mile);
+      if (day) shiftSeatedWork(day, row.dwell_min);
+    }
     return { ok: true };
   }
 
@@ -559,6 +954,54 @@ export function makePlanner(db) {
        ON CONFLICT(day_number) DO UPDATE SET start_time=excluded.start_time`
     ).run(Number(dayNumber), startTime || null);
     return { ok: true };
+  }
+
+  /** Per-day time dials. Passing null for a field restores its default. */
+  function setDayTimes({ dayNumber, startTime, workStart, rideUntil }) {
+    const n = Number(dayNumber);
+    if (!Number.isFinite(n)) throw new Error('dayNumber required');
+    const clean = (v) => {
+      if (v === undefined) return undefined;
+      if (v === null || v === '') return null;
+      if (!/^\d{1,2}:\d{2}$/.test(String(v))) throw new Error(`Bad time "${v}" — use HH:MM`);
+      return String(v).padStart(5, '0');
+    };
+    const st = clean(startTime), ws = clean(workStart), ru = clean(rideUntil);
+    db.prepare(`INSERT INTO day_plans (day_number) VALUES (?) ON CONFLICT(day_number) DO NOTHING`).run(n);
+    db.prepare(
+      `UPDATE day_plans SET
+         start_time = CASE WHEN ? THEN ? ELSE start_time END,
+         work_start = CASE WHEN ? THEN ? ELSE work_start END,
+         ride_until = CASE WHEN ? THEN ? ELSE ride_until END
+       WHERE day_number = ?`
+    ).run(
+      st !== undefined ? 1 : 0, st ?? null,
+      ws !== undefined ? 1 : 0, ws ?? null,
+      ru !== undefined ? 1 : 0, ru ?? null,
+      n
+    );
+    return { ok: true };
+  }
+
+  const dayTimesStmt = db.prepare(
+    `SELECT start_time, work_start, ride_until FROM day_plans WHERE day_number = ?`
+  );
+  /** Overrides as local hour floats, for the daylight model. */
+  function dayTimes(dayNumber) {
+    const row = dayTimesStmt.get(Number(dayNumber)) ?? {};
+    const toH = (t) => {
+      if (!t) return null;
+      const [h, m] = String(t).split(':').map(Number);
+      return Number.isFinite(h) ? h + (Number.isFinite(m) ? m / 60 : 0) : null;
+    };
+    return {
+      startTime: row.start_time ?? null,
+      workStart: row.work_start ?? null,
+      rideUntil: row.ride_until ?? null,
+      departH: toH(row.start_time),
+      workStartH: toH(row.work_start),
+      rideUntilH: toH(row.ride_until),
+    };
   }
 
   // ---- Auto-itinerary: fit a working day around a riding day.
@@ -572,7 +1015,7 @@ export function makePlanner(db) {
     windowStart: '08:00',
     windowEnd: '18:00',
     arriveBy: '19:00',       // want to be off the bike by this hour
-    earliestDepart: '05:30',
+    earliestDepart: '04:30',
     latestDepart: '09:30',
     maxBlockMin: 480,
   };
@@ -583,8 +1026,12 @@ export function makePlanner(db) {
       return Number.isFinite(v) && v > 0 ? v : d;
     };
     const str = (k, d) => settingStmt.get(k)?.value || d;
+    // The owed minutes default to the ET work window's length, so "9:00–4:30
+    // Eastern" is the single source of truth for how much work a day owes.
+    const et = daylight.workWindowET();
+    const etMinutes = Math.round((et.endH - et.startH) * 60);
     return {
-      minutes: num('workMinutesPerDay', WORK_DEFAULTS.minutes),
+      minutes: num('workMinutesPerDay', etMinutes > 0 ? etMinutes : WORK_DEFAULTS.minutes),
       windowStart: str('workWindowStart', WORK_DEFAULTS.windowStart),
       windowEnd: str('workWindowEnd', WORK_DEFAULTS.windowEnd),
       arriveBy: str('arriveByTime', WORK_DEFAULTS.arriveBy),
@@ -779,10 +1226,10 @@ export function makePlanner(db) {
             .run(d.start_mile, d.end_mile);
           for (const sp of r.stops) {
             db.prepare(
-              `INSERT INTO planned_stops (route_mile, resource_id, name, category, off_route_mi, dwell_min, notes)
-               VALUES (?,?,?,?,?,?,?)`
+              `INSERT INTO planned_stops (route_mile, resource_id, name, category, off_route_mi, dwell_min, kind, notes)
+               VALUES (?,?,?,?,?,?,?,?)`
             ).run(sp.routeMile, sp.resourceId, sp.name, sp.category, sp.offRouteMi,
-              sp.dwellMin, r.workday ? 'work stop (auto)' : null);
+              sp.dwellMin, r.workday ? 'work' : null, r.workday ? 'work stop (auto)' : null);
           }
           db.prepare(
             `INSERT INTO day_plans (day_number, start_time) VALUES (?,?)
@@ -839,7 +1286,7 @@ export function makePlanner(db) {
       const availableDays = daysBetween(startDate, arriveDate) + 1;
       info.availableDays = availableDays;
       info.slackDays = availableDays - plannedDays;
-      info.requiredAvgMiles = availableDays > 0 ? r1(totalMiles / availableDays) : null;
+      info.requiredAvgMiles = availableDays > 0 ? r1((totalMiles - tripStartMile()) / availableDays) : null;
       info.daysLate = Math.max(0, plannedDays - availableDays);
     }
     return info;
@@ -856,7 +1303,7 @@ export function makePlanner(db) {
     if (availableDays < 1) throw new Error('Arrive date is before the depart date');
 
     const lastDone = db.prepare(`SELECT * FROM actual_days ORDER BY day_number DESC LIMIT 1`).get();
-    const startMile = lastDone ? lastDone.end_mile : 0;
+    const startMile = lastDone ? lastDone.end_mile : tripStartMile();
     const startDayNumber = lastDone ? lastDone.day_number + 1 : 1;
     const daysLeft = availableDays - (lastDone ? lastDone.day_number : 0);
     if (daysLeft < 1) throw new Error('No calendar days left before the arrive date');
@@ -1004,9 +1451,163 @@ export function makePlanner(db) {
     return geo;
   }
 
+  // The day's work anchor: the stop explicitly marked kind='work', or (for
+  // plans made before work stops were first-class) the longest wi-fi sit.
+  const workStopStmt = db.prepare(
+    `SELECT s.*, r.wifi_status, r.hours AS res_hours, r.address, r.phone, r.website,
+            r.lat, r.lng, r.brand
+     FROM planned_stops s LEFT JOIN resources r ON r.id = s.resource_id
+     WHERE s.route_mile > ? AND s.route_mile < ?
+     ORDER BY (s.kind = 'work') DESC,
+              (s.category = 'wifi_work' AND s.dwell_min >= 120) DESC,
+              s.dwell_min DESC
+     LIMIT 1`
+  );
+  // Every work anchor in the day, in ride order. A day can hold more than one:
+  // sit somewhere for the morning, ride on, sit somewhere else for the
+  // afternoon. The owed hours are split across them.
+  const workStopsStmt2 = db.prepare(
+    `SELECT s.*, r.wifi_status, r.hours AS res_hours, r.address, r.phone, r.website,
+            r.lat, r.lng, r.brand
+     FROM planned_stops s LEFT JOIN resources r ON r.id = s.resource_id
+     WHERE s.kind='work' AND s.route_mile > ? AND s.route_mile < ?
+     ORDER BY s.route_mile`
+  );
+  function workStopsFor(d) {
+    return workStopsStmt2.all(d.start_mile, d.end_mile).map((s) => {
+      const place = placeOf(s.lat, s.lng, s.route_mile);
+      return {
+        id: s.id, resourceId: s.resource_id, name: s.name, brand: s.brand,
+        routeMile: r1(s.route_mile), offRouteMi: r2(s.off_route_mi),
+        dwellMin: s.dwell_min, cost: s.cost ?? null,
+        wifiStatus: s.wifi_status ?? null, hours: s.res_hours ?? null,
+        address: s.address ?? null, phone: s.phone ?? null, website: s.website ?? null,
+        lat: s.lat ?? null, lng: s.lng ?? null,
+        town: place.town, state: place.state,
+      };
+    });
+  }
+
+  /** Riding while logged in — a meeting taken from the saddle. */
+  const combosStmt = db.prepare(
+    `SELECT id, route_mile, name, dwell_min, notes FROM planned_stops
+     WHERE kind='combo' AND route_mile > ? AND route_mile < ? ORDER BY route_mile`
+  );
+  function combosFor(d) {
+    return combosStmt.all(d.start_mile, d.end_mile).map((c) => ({
+      id: c.id, name: c.name || 'Work + bike',
+      routeMile: r1(c.route_mile), minutes: c.dwell_min, note: c.notes,
+    }));
+  }
+
+  /**
+   * A stretch ridden while on the clock. Anchored just past whichever work
+   * stop it follows, so it sorts into the day between the sit-downs.
+   */
+  function addCombo({ dayNumber, minutes = 60, afterWorkStopId, name }) {
+    const { days } = activeDays();
+    const day = days.find((x) => x.day_number === Number(dayNumber));
+    if (!day) throw new Error(`No day ${dayNumber}`);
+    const mins = Math.round(Number(minutes));
+    if (!Number.isFinite(mins) || mins <= 0) throw new Error('How long is the meeting? (minutes)');
+
+    const stops = workStopsFor(day);
+    const combos = combosFor(day);
+    let anchor;
+    if (afterWorkStopId) {
+      const s = stops.find((x) => x.id === Number(afterWorkStopId));
+      if (!s) throw new Error('That work stop is not on this day');
+      anchor = s.routeMile;
+    } else {
+      // Default: after the last thing already scheduled inside the work day.
+      const marks = [...stops.map((s) => s.routeMile), ...combos.map((c) => c.routeMile)];
+      anchor = marks.length ? Math.max(...marks) : day.start_mile;
+    }
+    const mile = Math.min(anchor + 0.02, day.end_mile - 0.05);
+    if (mile <= day.start_mile) throw new Error('No room for a combo on this day');
+    const info = db.prepare(
+      `INSERT INTO planned_stops (route_mile, resource_id, name, category, off_route_mi, dwell_min, kind, notes)
+       VALUES (?, NULL, ?, NULL, NULL, ?, 'combo', ?)`
+    ).run(mile, name || 'Work + bike', mins, name ?? null);
+    // An hour of the work day MOVES onto the bike — it is not extra work. Take
+    // the minutes out of the seated blocks (latest first) so the day still
+    // owes exactly one work day.
+    shiftSeatedWork(day, -mins);
+    return { ok: true, id: info.lastInsertRowid, minutes: mins, routeMile: r1(mile) };
+  }
+
+  /**
+   * Add (or remove) `delta` minutes of seated work across a day's work stops,
+   * latest first, never dropping one below half an hour.
+   */
+  function shiftSeatedWork(day, delta) {
+    const stops = workStopsFor(day);
+    if (!stops.length) return;
+    let left = delta;
+    const upd = db.prepare(`UPDATE planned_stops SET dwell_min=? WHERE id=?`);
+    if (delta < 0) {
+      for (let i = stops.length - 1; i >= 0 && left < 0; i--) {
+        const take = Math.min(-left, Math.max(0, stops[i].dwellMin - 30));
+        if (take > 0) { upd.run(stops[i].dwellMin - take, stops[i].id); left += take; }
+      }
+    } else {
+      const last = stops[stops.length - 1];
+      upd.run(last.dwellMin + delta, last.id);
+    }
+  }
+
+  function workStopFor(d) {
+    const s = workStopStmt.get(d.start_mile, d.end_mile);
+    if (!s || (s.kind !== 'work' && !(s.category === 'wifi_work' && s.dwell_min >= 120))) return null;
+    const place = placeOf(s.lat, s.lng, s.route_mile);
+    return {
+      id: s.id, resourceId: s.resource_id, name: s.name, brand: s.brand,
+      routeMile: r1(s.route_mile), offRouteMi: r2(s.off_route_mi),
+      dwellMin: s.dwell_min, cost: s.cost ?? null,
+      wifiStatus: s.wifi_status ?? null, hours: s.res_hours ?? null,
+      address: s.address ?? null, phone: s.phone ?? null, website: s.website ?? null,
+      lat: s.lat ?? null, lng: s.lng ?? null,
+      town: place.town, state: place.state,
+    };
+  }
+
+  // Readiness: the app's answer to "do I still need to think about this day?"
+  // Ordered worst-first; the first issue is the day's headline state.
+  function readinessFor(d, model, workStop, riderNotes, actual) {
+    if (actual) return { state: 'done', issues: [] };
+    const issues = [];
+    const miles = d.end_mile - d.start_mile;
+    const rest = !!d.rest || miles < 0.5;
+    if (!rest) {
+      if (model.status === 'short') issues.push({ kind: 'daylight', label: 'Daylight conflict' });
+      else if (model.status === 'tight') issues.push({ kind: 'daylight_tight', label: 'Tight daylight' });
+      const flags = JSON.parse(d.flags || '[]');
+      if (flags.includes('over_cap')) issues.push({ kind: 'mileage', label: 'Over mileage cap' });
+      if (model.workday) {
+        if (!workStop) issues.push({ kind: 'work', label: 'Needs work stop' });
+        else if (workStop.wifiStatus === 'none') issues.push({ kind: 'work_wifi', label: 'No wi-fi reported at work stop' });
+        else if (!workStop.wifiStatus || workStop.wifiStatus === 'unknown') issues.push({ kind: 'work_wifi', label: 'Wi-Fi unverified at work stop' });
+      }
+    }
+    if (!d.overnight_resource_id && !d.overnight_camp_id) {
+      issues.push({ kind: 'sleep', label: 'Needs sleep anchor' });
+    }
+    for (const n of riderNotes) {
+      if (['detour', 'ferry', 'no_services', 'caution'].includes(n.kind)) {
+        issues.push({ kind: 'route', label: n.title });
+        break;
+      }
+    }
+    const worst = issues.find((i) => ['daylight', 'mileage', 'work', 'sleep'].includes(i.kind))
+      ?? issues[0] ?? null;
+    return { state: worst ? worst.kind : 'ready', issues };
+  }
+
   function planResponse() {
     const { rev, days } = activeDays();
     if (!rev) return { revision: null, days: [], geometry: null, totalMiles };
+    const startDateSetting = settingStmt.get('startDate')?.value ?? null;
+    const speed = ridingSpeed();
     const actuals = Object.fromEntries(
       db.prepare(`SELECT * FROM actual_days`).all().map((a) => [a.day_number, a])
     );
@@ -1021,14 +1622,43 @@ export function makePlanner(db) {
         startMile: r1(n.start_mile), endMile: r1(n.end_mile),
         source: n.source, confidence: n.confidence,
       }));
+      const date = startDateSetting ? dateForDay(startDateSetting, d.day_number) : null;
+      const { effort } = effortMiles(d.start_mile, d.end_mile);
+      const times = dayTimes(d.day_number);
+      const model = date ? daylight.dayModel({
+        date, startMile: d.start_mile, endMile: d.end_mile,
+        effortMi: effort, speedMph: speed,
+        departH: times.departH, workStartH: times.workStartH, rideUntilH: times.rideUntilH,
+      }) : null;
+      const workStop = workStopFor(d);
+      const readiness = model
+        ? readinessFor(d, model, workStop, riderNotes, a)
+        : { state: a ? 'done' : 'unknown', issues: [] };
       return {
         dayNumber: d.day_number,
+        date,
+        rest: !!d.rest || d.end_mile - d.start_mile < 0.5,
         elevGainFt: elev?.gainFt ?? null, elevLossFt: elev?.lossFt ?? null,
         riderNotes,
         startMile: r1(d.start_mile), endMile: r1(d.end_mile),
         miles: r1(d.end_mile - d.start_mile),
+        effortMiles: r1(effort),
+        rideTimeMin: Math.round(rideMinutes(d.start_mile, d.end_mile, speed)),
         startName: d.start_name, endName: d.end_name,
         endState: stateAtMile(d.end_mile),
+        lodgingCost: d.lodging_cost ?? null,
+        miscCost: d.misc_cost ?? null,
+        overnightCampId: d.overnight_camp_id ?? null,
+        workStop,
+        sun: model ? {
+          zone: model.zone, workday: model.workday,
+          dawn: model.dawn, sunrise: model.sunrise, sunset: model.sunset, dusk: model.dusk,
+          work: model.work,
+          usableRideMin: Math.round(model.usableH * 60),
+          bufferMin: Math.round(model.bufferH * 60),
+          fit: model.status,
+        } : null,
+        readiness,
         overnight: d.overnight_resource_id
           ? { id: d.overnight_resource_id, name: d.overnight_name,
               category: d.overnight_category, offRouteMi: r2(d.overnight_off_mi),
@@ -1036,8 +1666,9 @@ export function makePlanner(db) {
               website: d.overnight_website, hours: d.overnight_hours,
               lat: d.overnight_lat, lng: d.overnight_lng,
               attributes: d.overnight_attrs,
-              town: d.overnight_mile != null ? nameNearMile(d.overnight_mile) : null,
-              state: d.overnight_mile != null ? stateAtMile(d.overnight_mile) : null,
+              // Town from the bed's OWN coordinates — a motel 3 mi off route
+              // belongs to the town it sits in, not the one nearest its mile.
+              ...placeOf(d.overnight_lat, d.overnight_lng, d.overnight_mile),
               routeMile: r1(d.overnight_mile) }
           : null,
         status: d.status, flags: JSON.parse(d.flags || '[]'), notes: d.notes,
@@ -1063,16 +1694,30 @@ export function makePlanner(db) {
               (SELECT COUNT(*) FROM planned_days pd WHERE pd.revision_id = plan_revisions.id) AS day_count
        FROM plan_revisions ORDER BY id DESC`
     ).all();
-    // Calendar dates ride along with the plan so the timeline reads as dates,
-    // not just day numbers.
-    const startDate = settingStmt.get('startDate')?.value ?? null;
-    if (startDate) {
-      for (const d of out) d.date = dateForDay(startDate, d.dayNumber);
+    // Trip-level rollups: readiness counts (the Trip view's headline) and the
+    // money picture, both derived from the same canonical days.
+    const rollup = { ready: 0, done: 0 };
+    for (const d of out) {
+      const s = d.readiness?.state ?? 'unknown';
+      rollup[s] = (rollup[s] ?? 0) + 1;
     }
+    const costTotal = out.reduce(
+      (s, d) => s + (d.lodgingCost ?? 0) + (d.miscCost ?? 0) + (d.workStop?.cost ?? 0), 0
+    );
     return {
       revision: { id: rev.id, createdAt: rev.created_at, reason: rev.reason },
       days: out, geometry, totalMiles: r1(totalMiles), history,
       schedule: scheduleInfo(out),
+      // The route is always 2,972.5 mi; the RIDE is what's left from the
+      // rider's real start point.
+      tripStartMile: r1(tripStartMile()),
+      tripStartName: nameNearMile(tripStartMile()),
+      tripMiles: r1(totalMiles - tripStartMile()),
+      readinessRollup: rollup,
+      costs: {
+        total: Math.round(costTotal),
+        avgPerDay: out.length ? Math.round(costTotal / out.length) : 0,
+      },
     };
   }
 
@@ -1220,7 +1865,7 @@ export function makePlanner(db) {
 
   // ---- Manual edits, in place on the active revision (pre-trip churn).
   // Moving a day's end shifts the next day's start; anchors elsewhere stay put.
-  function editDayEnd({ dayNumber, endMile, endName, overnightResourceId }) {
+  function editDayEnd({ dayNumber, endMile, endName, overnightResourceId, overnightCampId }) {
     const { rev, days } = activeDays();
     if (!rev) throw new Error('No active plan');
     const idx = days.findIndex((d) => d.day_number === dayNumber);
@@ -1242,12 +1887,19 @@ export function makePlanner(db) {
       if (!hasAnchor) f.push('no_anchor');
       return JSON.stringify(f);
     };
+    // A different bed means the old bed's recorded price is stale.
+    const sameBed =
+      (overnightResourceId ?? null) === (day.overnight_resource_id ?? null) &&
+      (overnightCampId ?? null) === (day.overnight_camp_id ?? null);
     const tx = db.transaction(() => {
       db.prepare(
-        `UPDATE planned_days SET end_mile=?, end_name=?, overnight_resource_id=?, flags=?
+        `UPDATE planned_days SET end_mile=?, end_name=?, overnight_resource_id=?,
+           overnight_camp_id=?, flags=?,
+           lodging_cost = CASE WHEN ? THEN lodging_cost ELSE NULL END
          WHERE revision_id=? AND day_number=?`
-      ).run(endMile, name, overnightResourceId ?? null,
-        flagsFor(day.start_mile, endMile, !!(overnightResourceId ?? null)),
+      ).run(endMile, name, overnightResourceId ?? null, overnightCampId ?? null,
+        flagsFor(day.start_mile, endMile, !!(overnightResourceId ?? overnightCampId ?? null)),
+        sameBed ? 1 : 0,
         rev.id, dayNumber);
       if (next) {
         db.prepare(
@@ -1265,6 +1917,193 @@ export function makePlanner(db) {
       day: { dayNumber, miles: r1(endMile - day.start_mile) },
       next: next ? { dayNumber: next.day_number, miles: r1(next.end_mile - endMile) } : null,
     };
+  }
+
+  // Per-day money. Sleeping and riding decisions are one decision on a
+  // self-funded tour, so cost lives on the plan row, not in a separate ledger.
+  function setDayCosts({ dayNumber, lodgingCost, miscCost }) {
+    const { rev, days } = activeDays();
+    if (!rev) throw new Error('No active plan');
+    const day = days.find((d) => d.day_number === Number(dayNumber));
+    if (!day) throw new Error(`No day ${dayNumber}`);
+    const num = (v) => (v == null || v === '' ? null : Number(v));
+    db.prepare(
+      `UPDATE planned_days SET
+         lodging_cost = CASE WHEN ? THEN ? ELSE lodging_cost END,
+         misc_cost    = CASE WHEN ? THEN ? ELSE misc_cost END
+       WHERE revision_id=? AND day_number=?`
+    ).run(
+      lodgingCost !== undefined ? 1 : 0, num(lodgingCost),
+      miscCost !== undefined ? 1 : 0, num(miscCost),
+      rev.id, day.day_number
+    );
+    return { ok: true };
+  }
+
+  // The day's WORK ANCHOR: one mile-anchored stop marked kind='work'. Setting
+  // a new one replaces the old one for that day; the dwell defaults to the
+  // full owed work block.
+  // Pick the best real wi-fi venue nearest a target mile — this is what makes
+  // "make my morning 30 miles" a legal move: a work stop has to be an actual
+  // place, so the mile snaps to the best one near it.
+  function workStopNearMile({ dayNumber, atMile }) {
+    const { days } = activeDays();
+    const day = days.find((d) => d.day_number === Number(dayNumber));
+    if (!day) throw new Error(`No day ${dayNumber}`);
+    const target = Math.min(Math.max(Number(atMile), day.start_mile + 0.3), day.end_mile - 0.3);
+    const rows = db.prepare(
+      `SELECT id, name, route_mile, off_route_mi, wifi_status FROM resources
+       WHERE category_id='wifi_work' AND status='active'
+         AND route_mile BETWEEN ? AND ? AND off_route_mi <= 3`
+    ).all(Math.max(day.start_mile + 0.3, target - 12), Math.min(day.end_mile - 0.3, target + 12));
+    if (!rows.length) return null;
+    const w = { confirmed: 3, likely: 2, unknown: 0.5, none: -5 };
+    // Distance to the asked-for mile dominates: the rider said "make my
+    // morning N miles", so land near N — wi-fi quality only breaks near-ties.
+    const cost = (r) => Math.abs(r.route_mile - target) * 2 - (w[r.wifi_status] ?? 0) * 0.8 + r.off_route_mi;
+    rows.sort((a, b) => cost(a) - cost(b));
+    return rows[0];
+  }
+
+  function setWorkStop({ dayNumber, resourceId, routeMile, name, category, offRouteMi, cost, atMile, append = false, dwellMin }) {
+    const { days } = activeDays();
+    const day = days.find((d) => d.day_number === Number(dayNumber));
+    if (!day) throw new Error(`No day ${dayNumber}`);
+    // "Morning = N miles" → snap to the best venue near start + N.
+    if (atMile != null && !resourceId && routeMile == null) {
+      const hit = workStopNearMile({ dayNumber, atMile });
+      if (!hit) throw new Error(`No wi-fi stop within 12 mi of mile ${r1(Number(atMile))} on this day`);
+      resourceId = hit.id;
+    }
+    const tx = db.transaction(() => {
+      // `append` adds a second (or third) sit-down; the default replaces the
+      // day's work anchors, which is what "change work stop" means.
+      if (!append) {
+        db.prepare(
+          `DELETE FROM planned_stops WHERE kind='work' AND route_mile > ? AND route_mile < ?`
+        ).run(day.start_mile, day.end_mile);
+      }
+      if (resourceId || routeMile != null) {
+        let mile = routeMile, nm = name, cat = category ?? 'wifi_work', off = offRouteMi ?? null;
+        if (resourceId) {
+          const r = db.prepare(`SELECT * FROM resources WHERE id = ?`).get(resourceId);
+          if (!r) throw new Error(`No resource ${resourceId}`);
+          mile = r.route_mile; nm = r.name; cat = r.category_id; off = r.off_route_mi;
+        }
+        if (mile <= day.start_mile + 0.05 || mile >= day.end_mile - 0.05) {
+          throw new Error(`That stop (mi ${r1(mile)}) is outside day ${dayNumber}'s ride`);
+        }
+        // A single anchor owes the whole work day. Adding a second one splits
+        // the remaining owed minutes between the sit-downs rather than
+        // silently doubling the workload.
+        const owed = workSettings().minutes;
+        let dwell = Number(dwellMin);
+        if (!Number.isFinite(dwell) || dwell <= 0) {
+          if (append) {
+            // The day still owes ONE work day. Whatever is already being
+            // ridden on the clock comes off the top, and the seated remainder
+            // splits evenly across every sit-down including this new one.
+            const existing = workStopsFor(day);
+            const comboMin = combosFor(day).reduce((s, c) => s + c.minutes, 0);
+            const seatedTarget = Math.max(30, owed - comboMin);
+            const per = Math.max(30, Math.round(seatedTarget / (existing.length + 1)));
+            const upd = db.prepare(`UPDATE planned_stops SET dwell_min=? WHERE id=?`);
+            for (const x of existing) upd.run(per, x.id);
+            dwell = seatedTarget - per * existing.length;
+            if (dwell < 30) dwell = 30;
+          } else {
+            dwell = Math.max(30, owed - combosFor(day).reduce((s, c) => s + c.minutes, 0));
+          }
+        }
+        db.prepare(
+          `INSERT INTO planned_stops (route_mile, resource_id, name, category, off_route_mi, dwell_min, kind, cost, notes)
+           VALUES (?,?,?,?,?,?,?,?,?)`
+        ).run(mile, resourceId ?? null, nm || 'Work stop', cat, off,
+          Math.round(dwell), 'work', cost ?? null, null);
+      }
+    });
+    tx();
+    return { ok: true };
+  }
+
+  // Unified sleep decision (spec: choosing tonight's bed IS setting the day's
+  // endpoint — one action, never two divergent facts). Works for resources
+  // (hotels/campgrounds), curated camping-guide spots, or a bare mile.
+  function setSleep({ dayNumber, endMile, endName, overnightResourceId, campId, cost }) {
+    const res = editDayEnd({
+      dayNumber: Number(dayNumber),
+      endMile: Number(endMile),
+      endName,
+      overnightResourceId: overnightResourceId ?? null,
+      overnightCampId: campId ?? null,
+    });
+    if (cost !== undefined) setDayCosts({ dayNumber, lodgingCost: cost });
+    return res;
+  }
+
+  // Everything keyed by DAY NUMBER rather than route mile has to move when days
+  // renumber, or it silently attaches to a different ride: the rider's per-day
+  // time overrides (day_plans) and their day-scoped canvas marks. Two-step so
+  // the shift never collides with itself. Called from every renumbering path —
+  // rest-day insert/remove, merge and split.
+  const shiftDayKeyed = (from, delta) => {
+    db.prepare(`UPDATE day_plans SET day_number = day_number + 1000 WHERE day_number >= ?`).run(from);
+    db.prepare(`UPDATE day_plans SET day_number = day_number - 1000 + ? WHERE day_number >= 1000`).run(delta);
+    db.prepare(
+      `UPDATE canvas_marks SET day_number = day_number + 1000 WHERE scope='day' AND day_number >= ?`
+    ).run(from);
+    db.prepare(
+      `UPDATE canvas_marks SET day_number = day_number - 1000 + ? WHERE scope='day' AND day_number >= 1000`
+    ).run(delta);
+  };
+
+  // Rest day: zero miles, same bed another night. Represented as a planned day
+  // whose start and end are equal — the chain stays gap-free by construction.
+  function insertRestDay({ afterDay }) {
+    const { rev, days } = activeDays();
+    if (!rev) throw new Error('No active plan');
+    const day = days.find((d) => d.day_number === Number(afterDay));
+    if (!day) throw new Error(`No day ${afterDay}`);
+    const lastActual = db.prepare(`SELECT MAX(day_number) n FROM actual_days`).get()?.n ?? 0;
+    if (day.day_number < lastActual) throw new Error('Cannot insert a rest day before completed days');
+    const tx = db.transaction(() => {
+      db.prepare(`UPDATE planned_days SET day_number = day_number + 1000 WHERE revision_id=? AND day_number > ?`)
+        .run(rev.id, day.day_number);
+      db.prepare(`UPDATE planned_days SET day_number = day_number - 999 WHERE revision_id=? AND day_number > 1000`)
+        .run(rev.id);
+      insertDay.run(
+        rev.id, day.day_number + 1, day.end_mile, day.end_mile,
+        day.end_name, day.end_name, day.overnight_resource_id,
+        'planned', '[]', null,
+        1, day.lodging_cost ?? null, null, day.overnight_camp_id ?? null
+      );
+      shiftDayKeyed(day.day_number + 1, 1);
+    });
+    tx();
+    geomCache.delete(rev.id);
+    return { ok: true, dayNumber: day.day_number + 1 };
+  }
+
+  function removeRestDay({ dayNumber }) {
+    const { rev, days } = activeDays();
+    if (!rev) throw new Error('No active plan');
+    const day = days.find((d) => d.day_number === Number(dayNumber));
+    if (!day) throw new Error(`No day ${dayNumber}`);
+    if (!day.rest && day.end_mile - day.start_mile > 0.5) {
+      throw new Error('Only rest days can be removed — merge riding days instead');
+    }
+    if (day.status !== 'planned') throw new Error(`Day ${dayNumber} is ${day.status}`);
+    const tx = db.transaction(() => {
+      db.prepare(`DELETE FROM planned_days WHERE revision_id=? AND day_number=?`).run(rev.id, day.day_number);
+      db.prepare(`UPDATE planned_days SET day_number = day_number + 1000 WHERE revision_id=? AND day_number > ?`)
+        .run(rev.id, day.day_number);
+      db.prepare(`UPDATE planned_days SET day_number = day_number - 1001 WHERE revision_id=? AND day_number > 1000`)
+        .run(rev.id);
+      shiftDayKeyed(day.day_number + 1, -1);
+    });
+    tx();
+    geomCache.delete(rev.id);
+    return { ok: true };
   }
 
   // Merge a day into the one after it: one longer day, everything after shifts
@@ -1303,6 +2142,13 @@ export function makePlanner(db) {
         `UPDATE planned_days SET day_number = day_number - 1001
          WHERE revision_id=? AND day_number > 1000`
       ).run(rev.id);
+      // The swallowed day's fixed appointments still happen — on the merged
+      // day now. Its time overrides do not survive (the merged day keeps this
+      // day's), so drop them before the shift can collide with them.
+      db.prepare(`UPDATE canvas_marks SET day_number=? WHERE scope='day' AND day_number=?`)
+        .run(dayNumber, next.day_number);
+      db.prepare(`DELETE FROM day_plans WHERE day_number=?`).run(next.day_number);
+      shiftDayKeyed(next.day_number + 1, -1);
     });
     tx();
     geomCache.delete(rev.id);
@@ -1340,6 +2186,8 @@ export function makePlanner(db) {
          VALUES (?,?,?,?,?,?,?, 'planned', '[]')`
       ).run(rev.id, dayNumber + 1, atMile, day.end_mile, name, day.end_name,
         day.overnight_resource_id);
+      // Day-keyed data on the days after the split follows its ride up a number.
+      shiftDayKeyed(dayNumber + 1, 1);
     });
     tx();
     geomCache.delete(rev.id);
@@ -1377,6 +2225,7 @@ export function makePlanner(db) {
       offRouteMi: r2(u.off_route_mi), wifiStatus: u.wifi_status,
       lat: u.lat, lng: u.lng, address: u.address, phone: u.phone,
       website: u.website, hours: u.hours,
+      ...placeOf(u.lat, u.lng, u.route_mile),
     }));
     // Notes you're inside right now, or will hit within 45 mi.
     const notesAhead = db.prepare(
@@ -1399,7 +2248,8 @@ export function makePlanner(db) {
       day: today ? {
         dayNumber: today.day_number, endName: today.end_name,
         endMile: r1(today.end_mile), milesToEnd: r1(Math.max(0, today.end_mile - loc.mile)),
-        overnightName: today.overnight_name,
+        // A curated camp spot has no resource row; its name IS the endpoint name.
+        overnightName: today.overnight_name ?? (today.overnight_camp_id ? today.end_name : null),
       } : null,
       upcoming,
     };
@@ -1449,6 +2299,16 @@ export function makePlanner(db) {
     dayItinerary, stopCandidates, addStop, updateStop, removeStop, setDayStart,
     proposeDayItinerary, autoItineraries, previewAutoPlan,
     locate, positionInfo, elevationForRange, activeDays,
+    // canonical-plan extensions
+    setDayCosts, setWorkStop, setSleep, insertRestDay, removeRestDay,
+    activateRevision, workStopFor, workStopsFor, combosFor, addCombo,
+    readinessFor, placeOf, tripStartMile, workSettings,
+    setDayTimes, dayTimes, addBreak, breaksFor, mileAfterRideMinutes,
+    addMark, updateMark, removeMark, marksFor, MARK_COLORS,
+    // internals shared with the Today layer
+    daylight, effortMiles, dayShape, stateAtMile, ridingSpeed, rideMinutes,
+    workSettings, dateForDay, isWorkday,
+    settingsGet: (k) => settingStmt.get(k)?.value,
   };
 }
 

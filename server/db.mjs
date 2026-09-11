@@ -2,6 +2,7 @@ import Database from 'better-sqlite3';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import fs from 'node:fs';
+import { applyMigrations } from './migrate.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = path.join(root, 'data');
@@ -76,6 +77,9 @@ export function openDb() {
     );
     CREATE INDEX IF NOT EXISTS idx_resources_mile ON resources(route_mile);
     CREATE INDEX IF NOT EXISTS idx_resources_cat ON resources(category_id);
+    -- Anchor scoring asks "how much wi-fi is near mile X" thousands of times per
+    -- auto-plan; category alone made SQLite scan every wi-fi row each call.
+    CREATE INDEX IF NOT EXISTS idx_resources_cat_mile ON resources(category_id, route_mile);
 
     -- Mile-anchored rider notes (ferries, detours, hard roads, no-service gaps).
     -- Anchored to route miles, NOT day numbers: days shift when the plan is
@@ -176,5 +180,6 @@ export function openDb() {
       UNIQUE (provider, provider_ref)
     );
   `);
+  applyMigrations(db);
   return db;
 }

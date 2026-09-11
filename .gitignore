@@ -21,3 +21,14 @@ dist/
 # large regenerable ingest caches (keep small ones)
 data/route/leg-cache.json
 data/route/osm-ways-cache*.json
+
+# Local Netlify folder
+.netlify
+data/trip-key
+
+# OS / editor / tooling droppings
+.DS_Store
+data/.fuse_hidden*
+.claude/
+# working backups the intel pipeline leaves beside its source
+data/intel/*.bak-*

@@ -1,0 +1,449 @@
+[
+ {
+  "day": 31,
+  "options": [
+   {
+    "name": "El Paso West RV Park",
+    "type": "rv_park",
+    "price": 25,
+    "priceNote": "Estimate. Tent camping listed as accepted by Campspot/RVezy but tent rate unpublished (RV full-hookup ~$40); call to confirm tent price",
+    "lat": 31.996,
+    "lng": -106.594,
+    "locationNote": "1415 Anthony Dr, Anthony NM, near I-10 exit 162 \u2014 approx coords; ~4-5 mi east of the day's NM-28/La Union endpoint (backtrack across the valley)",
+    "routeMile": 1848.5,
+    "website": "https://elpasowestrvpark.com/",
+    "phone": "575-882-7172",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established private RV park, tents welcome per listings",
+    "cyclistIntel": "Restrooms w/ showers, laundry, WiFi; office hrs M-F 10-12 & 2-5:30 MST \u2014 call before arriving late",
+    "seasonalNote": "Open year-round; late Oct lows ~45F in the valley",
+    "confidence": "medium",
+    "sources": [
+     "https://elpasowestrvpark.com/",
+     "https://www.rvezy.com/rv-rentals/campground/121e2312-1707-4268-9ffa-826c8ade934c",
+     "https://www.campspot.com/c/camping-in-new-mexico/near-anthony"
+    ]
+   },
+   {
+    "name": "Gaslight Square RV Park",
+    "type": "rv_park",
+    "price": 20,
+    "priceNote": "Estimate only \u2014 small park, rates and tent policy unverified",
+    "lat": 31.9497,
+    "lng": -106.5983,
+    "locationNote": "Approx coords, Vinton/Westway TX area off Doniphan Dr; OSM shows it 0.5 mi off route at mi 1837.4 (11 mi before day's end)",
+    "routeMile": 1837.4,
+    "website": "",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": false,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Private RV park; looks monthly/long-term oriented \u2014 tents unconfirmed",
+    "cyclistIntel": "OSM-mapped only; no recent tent reports found in journals \u2014 treat as a maybe, not a plan",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.allstays.com/Campgrounds/nm-anthony-campgrounds.htm"
+    ]
+   }
+  ],
+  "bestBet": "El Paso West RV Park",
+  "gap": true,
+  "gapAdvice": "Honest gap: the Anthony/La Union/Canutillo area has no true tent campground on-route. La Vi\u00f1a Winery (4201 NM 28, right at the day's endpoint) is a tasting room only \u2014 no camping offered (it does host an early-Oct wine festival; don't count on pitching there). Best plays: (1) call El Paso West RV Park and confirm a tent spot; (2) push ~15 flat miles up NM 28 to Mesilla/Las Cruces \u2014 Las Cruces has an active Warmshowers community and budget motels on Picacho Ave/S Valley Dr around $55-75; (3) motels cluster at the I-10 Anthony exit (~$55-70). Some riders simply combine this into a long day to Leasburg Dam SP (44 mi ahead, $20 guaranteed legal camping)."
+ },
+ {
+  "day": 32,
+  "options": [
+   {
+    "name": "Leasburg Dam State Park",
+    "type": "state_park",
+    "price": 20,
+    "priceNote": "Non-resident developed site $20/night ($15 NM resident) per 2025-26 fee schedule; W+E hookup sites add $15/day utility fees ($35 total non-res) charged even if unused \u2014 ask for one of the 5 non-utility developed sites. ReserveAmerica adds $3.50/night booking fee",
+    "lat": 32.4913,
+    "lng": -106.9175,
+    "locationNote": "12712 State Park Rd, Radium Springs \u2014 0.1 mi off route at the day's endpoint",
+    "routeMile": 1892.7,
+    "website": "https://www.emnrd.nm.gov/spd/find-a-park/leasburg-dam-state-park/",
+    "phone": "575-524-4068",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "NM state park; fee schedule explicitly prices 'per vehicle, walk-in, or bicycle'",
+    "cyclistIntel": "Classic Southern Tier overnight; 23 sites (18 W+E, 5 developed water-nearby), covered shelters, cactus garden. Reserve on newmexicostateparks.reserveamerica.com (6-mo window) or roll in for first-come sites \u2014 a solo tent on a Thursday in late Oct is low-risk",
+    "seasonalNote": "Main comfort station + dump station were closed for renovation Feb 26-Aug 2026 \u2014 should be reopened by Oct 22 but call to confirm showers; vault toilets regardless. Late Oct: 75F days / 40F nights, superb",
+    "confidence": "high",
+    "sources": [
+     "https://www.emnrd.nm.gov/spd/find-a-park/leasburg-dam-state-park/",
+     "https://www.emnrd.nm.gov/spd/fees-permits/",
+     "https://newmexicostateparks.reserveamerica.com/camping/leasburg-dam/r/campgroundDetails.do?contractCode=NM&parkId=430016"
+    ]
+   },
+   {
+    "name": "Sunny Acres RV Park",
+    "type": "rv_park",
+    "price": 25,
+    "priceNote": "Estimate; rates and tent policy unverified",
+    "lat": 32.318,
+    "lng": -106.796,
+    "locationNote": "Las Cruces (approx coords, address unverified); OSM pins it near route mi 1875 \u2014 18 mi before Leasburg, useful only if cutting the day short",
+    "routeMile": 1875,
+    "website": "",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": false,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Private RV park; tent acceptance unconfirmed",
+    "cyclistIntel": "Backup only \u2014 Leasburg is the obvious play",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.allstays.com/Campgrounds/nm-anthony-campgrounds.htm"
+    ]
+   }
+  ],
+  "bestBet": "Leasburg Dam State Park",
+  "gap": false,
+  "gapAdvice": ""
+ },
+ {
+  "day": 33,
+  "options": [
+   {
+    "name": "Caballo Lake State Park (lakeshore primitive)",
+    "type": "state_park",
+    "price": 15,
+    "priceNote": "Primitive/lakeshore camping $15 non-resident ($10 NM resident). Developed sites $20 non-res; W+E sites $35 with utility fees. Note: the 2026 drought fee waiver on primitive camping ran Aug 1-Sep 30 only \u2014 normal fees apply Oct 23",
+    "lat": 32.9689,
+    "lng": -107.3117,
+    "locationNote": "Park entrance ~1 mi north of Caballo village on NM 187, just past the day's endpoint",
+    "routeMile": 1946,
+    "website": "https://www.emnrd.nm.gov/spd/find-a-park/caballo-lake-state-park/",
+    "phone": "575-743-3942",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "NM state park; lakeshore primitive camping is designated and legal",
+    "cyclistIntel": "170 developed sites across 4 campgrounds (Riverside below the dam is the tent-friendly one, showers); lakeshore primitive is cheapest but exposed/shadeless. Pay station/office 7:30-4:30",
+    "seasonalNote": "Watch goathead thorns \u2014 multiple reports of flatted bikes; keep to pavement, check tires",
+    "confidence": "high",
+    "sources": [
+     "https://www.emnrd.nm.gov/spd/find-a-park/caballo-lake-state-park/",
+     "https://www.emnrd.nm.gov/spd/fees-permits/",
+     "https://www.organmountainnews.com/elephant-butte-caballo-free-camping-drought-2026/"
+    ]
+   },
+   {
+    "name": "Percha Dam State Park",
+    "type": "state_park",
+    "price": 20,
+    "priceNote": "Developed site $20 non-resident ($15 NM res); the ~30 W+E sites run $35 non-res with mandatory utility fees \u2014 ask for a non-electric riverside tent spot if available. +$3.50/night ReserveAmerica fee if booking online",
+    "lat": 32.8697,
+    "lng": -107.3008,
+    "locationNote": "Off NM 187 ~4.5 mi south of Caballo village \u2014 reach it before the day's endpoint",
+    "routeMile": 1941,
+    "website": "https://www.emnrd.nm.gov/spd/find-a-park/percha-dam-state-park/",
+    "phone": "575-743-3942",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "NM state park, tent camping on developed sites",
+    "cyclistIntel": "THE cyclist favorite on this stretch: giant cottonwood shade, grass, quiet, hot showers, riverside tent pitches, superb birding. 29 developed sites. Goathead stickers here too \u2014 walk the bike on dirt",
+    "seasonalNote": "October is prime season on the Rio Grande; 75F/42F typical",
+    "confidence": "high",
+    "sources": [
+     "https://www.emnrd.nm.gov/spd/find-a-park/percha-dam-state-park/",
+     "https://www.emnrd.nm.gov/spd/fees-permits/",
+     "https://newmexicostateparks.reserveamerica.com/camping/percha-dam/r/campgroundDetails.do?contractCode=NM&parkId=430015"
+    ]
+   },
+   {
+    "name": "Lakeview RV Park",
+    "type": "rv_park",
+    "price": 20,
+    "priceNote": "Estimate; tent policy and current rates unverified",
+    "lat": 32.9542,
+    "lng": -107.3125,
+    "locationNote": "Caballo village on NM 187, at the day's endpoint (approx coords)",
+    "routeMile": 1945.6,
+    "website": "",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": false,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Private RV park",
+    "cyclistIntel": "OSM-mapped; only worth a call if both state parks somehow fail (they won't)",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.allstays.com/Campgrounds/nm-anthony-campgrounds.htm"
+    ]
+   }
+  ],
+  "bestBet": "Percha Dam State Park",
+  "gap": false,
+  "gapAdvice": ""
+ },
+ {
+  "day": 34,
+  "options": [
+   {
+    "name": "Iron Creek Campground (Gila NF)",
+    "type": "national_forest",
+    "price": 0,
+    "priceNote": "Free per current USFS page; 14-day limit",
+    "lat": 32.9099,
+    "lng": -107.803,
+    "locationNote": "On NM 152 at ~7,300 ft, right at the day's endpoint on the west side of Emory Pass",
+    "routeMile": 1986.6,
+    "website": "https://www.fs.usda.gov/r03/gila/recreation/iron-creek-campground",
+    "phone": "575-388-8201",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Developed USFS campground, open year-round, no fee",
+    "cyclistIntel": "~10 shaded sites, tables, fire rings, vault toilet. NO potable water \u2014 load 5-6L in Hillsboro (last reliable store/cafe) or beg a fill in Kingston; creek water must be filtered. USFS flags flash-flood risk in the 2013 Silver Fire burn scar during storms",
+    "seasonalNote": "COLD: late Oct at 7,300 ft means lows 25-35F, hard frost near-certain, first snowstorms possible \u2014 check the NWS forecast in Hillsboro before committing to sleeping this high; 20F-rated bag advised",
+    "confidence": "high",
+    "sources": [
+     "https://www.fs.usda.gov/r03/gila/recreation/iron-creek-campground"
+    ]
+   },
+   {
+    "name": "Railroad Canyon Campground (Gila NF)",
+    "type": "national_forest",
+    "price": 0,
+    "priceNote": "Free per current USFS page (older flood-closure notices are stale \u2014 listed open year-round as of 2026)",
+    "lat": 32.9077,
+    "lng": -107.8175,
+    "locationNote": "NM 152, ~1 mi west of Iron Creek (approx coords)",
+    "routeMile": 1987.5,
+    "website": "https://www.fs.usda.gov/r03/gila/recreation/railroad-canyon-campground",
+    "phone": "575-388-8201",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Primitive USFS campground, overnight use allowed, 14-day limit",
+    "cyclistIntel": "Small primitive site at the Aldo Leopold Wilderness gateway; intermittent creek (filter). Overflow if Iron Creek is full",
+    "seasonalNote": "Same cold warning as Iron Creek",
+    "confidence": "high",
+    "sources": [
+     "https://www.fs.usda.gov/r03/gila/recreation/railroad-canyon-campground"
+    ]
+   },
+   {
+    "name": "Upper Gallinas Campground (Gila NF)",
+    "type": "national_forest",
+    "price": 0,
+    "priceNote": "Free; only 3 sites",
+    "lat": 32.899,
+    "lng": -107.846,
+    "locationNote": "North side of NM 152 between mileposts 26-27 (approx coords), ~2 mi west of Iron Creek",
+    "routeMile": 1988.4,
+    "website": "https://www.fs.usda.gov/r03/gila/recreation/gallinas-campground-upper",
+    "phone": "575-388-8201",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "USFS developed campground, first-come, 14-night limit",
+    "cyclistIntel": "3 sites, tables, vault toilet, no water. Lower Gallinas nearby is unverified (FS page 404s) \u2014 don't plan on it",
+    "seasonalNote": "Same cold warning; slightly lower elevation than Iron Creek",
+    "confidence": "medium",
+    "sources": [
+     "https://www.fs.usda.gov/r03/gila/recreation/gallinas-campground-upper",
+     "https://thedyrt.com/camping/new-mexico/new-mexico-gallinas-campground-upper"
+    ]
+   },
+   {
+    "name": "Black Range Lodge (Kingston)",
+    "type": "private",
+    "price": 110,
+    "priceNote": "B&B rooms, breakfast included \u2014 rates unpublished online (~$100-150 est); booking widget showed no rooms, so CALL. Historic cyclist-friendly stop; some tourers have been allowed to camp on the grounds for less \u2014 ask",
+    "lat": 32.9186,
+    "lng": -107.7048,
+    "locationNote": "Kingston village, mi 1974.5 \u2014 12 mi before Emory Pass, bail-out if weather turns",
+    "routeMile": 1974.5,
+    "website": "https://www.blackrangelodge.com/",
+    "phone": "575-895-5652",
+    "booking": "call-ahead",
+    "tentsOk": false,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private B&B/retreat center",
+    "cyclistIntel": "The warm-bed fallback before the pass; welcomes bikers per their site. If a cold front or snow is forecast at the pass, stop here and summit in the morning",
+    "seasonalNote": "Kingston sits at ~6,250 ft \u2014 still frosty nights in late Oct",
+    "confidence": "medium",
+    "sources": [
+     "https://www.blackrangelodge.com/",
+     "https://www.hipcamp.com/en-US/land/new-mexico-black-range-lodge-mxvhl7ry"
+    ]
+   }
+  ],
+  "bestBet": "Iron Creek Campground (Gila NF)",
+  "gap": false,
+  "gapAdvice": ""
+ },
+ {
+  "day": 35,
+  "options": [
+   {
+    "name": "Gila NF dispersed camping (Burro Mountains)",
+    "type": "national_forest",
+    "price": 0,
+    "priceNote": "Free and legal on national forest land; 14-day stay limit",
+    "lat": 32.575,
+    "lng": -108.36,
+    "locationNote": "Gila NF land flanks NM 90 around and past the day's endpoint toward Tyrone/Burro Mtns \u2014 pull off on forest roads (FR 851 area is a known dispersed zone); coords are indicative, pick any legal NF spot off the highway",
+    "routeMile": 2042,
+    "website": "https://www.fs.usda.gov/r03/gila/recreation",
+    "phone": "575-388-8201",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "Forest confirms 'millions of acres available for dispersed camping'; standard rules: camp off the road on NF land, 300 ft from water, pack out everything, verify no fire restrictions with Silver City Ranger District",
+    "cyclistIntel": "Zero facilities \u2014 carry water from Silver City (routeMile ~2027). Confirm exact land status; private inholdings and the Tyrone mine property border NM 90",
+    "seasonalNote": "~6,000 ft: lows around 30F late Oct; fire restrictions possible in dry years \u2014 check before lighting anything",
+    "confidence": "medium",
+    "sources": [
+     "https://www.fs.usda.gov/r03/gila/recreation"
+    ]
+   },
+   {
+    "name": "Burro Mountain Homestead",
+    "type": "private",
+    "price": 12,
+    "priceNote": "$12/night tent without hookups + tax (on-season Apr-Oct, verified on their rates page); full-hookup sites $36.50+$3 electric",
+    "lat": 32.5354,
+    "lng": -108.4053,
+    "locationNote": "665 Tyrone Rd, ~4.9 mi off route from mi 2048.3 (6 mi past the day's endpoint) \u2014 approx coords, dirt/paved side road into the Burro Mtns",
+    "routeMile": 2048.3,
+    "website": "https://www.burromountainhomestead.com/rv-sites/rates/",
+    "phone": "575-538-2149",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established private campground/RV resort",
+    "cyclistIntel": "Best value with facilities on this day: $12 tent, restrooms, historic ranch setting; reviews describe a bathhouse but confirm showers when you call. No-refund window 48 hrs before check-in",
+    "seasonalNote": "On-season rates through October; cool nights ~30F at 6,200 ft",
+    "confidence": "high",
+    "sources": [
+     "https://www.burromountainhomestead.com/rv-sites/rates/",
+     "https://www.tripadvisor.com/Hotel_Review-g60831-d10606638-Reviews-Burro_Mountain_Homestead-Silver_City_New_Mexico.html"
+    ]
+   },
+   {
+    "name": "Silver City KOA Holiday",
+    "type": "rv_park",
+    "price": 40,
+    "priceNote": "Tent estimate; recent reports $44-65/night (mostly RV) \u2014 tent sites w/ 20A electric typically run cheaper, call 575-388-3351",
+    "lat": 32.779,
+    "lng": -108.196,
+    "locationNote": "11824 US 180 E, ~6 mi EAST of Silver City between MM 118-119 \u2014 you pass it ~20 mi BEFORE the day's endpoint; only makes sense if ending the day short in Silver City",
+    "routeMile": 2021,
+    "website": "https://koa.com/campgrounds/silver-city/",
+    "phone": "575-388-3351",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established commercial campground with dedicated tent sites",
+    "cyclistIntel": "Full-service (showers, laundry, WiFi); pool closed after Labor Day. Note: Silver City RV Park downtown (mi 2027.1) has PERMANENTLY CLOSED its tent area \u2014 don't route to it",
+    "seasonalNote": "Open year-round",
+    "confidence": "medium",
+    "sources": [
+     "https://koa.com/campgrounds/silver-city/site-type/tent-camping-sites/",
+     "https://maps.campendium.com/us/silver-city-nm/camping-rv/silver-city-koa",
+     "https://thedyrt.com/camping/new-mexico/silver-city-rv-park-and-cabins"
+    ]
+   }
+  ],
+  "bestBet": "Burro Mountain Homestead",
+  "gap": false,
+  "gapAdvice": "City of Rocks SP is ~25+ mi off-corridor east \u2014 skip it. Silver City is a Continental Divide Trail gateway town and generally friendly to dusty travelers, but it has no official free hiker/biker camp in town \u2014 the visitor center or Gila Hike & Bike (local shop) are the right places to ask about current CDT-er crash options if you want to overnight in town instead."
+ },
+ {
+  "day": 36,
+  "options": [
+   {
+    "name": "Veterans Park (City of Lordsburg)",
+    "type": "city_park",
+    "price": 0,
+    "priceNote": "Free municipal overnight camping area, no fee, first-come",
+    "lat": 32.3335,
+    "lng": -108.7215,
+    "locationNote": "South side of Lordsburg off the I-10 business loop, ~1.5 mi from route endpoint (approx coords)",
+    "routeMile": 2073.7,
+    "website": "https://www.campendium.com/veterans-park-lordsburg-nm",
+    "phone": "",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "City-designated free overnight camping \u2014 legal and normal; open all year",
+    "cyclistIntel": "Gravel lot with shaded ramadas, tables, grills, dumpster \u2014 RV-oriented and no recent tent reports, but overnight camping is what it's for; pitch under a ramada. Water spigot has been reported OFF (Feb 2026) and no restroom confirmed \u2014 arrive with water and use town facilities. Reviews through Jul 2026 confirm it's active and free",
+    "seasonalNote": "4,300 ft: late Oct lows ~35F; I-10 and train noise",
+    "confidence": "medium",
+    "sources": [
+     "https://maps.campendium.com/us/lordsburg-nm/nature/veterans-park-lordsburg-nm",
+     "https://www.sekr.com/location/new-mexico/lordsburg/veterans-park"
+    ]
+   },
+   {
+    "name": "Lordsburg KOA Journey",
+    "type": "rv_park",
+    "price": 35,
+    "priceNote": "Tent estimate \u2014 allstays lists the park's tier at $41+/night (RV); 4 dedicated tent sites w/ water+electric, privacy fence, grill typically run low-to-mid $30s; call 575-542-8003 or 800-562-5772",
+    "lat": 32.342009,
+    "lng": -108.716713,
+    "locationNote": "1501 Lead St, 0.9 mi off route on the west side of town",
+    "routeMile": 2073.7,
+    "website": "https://koa.com/campgrounds/lordsburg/",
+    "phone": "575-542-8003",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established commercial campground with tent sites",
+    "cyclistIntel": "The comfort play after the Gila: hot showers, laundry, pool, tenter's sink, firewood on request. Clean and safe per reviews; expect I-10/train noise",
+    "seasonalNote": "Open year-round",
+    "confidence": "high",
+    "sources": [
+     "https://www.allstays.com/Campgrounds-details/24878.htm",
+     "https://koa.com/campgrounds/lordsburg/site-type/tent-camping-sites/"
+    ]
+   }
+  ],
+  "bestBet": "Veterans Park (City of Lordsburg)",
+  "gap": false,
+  "gapAdvice": "If the free gravel lot doesn't appeal after six desert days, Lordsburg's aging I-10 motels (Econo Lodge etc.) run ~$50-70 and the KOA's tent sites ~$35 buy a hot shower and laundry before the Arizona border."
+ }
+]

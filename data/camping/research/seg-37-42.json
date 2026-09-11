@@ -1,0 +1,444 @@
+[
+ {
+  "day": 37,
+  "options": [
+   {
+    "name": "Centennial Park (Duncan Town Park cyclist camping)",
+    "type": "city_park",
+    "price": 0,
+    "priceNote": "Town of Duncan officially lists 'long-distance cyclist camping' at Centennial Park; journals report free or small donation \u2014 confirm at Town Hall (928) 359-2791 (M\u2013Th 8:00\u20135:30)",
+    "lat": 32.728,
+    "lng": -109.1085,
+    "locationNote": "On SE Old West Hwy (US 70) as the route passes through Duncan; coords approximate \u2014 you can't miss it in a town this size",
+    "routeMile": 2111.1,
+    "website": "https://duncanaz.us/home/for-visitors/parks-more/",
+    "phone": "(928) 359-2791",
+    "booking": "ask-permission",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Explicitly designated by the town for long-distance cyclist camping \u2014 fully legal",
+    "cyclistIntel": "Classic Southern Tier overnight; park has restrooms, picnic kiosks, bandstand. Check in / say hi at Town Hall on arrival if open",
+    "seasonalNote": "Pool showers (Veterans Park) are summer-only; late-Oct nights in the Gila valley can drop near freezing",
+    "confidence": "medium",
+    "sources": [
+     "https://duncanaz.us/home/for-visitors/parks-more/",
+     "https://www.visitgreenleecounty.com/outdoor-activities/biking/"
+    ]
+   },
+   {
+    "name": "Simpson Hotel B&B (indoor fallback, not camping)",
+    "type": "private",
+    "price": 100,
+    "priceNote": "Rough estimate $95\u2013135/room; not camping \u2014 the town's beloved cyclist-friendly B&B if weather turns",
+    "lat": 32.7285,
+    "lng": -109.107,
+    "locationNote": "Main St, Duncan, on route; coords approximate",
+    "routeMile": 2111.1,
+    "website": "https://www.simpsonhotel.com",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": false,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Commercial lodging",
+    "cyclistIntel": "Publishes its own local bike-route pages; well known to ST riders as the Duncan splurge option",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.simpsonhotel.com/things-to-do/bike-routes.php"
+    ]
+   }
+  ],
+  "bestBet": "Centennial Park (Duncan Town Park cyclist camping)",
+  "gap": false,
+  "gapAdvice": ""
+ },
+ {
+  "day": 38,
+  "options": [
+   {
+    "name": "Graham County Fairgrounds",
+    "type": "county_park",
+    "price": 15,
+    "priceNote": "Rate not published online \u2014 estimate based on comparable AZ county fairgrounds; call (928) 428-7180 (fairgrounds) or Parks Office (928) 428-6240 to confirm price and tent policy",
+    "lat": 32.808,
+    "lng": -109.728,
+    "locationNote": "527 E Armory Rd, Safford \u2014 roughly 1 mi off US 70 between Safford and Thatcher; coords approximate",
+    "routeMile": 2152,
+    "website": "https://www.graham.az.gov/271/Rental-Facilities",
+    "phone": "(928) 428-7180",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "County-run RV/camping area with full-hookup back-in sites; tent acceptance unverified \u2014 call first",
+    "cyclistIntel": "Fairgrounds are a standard budget fallback for tourers when state park is full",
+    "seasonalNote": "May be unavailable during fair/event weekends",
+    "confidence": "low",
+    "sources": [
+     "https://www.graham.az.gov/271/Rental-Facilities",
+     "https://www.mydriveholiday.com/usa/arizona/safford/campgrounds/graham-county-park-and-fairgrounds"
+    ]
+   },
+   {
+    "name": "Roper Lake State Park (Cottonwood/Gila campgrounds)",
+    "type": "state_park",
+    "price": 25,
+    "priceNote": "$25/night non-electric site + $3.60 non-refundable reservation fee (2025\u201326 AZ State Parks schedule); electric sites cost more",
+    "lat": 32.7541,
+    "lng": -109.7024,
+    "locationNote": "~3.6 mi off route (turn at mi 2148.5, S of Safford via US 191); short flat detour before the Thatcher day-end",
+    "routeMile": 2148.5,
+    "website": "https://azstateparks.com/roper-lake/camping-and-cabins/campsites",
+    "phone": "(877) 697-2757",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established state park campground \u2014 fully legal",
+    "cyclistIntel": "51 tent/RV sites, hot-spring soaking tub on site, showers \u2014 best real-shower night of this segment. Late Oct is snowbird season; reserving the $3.60 fee is worth it",
+    "seasonalNote": "Open year-round; October weather at 3,100 ft is mild",
+    "confidence": "high",
+    "sources": [
+     "https://azstateparks.com/roper-lake/camping-and-cabins/campsites",
+     "https://azstateparks.com/fee-schedule"
+    ]
+   }
+  ],
+  "bestBet": "Roper Lake State Park (Cottonwood/Gila campgrounds)",
+  "gap": false,
+  "gapAdvice": ""
+ },
+ {
+  "day": 39,
+  "options": [
+   {
+    "name": "Bylas church hosting (ask locally)",
+    "type": "church",
+    "price": 0,
+    "priceNote": "Free \u2014 hospitality, not a facility",
+    "lat": 33.14213,
+    "lng": -110.12565,
+    "locationNote": "Bylas town center on US 70, San Carlos Apache Reservation; several churches sit along/near the highway",
+    "routeMile": 2196.1,
+    "website": "",
+    "phone": "",
+    "booking": "ask-permission",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "Staying as an invited guest of a resident/church is the only clearly legal overnight in Bylas \u2014 there is no established campground, and camping on tribal land otherwise requires a permit valid only at designated recreation areas (none at Bylas)",
+    "cyclistIntel": "A 2017 ST journal (Pedaling Pair) was invited indoors by a Bylas pastor who 'frequently hosts cyclists and other travelers'; other riders report asking at the police station. Mt Turnbull Market / gas station on US 70 for water and food",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://pedalingpair.wixsite.com/pedalingpair/single-post/the-southern-tier-phoenix-to-bylas"
+    ]
+   }
+  ],
+  "bestBet": "Bylas church hosting (ask locally)",
+  "gap": true,
+  "gapAdvice": "Honest gap: Bylas has no legal established camping. The San Carlos Apache recreation permit (~$7\u201310/day; buy online at sancarlos.nagfa.net or via vendors; Recreation & Wildlife Dept (928) 475-2343) covers camping only at designated tribal recreation areas \u2014 none of which are on US 70 near Bylas \u2014 so roadside camping here is NOT legal even with a permit. Realistic plays: (1) call the Recreation & Wildlife Dept in advance and ask specifically about an overnight option for a through-cyclist; (2) arrive early and ask at a church or the police station \u2014 riders are regularly hosted; (3) restructure: ride Safford\u2192Globe (~86 mi, gentle US 70 grades) in one day as most ST riders do, or split at Apache Gold Casino RV Park/hotel (~mi 2237, 5 mi east of Globe, tribal-owned, RV $45 and tent policy inconsistent \u2014 call (928) 475-7800 range numbers or book the hotel)."
+ },
+ {
+  "day": 40,
+  "options": [
+   {
+    "name": "Round Mountain Park (Globe city park)",
+    "type": "city_park",
+    "price": 0,
+    "priceNote": "Free if permitted \u2014 overnight camping is by local tolerance, not posted policy; check with City of Globe / Globe PD before setting up",
+    "lat": 33.403,
+    "lng": -110.769,
+    "locationNote": "Trailhead park on the E edge of Globe off US 60/70; ~1 mi off route, coords approximate",
+    "routeMile": 2243,
+    "website": "https://www.globeaz.gov",
+    "phone": "",
+    "booking": "ask-permission",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Could NOT verify a formal overnight-camping policy \u2014 treat as ask-permission only; do not assume",
+    "cyclistIntel": "Some tourer reports of overnighting at Globe parks with permission, but nothing recent/verifiable found",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.go-arizona.com/Round-Mountain-Park/"
+    ]
+   },
+   {
+    "name": "Cherry Flat Campground (Tonto NF)",
+    "type": "national_forest",
+    "price": 0,
+    "priceNote": "Free primitive site historically; no longer listed on the Globe Ranger District's current site list \u2014 status uncertain, call (928) 402-6200",
+    "lat": 33.341,
+    "lng": -110.783,
+    "locationNote": "~4.6 mi off route up Icehouse/Kellner Canyon (FR 112) with a steep dirt climb of well over 1,000 ft \u2014 NOT recommended on a loaded touring bike",
+    "routeMile": 2248.4,
+    "website": "https://www.fs.usda.gov/r03/tonto/recreation/globe-ranger-district",
+    "phone": "(928) 402-6200",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Legal NF camping if the site is still open; dispersed camping in Tonto NF is also legal off forest roads",
+    "cyclistIntel": "The climb makes this a poor value vs. in-town options",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.fs.usda.gov/r03/tonto/recreation/globe-ranger-district"
+    ]
+   },
+   {
+    "name": "Gila County Fairgrounds RV Park",
+    "type": "county_park",
+    "price": 15,
+    "priceNote": "$15/day published (add $10/day only if using horse facilities); tent acceptance unverified \u2014 call (928) 402-4368",
+    "lat": 33.3705,
+    "lng": -110.747,
+    "locationNote": "900 E Fairground Rd, just off US 70 ~3 mi before downtown Globe \u2014 essentially on route as you arrive from Peridot",
+    "routeMile": 2240,
+    "website": "https://discovergilacounty.com/property/gila-county-fairgrounds-rv-park/",
+    "phone": "(928) 402-4368",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "County-operated, 28 sites \u2014 legal and normal",
+    "cyclistIntel": "Cheapest verified-price bed-down in the Globe area",
+    "seasonalNote": "Can fill/close during fair and event weekends",
+    "confidence": "medium",
+    "sources": [
+     "https://discovergilacounty.com/property/gila-county-fairgrounds-rv-park/",
+     "https://discovergilacounty.com/rv-camping/"
+    ]
+   },
+   {
+    "name": "Gila County RV Park & Batting Range (downtown Globe)",
+    "type": "rv_park",
+    "price": 25,
+    "priceNote": "Estimate \u2014 tent rate not published; The Dyrt lists 3 tent sites plus grass tent space; call (928) 425-4653 to confirm",
+    "lat": 33.393,
+    "lng": -110.788,
+    "locationNote": "130 W Ash St, right in downtown Globe on route; walk to food/groceries",
+    "routeMile": 2243,
+    "website": "https://gilamini.com/",
+    "phone": "(928) 425-4653",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established private RV park that takes tents \u2014 legal and normal",
+    "cyclistIntel": "This is the 'RV park right next to downtown' where ST riders (e.g., Pedaling Pair 2017) camped; owner lives on-site; showers, laundry, wifi",
+    "seasonalNote": "Lower section rebuilding after flooding; upper park open \u2014 28 spaces",
+    "confidence": "medium",
+    "sources": [
+     "https://gilamini.com/",
+     "https://thedyrt.com/camping/arizona/gila-county-rv-park",
+     "https://pedalingpair.wixsite.com/pedalingpair/single-post/the-southern-tier-phoenix-to-bylas"
+    ]
+   }
+  ],
+  "bestBet": "Gila County RV Park & Batting Range (downtown Globe)",
+  "gap": false,
+  "gapAdvice": "All real options are in/around Globe (mi ~2240\u20132243), 6\u20139 mi before the mapped Miami endpoint \u2014 Miami itself has no legal camping, only a couple of motels. Plan to stop in Globe; the extra 6 mi to Miami is trivial to make up next morning. Oak Flat CG (free, Tonto NF) is on US 60 toward Superior \u2014 the route turns NORTH on AZ 188 before it, so it is NOT relevant unless you're detouring."
+ },
+ {
+  "day": 41,
+  "options": [
+   {
+    "name": "Indian Point Recreation Site (Tonto NF)",
+    "type": "national_forest",
+    "price": 0,
+    "priceNote": "Free \u2014 'No fees are required for this site' per USFS; 14-day limit",
+    "lat": 33.706,
+    "lng": -111.264,
+    "locationNote": "~0.9 mi off AZ 188 via FR 60/FR 661 (A-Cross Rd) across Tonto Creek; USFS warns DO NOT cross Tonto Creek when flowing \u2014 check flow before committing; coords approximate",
+    "routeMile": 2287.7,
+    "website": "https://www.fs.usda.gov/r03/tonto/recreation/indian-point",
+    "phone": "(602) 225-5395",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Legal free NF camping, open year-round, first-come",
+    "cyclistIntel": "Carry water from Globe or the Roosevelt Lake Marina store \u2014 no potable water here",
+    "seasonalNote": "Open year-round; access depends on Tonto Creek being dry/low (usually fine in late Oct)",
+    "confidence": "high",
+    "sources": [
+     "https://www.fs.usda.gov/r03/tonto/recreation/indian-point"
+    ]
+   },
+   {
+    "name": "Little Pine Flat dispersed area (Tonto NF)",
+    "type": "national_forest",
+    "price": 0,
+    "priceNote": "Likely free Tonto NF dispersed camping \u2014 could NOT verify with USFS; confirm with Tonto Basin RD (602) 225-5395",
+    "lat": 33.79,
+    "lng": -111.405,
+    "locationNote": "OSM shows it on route at mi 2314.8, ~7 mi PAST the day-41 endpoint on AZ 188 toward Jake's Corner; coords very approximate",
+    "routeMile": 2314.8,
+    "website": "https://www.fs.usda.gov/r03/tonto",
+    "phone": "(602) 225-5395",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "Dispersed camping is generally legal on Tonto NF land off forest roads (no Tonto Pass needed away from the lake fee corridor)",
+    "cyclistIntel": "Only worth it if you want to bank miles past Tonto Basin; no facilities at all",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.fs.usda.gov/r03/tonto/recreation/tonto-basin-ranger-district"
+    ]
+   },
+   {
+    "name": "Bermuda Flat Shoreline Area (Roosevelt Lake)",
+    "type": "national_forest",
+    "price": 8,
+    "priceNote": "Camping via Tonto Daily Pass: $8/day bought in advance at a vendor (Globe has several) or $12/day at the on-site fee machine; pass is per vehicle \u2014 a solo cyclist should carry one to be squarely legal",
+    "lat": 33.699,
+    "lng": -111.225,
+    "locationNote": "Right on AZ 188 along the north shore, NW of Cholla \u2014 no detour",
+    "routeMile": 2297,
+    "website": "https://www.fs.usda.gov/r03/tonto/recreation/bermuda-flat-shoreline-area",
+    "phone": "(602) 225-5395",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Legal first-come dispersed shoreline camping with the daily pass; 14-day limit; avoid wash bottoms (flash-flood risk)",
+    "cyclistIntel": "Buy the $8 pass in Globe before leaving \u2014 saves $4 and hassle",
+    "seasonalNote": "OPEN Feb 16\u2013Nov 14 only (closes Nov 15 for wintering bald eagles) \u2014 Oct 31 is fine",
+    "confidence": "high",
+    "sources": [
+     "https://www.fs.usda.gov/r03/tonto/recreation/bermuda-flat-shoreline-area",
+     "https://www.myscenicdrives.com/store/forest-passes/tonto"
+    ]
+   },
+   {
+    "name": "Windy Hill Campground (Roosevelt Lake)",
+    "type": "national_forest",
+    "price": 25,
+    "priceNote": "$25/night single site (2025\u201326 USFS rate); campground fee replaces the Tonto Pass",
+    "lat": 33.656,
+    "lng": -111.105,
+    "locationNote": "~2 mi off AZ 188 via paved road, SE shore before the dam; coords approximate",
+    "routeMile": 2283,
+    "website": "https://www.fs.usda.gov/r03/tonto/recreation/windy-hill-campground",
+    "phone": "(877) 444-6777",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Established NF campground, open year-round; first-come Apr\u2013Oct, odd-numbered sites reservable on Recreation.gov Nov 1\u2013Mar 15",
+    "cyclistIntel": "Huge campground \u2014 space essentially guaranteed on Oct 31; potable water on site; 2017 ST riders camped here (were even waved in free as cyclists, though that's not an official policy)",
+    "seasonalNote": "Confirmed 'Site Open' as of Aug 2026",
+    "confidence": "high",
+    "sources": [
+     "https://www.fs.usda.gov/r03/tonto/recreation/windy-hill-campground",
+     "https://pedalingpair.wixsite.com/pedalingpair/single-post/the-southern-tier-phoenix-to-bylas"
+    ]
+   },
+   {
+    "name": "Cholla Campground (Roosevelt Lake)",
+    "type": "national_forest",
+    "price": 25,
+    "priceNote": "$25/night single site (2025\u201326 USFS rate); fee replaces the Tonto Pass",
+    "lat": 33.686,
+    "lng": -111.2,
+    "locationNote": "Right on AZ 188, north shore, ~11 mi before the mapped day-41 endpoint \u2014 plan to end the day here",
+    "routeMile": 2295,
+    "website": "https://www.fs.usda.gov/r03/tonto/recreation/cholla-campground",
+    "phone": "(602) 225-5395",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established NF campground with dedicated tent-only sites; even-numbered sites first-come, odd-numbered reservable Nov 1\u2013Mar 15",
+    "cyclistIntel": "The comfort pick: potable water, FLUSH toilets, and showers, directly on route",
+    "seasonalNote": "Closed June 1\u2013Oct 1 annually and shown 'Site Closed' in Aug 2026 (summer closure) \u2014 should be reopened by Oct 31, but CALL Tonto Basin RD (602) 225-5395 to confirm reopening before relying on it; Windy Hill is the confirmed-open backup",
+    "confidence": "medium",
+    "sources": [
+     "https://www.fs.usda.gov/r03/tonto/recreation/cholla-campground",
+     "https://www.fs.usda.gov/r03/tonto/recreation/tonto-basin-ranger-district"
+    ]
+   }
+  ],
+  "bestBet": "Cholla Campground (Roosevelt Lake)",
+  "gap": false,
+  "gapAdvice": "All lake campgrounds sit 10\u201325 mi BEFORE the mapped 2307.5 endpoint \u2014 end the day at the lake (Cholla mi ~2295 or Bermuda Flat mi ~2297) rather than the abstract 'near Tonto Basin' point. Budget pick: Bermuda Flat at $8 if you carry water from Globe or the Roosevelt Lake Marina store. Schoolhouse Point was 'Temporarily Closed' as of Aug 2026. Verify Cholla's Oct 1 reopening by phone; Windy Hill (water, $25, confirmed open) is the fail-safe."
+ },
+ {
+  "day": 42,
+  "options": [
+   {
+    "name": "Usery Mountain Regional Park (Buckhorn Campground)",
+    "type": "county_park",
+    "price": 40,
+    "priceNote": "$40/night developed site (all Buckhorn sites have water+electric) + $10 non-refundable reservation fee, per Maricopa County fee schedule effective Jan 1 2026 (rises to $50 in 2027); no primitive/semi-developed sites at Usery",
+    "lat": 33.477,
+    "lng": -111.609,
+    "locationNote": "3939 N Usery Pass Rd, NE Mesa \u2014 essentially on route at the base of Usery Pass, ~10\u201312 mi before the Gilbert endpoint",
+    "routeMile": 2351,
+    "website": "https://www.maricopacountyparks.net/park-locator/usery-mountain-regional-park/park-activities/camping/",
+    "phone": "(480) 984-0032",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established county regional park campground \u2014 legal and normal; the only real tent camping in metro east Phoenix",
+    "cyclistIntel": "Standard last-camp-before-Phoenix for ST riders; showers, flush toilets, gorgeous Sonoran desert setting. Late Oct/Nov 1 is peak snowbird season \u2014 reserve online ahead",
+    "seasonalNote": "Open year-round; Nov 1 weather is ideal",
+    "confidence": "high",
+    "sources": [
+     "https://www.maricopacountyparks.net/park-locator/usery-mountain-regional-park/fees/",
+     "https://www.maricopacountyparks.net/park-locator/usery-mountain-regional-park/park-activities/camping/"
+    ]
+   },
+   {
+    "name": "Mesa/Apache Junction KOA Journey",
+    "type": "rv_park",
+    "price": 45,
+    "priceNote": "Estimate ~$45\u201355 for a tent site \u2014 over budget and unverified for Nov 2026; all ages, tents accepted",
+    "lat": 33.399,
+    "lng": -111.535,
+    "locationNote": "Apache Junction, ~6\u20137 mi SE of the route near the day-end \u2014 a detour, only as overflow",
+    "routeMile": 2360,
+    "website": "https://koa.com/campgrounds/mesa/",
+    "phone": "",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Commercial campground \u2014 legal",
+    "cyclistIntel": "Only relevant if Usery is full; otherwise skip",
+    "seasonalNote": "Snowbird season pricing in effect by Nov",
+    "confidence": "low",
+    "sources": [
+     "https://koa.com/find-a-koa/us/southwest/az/bylas/"
+    ]
+   }
+  ],
+  "bestBet": "Usery Mountain Regional Park (Buckhorn Campground)",
+  "gap": false,
+  "gapAdvice": "Metro Phoenix camping is genuinely awkward: Usery is the only sensible legal tent option and now runs $50 all-in ($40 + $10 reservation fee) after the Jan 2026 county fee hike \u2014 over the $35 cap but still the best move. Fiesta RV Resort at the Gilbert endpoint is a 55+ RV resort with no tents \u2014 excluded, as are the other age-restricted Mesa resorts. McDowell Mountain Regional Park is 25+ mi off-route (same $40 county rate) \u2014 not worth it. If $50 stings, budget motels on US 60/Main St in Mesa run ~$60\u201385 and Warmshowers hosts are plentiful in Mesa/Gilbert \u2014 for a shower, laundry, and real bed before the final push, a motel arguably beats the campground on value here."
+ }
+]

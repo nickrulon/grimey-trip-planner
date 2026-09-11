@@ -1,0 +1,1034 @@
+{
+ "ranAt": "2026-09-04",
+ "round": 2,
+ "spec": "data/intel/ANCHOR_PILOT.md",
+ "readOnly": true,
+ "changesThisRound": [
+  "reads loc.betweenTowns (16), loc.nearestTown (9), relativeTo (1)",
+  "applies source.extentDirectionRule: one-ended spans run toward DECREASING Nick-mile",
+  "town+bearing+distance offsets projected geometrically onto the route",
+  "resolver shared with the builder (scripts/lib/gazetteer.mjs) so they cannot drift"
+ ],
+ "tiers": {
+  "tier0_anchors": {
+   "n": 29,
+   "resolved": 14,
+   "partial": 12,
+   "failed": 2,
+   "rejected": 1
+  },
+  "tier1_sev5": {
+   "n": 12,
+   "resolved": 9,
+   "partial": 1,
+   "failed": 1,
+   "rejected": 1
+  },
+  "tier2_dayMile": {
+   "n": 6,
+   "resolved": 5,
+   "partial": 0,
+   "failed": 1,
+   "rejected": 0
+  },
+  "tier3_mustReject": {
+   "n": 7,
+   "resolved": 0,
+   "partial": 0,
+   "failed": 0,
+   "rejected": 7
+  }
+ },
+ "uncertaintyMi": {
+  "median": 3.1,
+  "best": 0.5,
+  "worst": 4.5
+ },
+ "filterCheck": {
+  "tier3Records": 7,
+  "allRejected": true,
+  "leaked": []
+ },
+ "gazetteerGaps": [
+  "Roosevelt Lake",
+  "White Signal",
+  "Tyrone"
+ ],
+ "controls": [
+  {
+   "name": "Glamis",
+   "expected": 2637,
+   "got": 2636.4,
+   "pass": true
+  },
+  {
+   "name": "El Paso→Fort Hancock inside the known dry stretch 1689–1789",
+   "expected": "overlaps 1689-1789",
+   "got": "1759.5-1821",
+   "pass": true
+  }
+ ],
+ "results": [
+  {
+   "id": "anchor:mp227-az",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 2239.2,
+   "endMile": 2251.2,
+   "uncertaintyMi": 6,
+   "anchorMethod": "between_towns_partial",
+   "matchedTowns": [
+    "Globe"
+   ],
+   "missingTown": "Roosevelt Lake",
+   "note": null,
+   "geometrySegment": "st-az — Arizona: Duncan → Safford → Globe → Tempe → Morristown (current ST, Gila line)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:roosevelt-bridge",
+   "tier": 0,
+   "outcome": "failed",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "geometrySource": "route_places (250 OSM towns) + 153 corridor waypoints",
+   "whyFailed": "no place in from=\"\" to=\"\" near=\"north end of Roosevelt Lake\" betweenTowns=null matches the route gazetteer",
+   "failureClass": "towns_supplied_but_absent_from_gazetteer",
+   "townsTried": [
+    "Roosevelt Lake"
+   ],
+   "oneFieldThatWouldHaveFixedIt": "none — the town names are present; the ROUTE GAZETTEER lacks these places"
+  },
+  {
+   "id": "anchor:nm-state-line",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 2102.9,
+   "endMile": 2109.6,
+   "uncertaintyMi": 3.3,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Duncan",
+    "Virden"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-az — Arizona: Duncan → Safford → Globe → Tempe → Morristown (current ST, Gila line)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:continental-divide-nm90",
+   "tier": 0,
+   "outcome": "failed",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "geometrySource": "route_places (250 OSM towns) + 153 corridor waypoints",
+   "whyFailed": "no place in from=\"\" to=\"\" near=\"between White Signal and Tyrone, in the 6,000+ ft rolling section\" betweenTowns=[\"White Signal\",\"Tyrone\"] matches the route gazetteer",
+   "failureClass": "towns_supplied_but_absent_from_gazetteer",
+   "townsTried": [
+    "White Signal",
+    "Tyrone"
+   ],
+   "oneFieldThatWouldHaveFixedIt": "none — the town names are present; the ROUTE GAZETTEER lacks these places"
+  },
+  {
+   "id": "anchor:tyrone-mine",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 2040.2,
+   "endMile": 2040.2,
+   "uncertaintyMi": 3.9,
+   "anchorMethod": "town_offset",
+   "matchedTowns": [
+    "Silver City"
+   ],
+   "missingTown": null,
+   "note": "10 mi south of Silver City",
+   "geometrySegment": "st-nm — New Mexico: El Paso → Emory Pass → Silver City → Lordsburg (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:mccomas-marker",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 2028.2,
+   "endMile": 2073.5,
+   "uncertaintyMi": 22.7,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Lordsburg",
+    "Silver City"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-nm — New Mexico: El Paso → Emory Pass → Silver City → Lordsburg (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:emory-pass",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 1974.7,
+   "endMile": 2002.2,
+   "uncertaintyMi": 13.7,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "San Lorenzo",
+    "Kingston"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-nm — New Mexico: El Paso → Emory Pass → Silver City → Lordsburg (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:iron-creek-cg",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 1974.7,
+   "endMile": 2002.2,
+   "uncertaintyMi": 13.7,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "San Lorenzo",
+    "Kingston"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-nm — New Mexico: El Paso → Emory Pass → Silver City → Lordsburg (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:hanover-mine",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 2025.2,
+   "endMile": 2031.2,
+   "uncertaintyMi": 3.2,
+   "anchorMethod": "nearest_town",
+   "matchedTowns": [
+    "Silver City"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-nm — New Mexico: El Paso → Emory Pass → Silver City → Lordsburg (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:sierra-blanca-depot",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 1718,
+   "endMile": 1724,
+   "uncertaintyMi": 3,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Sierra Blanca"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:prada-marfa",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 1606.8,
+   "endMile": 1642.6,
+   "uncertaintyMi": 17.9,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Valentine",
+    "Marfa"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:giant-cast",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 1603.8,
+   "endMile": 1609.8,
+   "uncertaintyMi": 3.2,
+   "anchorMethod": "nearest_town",
+   "matchedTowns": [
+    "Marfa"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:paisano-pass",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 1579.9,
+   "endMile": 1606.8,
+   "uncertaintyMi": 13.4,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Marfa",
+    "Alpine"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:marfa-lights-stop",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 1603.8,
+   "endMile": 1609.8,
+   "uncertaintyMi": 3.2,
+   "anchorMethod": "nearest_town",
+   "matchedTowns": [
+    "Marfa"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:pecos-river-crossing",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 1389.2,
+   "endMile": 1417.8,
+   "uncertaintyMi": 14.3,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Langtry",
+    "Comstock"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:hill-country-trail",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 1251.9,
+   "endMile": 1273.4,
+   "uncertaintyMi": 10.8,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Camp Wood",
+    "Leakey"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:stonehenge-ii",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 1188.6,
+   "endMile": 1197.2,
+   "uncertaintyMi": 4.3,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Hunt",
+    "Ingram"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:colorado-river-austin",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 1061.9,
+   "endMile": 1067.9,
+   "uncertaintyMi": 3.3,
+   "anchorMethod": "nearest_town",
+   "matchedTowns": [
+    "Austin"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:brazos-river",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 898.2,
+   "endMile": 907.3,
+   "uncertaintyMi": 4.5,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Washington",
+    "Navasota"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:grimes-courthouse",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 883.8,
+   "endMile": 889.8,
+   "uncertaintyMi": 3,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Anderson"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:sabine-river-state-line",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 671.9,
+   "endMile": 694.7,
+   "uncertaintyMi": 11.4,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Kirbyville",
+    "Merryville"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:audubon-bridge",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 474.5,
+   "endMile": 486.5,
+   "uncertaintyMi": 6,
+   "anchorMethod": "between_towns_partial",
+   "matchedTowns": [
+    "New Roads"
+   ],
+   "missingTown": "St Francisville",
+   "note": null,
+   "geometrySegment": "st-la — Louisiana: New Orleans → Baton Rouge → Audubon Bridge (current ST, 2021 reroute)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:nasa-michoud",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 331.9,
+   "endMile": 337.9,
+   "uncertaintyMi": 3.2,
+   "anchorMethod": "nearest_town",
+   "matchedTowns": [
+    "New Orleans"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-ms — Mississippi Gulf Coast → New Orleans (current ST + official Pearl River detour)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:chalmette-battlefield",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 321.9,
+   "endMile": 327.9,
+   "uncertaintyMi": 7.7,
+   "anchorMethod": "nearest_town",
+   "matchedTowns": [
+    "Chalmette"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-ms — Mississippi Gulf Coast → New Orleans (current ST + official Pearl River detour)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:la-ms-state-line",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 288.8,
+   "endMile": 294.8,
+   "uncertaintyMi": 3.1,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Pearl River"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-ms — Mississippi Gulf Coast → New Orleans (current ST + official Pearl River detour)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:ms-al-state-line",
+   "tier": 0,
+   "outcome": "partial",
+   "startMile": 120.5,
+   "endMile": 135.3,
+   "uncertaintyMi": 7.4,
+   "anchorMethod": "between_towns",
+   "matchedTowns": [
+    "Moss Point",
+    "Grand Bay"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-ms — Mississippi Gulf Coast → New Orleans (current ST + official Pearl River detour)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "anchor:al-fl-state-line",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 47.6,
+   "endMile": 53.6,
+   "uncertaintyMi": 3.1,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Perdido Key"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-al — Alabama: Gulf Shores + Mobile Bay Ferry (ST mainline; ferry is official)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "anchor:flora-bama",
+   "tier": 0,
+   "outcome": "resolved",
+   "startMile": 47.6,
+   "endMile": 53.6,
+   "uncertaintyMi": 3.1,
+   "anchorMethod": "nearest_town",
+   "matchedTowns": [
+    "Perdido Key"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-al — Alabama: Gulf Shores + Mobile Bay Ferry (ST mainline; ferry is official)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "src:cumulative-error",
+   "tier": 0,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "needsAnchor:false / scope:region — advice, not a place",
+   "correctlyRejected": false
+  },
+  {
+   "id": "p6-001",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 2727.9,
+   "endMile": 2746.1,
+   "uncertaintyMi": 0.7,
+   "anchorMethod": "both_towns",
+   "matchedTowns": [
+    "Jacumba Hot Springs",
+    "Ocotillo"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-ca — California: Blythe → Imperial Valley → mountains → San Diego (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p6-003",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 2682.3,
+   "endMile": 2754.6,
+   "uncertaintyMi": 2.1,
+   "anchorMethod": "both_towns",
+   "matchedTowns": [
+    "Boulevard",
+    "El Centro"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-ca — California: Blythe → Imperial Valley → mountains → San Diego (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p8-001",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 2629.4,
+   "endMile": 2636.4,
+   "uncertaintyMi": 1,
+   "anchorMethod": "one_town_directed",
+   "matchedTowns": [
+    "Glamis"
+   ],
+   "missingTown": null,
+   "note": "extent applied west→east per the source rule",
+   "geometrySegment": "st-ca — California: Blythe → Imperial Valley → mountains → San Diego (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "d8-001",
+   "tier": 1,
+   "outcome": "failed",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "geometrySource": "route_places (250 OSM towns) + 153 corridor waypoints",
+   "whyFailed": "no place in from=\"Ehrenberg\" to=\"Dome Rock Road exit\" near=\"\" betweenTowns=null matches the route gazetteer",
+   "failureClass": "no_town_named",
+   "townsTried": null,
+   "oneFieldThatWouldHaveFixedIt": "nearestTown / betweenTowns"
+  },
+  {
+   "id": "p20-003",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 2368.6,
+   "endMile": 2403.3,
+   "uncertaintyMi": 0.6,
+   "anchorMethod": "both_towns",
+   "matchedTowns": [
+    "Peoria",
+    "Mesa"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-az — Arizona: Duncan → Safford → Globe → Tempe → Morristown (current ST, Gila line)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p21-002",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 2312.6,
+   "endMile": 2368.6,
+   "uncertaintyMi": 1,
+   "anchorMethod": "one_town_directed",
+   "matchedTowns": [
+    "Mesa"
+   ],
+   "missingTown": null,
+   "note": "extent applied west→east per the source rule",
+   "geometrySegment": "st-az — Arizona: Duncan → Safford → Globe → Tempe → Morristown (current ST, Gila line)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p21-001",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 2312.6,
+   "endMile": 2368.6,
+   "uncertaintyMi": 1,
+   "anchorMethod": "one_town_directed",
+   "matchedTowns": [
+    "Mesa"
+   ],
+   "missingTown": null,
+   "note": "extent applied west→east per the source rule",
+   "geometrySegment": "st-az — Arizona: Duncan → Safford → Globe → Tempe → Morristown (current ST, Gila line)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p21-003",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 2312.6,
+   "endMile": 2368.6,
+   "uncertaintyMi": 1,
+   "anchorMethod": "one_town_directed",
+   "matchedTowns": [
+    "Mesa"
+   ],
+   "missingTown": null,
+   "note": "extent applied west→east per the source rule",
+   "geometrySegment": "st-az — Arizona: Duncan → Safford → Globe → Tempe → Morristown (current ST, Gila line)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p22-001",
+   "tier": 1,
+   "outcome": "partial",
+   "startMile": 2239.2,
+   "endMile": 2251.2,
+   "uncertaintyMi": 6,
+   "anchorMethod": "between_towns_partial",
+   "matchedTowns": [
+    "Globe"
+   ],
+   "missingTown": "Roosevelt Lake",
+   "note": null,
+   "geometrySegment": "st-az — Arizona: Duncan → Safford → Globe → Tempe → Morristown (current ST, Gila line)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": "a tighter bracketing pair — this envelope is wide"
+  },
+  {
+   "id": "p24-005",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 1818,
+   "endMile": 1824,
+   "uncertaintyMi": 3,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "El Paso"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p25-001",
+   "tier": 1,
+   "outcome": "resolved",
+   "startMile": 2058.5,
+   "endMile": 2073.5,
+   "uncertaintyMi": 1.1,
+   "anchorMethod": "one_town_directed",
+   "matchedTowns": [
+    "Lordsburg"
+   ],
+   "missingTown": null,
+   "note": "extent applied west→east per the source rule",
+   "geometrySegment": "st-nm — New Mexico: El Paso → Emory Pass → Silver City → Lordsburg (current ST)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p25-009",
+   "tier": 1,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "needsAnchor:false / scope:region — advice, not a place",
+   "correctlyRejected": false
+  },
+  {
+   "id": "p33-006",
+   "tier": 2,
+   "outcome": "resolved",
+   "startMile": 1756.5,
+   "endMile": 1762.5,
+   "uncertaintyMi": 3,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Fort Hancock"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p36-003",
+   "tier": 2,
+   "outcome": "resolved",
+   "startMile": 1576.9,
+   "endMile": 1582.9,
+   "uncertaintyMi": 3.1,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Alpine"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p39-002",
+   "tier": 2,
+   "outcome": "resolved",
+   "startMile": 1414.8,
+   "endMile": 1420.8,
+   "uncertaintyMi": 3,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Langtry"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p47-003",
+   "tier": 2,
+   "outcome": "resolved",
+   "startMile": 895.2,
+   "endMile": 901.2,
+   "uncertaintyMi": 3.1,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Navasota"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p48-003",
+   "tier": 2,
+   "outcome": "resolved",
+   "startMile": 812.6,
+   "endMile": 818.6,
+   "uncertaintyMi": 3.1,
+   "anchorMethod": "one_town",
+   "matchedTowns": [
+    "Coldspring"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  },
+  {
+   "id": "p50-006",
+   "tier": 2,
+   "outcome": "failed",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "geometrySource": "route_places (250 OSM towns) + 153 corridor waypoints",
+   "whyFailed": "no place in from=\"De Ridder\" to=\"\" near=\"\" betweenTowns=null matches the route gazetteer",
+   "failureClass": "no_town_named",
+   "townsTried": null,
+   "oneFieldThatWouldHaveFixedIt": "nearestTown / betweenTowns"
+  },
+  {
+   "id": "p54-006",
+   "tier": 3,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "transferable:false — one-off event, never anchored",
+   "correctlyRejected": true
+  },
+  {
+   "id": "p20-009",
+   "tier": 3,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "needsAnchor:false / scope:region — advice, not a place",
+   "correctlyRejected": true
+  },
+  {
+   "id": "p21-009",
+   "tier": 3,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "needsAnchor:false / scope:region — advice, not a place",
+   "correctlyRejected": true
+  },
+  {
+   "id": "p23-012",
+   "tier": 3,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "needsAnchor:false / scope:region — advice, not a place",
+   "correctlyRejected": true
+  },
+  {
+   "id": "d10-005",
+   "tier": 3,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "needsAnchor:false / scope:region — advice, not a place",
+   "correctlyRejected": true
+  },
+  {
+   "id": "p24-001",
+   "tier": 3,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "needsAnchor:false / scope:region — advice, not a place",
+   "correctlyRejected": true
+  },
+  {
+   "id": "p18-N1",
+   "tier": 3,
+   "outcome": "rejected",
+   "startMile": null,
+   "endMile": null,
+   "uncertaintyMi": null,
+   "whyFailed": "onActiveRoute:false — not on Nick's route",
+   "correctlyRejected": true
+  },
+  {
+   "id": "p33-005",
+   "tier": "control",
+   "outcome": "resolved",
+   "startMile": 1759.5,
+   "endMile": 1821,
+   "uncertaintyMi": 0.5,
+   "anchorMethod": "both_towns",
+   "matchedTowns": [
+    "El Paso",
+    "Fort Hancock"
+   ],
+   "missingTown": null,
+   "note": null,
+   "geometrySegment": "st-tx — Texas: Sabine River → El Paso (current ST, 2023-edition corridor)",
+   "geometrySource": "route_places + corridor waypoints · route geometry is reconstructed; dashed sections are corridor-accurate, street-approximate",
+   "orderedForNick": true,
+   "whyFailed": null,
+   "oneFieldThatWouldHaveFixedIt": null
+  }
+ ]
+}

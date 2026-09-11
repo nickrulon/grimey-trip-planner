@@ -1,0 +1,896 @@
+// The Today layer: everything the Day Canvas needs to answer "where will I
+// be, at what time, doing what, and is that plan viable?" — plus the decision
+// systems (work chooser, unified sleep chooser) and the structured
+// "help me make this fit" proposals.
+//
+// This layer READS the canonical plan and daylight engine and WRITES only
+// through the planner's own mutations, so there is never a second plan.
+
+const r1 = (n) => Math.round(n * 10) / 10;
+const r2 = (n) => (n == null ? null : Math.round(n * 100) / 100);
+
+// Brands where a laptop can genuinely sit for hours (from the Daylight Blocks
+// prototype — loiterability is a real work-planning signal, not a joke).
+const LOITER = {
+  "McDonald's": 3, Starbucks: 3, 'Panera Bread': 3, Panera: 3, "Dunkin'": 2.5, Dunkin: 2.5,
+  'Burger King': 2.5, "Wendy's": 2.5, Whataburger: 2.5, "Denny's": 2.5, IHOP: 2,
+  'Waffle House': 2, 'Jack in the Box': 2, "Carl's Jr.": 2, "Hardee's": 2,
+  Subway: 1.5, 'Taco Bell': 1.5, Pilot: 2, "Love's": 2, 'Flying J': 2,
+};
+const isLibrary = (name) => /librar|bibliot/i.test(name ?? '');
+
+export function makeToday(db, planner, camping, intel = null) {
+  const {
+    activeDays, daylight, effortMiles, ridingSpeed, rideMinutes, dayShape,
+    nameNearMile, stateAtMile, dateForDay, settingsGet,
+  } = planner;
+
+  const startDate = () => settingsGet('startDate') ?? null;
+
+  function dayRow(n) {
+    const { days } = activeDays();
+    const d = days.find((x) => x.day_number === Number(n));
+    if (!d) throw new Error(`No day ${n}`);
+    return { d, days };
+  }
+
+  function modelFor(d) {
+    const date = startDate() ? dateForDay(startDate(), d.day_number) : null;
+    if (!date) return null;
+    const { effort } = effortMiles(d.start_mile, d.end_mile);
+    const t = planner.dayTimes(d.day_number);
+    return daylight.dayModel({
+      date, startMile: d.start_mile, endMile: d.end_mile,
+      effortMi: effort, speedMph: ridingSpeed(),
+      departH: t.departH, workStartH: t.workStartH, rideUntilH: t.rideUntilH,
+    });
+  }
+
+  const toMin = (hhmm, dflt = 6 * 60) => {
+    if (!hhmm) return dflt;
+    const [h, m] = String(hhmm).split(':').map(Number);
+    return Number.isFinite(h) ? h * 60 + (Number.isFinite(m) ? m : 0) : dflt;
+  };
+
+  // ---- moving-meeting possibility (prototype's "zoom on the bike") ----------
+  const nextWifiStmt = db.prepare(
+    `SELECT id, name, brand, route_mile, off_route_mi, wifi_status
+     FROM resources WHERE category_id='wifi_work' AND status='active'
+       AND route_mile > ? AND route_mile <= ? AND off_route_mi <= 2
+     ORDER BY route_mile`
+  );
+  function nextReliableStop(mile, maxAheadMi) {
+    for (const x of nextWifiStmt.all(mile + 0.2, mile + maxAheadMi)) {
+      if (x.wifi_status === 'confirmed' || x.wifi_status === 'likely'
+        || (LOITER[x.brand] ?? 0) >= 1.5 || isLibrary(x.name)) return x;
+    }
+    return null;
+  }
+
+  // ---- crossings the day touches (ferries, shuttles, a lift round a closure) -
+  // Two sources, because the trip data has them in two places: route_transits
+  // rows the rider created, and the ingested route_notes of kind 'ferry' — the
+  // Mobile Bay crossing at mile 86.5 is one of the latter. Both are the same
+  // thing for our purposes: a fixed crossing at a known route mile that a mark
+  // can pin itself to, so day renumbering never strands it.
+  // Half-open on the far end, like marks: a crossing exactly on a day boundary
+  // belongs to the day that starts there, not to both.
+  const transitsStmt = db.prepare(
+    `SELECT id, start_mile, end_mile, name, minutes, kind, notes FROM route_transits
+     WHERE end_mile >= ? AND start_mile < ? ORDER BY start_mile`
+  );
+  const crossingNotesStmt = db.prepare(
+    `SELECT id, start_mile, end_mile, title, detail FROM route_notes
+     WHERE kind='ferry' AND end_mile >= ? AND start_mile < ? ORDER BY start_mile`
+  );
+
+  /** Crossings inside [startMile, endMile) with when the walk reaches them. */
+  function crossingsFor({ startMile, endMile, isLastDay = false }, progress) {
+    const at = (mile) => {
+      const m = minAtMile(progress, mile);
+      return m == null ? null : Math.round(m);
+    };
+    const hi = isLastDay ? endMile + 0.05 : endMile;
+    return [
+      ...transitsStmt.all(startMile, hi).map((t) => ({
+        id: `t${t.id}`, source: 'transit', name: t.name, kind: t.kind,
+        minutes: t.minutes, notes: t.notes,
+        startMile: r1(t.start_mile), endMile: r1(t.end_mile), atMin: at(t.start_mile),
+      })),
+      ...crossingNotesStmt.all(startMile, hi).map((x) => ({
+        id: `n${x.id}`, source: 'note', name: x.title, kind: 'ferry',
+        minutes: null, notes: x.detail,
+        startMile: r1(x.start_mile), endMile: r1(x.end_mile), atMin: at(x.start_mile),
+      })),
+    ].sort((a, b) => a.startMile - b.startMile);
+  }
+
+  /**
+   * Append a (mile, minute) sample, keeping the series monotonic in BOTH.
+   * A combo can carry the rider past the mile of the next stop in the sorted
+   * list, so the raw walk is not guaranteed to move only forwards — and a
+   * backwards sample would make the interpolation below return nonsense.
+   */
+  function pushProgress(progress, mile, min) {
+    const last = progress[progress.length - 1];
+    if (last && (mile < last.mile || min < last.min)) return;
+    progress.push({ mile, min });
+  }
+
+  /**
+   * When the ride reaches a given route mile, in local minutes. Built from the
+   * same walk that produces the timeline blocks, so it already accounts for
+   * break dwell, the work sit and the wait for the work clock to start. Returns
+   * the FIRST time that mile is reached; null on a rest day, which covers none.
+   */
+  function minAtMile(progress, mile) {
+    if (!progress.length) return null;
+    if (mile <= progress[0].mile) return progress[0].min;
+    for (let i = 1; i < progress.length; i++) {
+      const a = progress[i - 1], b = progress[i];
+      if (mile <= b.mile) {
+        if (b.mile - a.mile < 1e-6) return a.min;
+        return a.min + ((mile - a.mile) / (b.mile - a.mile)) * (b.min - a.min);
+      }
+    }
+    return progress[progress.length - 1].min;
+  }
+
+  // ---- the Day Canvas -------------------------------------------------------
+  function dayCanvas(n) {
+    const { d, days } = dayRow(n);
+    const model = modelFor(d);
+    const speed = ridingSpeed();
+    const workStop = planner.workStopFor(d);
+    const prev = days.find((x) => x.day_number === d.day_number - 1) ?? null;
+    const actual = db.prepare(`SELECT * FROM actual_days WHERE day_number = ?`).get(d.day_number) ?? null;
+    const rest = !!d.rest || d.end_mile - d.start_mile < 0.5;
+    const isLastDay = d.day_number === days[days.length - 1].day_number;
+    // The miles this day is judged over: what was ridden, once that is known.
+    const covered = actual
+      ? { startMile: actual.start_mile, endMile: actual.end_mile }
+      : { startMile: d.start_mile, endMile: d.end_mile };
+
+    // Depart time: the rider's own override, else civil dawn (you ride at
+    // first light on this trip), else 6:00.
+    const times = planner.dayTimes(d.day_number);
+    const departMin = times.startTime
+      ? toMin(times.startTime)
+      : model?.dawn != null ? Math.round(model.dawn * 60) : 360;
+
+    // Timeline blocks (the plan layer). Times are LOCAL minutes-from-midnight.
+    //
+    // A day is a walk along its stops in ROUTE-MILE order — breaks and the work
+    // anchor alike — because you cannot reach mile 60 before mile 40. Riding
+    // legs are whatever falls between them. That is why a weekend with three
+    // breaks and a workday with a 7.5-hour sit use the same code: only the work
+    // block is pinned to a clock, everything else is elapsed time.
+    const breaks = planner.breaksFor(d);
+    const workStops = planner.workStopsFor(d);
+    const combos = planner.combosFor(d);
+    const owedMin = model?.workday ? planner.workSettings().minutes : 0;
+    let workCredit = 0;
+    const blocks = [];
+    // (mile, local-minute) samples along the day, in order. This is the walk's
+    // own answer to "when am I at mile X" — used for the transit crossing times
+    // a mark can pin itself to.
+    const progress = [];
+    let conflict = null;
+    if (!rest) {
+      const legMin = (a, b) => Math.round(rideMinutes(a, b, speed));
+      const onTheClock = !!(model?.workday && model.work);
+      const workStartMin = onTheClock ? Math.round(model.work.localStart * 60) : null;
+      const workEndMin = onTheClock ? Math.round(model.work.localEnd * 60) : null;
+      const firstWorkMile = workStops.length ? workStops[0].routeMile : null;
+
+      const stops = [
+        ...breaks.map((b) => ({ ...b, type: 'break' })),
+        ...(onTheClock ? workStops.map((w) => ({ ...w, type: 'work' })) : []),
+        ...(onTheClock ? combos.map((c) => ({ ...c, type: 'combo', dwellMin: c.minutes })) : []),
+      ].sort((a, b) => a.routeMile - b.routeMile);
+
+      let cursorMile = d.start_mile;
+      let cursorMin = departMin;
+      let legIndex = 0;
+      let workBegun = false;
+      pushProgress(progress, cursorMile, cursorMin);
+      const legLabel = () => {
+        if (firstWorkMile == null) return legIndex === 0 ? 'Ride' : 'Ride on';
+        return cursorMile < firstWorkMile ? 'Morning ride'
+          : workBegun && workCredit < owedMin ? 'Midday ride' : 'Afternoon ride';
+      };
+
+      for (const st of stops) {
+        const m = legMin(cursorMile, st.routeMile);
+        if (st.routeMile > cursorMile + 0.01) {
+          blocks.push({
+            kind: 'ride', label: legLabel(),
+            startMin: cursorMin, endMin: cursorMin + m,
+            miles: r1(st.routeMile - cursorMile), rideMin: m,
+          });
+          legIndex++;
+        }
+        let arrive = cursorMin + m;
+        pushProgress(progress, st.routeMile, arrive);
+
+        // The work day starts on a clock, not on arrival: the first work-ish
+        // block waits for it, and that wait is honest dead time.
+        if ((st.type === 'work' || st.type === 'combo') && !workBegun) {
+          if (arrive < workStartMin) {
+            blocks.push({ kind: 'slack', label: 'Buffer', startMin: arrive, endMin: workStartMin });
+            arrive = workStartMin;
+            // The wait happens standing still at this mile. Without this sample a
+            // combo (which then MOVES) would smear the buffer over its miles.
+            pushProgress(progress, st.routeMile, arrive);
+          } else if (arrive > workStartMin + 5) {
+            conflict ??= {
+              kind: 'work_late',
+              overMin: Math.round(arrive - workStartMin),
+              detail: `Morning ride arrives ${Math.round(arrive - workStartMin)} min after work starts`,
+            };
+          }
+          workBegun = true;
+        }
+
+        if (st.type === 'work') {
+          blocks.push({
+            kind: 'work', id: st.id, label: st.name,
+            startMin: arrive, endMin: arrive + st.dwellMin,
+            dwellMin: st.dwellMin, routeMile: st.routeMile,
+          });
+          workCredit += st.dwellMin;
+          cursorMin = arrive + st.dwellMin;
+          cursorMile = st.routeMile;
+        } else if (st.type === 'combo') {
+          // Logged in AND moving: the clock and the odometer both run.
+          const endMile = Math.min(
+            d.end_mile,
+            planner.mileAfterRideMinutes(cursorMile, st.dwellMin, speed)
+          );
+          blocks.push({
+            kind: 'combo', id: st.id, label: st.name,
+            startMin: arrive, endMin: arrive + st.dwellMin,
+            dwellMin: st.dwellMin, miles: r1(endMile - cursorMile),
+            routeMile: r1(cursorMile),
+          });
+          workCredit += st.dwellMin;
+          cursorMin = arrive + st.dwellMin;
+          cursorMile = endMile;
+        } else {
+          blocks.push({
+            kind: 'break', id: st.id, label: st.name,
+            startMin: arrive, endMin: arrive + st.dwellMin,
+            dwellMin: st.dwellMin, routeMile: st.routeMile,
+          });
+          cursorMin = arrive + st.dwellMin;
+          cursorMile = st.routeMile;
+        }
+        pushProgress(progress, cursorMile, cursorMin);
+      }
+
+      // The last leg home.
+      const mEnd = legMin(cursorMile, d.end_mile);
+      if (d.end_mile > cursorMile + 0.01) {
+        blocks.push({
+          kind: 'ride',
+          label: stops.length ? legLabel() : (model?.workday ? 'Ride (no work stop set)' : 'Ride'),
+          startMin: cursorMin, endMin: cursorMin + mEnd,
+          miles: r1(d.end_mile - cursorMile), rideMin: mEnd,
+        });
+      }
+      const arriveEnd = cursorMin + mEnd;
+      pushProgress(progress, d.end_mile, arriveEnd);
+
+      // Measured against when the rider said they would stop riding, and
+      // separately against actual darkness.
+      const rideToMin = model ? Math.round(model.rideTo * 60) : null;
+      if (rideToMin != null && arriveEnd > rideToMin + 5) {
+        conflict = {
+          kind: 'daylight',
+          overMin: Math.round(arriveEnd - rideToMin),
+          detail: `Day ends ~${Math.round(arriveEnd - rideToMin)} min after ${
+            model.overrides.rideUntil ? 'the time you set to stop riding' : 'civil dusk'}`,
+        };
+      } else if (model?.dusk != null && arriveEnd > model.dusk * 60 + 5) {
+        conflict = {
+          kind: 'dark',
+          overMin: Math.round(arriveEnd - model.dusk * 60),
+          detail: `Last ~${Math.round(arriveEnd - model.dusk * 60)} min of riding is after dark — lights`,
+        };
+      }
+    }
+
+    // Moving-meeting possibility: from the projected midday position, is a
+    // reliable work stop reachable within ~60–90 min of riding?
+    let movingMeeting = null;
+    if (!rest && model?.workday && model.morningLightH > 0.3) {
+      const midMile = Math.min(d.start_mile + model.morningLightH * speed, d.end_mile);
+      const hop = nextReliableStop(midMile, speed * 1.5);
+      if (hop) {
+        movingMeeting = {
+          fromMile: r1(midMile),
+          stop: {
+            id: hop.id, name: hop.name, routeMile: r1(hop.route_mile),
+            milesAhead: r1(hop.route_mile - midMile),
+            rideMin: Math.round(((hop.route_mile - midMile) / speed) * 60),
+            wifiStatus: hop.wifi_status,
+          },
+          gainMi: Math.round(speed),
+        };
+      }
+    }
+
+    // Work fallbacks: the 3 next-best wi-fi sits near the chosen stop.
+    let workFallbacks = [];
+    if (workStop) {
+      workFallbacks = db.prepare(
+        `SELECT id, name, route_mile, off_route_mi, wifi_status FROM resources
+         WHERE category_id='wifi_work' AND status='active'
+           AND route_mile BETWEEN ? AND ? AND off_route_mi <= 2.5 AND id != ?
+         ORDER BY (wifi_status='confirmed') DESC, (wifi_status='likely') DESC,
+                  ABS(route_mile - ?) LIMIT 3`
+      ).all(d.start_mile + 0.3, d.end_mile - 0.3, workStop.resourceId ?? '', workStop.routeMile)
+        .map((f) => ({
+          id: f.id, name: f.name, routeMile: r1(f.route_mile),
+          offRouteMi: r2(f.off_route_mi), wifiStatus: f.wifi_status,
+        }));
+    }
+
+    // Sleep detail: overnight resource, or the curated camp spot.
+    const campSpot = d.overnight_camp_id ? camping.spotById(d.overnight_camp_id) : null;
+    const notes = (db.prepare(
+      `SELECT * FROM route_notes WHERE start_mile <= ? AND end_mile >= ? ORDER BY start_mile`
+    ).all(d.end_mile, d.start_mile)).map((x) => ({
+      id: x.id, kind: x.kind, title: x.title, detail: x.detail,
+      startMile: r1(x.start_mile), endMile: r1(x.end_mile),
+      source: x.source, confidence: x.confidence,
+    }));
+
+    const elev = planner.elevationForRange(d.start_mile, d.end_mile);
+    const { effort } = effortMiles(d.start_mile, d.end_mile);
+
+    return {
+      dayNumber: d.day_number,
+      date: startDate() ? dateForDay(startDate(), d.day_number) : null,
+      rest,
+      startMile: r1(d.start_mile), endMile: r1(d.end_mile),
+      miles: r1(d.end_mile - d.start_mile), effortMiles: r1(effort),
+      startName: d.start_name, endName: d.end_name,
+      endState: stateAtMile(d.end_mile),
+      status: d.status, flags: JSON.parse(d.flags || '[]'),
+      // Day 1 wakes wherever the ride actually begins — which is not route
+      // mile 0 if the rider is dropped off further along.
+      prevOvernight: prev
+        ? (prev.overnight_name ?? prev.end_name)
+        : `${nameNearMile(planner.tripStartMile())} (trip start)`,
+      departMin, blocks, conflict,
+      // The dials the rider can turn, and whether each is currently their own
+      // choice or the app's default.
+      times: {
+        startTime: times.startTime, workStart: times.workStart, rideUntil: times.rideUntil,
+        defaultDepartMin: model?.dawn != null ? Math.round(model.dawn * 60) : 360,
+        defaultRideUntilMin: model?.dusk != null ? Math.round(model.dusk * 60) : 19 * 60,
+        rideFromMin: model ? Math.round(model.rideFrom * 60) : departMin,
+        rideToMin: model ? Math.round(model.rideTo * 60) : null,
+      },
+      sun: model ? {
+        zone: model.zone, workday: model.workday,
+        dawn: model.dawn, sunrise: model.sunrise, sunset: model.sunset, dusk: model.dusk,
+        work: model.work, phases: model.phases,
+        usableRideMin: Math.round(model.usableH * 60),
+        rideMin: Math.round(model.rideH * 60),
+        bufferMin: Math.round(model.bufferH * 60),
+        darkBeforeMin: Math.round(model.darkBeforeH * 60),
+        darkAfterMin: Math.round(model.darkAfterH * 60),
+        overrides: model.overrides,
+        fit: model.status,
+      } : null,
+      workStop, workFallbacks, movingMeeting,
+      workStops, combos,
+      // Does the day actually add up to a work day? Sitting + riding-on-a-call
+      // both count; the shortfall is stated rather than assumed away.
+      work: model?.workday ? {
+        owedMin: owedMin,
+        creditMin: Math.round(workCredit),
+        shortMin: Math.max(0, Math.round(owedMin - workCredit)),
+        overMin: Math.max(0, Math.round(workCredit - owedMin)),
+        comboMin: combos.reduce((s, c) => s + c.minutes, 0),
+      } : null,
+      breaks: breaks.map((b) => ({
+        ...b,
+        milesFromStart: r1(b.routeMile - d.start_mile),
+        rideMinFromStart: Math.round(rideMinutes(d.start_mile, b.routeMile, speed)),
+      })),
+      // The rider's own marks. Deliberately NOT folded into `blocks`: blocks
+      // are derived state that the canvas slides when roll-out moves, and a
+      // mark that slid would be the one thing this feature exists to prevent.
+      marks: planner.marksFor(d, {
+        isLastDay,
+        // A ridden day is judged by the miles it actually covered, not the ones
+        // it was planned to cover — otherwise a mile-pinned mark shows both on
+        // the day that was ridden and on the day that now covers that mile.
+        startMile: covered.startMile, endMile: covered.endMile,
+      }),
+      // Crossings this day touches, with when the ride reaches them. A mark
+      // whose window lands on one of these is really the crossing's, not the
+      // day's — that is the moment to offer pinning it to the mile. Same ridden
+      // range as the marks, so a completed day never lists a boat it never met.
+      transits: crossingsFor({ ...covered, isLastDay }, progress),
+      sleep: {
+        resource: d.overnight_resource_id ? {
+          id: d.overnight_resource_id, name: d.overnight_name,
+          category: d.overnight_category, offRouteMi: r2(d.overnight_off_mi),
+          address: d.overnight_address, phone: d.overnight_phone,
+          website: d.overnight_website, hours: d.overnight_hours,
+          lat: d.overnight_lat, lng: d.overnight_lng, routeMile: r1(d.overnight_mile),
+          ...planner.placeOf(d.overnight_lat, d.overnight_lng, d.overnight_mile),
+        } : null,
+        campSpot: campSpot ? {
+          ...campSpot, routeMile: r1(campSpot.routeMile),
+          ...planner.placeOf(campSpot.lat, campSpot.lng, campSpot.routeMile),
+        } : null,
+        cost: d.lodging_cost ?? null,
+      },
+      costs: {
+        lodging: d.lodging_cost ?? null,
+        work: workStop?.cost ?? null,
+        misc: d.misc_cost ?? null,
+        total: Math.round((d.lodging_cost ?? 0) + (workStop?.cost ?? 0) + (d.misc_cost ?? 0)),
+      },
+      elevGainFt: elev?.gainFt ?? null,
+      riderNotes: notes,
+      // What other riders reported on exactly this stretch. Anchored records
+      // carry a mile; regional ones are advice for the state with no position.
+      intel: intel ? {
+        anchored: intel.forRange(d.start_mile, d.end_mile),
+        road: intel.roadFor(d.start_mile, d.end_mile),
+        regional: intel.regionalFor([
+          stateAtMile(d.start_mile), stateAtMile(d.end_mile),
+        ]).slice(0, 6),
+      } : null,
+      readiness: model
+        ? planner.readinessFor(d, model, workStop, notes, actual)
+        : { state: actual ? 'done' : 'unknown', issues: [] },
+      actual: actual ? {
+        endMile: r1(actual.end_mile), miles: r1(actual.end_mile - actual.start_mile),
+        endName: actual.end_name, date: actual.date, notes: actual.notes,
+      } : null,
+      dayCount: days.length,
+    };
+  }
+
+  // ---- work chooser ----------------------------------------------------------
+  function workOptions(n) {
+    const { d } = dayRow(n);
+    const model = modelFor(d);
+    const speed = ridingSpeed();
+    // Ideal work mile: ride out the whole morning-light window, then sit down.
+    const idealMile = model
+      ? Math.min(d.start_mile + Math.max(0.5, model.morningLightH) * speed, d.end_mile - 1)
+      : (d.start_mile + d.end_mile) / 2;
+    const rows = db.prepare(
+      `SELECT id, name, brand, route_mile, off_route_mi, wifi_status, hours, address, lat, lng
+       FROM resources WHERE category_id='wifi_work' AND status='active'
+         AND route_mile BETWEEN ? AND ? AND off_route_mi <= 3
+       ORDER BY route_mile`
+    ).all(d.start_mile + 0.3, d.end_mile - 0.3);
+    const wifiW = { confirmed: 4, likely: 2.5, unknown: 0.5, none: -6 };
+    const out = rows.map((x) => {
+      const score = (wifiW[x.wifi_status] ?? 0.5)
+        + (LOITER[x.brand] ?? 0)
+        + (isLibrary(x.name) ? 4 : 0)
+        - x.off_route_mi * 1.5
+        - Math.abs(x.route_mile - idealMile) * 0.25;
+      const morningMi = x.route_mile - d.start_mile;
+      const afternoonMi = d.end_mile - x.route_mile;
+      return {
+        id: x.id, name: x.name, brand: x.brand,
+        routeMile: r1(x.route_mile), offRouteMi: r2(x.off_route_mi),
+        wifiStatus: x.wifi_status, hours: x.hours, address: x.address,
+        lat: x.lat, lng: x.lng,
+        ...planner.placeOf(x.lat, x.lng, x.route_mile),
+        morningMi: r1(morningMi),
+        morningMin: Math.round(rideMinutes(d.start_mile, x.route_mile, speed)),
+        afternoonMi: r1(afternoonMi),
+        afternoonMin: Math.round(rideMinutes(x.route_mile, d.end_mile, speed)),
+        // Same vocabulary the sleep chooser uses, measured against the mile
+        // where the morning daylight actually runs out.
+        milesFromStart: r1(morningMi),
+        rideMinFromStart: Math.round(rideMinutes(d.start_mile, x.route_mile, speed)),
+        deltaMi: r1(x.route_mile - idealMile),
+        detour: x.off_route_mi > 1.5,
+        direction: x.route_mile - idealMile > 2 ? 'farther'
+          : x.route_mile - idealMile < -2 ? 'earlier' : 'on_plan',
+        score: r1(score),
+      };
+    }).sort((a, b) => b.score - a.score);
+    // Dedupe name@half-mile (OSM double-entry)
+    const seen = new Set();
+    return {
+      dayNumber: d.day_number,
+      startMile: r1(d.start_mile), startName: d.start_name,
+      endMile: r1(d.end_mile), endName: d.end_name,
+      idealMile: r1(idealMile),
+      speedMph: speed,
+      candidates: out.filter((c) => {
+        const k = `${c.name}@${Math.round(c.routeMile * 2)}`;
+        if (seen.has(k)) return false;
+        seen.add(k);
+        return true;
+      }).slice(0, 120),
+    };
+  }
+
+  // ---- unified sleep chooser --------------------------------------------------
+  function sleepOptions(n, { back = 20, fwd = 20 } = {}) {
+    const { d, days } = dayRow(n);
+    const next = days.find((x) => x.day_number === d.day_number + 1) ?? null;
+    const lo = Math.max(d.start_mile + 1, d.end_mile - back);
+    const hi = Math.min(planner.totalMiles, d.end_mile + fwd);
+
+    const wifiNearStmt = db.prepare(
+      `SELECT COUNT(*) c FROM resources WHERE category_id='wifi_work'
+       AND route_mile BETWEEN ? AND ? AND off_route_mi <= 2`
+    );
+
+    const options = [];
+    // OSM hotels + campgrounds
+    for (const r of db.prepare(
+      `SELECT id, category_id, name, route_mile, off_route_mi, attributes_json,
+              address, phone, website, hours, lat, lng
+       FROM resources WHERE category_id IN ('hotel','campground')
+         AND status='active' AND route_mile BETWEEN ? AND ? AND off_route_mi <= 6`
+    ).all(lo, hi)) {
+      let attrs = {};
+      try { attrs = JSON.parse(r.attributes_json); } catch { /* keep {} */ }
+      options.push({
+        kind: 'resource', id: r.id,
+        name: r.name, type: r.category_id,
+        routeMile: r1(r.route_mile), deltaMi: r1(r.route_mile - d.end_mile),
+        offRouteMi: r2(r.off_route_mi),
+        price: null, tier: r.category_id === 'campground' ? 'unknown' : 'room',
+        water: attrs.drinking_water === 'yes', showers: !!attrs.shower && attrs.shower !== 'no',
+        toilets: attrs.toilets === 'yes',
+        address: r.address, phone: r.phone, website: r.website, hours: r.hours,
+        lat: r.lat, lng: r.lng,
+        ...planner.placeOf(r.lat, r.lng, r.route_mile),
+        confidence: null, cyclist: false, free: false,
+      });
+    }
+    // Curated camping-guide spots (the hand-researched gold)
+    for (const s of camping.spotsNear(d.end_mile, d.end_mile - lo, hi - d.end_mile)) {
+      options.push({
+        kind: 'camp', id: s.id,
+        name: s.name, type: s.type ?? 'campground',
+        routeMile: r1(s.routeMile), deltaMi: r1(s.routeMile - d.end_mile),
+        offRouteMi: null,
+        price: s.price ?? null, priceNote: s.priceNote ?? null, tier: s.tier,
+        water: !!s.water, showers: !!s.showers, toilets: !!s.toilets,
+        tentsOk: s.tentsOk !== false,
+        legalityNote: s.legalityNote ?? null, cyclistIntel: s.cyclistIntel ?? null,
+        seasonalNote: s.seasonalNote ?? null, booking: s.booking ?? null,
+        website: s.website ?? null, phone: s.phone ?? null,
+        sources: s.sources ?? [], confidence: s.confidence ?? 'medium',
+        lat: s.lat, lng: s.lng,
+        ...planner.placeOf(s.lat, s.lng, s.routeMile),
+        cyclist: !!s.cyclistIntel, free: s.price === 0,
+        locationNote: s.locationNote ?? null,
+      });
+    }
+    const speed = ridingSpeed();
+    for (const o of options) {
+      o.wifiNear = wifiNearStmt.get(o.routeMile - 2, o.routeMile + 2).c;
+      // Consequence: what choosing this does to today (and therefore tomorrow).
+      o.newDayMiles = r1(o.routeMile - d.start_mile);
+      o.deltaDayMiles = r1(o.routeMile - d.end_mile);
+      o.nextDayMiles = next ? r1(next.end_mile - o.routeMile) : null;
+      // Riding cost from where the day actually started — effort-adjusted, so
+      // a climb costs real minutes rather than pretending it is flat.
+      o.milesFromStart = r1(o.routeMile - d.start_mile);
+      o.rideMinFromStart = Math.round(rideMinutes(d.start_mile, o.routeMile, speed));
+      // The rider's three real levers, named.
+      o.detour = (o.offRouteMi ?? 0) > 1.5;
+      o.direction = o.deltaMi > 2 ? 'farther' : o.deltaMi < -2 ? 'earlier' : 'on_plan';
+      // Recommendation score: verified + cheap + close to plan + on-route.
+      o.score = r1(
+        10
+        - Math.abs(o.deltaMi) * 0.35
+        - (o.offRouteMi ?? 0) * 2
+        + (o.kind === 'camp' ? 3 : 0)
+        + (o.confidence === 'high' ? 2 : 0)
+        + (o.free ? 2.5 : o.price != null && o.price <= 15 ? 1.5 : 0)
+        + (o.showers ? 0.8 : 0)
+        + Math.min(o.wifiNear, 4) * 0.3
+      );
+      o.chosen = (o.kind === 'resource' && o.id === d.overnight_resource_id)
+        || (o.kind === 'camp' && o.id === d.overnight_camp_id);
+    }
+    options.sort((a, b) => b.score - a.score);
+    return {
+      dayNumber: d.day_number,
+      startMile: r1(d.start_mile), startName: d.start_name,
+      endMile: r1(d.end_mile), endName: d.end_name,
+      plannedMiles: r1(d.end_mile - d.start_mile),
+      nextDayEndMile: next ? r1(next.end_mile) : null,
+      speedMph: speed,
+      window: { lo: r1(lo), hi: r1(hi) },
+      options: options.slice(0, 120),
+    };
+  }
+
+  // ---- "Help me make this fit" -------------------------------------------------
+  // Deterministic structured proposals over the canonical plan. Every option
+  // carries its diff and its assumptions; nothing applies without Accept.
+  function fitOptions(n) {
+    const { d, days } = dayRow(n);
+    const model = modelFor(d);
+    if (!model) return { dayNumber: n, options: [], note: 'Set a start date first.' };
+    const speed = ridingSpeed();
+    const shape = dayShape();
+    const options = [];
+    const deficitMi = Math.max(0, Math.round((model.rideH - model.usableH) * speed));
+    const idx = days.findIndex((x) => x.day_number === d.day_number);
+    const following = days.slice(idx + 1).filter((x) => x.status === 'planned');
+
+    const feasibleForDay = (day) => {
+      const date = dateForDay(startDate(), day.day_number);
+      const { effort } = effortMiles(day.start_mile, day.end_mile);
+      const t = planner.dayTimes(day.day_number);
+      const m = daylight.dayModel({
+        date, startMile: day.start_mile, endMile: day.end_mile,
+        effortMi: effort, speedMph: speed,
+        departH: t.departH, workStartH: t.workStartH, rideUntilH: t.rideUntilH,
+      });
+      return { model: m, capMi: Math.min(shape.maxMiles, Math.floor(m.usableH * speed)) };
+    };
+
+    // Option A — shorten today to what daylight allows, land on a real bed,
+    // and push the shaved miles FORWARD along the chain. Miles can only move
+    // past a day by shifting its endpoint, and a day with a chosen bed keeps
+    // its endpoint — so the walk shifts bed-less days and stops at the first
+    // fixed bed, which absorbs whatever is left. Every consequence is in the
+    // diff; nothing lands silently.
+    if (deficitMi > 2 && following.length) {
+      const feasibleMi = Math.max(10, (d.end_mile - d.start_mile) - deficitMi);
+      const sugs = planner.suggestEndpoints(d.start_mile, feasibleMi, 12, { ignoreCap: true })
+        .filter((s) => s.routeMile < d.end_mile - 1);
+      const anchor = sugs[0] ?? null;
+      const newEnd = anchor ? anchor.routeMile : r1(d.start_mile + feasibleMi);
+      const shaved = r1(d.end_mile - newEnd);
+      const dowOf = (dayNum) => {
+        const date = dateForDay(startDate(), dayNum);
+        return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(`${date}T12:00:00Z`).getUTCDay()];
+      };
+
+      const diff = [{
+        dayNumber: d.day_number,
+        endMile: r1(newEnd),
+        endName: anchor ? (anchor.town?.startsWith('Mile ') ? anchor.name : anchor.name) : nameNearMile(newEnd),
+        overnightResourceId: anchor?.resourceId ?? null,
+        fromMiles: r1(d.end_mile - d.start_mile), toMiles: r1(newEnd - d.start_mile),
+      }];
+      const lines = [`Stop ${shaved} mi earlier${anchor ? ` — sleep at ${anchor.name}` : ''}`];
+      const assumptions = anchor ? [] : ['No verified bed at the new endpoint — endpoint is a bare mile'];
+
+      let remaining = shaved;
+      let prevEnd = newEnd;
+      let overloaded = null;
+      for (const day of following.slice(0, 6)) {
+        if (remaining <= 0.5) break;
+        const { capMi } = feasibleForDay(day);
+        const origMiles = day.end_mile - day.start_mile;
+        const hasBed = !!(day.overnight_resource_id || day.overnight_camp_id);
+        if (hasBed) {
+          // Fixed endpoint: this day absorbs everything still in flight.
+          const newMiles = r1(day.end_mile - prevEnd);
+          lines.push(`Day ${day.day_number} (${dowOf(day.day_number)}) grows to ${newMiles} mi — bed at ${day.overnight_name ?? day.end_name} kept`);
+          if (newMiles > capMi + 2) overloaded = { dayNumber: day.day_number, newMiles, capMi: r1(capMi) };
+          remaining = 0;
+          break;
+        }
+        // Bed-less day: shift its end back too, keeping what it can absorb.
+        const room = Math.max(0, capMi - origMiles);
+        const absorb = Math.min(remaining, room);
+        const shift = r1(remaining - absorb);
+        const dayNewEnd = r1(day.end_mile - shift);
+        const newMiles = r1(dayNewEnd - prevEnd);
+        diff.push({
+          dayNumber: day.day_number, endMile: dayNewEnd,
+          endName: shift > 0.5 ? nameNearMile(dayNewEnd) : day.end_name,
+          overnightResourceId: shift > 0.5 ? null : day.overnight_resource_id,
+          fromMiles: r1(origMiles), toMiles: newMiles,
+        });
+        if (absorb > 0.5) lines.push(`Day ${day.day_number} (${dowOf(day.day_number)}) takes ${r1(absorb)} mi → ${newMiles} mi`);
+        else lines.push(`Day ${day.day_number} shifts back ${shift} mi (still ${newMiles} mi)`);
+        prevEnd = dayNewEnd;
+        remaining = shift;
+      }
+      if (remaining > 0.5) lines.push(`⚠ ${remaining} mi still unplaced — needs a longer stretch`);
+      else if (!overloaded) lines.push('All riding stays inside daylight');
+      if (overloaded) {
+        lines.push(`⚠ Day ${overloaded.dayNumber} would exceed its ~${overloaded.capMi} mi daylight capacity`);
+        assumptions.push(`Day ${overloaded.dayNumber} runs past comfortable daylight unless its bed moves too`);
+      }
+      options.push({
+        id: 'shorten',
+        title: 'Shorten today',
+        lines,
+        assumptions,
+        applyable: true,
+        diff,
+      });
+    }
+
+    // Option B — better-placed work anchor: sit down exactly where the
+    // morning light runs out, at the most reliable wi-fi available.
+    if (model.workday) {
+      const { candidates, idealMile } = workOptions(n);
+      const best = candidates.find((c) => c.wifiStatus === 'confirmed')
+        ?? candidates.find((c) => c.wifiStatus === 'likely')
+        ?? candidates[0];
+      const cur = planner.workStopFor(d);
+      if (best && (!cur || best.id !== cur.resourceId)) {
+        const gainMi = cur
+          ? r1(Math.abs(idealMile - cur.routeMile) - Math.abs(idealMile - best.routeMile))
+          : null;
+        options.push({
+          id: 'work',
+          title: cur ? 'Better work anchor' : 'Add a work anchor',
+          lines: [
+            `Work from ${best.name} (mi ${best.routeMile})`,
+            `Wi-Fi: ${best.wifiStatus ?? 'unknown'}${best.wifiStatus === 'confirmed' ? ' — documented' : ''}`,
+            `Morning ${best.morningMi} mi · afternoon ${best.afternoonMi} mi`,
+            ...(gainMi && gainMi > 1 ? [`${gainMi} mi better placed against the daylight split`] : []),
+          ],
+          assumptions: best.wifiStatus === 'confirmed' ? [] : ['Wi-Fi is not documented — verify before relying on it'],
+          applyable: true,
+          workStop: { dayNumber: d.day_number, resourceId: best.id },
+          diff: [],
+        });
+      }
+    }
+
+    // Option C — redistribute the stretch: spread today's overage evenly over
+    // the next two days, respecting their own daylight caps and booked beds.
+    if (deficitMi > 2 && following.length >= 2) {
+      const targets = following.slice(0, 2);
+      const per = Math.ceil(deficitMi / targets.length);
+      const diff = [];
+      let ok = true;
+      let boundary = d.end_mile - deficitMi;
+      diff.push({
+        dayNumber: d.day_number, endMile: r1(boundary),
+        endName: nameNearMile(boundary), overnightResourceId: null,
+        fromMiles: r1(d.end_mile - d.start_mile), toMiles: r1(boundary - d.start_mile),
+      });
+      for (let i = 0; i < targets.length; i++) {
+        const day = targets[i];
+        if (day.overnight_resource_id || day.overnight_camp_id) { ok = false; break; }
+        const give = Math.min(per, deficitMi - per * i);
+        const newEnd = i === targets.length - 1 ? day.end_mile : day.end_mile - (deficitMi - per * (i + 1));
+        const { capMi } = feasibleForDay(day);
+        if (newEnd - boundary > capMi + 3) { ok = false; break; }
+        diff.push({
+          dayNumber: day.day_number, endMile: r1(newEnd),
+          endName: day.end_name, overnightResourceId: day.overnight_resource_id,
+          fromMiles: r1(day.end_mile - day.start_mile), toMiles: r1(newEnd - boundary),
+        });
+        boundary = newEnd;
+        if (give <= 0) break;
+      }
+      if (ok && diff.length > 1) {
+        options.push({
+          id: 'redistribute',
+          title: 'Redistribute the stretch',
+          lines: diff.map((x) => `D${x.dayNumber}: ${x.fromMiles} → ${x.toMiles} mi`),
+          assumptions: ['Endpoints between beds are bare miles until you pick sleep for them'],
+          applyable: true,
+          diff,
+        });
+      }
+    }
+
+    // Option D — the moving-meeting hour (informational; the rider decides).
+    const canvas = dayCanvas(n);
+    if (canvas.movingMeeting) {
+      const mm = canvas.movingMeeting;
+      options.push({
+        id: 'moving-meeting',
+        title: 'Moving meeting possibility',
+        lines: [
+          `Take a ~1h call riding from mi ${mm.fromMile}`,
+          `Next reliable work stop: ${mm.stop.name} — ${mm.stop.milesAhead} mi · ~${mm.stop.rideMin} min ahead`,
+          `Worth roughly +${mm.gainMi} mi of daylight riding`,
+        ],
+        assumptions: [
+          'Only for a call you can genuinely take from the saddle',
+          `Wi-Fi at ${mm.stop.name}: ${mm.stop.wifiStatus}`,
+        ],
+        applyable: false,
+        diff: [],
+      });
+    }
+
+    return {
+      dayNumber: d.day_number,
+      deficitMi,
+      status: model.status,
+      options,
+    };
+  }
+
+  function applyFitOption(n, optionId) {
+    const { options } = fitOptions(n);
+    const opt = options.find((o) => o.id === optionId);
+    if (!opt) throw new Error(`Option "${optionId}" is no longer available — re-check the previews`);
+    if (!opt.applyable) throw new Error('That option is informational, not a plan change');
+    if (opt.workStop) {
+      planner.setWorkStop(opt.workStop);
+      return { ok: true, applied: optionId };
+    }
+    // Boundary diffs apply in ascending day order; each edit cascades the next
+    // day's start automatically (the chain is derived, never stored).
+    for (const step of [...opt.diff].sort((a, b) => a.dayNumber - b.dayNumber)) {
+      planner.editDayEnd({
+        dayNumber: step.dayNumber,
+        endMile: step.endMile,
+        endName: step.endName,
+        overnightResourceId: step.overnightResourceId ?? null,
+      });
+    }
+    return { ok: true, applied: optionId, changedDays: opt.diff.map((x) => x.dayNumber) };
+  }
+
+  // ---- one-time import from the retired day-plan document ----------------------
+  function dayplanMigration({ apply = false, includeLodging = false } = {}) {
+    const raw = settingsGet('dayplanDoc');
+    if (!raw) return { present: false, note: 'No old day-plan document found.' };
+    let doc;
+    try { doc = JSON.parse(raw); } catch { return { present: false, note: 'Old day-plan document unreadable.' }; }
+    const docDays = Array.isArray(doc.days) ? doc.days : [];
+    if (!docDays.length) return { present: false, note: 'Old day-plan document is empty.' };
+    const { days } = activeDays();
+    const costImports = [];
+    const lodgingDiffs = [];
+    for (let i = 0; i < Math.min(docDays.length, days.length); i++) {
+      const dd = docDays[i], pd = days[i];
+      const lodgeCost = dd.lodging?.cost;
+      const misc = dd.miscCost;
+      if ((lodgeCost != null && lodgeCost !== 0 && pd.lodging_cost == null)
+        || (misc != null && misc !== 0 && pd.misc_cost == null)) {
+        costImports.push({
+          dayNumber: pd.day_number,
+          lodgingCost: lodgeCost != null && lodgeCost !== 0 ? lodgeCost : undefined,
+          miscCost: misc != null && misc !== 0 ? misc : undefined,
+        });
+      }
+      if (dd.lodging?.id && dd.lodging.id !== pd.overnight_resource_id && pd.status === 'planned') {
+        lodgingDiffs.push({
+          dayNumber: pd.day_number,
+          docLodging: { id: dd.lodging.id, name: dd.lodging.name, mile: dd.lodging.mile },
+          planOvernight: pd.overnight_name ?? null,
+        });
+      }
+    }
+    if (apply) {
+      for (const c of costImports) planner.setDayCosts(c);
+      if (includeLodging) {
+        for (const l of lodgingDiffs) {
+          try {
+            planner.editDayEnd({
+              dayNumber: l.dayNumber, endMile: l.docLodging.mile,
+              endName: l.docLodging.name, overnightResourceId: l.docLodging.id,
+            });
+          } catch { /* day since locked or boundary invalid — listed, not forced */ }
+        }
+      }
+    }
+    return {
+      present: true, applied: apply,
+      costImports, lodgingDiffs,
+      note: `${costImports.length} day(s) with costs to import · ${lodgingDiffs.length} lodging pick(s) differ from the plan.`,
+    };
+  }
+
+  return { dayCanvas, workOptions, sleepOptions, fitOptions, applyFitOption, dayplanMigration };
+}

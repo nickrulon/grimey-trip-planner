@@ -1,0 +1,499 @@
+[
+ {
+  "day": 18,
+  "options": [
+   {
+    "name": "Emma Long Metropolitan Park (The Grove primitive sites)",
+    "type": "city_park",
+    "price": 10,
+    "priceNote": "$10/night primitive walk-in tent site (Grove or Bluff); utility sites $20-25. City of Austin park.",
+    "lat": 30.3341,
+    "lng": -97.8399,
+    "locationNote": "1600 City Park Rd on Lake Austin \u2014 significantly off-route, ~12 road miles NW of the downtown/Zilker endpoint, hilly approach",
+    "routeMile": 1066.5,
+    "website": "https://www.austintexas.gov/parks/emma-long-metropolitan-park",
+    "phone": "",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Official City of Austin campground; online reservation required (up to 180 days ahead)",
+    "cyclistIntel": "Cheapest legal tent spot in Austin metro, but the detour NW up City Park Rd is long and steep with a loaded bike \u2014 only worth it if you want two nights in Austin",
+    "seasonalNote": "Thu 8 Oct 2026; October weekends fill, weeknight usually fine but reserve",
+    "confidence": "high",
+    "sources": [
+     "https://www.austintexas.gov/parks/emma-long-metropolitan-park",
+     "https://thedyrt.com/camping/texas/texas-emma-long-metropolitan-park"
+    ]
+   },
+   {
+    "name": "McKinney Falls State Park",
+    "type": "state_park",
+    "price": 20,
+    "priceNote": "$20/night 30-amp water+electric site ($24 for 50-amp) PLUS $6/person/day TPWD entrance fee \u2014 solo total ~$26",
+    "lat": 30.181,
+    "lng": -97.718,
+    "locationNote": "5808 McKinney Falls Pkwy, SE Austin \u2014 ~7 mi from downtown endpoint, close to the inbound route from Bastrop, so easiest hit on the way IN",
+    "routeMile": 1059,
+    "website": "https://tpwd.texas.gov/state-parks/mckinney-falls",
+    "phone": "(512) 389-8900",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Texas State Park; reserve at texasstateparks.reserveamerica.com",
+    "cyclistIntel": "Standard ST-rider choice for Austin \u2014 quiet, showers, and you skip downtown chaos; ride the 7 mi into town unloaded next morning",
+    "seasonalNote": "Thursday night in October usually available, but Austin parks book up around festival weekends \u2014 reserve ahead",
+    "confidence": "high",
+    "sources": [
+     "https://tpwd.texas.gov/state-parks/mckinney-falls/fees-facilities/campsites",
+     "https://texasstateparks.reserveamerica.com/camping/mckinney-falls-state-park/r/facilityDetails.do?contractCode=TX&parkId=1200066"
+    ]
+   },
+   {
+    "name": "Firehouse Hostel (downtown Austin)",
+    "type": "hostel",
+    "price": 35,
+    "priceNote": "Dorm beds from ~$29 (typically $29-45 by night); private rooms from ~$99. Indoor bed, not camping.",
+    "lat": 30.268,
+    "lng": -97.741,
+    "locationNote": "605 Brazos St, downtown \u2014 ~0.7 mi from the Day 18 endpoint near Zilker/downtown",
+    "routeMile": 1066.5,
+    "website": "https://www.firehousehostel.com/",
+    "phone": "",
+    "booking": "reserve-online",
+    "tentsOk": false,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Commercial hostel in Austin's 1885 fire station; 24-hour desk",
+    "cyclistIntel": "Largest hostel in Texas and the practical budget indoor option; secure your bike inside/ask staff",
+    "seasonalNote": "ACL Festival is traditionally the first two October weekends at Zilker \u2014 Oct 8-9 likely collides with fest weekend 2; dorm prices spike and sell out, book well ahead",
+    "confidence": "high",
+    "sources": [
+     "https://www.firehousehostel.com/",
+     "https://www.hostelworld.com/hostels/p/64785/firehouse-hostel/"
+    ]
+   }
+  ],
+  "bestBet": "McKinney Falls State Park",
+  "gap": false,
+  "gapAdvice": "Pecan Grove RV Park (0.2 mi off, Barton Springs Rd) is RVs ONLY \u2014 no tents, sites to $80, so skip it. HI Austin (Lakeshore Blvd) no longer appears in current listings and is believed permanently closed \u2014 Firehouse Hostel is the working hostel fallback. Warning: ACL Fest (typically Oct weekends 1-2 at Zilker, i.e. right at your Oct 8 arrival) jacks up every downtown bed \u2014 camp at McKinney Falls to stay insulated."
+ },
+ {
+  "day": 19,
+  "options": [
+   {
+    "name": "Pedernales Falls State Park",
+    "type": "state_park",
+    "price": 20,
+    "priceNote": "$20/night water+electric site (69 sites) PLUS $6/person/day entrance \u2014 solo ~$26. Hike-in primitive is $10 but sits 2 mi down a rough trail (impractical with a loaded touring bike).",
+    "lat": 30.3081,
+    "lng": -98.2529,
+    "locationNote": "~9-10 road miles NE of Johnson City: turn off US-290 east of town onto FM 3232 / Park Rd 6026 before reaching JC, or backtrack from town",
+    "routeMile": 1113,
+    "website": "https://tpwd.texas.gov/state-parks/pedernales-falls",
+    "phone": "(512) 389-8900",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Texas State Park; reserve online via Texas State Parks reservation system",
+    "cyclistIntel": "The only real budget camp near Johnson City now that the in-town RV parks have gone RV-only; showers, good facilities, swimming in the Pedernales",
+    "seasonalNote": "Friday night 9 Oct \u2014 Hill Country state parks fill on fall weekends; reserve as soon as dates firm",
+    "confidence": "high",
+    "sources": [
+     "https://tpwd.texas.gov/state-parks/pedernales-falls/fees-facilities/campsites"
+    ]
+   },
+   {
+    "name": "Miller Creek RV Park",
+    "type": "rv_park",
+    "price": 52,
+    "priceNote": "$52-62/night per aggregator listings \u2014 over budget, but tents are explicitly welcomed; call for a solo-tent rate, small parks often quote less",
+    "lat": 30.208,
+    "lng": -98.409,
+    "locationNote": "5618 US-281 S, ~4-5 mi south of Johnson City (OSM pegs it at route mile 1123.4, on the line)",
+    "routeMile": 1123.4,
+    "website": "https://millercreekrvpark.com/",
+    "phone": "",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private commercial RV park that advertises tent camping",
+    "cyclistIntel": "Fallback if you don't want the Pedernales Falls detour; showers, laundry, store on site",
+    "seasonalNote": "",
+    "confidence": "medium",
+    "sources": [
+     "https://millercreekrvpark.com/",
+     "https://thedyrt.com/camping/texas/miller-creek-rv-resort"
+    ]
+   }
+  ],
+  "bestBet": "Pedernales Falls State Park",
+  "gap": false,
+  "gapAdvice": "Johnson City proper is now a tent DESERT: Roadrunner RV Park (mi 1119.2, the old ST standby) is RV/cabin only (30A from $45, cabins $65, no tents per its own site), Johnson City RV Park is a $70-80 'boutique' RV-only park, and Flat Creek Crossing Ranch (mi 1101.6) has SUSPENDED all tent/RV camping until further notice. LBJ National Historical Park and LBJ State Park (Stonewall) are day-use, no camping. Practical plan: reserve Pedernales Falls and peel off before town, or budget-bust at Miller Creek. Cash-strapped riders have historically asked at JC churches \u2014 unverified, ask locally, never assume."
+ },
+ {
+  "day": 20,
+  "options": [
+   {
+    "name": "Kerrville-Schreiner Park",
+    "type": "city_park",
+    "price": 25,
+    "priceNote": "$25/night tent site (official city rate page); RV 30A water-only $35, full hookups $40-50. Some sources cite a $6/person entry fee on top \u2014 confirm when booking. City adds 3.5% surcharge on card payments (since Oct 2025).",
+    "lat": 30.023,
+    "lng": -99.114,
+    "locationNote": "2385 Bandera Hwy (TX-173), on the Guadalupe ~3 mi SE of downtown Kerrville endpoint",
+    "routeMile": 1178.6,
+    "website": "https://www.kerrvilletx.gov/1742/RV-and-Tent-Sites",
+    "phone": "(830) 257-7300",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "City of Kerrville park (517-acre former state park); tent areas in Riverside, Fox Run Loop, Fawn Hideaway",
+    "cyclistIntel": "THE classic Southern Tier stop in Kerrville \u2014 decades of ST journals and local bike-tour groups (about half of Easter Hill Country Tour riders) camp here; river swimming, showers, town services 3 mi away",
+    "seasonalNote": "Saturday night 10 Oct on a fall holiday weekend \u2014 reserve online ahead rather than rolling in",
+    "confidence": "high",
+    "sources": [
+     "https://www.kerrvilletx.gov/1742/RV-and-Tent-Sites",
+     "https://www.kerrvilletx.gov/camp",
+     "https://www.crazyguyonabike.com/doc/?doc_id=2041"
+    ]
+   },
+   {
+    "name": "Johnson Creek RV Resort & Park (Ingram)",
+    "type": "rv_park",
+    "price": 40,
+    "priceNote": "Tent camping listed as available but nightly tent rate unpublished \u2014 estimate $30-45, call to confirm",
+    "lat": 30.083,
+    "lng": -99.27,
+    "locationNote": "Junction Hwy (TX-27/39 corridor) west of Ingram, ~7-8 route miles PAST Kerrville \u2014 position approximate",
+    "routeMile": 1186,
+    "website": "https://www.roverpass.com/c/johnson-creek-rv-resort-park-kerrville-tx/",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private RV resort that accepts tent campers per listings",
+    "cyclistIntel": "Useful if you want to bank miles past Kerrville toward Hunt; verify tent policy by phone first",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.roverpass.com/c/johnson-creek-rv-resort-park-kerrville-tx/",
+     "https://www.outdoorsy.com/rv-rental/texas/johnson-creek-rv-resort-park"
+    ]
+   }
+  ],
+  "bestBet": "Kerrville-Schreiner Park",
+  "gap": false,
+  "gapAdvice": "The RV-park cluster on the OSM hints is mostly useless for tents: Buckhorn Lake Resort and Guadalupe River RV Resort are big-rig luxury resorts, and Take-It-Easy (mi 1182.4) is a 55+ RV community \u2014 none confirm tents. Kerrville-Schreiner is the obvious answer; book the Saturday night early."
+ },
+ {
+  "day": 21,
+  "options": [
+   {
+    "name": "Lost Maples State Natural Area \u2014 primitive hike-in sites",
+    "type": "state_park",
+    "price": 10,
+    "priceNote": "$10/night + $6/person entrance (solo ~$16). CAUTION: sites are a 1-3.2 mi hike from parking on steep rough trails, no potable water, no fires \u2014 awkward to impossible with a loaded touring bike",
+    "lat": 29.806,
+    "lng": -99.57,
+    "locationNote": "Entrance on RM 187 north of Vanderpool; camping areas roughly 1.3-2.6 mi off the route line",
+    "routeMile": 1235.4,
+    "website": "https://tpwd.texas.gov/state-parks/lost-maples",
+    "phone": "(512) 389-8900",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "TPWD natural area; reservation via Texas State Parks system",
+    "cyclistIntel": "Cheapest on paper but you'd have to stash/push the bike down hiking trails \u2014 most riders take the developed loop or the private campground instead",
+    "seasonalNote": "Peak-crowd season starts in October; park closes entry when parking lots (250 cars) fill on color weekends",
+    "confidence": "high",
+    "sources": [
+     "https://tpwd.texas.gov/state-parks/lost-maples/fees-facilities/campsites",
+     "https://tpwd.texas.gov/state-parks/lost-maples/fees-facilities/entrance-fees"
+    ]
+   },
+   {
+    "name": "Lost Maples RV and Camping (private)",
+    "type": "rv_park",
+    "price": 15,
+    "priceNote": "$15/night primitive tent site (10 sites, no hookups); $24/night to pitch on an RV site with water+electric. 24-hour restrooms and showers.",
+    "lat": 29.757,
+    "lng": -99.563,
+    "locationNote": "33557 RM 187 at Vanderpool, 0.1 mi off the route right at the day's endpoint",
+    "routeMile": 1235.4,
+    "website": "https://www.lostmaplesrvandcamping.com/",
+    "phone": "(830) 966-3912",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established private campground",
+    "cyclistIntel": "The zero-detour, no-lottery option at Vanderpool \u2014 showers included at half the SNA's developed-site cost; call ahead in October",
+    "seasonalNote": "Fall-color overflow from the SNA lands here \u2014 phone ahead for the holiday weekend",
+    "confidence": "medium",
+    "sources": [
+     "https://www.lostmaplesrvandcamping.com/rv_cabins_camping.html",
+     "https://thedyrt.com/camping/texas/lost-maples-rv-and-camping"
+    ]
+   },
+   {
+    "name": "Lost Maples State Natural Area \u2014 campsites with electricity",
+    "type": "state_park",
+    "price": 20,
+    "priceNote": "$20/night (30 sites, water+30A) + $6/person entrance \u2014 solo ~$26; showers in nearby restrooms",
+    "lat": 29.806,
+    "lng": -99.57,
+    "locationNote": "Developed loop near park HQ on RM 187, ~2-3 mi off route north of Vanderpool",
+    "routeMile": 1235.4,
+    "website": "https://tpwd.texas.gov/state-parks/lost-maples",
+    "phone": "(512) 389-8900",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "TPWD natural area; ReserveAmerica reservations",
+    "cyclistIntel": "Iconic overnight if you can get a site \u2014 maple canyon trails at your tent flap",
+    "seasonalNote": "CRITICAL: arrival is Sun 11 Oct 2026 \u2014 the Columbus Day long weekend and the front edge of leaf season. The 30 developed sites sell out far ahead on Oct/Nov weekends (bookable ~5 months out); reserve IMMEDIATELY or stalk cancellations. A Sunday night is your best shot vs Fri/Sat.",
+    "confidence": "high",
+    "sources": [
+     "https://tpwd.texas.gov/state-parks/lost-maples/fees-facilities/campsites",
+     "https://www.backroadstexas.net/lost-maples/"
+    ]
+   }
+  ],
+  "bestBet": "Lost Maples RV and Camping (private)",
+  "gapAdvice": "Foxfire Cabins (1 mi S of the SNA on the Sabinal) is cabins-only \u2014 no tent sites \u2014 and runs multi-night minimums in leaf season; treat as a splurge/bad-weather bail only. If everything at Vanderpool is somehow full, Utopia (~16 mi south, off route) has lodging, and Leakey (17 mi ahead over the big 337 climbs) has commercial camps \u2014 but on a Sunday night the private Lost Maples RV almost certainly has a $15 primitive spot; call (830) 966-3912 a few days out.",
+  "gap": false
+ },
+ {
+  "day": 22,
+  "options": [
+   {
+    "name": "Wes Cooksey Park (Uvalde County)",
+    "type": "county_park",
+    "price": 16,
+    "priceNote": "~$16/night camping (last verified rate, 2022) + $4/person day-use fee; current price unconfirmed \u2014 call (830) 597-3223",
+    "lat": 29.6155,
+    "lng": -100.0075,
+    "locationNote": "33719 TX-55 on the Nueces at Camp Wood, 0.1 mi off route (OSM mi 1277.2) \u2014 position approximate",
+    "routeMile": 1277.2,
+    "website": "https://visituvaldecounty.com/listing/wes-cooksey-park/",
+    "phone": "(830) 597-3223",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "County-run public park with RV and tent camping and river swimming; showers not confirmed",
+    "cyclistIntel": "Cheap public option right on the line entering Camp Wood; Camp Wood is a canonical ST overnight before the notoriously hard 36 westbound miles",
+    "seasonalNote": "Monday night 12 Oct (Columbus Day) \u2014 summer river crowds long gone, space near-certain",
+    "confidence": "medium",
+    "sources": [
+     "https://www.camping.org/campgrounds/texas/camp-wood/wes-cooksey-park",
+     "https://www.campendium.com/wes-cooksey-county-park",
+     "https://texashighways.com/outdoors/water/find-rustic-relaxation-on-the-nueces-river-at-camp-wood-in-the-hill-country/"
+    ]
+   },
+   {
+    "name": "Nueces River RV and Cabin Resort (formerly Big Oak River Camp)",
+    "type": "rv_park",
+    "price": 20,
+    "priceNote": "Tent sites WITH water+electric; current rates not published online (legacy listings said ~$15) \u2014 book via bookings.rmscloud.com or call (830) 597-5280",
+    "lat": 29.608,
+    "lng": -100.01,
+    "locationNote": "32598 TX-55, 0.3 mi off route at the day's endpoint (OSM mi 1278.3)",
+    "routeMile": 1278.3,
+    "website": "https://nuecesriverrv.com",
+    "phone": "(830) 597-5280",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established private campground; note old domain bigoakrivercamp.com is dead \u2014 it rebranded",
+    "cyclistIntel": "This is the 'Big Oak River Camp' of countless ST journals \u2014 shaded oak/pecan tent sites a short walk from the Nueces, bathhouses, pool, camp store, laundry",
+    "seasonalNote": "Quiet mid-October weeknight",
+    "confidence": "medium",
+    "sources": [
+     "https://nuecesriverrv.com",
+     "https://www.rvparx.com/parks/nueces-river-rv-and-cabin-resort-formerly-big-oak-river-camp--camp-wood-tx.html",
+     "https://www.allstays.com/Campgrounds-details/30106.htm"
+    ]
+   },
+   {
+    "name": "Los Rios Campground",
+    "type": "private",
+    "price": 25,
+    "priceNote": "10 tent sites (1-5 with water+electric, 6-10 primitive); rates only shown in their ResNexus booking engine \u2014 expect $20-35",
+    "lat": 29.632,
+    "lng": -99.964,
+    "locationNote": "751 River Rd on the Nueces, ~4 route miles before Camp Wood (OSM mi 1273.9) \u2014 position approximate",
+    "routeMile": 1273.9,
+    "website": "https://losrioscampground.com/",
+    "phone": "(830) 291-8444",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established private campground (14 acres, cabins/tiny homes/RV/tent); men's & women's bathhouses",
+    "cyclistIntel": "Newer, well-reviewed river campground if the two in-town options don't pan out",
+    "seasonalNote": "",
+    "confidence": "medium",
+    "sources": [
+     "https://losrioscampground.com/",
+     "https://thedyrt.com/camping/texas/los-rios-campground-tx"
+    ]
+   }
+  ],
+  "bestBet": "Nueces River RV and Cabin Resort (formerly Big Oak River Camp)",
+  "gap": false,
+  "gapAdvice": "Camp Wood remains one of the friendliest cheap-camping towns on the Texas ST \u2014 three legal riverfront options within 4 miles. Resupply and top off water here: the next day westward is the famously brutal, service-free stretch toward Brackettville/Del Rio."
+ },
+ {
+  "day": 23,
+  "options": [
+   {
+    "name": "Amistad NRA \u2014 277 North Campground",
+    "type": "nps",
+    "price": 6,
+    "priceNote": "$6-10/night NPS fee (50% off with Senior/Access pass); NO potable water, vault toilet, covered picnic table + grill",
+    "lat": 29.452,
+    "lng": -100.963,
+    "locationNote": "Off US-277 ~9 mi north of downtown Del Rio (a detour spur, not on the ST line) \u2014 position approximate",
+    "routeMile": 1356,
+    "website": "https://www.nps.gov/amis/planyourvisit/camping.htm",
+    "phone": "(830) 775-7491",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "National Park Service campground, first-come first-served, no reservations",
+    "cyclistIntel": "Dirt-cheap federal camping, but the 277 spur adds off-route miles \u2014 Governors Landing usually makes more sense for through-riders",
+    "seasonalNote": "Tue 13 Oct \u2014 FCFS is low-risk on a weekday in October",
+    "confidence": "medium",
+    "sources": [
+     "https://www.nps.gov/amis/planyourvisit/camping.htm"
+    ]
+   },
+   {
+    "name": "Amistad NRA \u2014 Governors Landing Campground",
+    "type": "nps",
+    "price": 10,
+    "priceNote": "$6-10/night NPS fee; the ONLY Amistad campground with drinking water (shared spigots); vault toilets, no showers, no ground fires",
+    "lat": 29.468,
+    "lng": -101.013,
+    "locationNote": "Off US-90 W at the reservoir near Amistad Dam, ~12 route miles past the Day 23 endpoint / ~8 mi past downtown Del Rio \u2014 position approximate",
+    "routeMile": 1366,
+    "website": "https://www.nps.gov/amis/planyourvisit/camping.htm",
+    "phone": "(830) 775-7491",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "National Park Service campground, first-come first-served, 14-day max",
+    "cyclistIntel": "Long-standing ST bargain stop \u2014 banks miles toward Comstock and puts you lakeside; carry dinner/breakfast from Del Rio since there are no services",
+    "seasonalNote": "Weekday in October = sites open; sunset over the reservoir is the payoff",
+    "confidence": "high",
+    "sources": [
+     "https://www.nps.gov/amis/planyourvisit/camping.htm"
+    ]
+   },
+   {
+    "name": "Hidden Valley RV Park (Del Rio)",
+    "type": "rv_park",
+    "price": 20,
+    "priceNote": "Tent camping ~$20/night per directory listings (10% Good Sam discount cited); rate unverified \u2014 call ahead",
+    "lat": 29.37,
+    "lng": -100.87,
+    "locationNote": "Older shaded district of Del Rio, ~8 mi past the endpoint on the route through town (OSM mi 1354.7) \u2014 position approximate",
+    "routeMile": 1354.7,
+    "website": "https://www.campingroadtrip.com/campgrounds/campground/campground/25192/texas/hidden-valley-rv-park--del-rio-",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private in-town RV park; laundromat on site",
+    "cyclistIntel": "In-town option if you want groceries, restaurants, and a real shower before the desert stretch",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.campingroadtrip.com/campgrounds/campground/campground/25192/texas/hidden-valley-rv-park--del-rio-",
+     "https://rvshare.com/blog/top-10-campgrounds/del-rio-texas"
+    ]
+   },
+   {
+    "name": "Fort Clark Springs (Brackettville) \u2014 behind-route fallback",
+    "type": "private",
+    "price": 20,
+    "priceNote": "Tent camping listed at roughly $15-35/night, 2-person base +$1/extra person; COLD showers at tent area; RV full-hookup ~$40",
+    "lat": 29.306,
+    "lng": -100.418,
+    "locationNote": "Historic fort/member resort at Brackettville \u2014 ~30 route miles BEFORE the Day 23 endpoint, so it's a stop-short option, not a same-day one",
+    "routeMile": 1316,
+    "website": "https://fortclark.com/camping.html",
+    "phone": "(830) 563-9340",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private association resort that sells overnight camping to travelers; spring-fed pool",
+    "cyclistIntel": "Classic ST split-the-difference stop: if 68 mi Camp Wood\u2192Laughlin is too big a day, sleep here and re-plan Del Rio as a short morning",
+    "seasonalNote": "",
+    "confidence": "medium",
+    "sources": [
+     "https://fortclark.com/camping.html",
+     "https://thedyrt.com/camping/texas/fort-clark-springs-rv-park"
+    ]
+   },
+   {
+    "name": "Lonesome Dove RV Ranch",
+    "type": "rv_park",
+    "price": 22,
+    "priceNote": "$22/night daily rate (weekly $135); tent policy NOT confirmed \u2014 sites are electric RV-style, phone first",
+    "lat": 29.407,
+    "lng": -100.935,
+    "locationNote": "US-90 W beyond Del Rio toward Amistad (OSM mi 1359.9) \u2014 position approximate",
+    "routeMile": 1359.9,
+    "website": "https://www.tripadvisor.com/Hotel_Review-g60717-d1169564-Reviews-Lonesome_Dove_RV_Ranch-Del_Rio_Texas.html",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": false,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private RV park; treat tentsOk as unknown-leaning-no until confirmed by phone",
+    "cyclistIntel": "Only worth a call if Governors Landing is somehow full",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://www.tripadvisor.com/Hotel_Review-g60717-d1169564-Reviews-Lonesome_Dove_RV_Ranch-Del_Rio_Texas.html"
+    ]
+   }
+  ],
+  "bestBet": "Amistad NRA \u2014 Governors Landing Campground",
+  "gap": false,
+  "gapAdvice": "The mapped endpoint sits by Laughlin AFB, and the FamCamp there is restricted to military/DoD ID holders (active, guard, reserve, retired, DAV, DoD civilians) \u2014 EXCLUDED for a civilian rider, and there is no other camping at that exact point. Real choices: (a) push 8-12 extra miles through Del Rio to Hidden Valley (~$20, town services) or on to Amistad's Governors Landing ($6-10, water on site, FCFS, no showers); (b) stop 30 mi short at Fort Clark Springs; or (c) motel row in Del Rio. Whatever you pick, leave Del Rio with maximum water \u2014 Amistad campgrounds other than Governors Landing are dry, and so is the road to Comstock."
+ }
+]

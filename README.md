@@ -2,6 +2,21 @@
 
 Trip planning and trip-management app for Grimey's Pensacola → San Diego (Southern Tier, east-to-west) → Los Angeles bicycle ride. Interactive map is the interface; the trip model (route miles, planned vs. actual days, resources with provenance) is the product.
 
+**Redesigned 2026-08-28 — one canonical plan, four surfaces.** The old five-tab
+shell (Day plan / Trip days / Camping / Ride / Route) and its two divergent plan
+models are gone. The engine plan (`plan_revisions`/`planned_days`/`actual_days`/
+`planned_stops`) is the single source of truth; the old day-plan document is
+retired (kept in settings; one-time import under More). The UI is now
+**TODAY** (the Day Canvas: sky/daylight timeline, work window in local + Eastern
+time, morning/work/afternoon legs, unified sleep chooser, per-day costs,
+"Help me make this fit" structured proposals), **TRIP** (readiness rollup,
+schedule verdict, planned-vs-feasible chart, compact day list), **MAP**
+(route + provenance + resources + researched camps), **MORE** (settings, plan
+history with append-only rollback, camping rules, route provenance) — plus a
+full-screen **RIDE** dashboard. The Daylight Blocks prototype's solar/timezone/
+work-window engine now lives in `server/daylight.mjs` and feeds every day's
+feasibility verdict server-side.
+
 **Current status: Phases 1–4 working, on the true current ACA Southern Tier corridor
 (2021+ editions), rebuilt 2026-08-18 from public research.** 2,972.5-mile route
 (2,833 Pensacola→San Diego via New Orleans, Baton Rouge, Emory Pass, and the Gila
@@ -74,6 +89,17 @@ stretches take longer than flat ones.
 Stops are stored against route miles rather than day numbers, so they survive
 replans and renumbering, and they always sort geographically — there is nothing
 to drag and nothing to reorder.
+
+### Working days
+
+The rider owes 7.5 h of desk work Mon–Fri. **Auto-plan every day** searches each
+day for Wi-Fi stops that can absorb that block, solving for a departure time that
+keeps work inside 08:00–18:00 and gets you off the bike by 19:00. Ride legs are
+effort-based, so climbing costs real minutes. Days that can't fit — no Wi-Fi on
+the stretch, or too many riding hours to also sit for 7.5 — are reported rather
+than faked. `workAwarePlanning` shortens weekdays to what a working day allows
+and lets weekends run long; it is off by default because shorter weekdays cover
+less ground and land more often in Wi-Fi deserts.
 
 ### Dates
 

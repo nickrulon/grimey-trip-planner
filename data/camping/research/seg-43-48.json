@@ -1,0 +1,429 @@
+[
+ {
+  "day": 43,
+  "options": [
+   {
+    "name": "White Tank Mountain Regional Park (Willow/semi-developed sites)",
+    "type": "county_park",
+    "price": 25,
+    "priceNote": "$25/night semi-developed (walk-in tent sites); developed W/E sites $40; +$10 non-refundable reservation fee. Fees current per Maricopa County schedule effective Jan 1, 2026. Park entry fee $10/vehicle (cyclists typically pay a small bike entry fee).",
+    "lat": 33.602,
+    "lng": -112.514,
+    "locationNote": "~11-12 mi SW of Sun City West via Citrus Rd + Olive Ave to White Tank Mountain Rd \u2014 a real detour, all suburban/rural roads",
+    "routeMile": 2419.9,
+    "website": "https://www.maricopacountyparks.net/park-locator/white-tank-mountain-regional-park/",
+    "phone": "(602) 506-2930",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established Maricopa County regional park campground \u2014 fully legal",
+    "cyclistIntel": "Standard Phoenix-area cyclist camp; quiet in early Nov. Big detour off the ST line is the only downside.",
+    "seasonalNote": "Early Nov is prime season in the Phoenix area; weekends can book up \u2014 reserve",
+    "confidence": "high",
+    "sources": [
+     "https://www.maricopacountyparks.net/park-locator/white-tank-mountain-regional-park/fee/",
+     "https://thedyrt.com/camping/arizona/white-tank-mountain-regional-park"
+    ]
+   },
+   {
+    "name": "Lake Pleasant Regional Park",
+    "type": "county_park",
+    "price": 25,
+    "priceNote": "$25/night semi-developed, $40 developed; +$10 reservation fee (same Maricopa County fee schedule, effective Jan 2026); entry fee extra",
+    "lat": 33.849,
+    "lng": -112.276,
+    "locationNote": "~15-17 mi NE of Sun City West via Lake Pleasant Pkwy \u2014 wrong direction from the westbound route",
+    "routeMile": 2419.9,
+    "website": "https://www.maricopacountyparks.net/park-locator/lake-pleasant-regional-park/",
+    "phone": "(602) 506-2930",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established county park campground \u2014 legal",
+    "cyclistIntel": "Adjacent private Pleasant Harbor RV Resort is RV/boat-oriented \u2014 not the budget/tent play; the county park is",
+    "seasonalNote": "Snowbird season ramping up in Nov; reserve",
+    "confidence": "medium",
+    "sources": [
+     "https://www.maricopacountyparks.net/park-locator/white-tank-mountain-regional-park/fee/"
+    ]
+   }
+  ],
+  "bestBet": "White Tank Mountain Regional Park (Willow/semi-developed sites)",
+  "gap": true,
+  "gapAdvice": "Sun City West itself has zero tent camping \u2014 the 55+ RV resorts (e.g., in Sun City/Surprise) don't take tents. Nearest legal camping is White Tank Mountain Regional Park, an ~11-12 mi detour SW. If you don't want to add ~22-24 mi round trip to tomorrow's 73-mi day, take a budget motel in Surprise on the route (Motel 6 / Days Inn cluster on Grand Ave/US-60, typically $60-85 in Nov) and bank the sleep."
+ },
+ {
+  "day": 44,
+  "options": [
+   {
+    "name": "Gladden Trailer & RV Park",
+    "type": "rv_park",
+    "price": 0,
+    "priceNote": "Rate unpublished; monthly/seasonal-oriented park. Tent policy UNVERIFIED \u2014 call/ask before relying on it. No listed phone; park is on US-60 at Aguila (find via Facebook or ask at Aguila Family Dollar).",
+    "lat": 33.9024,
+    "lng": -113.3001,
+    "locationNote": "0.1 mi off route on US-60 at Aguila",
+    "routeMile": 2492.7,
+    "website": "https://www.chamberofcommerce.com/business-directory/arizona/aguila/rv-park/2030973051-gladden-trailer-and-rv-park",
+    "phone": "",
+    "booking": "ask-permission",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Private RV park \u2014 legal with permission; under new ownership, no longer Escapees-affiliated, confirmed accepting short-term stays (4.8-star recent reviews)",
+    "cyclistIntel": "The classic Aguila stop, Burro Jim Motel, is CLOSED (Yelp, Oct 2025) \u2014 this park is effectively the only roof/camp at the day's end point",
+    "seasonalNote": "Open year-round",
+    "confidence": "low",
+    "sources": [
+     "https://opengovny.com/place/ChIJZxulARJ004AR3P6Hx7NyVGk",
+     "https://www.chamberofcommerce.com/business-directory/arizona/aguila/rv-park/2030973051-gladden-trailer-and-rv-park",
+     "https://www.yelp.com/biz/burro-jim-motel-aguila"
+    ]
+   },
+   {
+    "name": "Horspitality RV Park",
+    "type": "rv_park",
+    "price": 30,
+    "priceNote": "Tent rate unpublished (park listed as pricier RV resort) \u2014 9 dedicated tents-only sites confirmed; call for the tent rate, likely $25-40",
+    "lat": 33.93,
+    "lng": -112.687,
+    "locationNote": "On US-60 ~4 mi SE of downtown Wickenburg \u2014 directly on route, but ~25-28 mi BEFORE Aguila (shortens the day)",
+    "routeMile": 2464,
+    "website": "https://www.allstays.com/Campgrounds/az-wickenburg-campgrounds.htm",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private all-ages RV park with 9 tents-only sites (AllStays) \u2014 legal",
+    "cyclistIntel": "Southern Tier riders have stayed here since at least 2007 (Drew Bratton's CGOAB journal). Note Wickenburg's Constellation Park ($10 city camping) is self-contained-RVs-ONLY \u2014 no tents.",
+    "seasonalNote": "Open year-round; snowbirds arriving in Nov \u2014 call ahead",
+    "confidence": "medium",
+    "sources": [
+     "https://www.allstays.com/Campgrounds/az-wickenburg-campgrounds.htm",
+     "https://www.crazyguyonabike.com/doc/?doc_id=2041"
+    ]
+   }
+  ],
+  "bestBet": "Gladden Trailer & RV Park",
+  "gap": true,
+  "gapAdvice": "Aguila is the thinnest night of this segment: Burro Jim Motel is closed, Constellation Park (Wickenburg) bans tents, and there's no named BLM dispersed area at Aguila (US-60 corridor here is private ag + state trust land, which needs an AZ permit). Plan A: confirm tents at Gladden before leaving Wickenburg. Plan B: stop at Horspitality RV Park near Wickenburg (mi ~2464) and eat the 28-mi shift into tomorrow (Quartzsite day becomes ~88 mi \u2014 flat). Plan C: ask at the Aguila community church/school ballfield \u2014 small-town courtesy camping is common ST practice, but get explicit permission. Water: buy at Aguila's Family Dollar."
+ },
+ {
+  "day": 45,
+  "options": [
+   {
+    "name": "Dome Rock BLM 14-Day Camping Area",
+    "type": "blm",
+    "price": 0,
+    "priceNote": "FREE \u2014 get the free 14-day permit from the seasonal camp host at the entrance",
+    "lat": 33.654,
+    "lng": -114.287,
+    "locationNote": "S of I-10 at Dome Rock Rd exit, ~3 mi W of Quartzsite \u2014 essentially ON route as you leave town westbound (mi 2553.4)",
+    "routeMile": 2553.4,
+    "website": "https://thedyrt.com/camping/arizona/dome-rock-road-blm-dispersed-camping-area",
+    "phone": "(928) 317-3200",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "Fully legal BLM 14-day free dispersed area with camp-host registration \u2014 the budget backbone of Quartzsite",
+    "cyclistIntel": "400 sites, camp anywhere in the boundary; hard flat desert, easy tent pitching. Load ALL water in Quartzsite (3 mi east) \u2014 zero facilities here.",
+    "seasonalNote": "Early Nov = start of snowbird season; plenty of space (the crush is Jan-Feb gem show)",
+    "confidence": "high",
+    "sources": [
+     "https://thedyrt.com/camping/arizona/dome-rock-road-blm-dispersed-camping-area",
+     "https://www.allstays.com/Campgrounds/az-quartzsite-campgrounds.htm",
+     "https://pauhanatravels.com/dome-rock-mountain-blm-14-day-free-camping/"
+    ]
+   },
+   {
+    "name": "Hi Jolly BLM 14-Day Camping Area",
+    "type": "blm",
+    "price": 0,
+    "priceNote": "FREE, 14-day limit",
+    "lat": 33.688,
+    "lng": -114.221,
+    "locationNote": "~2 mi N of Main St on US-95 N \u2014 short off-route detour the wrong direction; Dome Rock is the better free pick westbound",
+    "routeMile": 2552.3,
+    "website": "https://www.allstays.com/Campgrounds/az-quartzsite-campgrounds.htm",
+    "phone": "(928) 317-3200",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "Legal BLM free 14-day dispersed area, ~100 sites",
+    "cyclistIntel": "No water \u2014 haul from town",
+    "seasonalNote": "Open year-round",
+    "confidence": "high",
+    "sources": [
+     "https://www.allstays.com/Campgrounds/az-quartzsite-campgrounds.htm"
+    ]
+   },
+   {
+    "name": "B-10 Campground (B10 RV Park & Campground)",
+    "type": "rv_park",
+    "price": 25,
+    "priceNote": "Reported $25/night (W/E) to $40; ~20-40 dedicated tent sites \u2014 call for current tent rate. Worth it if you want a SHOWER.",
+    "lat": 33.664,
+    "lng": -114.235,
+    "locationNote": "615 W Main St, downtown Quartzsite \u2014 on route (mi ~2550.7-2552.3)",
+    "routeMile": 2550.7,
+    "website": "http://www.b10campground.com",
+    "phone": "(928) 927-4393",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private campground that explicitly welcomes tents (rare in Quartzsite \u2014 88 Shades and most others are RV-only)",
+    "cyclistIntel": "Walking distance to all Quartzsite services; open Oct 1-Mar 31 so it IS open Nov 4",
+    "seasonalNote": "Seasonal Oct-Mar \u2014 open for your date",
+    "confidence": "medium",
+    "sources": [
+     "https://www.campbase.com/b10-rv-park-and-campground",
+     "https://www.yelp.com/biz/b-10-campground-quartzsite",
+     "https://www.allstays.com/Campgrounds/az-quartzsite-campgrounds.htm"
+    ]
+   },
+   {
+    "name": "La Posa LTVA (West/North/South)",
+    "type": "blm_ltva",
+    "price": 40,
+    "priceNote": "In LTVA season (Sept 15-Apr 15) the cheapest legal permit is the $40 short-visit permit covering any 14 consecutive days \u2014 poor value for ONE night; season permit $180. Fees confirmed unchanged for 2025-26 (proposed $600 hike did NOT go through). The $15/night rate only applies off-season (Apr 16-Sept 14).",
+    "lat": 33.627,
+    "lng": -114.221,
+    "locationNote": "~2 mi S of town on US-95 S (mi 2550.7-2551.1 per OSM)",
+    "routeMile": 2550.9,
+    "website": "https://www.blm.gov/visit/la-posa-long-term-visitor-area",
+    "phone": "(928) 317-3200",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Legal BLM LTVA; tents explicitly permitted. Permit sold on site.",
+    "cyclistIntel": "Only worth $40 if you want the amenities: 8 potable water faucets, vault toilets, dump, trash. For one tent night, Dome Rock free beats it.",
+    "seasonalNote": "Nov 4 is inside LTVA season, so short-visit permit pricing applies",
+    "confidence": "high",
+    "sources": [
+     "https://www.blm.gov/visit/la-posa-long-term-visitor-area",
+     "https://boondockorbust.com/boondocking-guide/ltva-camping-your-guide-to-extended-stays-on-public-lands/",
+     "https://www.rvtravel.com/understanding-quartzsites-long-term-visitor-areas-pay-expect-1232/"
+    ]
+   }
+  ],
+  "bestBet": "Dome Rock BLM 14-Day Camping Area",
+  "gap": false,
+  "gapAdvice": ""
+ },
+ {
+  "day": 46,
+  "options": [
+   {
+    "name": "Hippie Hole Camping Area (BLM)",
+    "type": "blm",
+    "price": 0,
+    "priceNote": "Listed as free dispersed camping; some maps place it inside the local BLM fee program \u2014 carry $15 cash in case",
+    "lat": 33.404,
+    "lng": -114.7,
+    "locationNote": "~3 mi from Palo Verde on the Colorado River, dirt-road access off route",
+    "routeMile": 2597,
+    "website": "https://thedyrt.com/camping/california/near/palo-verde",
+    "phone": "",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "BLM-managed river camping area \u2014 legal, but verify locally whether the fee envelope applies",
+    "cyclistIntel": "River access = swim/rinse; can be a local party spot on weekends (Nov 5, 2026 is a Thursday \u2014 should be quiet)",
+    "seasonalNote": "Pleasant in Nov",
+    "confidence": "low",
+    "sources": [
+     "https://thedyrt.com/camping/california/near/palo-verde"
+    ]
+   },
+   {
+    "name": "Palo Verde County Park",
+    "type": "county_park",
+    "price": 15,
+    "priceNote": "$15/night ($7.50 with America the Beautiful pass; $75 annual). NOT free anymore despite older reports.",
+    "lat": 33.374,
+    "lng": -114.712,
+    "locationNote": "On CA-78 ~2 mi S of Palo Verde store \u2014 effectively ON route (tomorrow's direction of travel), mi ~2600.7",
+    "routeMile": 2600.7,
+    "website": "https://maps.campendium.com/us/palo-verde-ca/camping-rv/palo-verde-county-park-palo-verde",
+    "phone": "(442) 265-1823",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Established county park campground, ~18-20 first-come sites \u2014 legal",
+    "cyclistIntel": "Flush toilets, tables, fire rings, shade ramadas, 14-day limit. NO drinking water \u2014 buy at the Palo Verde store/bar 2 mi back before rolling in.",
+    "seasonalNote": "Snowbird arrivals begin in Nov but midweek space is near-certain",
+    "confidence": "high",
+    "sources": [
+     "https://maps.campendium.com/us/palo-verde-ca/camping-rv/palo-verde-county-park-palo-verde",
+     "https://thedyrt.com/camping/california/near/palo-verde",
+     "https://www.yelp.com/biz/palo-verde-county-park-palo-verde"
+    ]
+   },
+   {
+    "name": "Oxbow Campground (BLM)",
+    "type": "blm",
+    "price": 15,
+    "priceNote": "$15/night overnight fee, envelope pay ($7.50 with America the Beautiful pass; $75 annual covers area BLM fee sites)",
+    "lat": 33.373,
+    "lng": -114.728,
+    "locationNote": "0.6 mi off route at mi 2598.7, on the Colorado River oxbow",
+    "routeMile": 2598.7,
+    "website": "https://www.blm.gov/visit/oxbow-recreation-and-wildlife-area",
+    "phone": "(928) 317-3200",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Legal BLM fee campground with host in season",
+    "cyclistIntel": "River setting, vault toilets, no potable water \u2014 same drill: stock up in Palo Verde",
+    "seasonalNote": "Popular with anglers/snowbirds from Nov on",
+    "confidence": "high",
+    "sources": [
+     "https://www.blm.gov/visit/oxbow-recreation-and-wildlife-area",
+     "https://www.campendium.com/oxbow-recreation-area",
+     "https://thedyrt.com/camping/california/near/palo-verde"
+    ]
+   },
+   {
+    "name": "Tamarisk Mobile Home Park & Campground",
+    "type": "private",
+    "price": 0,
+    "priceNote": "Rate UNKNOWN \u2014 could not verify via any 2024-2026 source; OSM tags it 'Cyclists Welcome' which usually traces to ACA map data, so it likely hosts ST riders \u2014 ask at the office",
+    "lat": 33.42,
+    "lng": -114.73,
+    "locationNote": "OSM places it at mi 2594.3 on CA-78 just N of Palo Verde",
+    "routeMile": 2594.3,
+    "website": "",
+    "phone": "",
+    "booking": "ask-permission",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Private park \u2014 legal with permission only",
+    "cyclistIntel": "Unverified beyond the OSM/ACA tag; treat as a bonus, not a plan",
+    "seasonalNote": "",
+    "confidence": "low",
+    "sources": [
+     "https://thedyrt.com/camping/california/near/palo-verde"
+    ]
+   }
+  ],
+  "bestBet": "Palo Verde County Park",
+  "gap": false,
+  "gapAdvice": ""
+ },
+ {
+  "day": 47,
+  "options": [
+   {
+    "name": "Wiest Lake County Park",
+    "type": "county_park",
+    "price": 30,
+    "priceNote": "~$30/night per recent camper reports; Imperial County publishes no online rate card \u2014 call (442) 265-1736 to confirm current tent rate",
+    "lat": 33.0403,
+    "lng": -115.4614,
+    "locationNote": "5351 Dietrich Rd \u2014 ~6 mi N of Brawley via CA-111 N + Rutherford Rd; a real detour off the day's end point",
+    "routeMile": 2665.5,
+    "website": "https://publicworks.imperialcounty.org/county-parks/",
+    "phone": "(442) 265-1736",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Imperial County officially lists both RV and TENT camping here \u2014 legal and current (county Public Works page)",
+    "cyclistIntel": "Lakeside grass, charcoal grills (no ground fires), clean bathrooms with showers per reviews \u2014 the only real tent camping in the Brawley area",
+    "seasonalNote": "Imperial Valley camping season is winter \u2014 open and pleasant in Nov",
+    "confidence": "medium",
+    "sources": [
+     "https://publicworks.imperialcounty.org/county-parks/",
+     "https://thedyrt.com/camping/california/california-wiest-lake",
+     "https://www.roverpass.com/c/wiest-lake-county-park-brawley-ca/"
+    ]
+   },
+   {
+    "name": "Imperial Sand Dunes Rec Area (Glamis) \u2014 BLM",
+    "type": "blm",
+    "price": 55,
+    "priceNote": "Permit fees ROSE Oct 1, 2025: $55/week off-site, $70/week on-site, $185/season, charged per street-legal 'primary vehicle' Oct 1-Apr 15. A bicycle is an edge case rangers may wave through, but don't bank on it",
+    "lat": 32.996,
+    "lng": -115.07,
+    "locationNote": "Route passes Glamis at ~mi 2640, 26 mi before Brawley",
+    "routeMile": 2640,
+    "website": "https://isdpermits.net/",
+    "phone": "",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Legal BLM camping with permit, but it's an OHV mega-area \u2014 camps are RV/toy-hauler flats",
+    "cyclistIntel": "NOT recommended: weekly-permit pricing is terrible value for one tent night, zero water, and Nov weekends bring wall-to-wall OHV noise. Push on to Brawley.",
+    "seasonalNote": "Nov 6, 2026 is a Friday \u2014 the dunes will be filling up with OHV crowds that evening",
+    "confidence": "medium",
+    "sources": [
+     "https://kesq.com/news/2025/09/19/increased-permit-fees-for-imperial-sand-dunes-recreation-area-in-effect-october-1st/",
+     "https://www.blm.gov/announcement/imperial-sand-dunes-recreation-area-fee-changes-effective-october-1"
+    ]
+   }
+  ],
+  "bestBet": "Wiest Lake County Park",
+  "gap": false,
+  "gapAdvice": "Brawley proper has no tent camping \u2014 Palm Lane RV Park is RVs-only. Wiest Lake means ~6 extra miles north (and 6 back south in the morning). If you won't ride the detour after a 68-mi dunes day, take a budget motel on Brawley's Main St/CA-86 (typically $70-95). Skip Glamis camping \u2014 the new $55+ weekly vehicle permits and Friday-night OHV chaos make it the worst deal on this segment."
+ },
+ {
+  "day": 48,
+  "options": [
+   {
+    "name": "Desert Trails RV Park & Golf Course",
+    "type": "rv_park",
+    "price": 37,
+    "priceNote": "~$37/night W/E sites reported (one caller quoted $45); ~100 tent sites per directory listings \u2014 call 760-352-7275 for the actual tent rate, which may come in under $35",
+    "lat": 32.77,
+    "lng": -115.556,
+    "locationNote": "225 Wake Ave, south El Centro \u2014 on/near route at ~mi 2684, i.e. ~10 mi BEFORE the Calexico end point",
+    "routeMile": 2684,
+    "website": "https://www.deserttrailsrv.com/",
+    "phone": "(760) 352-7275",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private RV park that accepts tents (one of very few in Imperial Valley) \u2014 legal",
+    "cyclistIntel": "Showers, laundry, pool; last realistic camp before the border. Camp here and roll the final flat 10 mi into Calexico in the morning.",
+    "seasonalNote": "Winter-season park \u2014 fully open in Nov, snowbirds arriving",
+    "confidence": "medium",
+    "sources": [
+     "https://www.deserttrailsrv.com/",
+     "https://www.allstays.com/Campgrounds-details/14510.htm",
+     "https://www.tripadvisor.com/Hotel_Review-g32332-d1648521-Reviews-Desert_Trails_RV_Park_and_Golf_Course-El_Centro_California.html"
+    ]
+   }
+  ],
+  "bestBet": "Desert Trails RV Park & Golf Course",
+  "gap": true,
+  "gapAdvice": "Calexico itself has zero legal camping. Nearby 'options' all fail for tents: Sunbeam Lake RV Resort is RVs-only (300 sites, no tents), Rio Bend RV & Golf Resort is resort-priced with no published tent sites, and Country Life RV Park (mi 2683.2) could not be verified as tent-friendly. Real choices: (1) camp Desert Trails in El Centro at mi ~2684 and finish the last 10 mi next morning, or (2) budget motel in Calexico \u2014 several independents plus chains along Imperial Ave (SR-111), typically $65-95 in Nov; El Centro's Motel 6/chain cluster off I-8 runs similar. Book the border-town motel ahead on a Saturday night (Nov 7)."
+ }
+]

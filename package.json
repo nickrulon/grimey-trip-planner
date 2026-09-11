@@ -11,15 +11,24 @@
     "ingest:resources": "node scripts/ingest-resources.mjs",
     "ingest:places": "node scripts/ingest-places.mjs",
     "ingest:elevation": "node scripts/ingest-elevation.mjs",
-    "ingest:notes": "node scripts/ingest-notes.mjs"
+    "ingest:notes": "node scripts/ingest-notes.mjs",
+    "export:static": "vite build --base=./ && node scripts/export-static.mjs",
+    "deploy:site": "API_PORT=5481 node scripts/with-api.mjs",
+    "push-state": "node scripts/push-state.mjs && netlify blobs:set trip db-state --input /tmp/db-state.json",
+    "build:intel": "node scripts/build-intel.mjs",
+    "test:intel": "node test/regress.mjs",
+    "test": "node test/regress.mjs && node test/marks.mjs"
   },
   "dependencies": {
+    "@netlify/blobs": "^11.0.1",
     "@turf/turf": "^7.1.0",
     "better-sqlite3": "^11.5.0",
     "express": "^4.21.0",
     "maplibre-gl": "^4.7.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "serverless-http": "^4.0.0",
+    "sql.js": "^1.14.2"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

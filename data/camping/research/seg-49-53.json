@@ -1,0 +1,441 @@
+[
+ {
+  "day": 49,
+  "options": [
+   {
+    "name": "Elliot Mine Area Dispersed Camping (BLM)",
+    "type": "blm",
+    "price": 0,
+    "priceNote": "Free BLM dispersed camping, 14-day limit",
+    "lat": 32.648,
+    "lng": -116.123,
+    "locationNote": "Approx coords \u2014 dispersed area ~1.1 mi off route near Jacumba; verify exact BLM parcel boundary before pitching",
+    "routeMile": 2741,
+    "website": "https://www.blm.gov/office/el-centro-field-office",
+    "phone": "760-337-4400",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "Dispersed camping on BLM land is legal (14-day limit, pack out everything). Legality depends on being on the BLM parcel, not adjacent private/railroad land \u2014 could not verify parcel lines. Heavy Border Patrol activity in this corridor; expect vehicle passes at night.",
+    "cyclistIntel": "Zero facilities, zero water \u2014 tank up in Jacumba town first. Only worth it if DeAnza is full/closed; the hotel pools in town are a better evening anyway.",
+    "seasonalNote": "High desert ~2,800 ft \u2014 Nov nights near freezing",
+    "confidence": "low",
+    "sources": [
+     "https://www.blm.gov/office/el-centro-field-office"
+    ]
+   },
+   {
+    "name": "Lark Canyon Campground (BLM McCain Valley)",
+    "type": "blm",
+    "price": 6,
+    "priceNote": "$6/site/night, first-come, 15 sites",
+    "lat": 32.7211,
+    "lng": -116.2439,
+    "locationNote": "4.2 mi off route up McCain Valley Rd from Boulevard (net climb); OHV area adjoins campground",
+    "routeMile": 2754.1,
+    "website": "https://www.blm.gov/visit/lark-canyon-campground",
+    "phone": "760-337-4400",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Established BLM fee campground \u2014 fully legal, 14-day limit",
+    "cyclistIntel": "Cheapest legal roof-of-nothing in the area, but it's 13 mi PAST the Jacumba day-end plus a 4.2-mi side climb. Water on site is NOT tested safe for drinking \u2014 carry from Boulevard. Vault toilets, fire rings, tables. Can be noisy with OHVs on weekends; Nov 8 is a Sunday night so it should empty out.",
+    "seasonalNote": "Open year-round; ~4,000 ft elevation, cold Nov nights",
+    "confidence": "medium",
+    "sources": [
+     "https://www.desertusa.com/mccain/oct_mcain2.html",
+     "https://www.campendium.com/lark-canyon-campground"
+    ]
+   },
+   {
+    "name": "DeAnza Springs Resort",
+    "type": "private",
+    "price": 30,
+    "priceNote": "Dry tent sites \u2014 nightly rate not published (weekly is $155, so figure ~$25\u201335/night); book via Campspot or call",
+    "lat": 32.658,
+    "lng": -116.155,
+    "locationNote": "1951 Carrizo Gorge Rd, ~2\u20133 mi north of Jacumba town via Carrizo Gorge Rd (approx coords)",
+    "routeMile": 2746,
+    "website": "https://deanzasprings.com/",
+    "phone": "619-766-4301",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Legal private campground/resort, 311+ RV sites plus dedicated dry tent sites",
+    "cyclistIntel": "Best facilities anywhere near Jacumba: two pools (one heated/enclosed year-round), hot tub, showers, cafe, wifi. HEADS-UP: this was famously a clothing-optional/nudist resort for decades; current ownership's website no longer mentions that policy \u2014 call ahead to confirm the vibe before committing.",
+    "seasonalNote": "Open year-round; high desert 2,600 ft, cold nights in Nov",
+    "confidence": "medium",
+    "sources": [
+     "https://deanzasprings.com/",
+     "https://www.campspot.com/park/deanza-springs-resort"
+    ]
+   },
+   {
+    "name": "Boulevard / Cleveland National Forest KOA Journey",
+    "type": "private",
+    "price": 40,
+    "priceNote": "Tent sites est. $35\u201345/night \u2014 KOA site blocked automated verification; call for current rate",
+    "lat": 32.677,
+    "lng": -116.313,
+    "locationNote": "2299 Ribbonwood Rd, Boulevard \u2014 just off Old Hwy 80 route through Boulevard (approx coords)",
+    "routeMile": 2750,
+    "website": "https://koa.com/campgrounds/boulevard/",
+    "phone": "",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Legal private KOA campground with tent sites",
+    "cyclistIntel": "40-acre KOA with showers, store, stargazing area; 9 mi past Jacumba essentially ON route, so it shortens Day 50. Solid plan-B if DeAnza doesn't suit.",
+    "seasonalNote": "Believed open year-round \u2014 confirm by phone; ~3,400 ft, freezing Nov nights possible",
+    "confidence": "low",
+    "sources": [
+     "https://koa.com/campgrounds/boulevard/",
+     "https://www.outdoorsocal.com/posts/jacumba-hot-springs-camping/"
+    ]
+   }
+  ],
+  "bestBet": "DeAnza Springs Resort",
+  "gap": false,
+  "gapAdvice": "No camping in Jacumba town itself \u2014 the renovated Jacumba Hot Springs Hotel (44500 Old Hwy 80) is rooms-only, no tent sites, but sells hot-springs pool passes; a soak there then 2\u20133 mi to DeAnza is the play. If DeAnza's rate or vibe is off, ride 9 more mi to the Boulevard KOA and bank miles for Day 50."
+ },
+ {
+  "day": 50,
+  "options": [
+   {
+    "name": "Green Valley Campground (Cuyamaca Rancho State Park)",
+    "type": "state_park",
+    "price": 40,
+    "priceNote": "$40/night/site standard (per site, not per person); no hike/bike site at this park",
+    "lat": 32.9066,
+    "lng": -116.5779,
+    "locationNote": "3.2 mi off route up Hwy 79 from the Descanso area; 15 mi BEFORE the Alpine day-end",
+    "routeMile": 2781.4,
+    "website": "https://www.parks.ca.gov/?page_id=667",
+    "phone": "760-765-3020",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "State park campground \u2014 fully legal",
+    "cyclistIntel": "Pretty oak/creek setting, flush toilets, pay showers. Booking is via ReserveCalifornia but a Monday night in November will have walk-up room. Costs you 15 route miles + a 3.2-mi climb off route, making Day 51 to Encinitas very long.",
+    "seasonalNote": "Vehicle-access camping season runs Apr 1 \u2013 Nov 30, so OPEN Nov 9 \u2014 one of its last weeks of the season. ~4,000 ft: expect nights near/below freezing.",
+    "confidence": "high",
+    "sources": [
+     "https://parks.ca.gov/?page_id=667",
+     "https://www.outdoorsocal.com/posts/green-valley-campground/"
+    ]
+   },
+   {
+    "name": "Lake Jennings Campground",
+    "type": "county_park",
+    "price": 45,
+    "priceNote": "Standard tent (non-hookup) $45 Sun\u2013Thu / $50 Fri\u2013Sat (rates effective May 2025); Nov 9 is a Monday = $45",
+    "lat": 32.859,
+    "lng": -116.8886,
+    "locationNote": "9535 Harritt Rd, Lakeside \u2014 ~5\u20136 mi past Alpine along the route toward El Cajon, ~1 mi off",
+    "routeMile": 2802,
+    "website": "https://lakejennings.org/see-and-do/camping/pricing/",
+    "phone": "619-390-1623",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Legal established campground (Helix Water District park)",
+    "cyclistIntel": "Hot showers, store, lake views, walk-in tent-only sites available; 44 non-hookup tent sites so midweek Nov availability is easy. Sleeping here instead of before Alpine shaves 5+ mi off the long Day 51 into Encinitas.",
+    "seasonalNote": "Open year-round; mild low-elevation nights",
+    "confidence": "high",
+    "sources": [
+     "https://lakejennings.org/see-and-do/camping/pricing/",
+     "https://www.californiasbestcamping.com/san_diego/lake_jennings.html"
+    ]
+   }
+  ],
+  "bestBet": "Lake Jennings Campground",
+  "gap": false,
+  "gapAdvice": "Alpine itself has NO campground (confirmed \u2014 nothing legal in town), and Vacationer RV Resort in El Cajon is verified RVs-only ('Sorry, no tent camping' per their FAQ), so scratch it. Nothing under $40 exists on this stretch: Lake Jennings ($45, right on the onward path, hot showers) is worth the $5 over Green Valley, which sits 15 mi short plus a 3.2-mi climb and freezing 4,000-ft nights. A Warmshowers host in Alpine/El Cajon is the only free play here."
+ },
+ {
+  "day": 51,
+  "options": [
+   {
+    "name": "San Elijo State Beach \u2014 Hike & Bike site",
+    "type": "state_beach",
+    "price": 15,
+    "priceNote": "Hike/bike $15/person/night (raised from $10 \u2014 verified on parks.ca.gov Aug 2026); shared site #94, pay on arrival",
+    "lat": 33.0189,
+    "lng": -117.2828,
+    "locationNote": "2050 S Coast Hwy 101, Cardiff-by-the-Sea \u2014 directly ON route, 2.7 mi before the Encinitas day-end",
+    "routeMile": 2855.1,
+    "website": "https://www.parks.ca.gov/?page_id=29607",
+    "phone": "760-753-5091",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Official CA State Parks hike & bike program \u2014 arrive by bike, no reservation possible or needed",
+    "cyclistIntel": "THE classic Pacific Coast route stop: blufftop over the surf, hot pay showers (bring quarters), flush toilets, market/taco shops across Hwy 101. Registration after 2 PM, vacate by noon; max 2 consecutive nights, 10 hike/bike days per calendar year statewide. November midweek = the shared site will very likely be yours alone.",
+    "seasonalNote": "Open year-round; hike/bike is first-come and effectively never full in Nov",
+    "confidence": "high",
+    "sources": [
+     "https://www.parks.ca.gov/?page_id=29607",
+     "https://www.campsitephotos.com/campground/ca/san-elijo-state-beach/"
+    ]
+   },
+   {
+    "name": "South Carlsbad State Beach \u2014 Hike & Bike site",
+    "type": "state_beach",
+    "price": 15,
+    "priceNote": "Historically has hike/bike sites; assume $15/person matching the statewide rate \u2014 UNVERIFIED for 2026",
+    "lat": 33.0906,
+    "lng": -117.3122,
+    "locationNote": "7201 Carlsbad Blvd \u2014 ON route, 3.2 mi past the Encinitas day-end",
+    "routeMile": 2861,
+    "website": "https://www.parks.ca.gov/southcarlsbad",
+    "phone": "760-438-3143",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "State beach campground; hike/bike arrival by bicycle only",
+    "cyclistIntel": "Blufftop campground similar to San Elijo. RED FLAG: reservation systems showed NO upcoming availability at South Carlsbad as of Aug 2026 \u2014 this campground has long-rumored bluff/utility closure plans. Call the kiosk (760-438-3143) before counting on it; treat San Elijo as the sure thing.",
+    "seasonalNote": "Possible full-campground closure in late 2026 \u2014 verify by phone",
+    "confidence": "low",
+    "sources": [
+     "https://www.parks.ca.gov/southcarlsbad",
+     "https://www.hipcamp.com/en-US/state-park/united-states/california/south-carlsbad/all"
+    ]
+   },
+   {
+    "name": "San Elijo State Beach \u2014 standard tent site (fallback)",
+    "type": "state_beach",
+    "price": 50,
+    "priceNote": "Standard sites roughly $40\u201360/night per site depending on location; reserve on ReserveCalifornia",
+    "lat": 33.0189,
+    "lng": -117.2828,
+    "locationNote": "Same campground as the hike/bike site",
+    "routeMile": 2855.1,
+    "website": "https://www.parks.ca.gov/?page_id=662",
+    "phone": "760-753-5091",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "State beach campground \u2014 fully legal",
+    "cyclistIntel": "Only needed if the hike/bike site somehow can't take you (it will in November).",
+    "seasonalNote": "Open year-round",
+    "confidence": "medium",
+    "sources": [
+     "https://www.parks.ca.gov/?page_id=662"
+    ]
+   }
+  ],
+  "bestBet": "San Elijo State Beach \u2014 Hike & Bike site",
+  "gap": false,
+  "gapAdvice": ""
+ },
+ {
+  "day": 52,
+  "options": [
+   {
+    "name": "Doheny State Beach \u2014 Hike & Bike site",
+    "type": "state_beach",
+    "price": 15,
+    "priceNote": "Hike/bike area confirmed by the touring community as welcoming; price assumed $15/person matching statewide rate (official pages list only standard $50 / beachfront $65 sites) \u2014 call to confirm",
+    "lat": 33.4614,
+    "lng": -117.6844,
+    "locationNote": "25300 Dana Point Harbor Dr, Dana Point \u2014 ON route, ~22 mi before the Newport Beach day-end",
+    "routeMile": 2898,
+    "website": "https://www.parks.ca.gov/?page_id=645",
+    "phone": "949-496-6171",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "State beach campground with hike/bike arrival by bicycle",
+    "cyclistIntel": "Classic Pacific Coast overnight: flat beachside camp, hot showers, staff historically friendly to touring cyclists. Trade-off: stopping here makes Day 52 short (~40 mi) and the final Santa Monica day long (~74 mi).",
+    "seasonalNote": "Campground open year-round; Nov midweek wide open",
+    "confidence": "medium",
+    "sources": [
+     "https://www.parks.ca.gov/?page_id=645",
+     "https://www.bikeforums.net/touring/964838-california-hiker-biker-campsite-list.html",
+     "https://www.dohenystatebeach.org/park-information/day-use-and-campers/"
+    ]
+   },
+   {
+    "name": "Crystal Cove State Park \u2014 Lower Moro primitive camp",
+    "type": "state_park",
+    "price": 25,
+    "priceNote": "Primitive hike-in site, est. ~$25/night/site (unverified \u2014 check ReserveCalifornia); listed with hike/bike among its site types",
+    "lat": 33.573,
+    "lng": -117.808,
+    "locationNote": "~2 mi UP Moro Ridge Trail (dirt) from the PCH trailhead \u2014 approx coords; 10 mi before Newport Beach",
+    "routeMile": 2910.4,
+    "website": "https://www.parks.ca.gov/?page_id=644",
+    "phone": "949-494-3539",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Legal state park primitive campground; reservation via ReserveCalifornia",
+    "cyclistIntel": "Closest cheap-ish camp to Newport, BUT: 2-mi climb on dirt with a loaded touring bike, NO water (haul it up), vault toilet only, no fires. Ocean-view sunrise is the payoff. Only choose this over Doheny if you want the endpoint miles.",
+    "seasonalNote": "Open year-round, weather permitting",
+    "confidence": "low",
+    "sources": [
+     "https://www.campsitephotos.com/campground/ca/crystal-cove-state-park-lower-moro/",
+     "https://www.parks.ca.gov/?page_id=644"
+    ]
+   },
+   {
+    "name": "San Onofre State Beach \u2014 San Mateo Campground (early alternative)",
+    "type": "state_beach",
+    "price": 40,
+    "priceNote": "Standard non-hookup est. ~$40/site (tent-only loop sites 101\u2013157 may run less \u2014 verify on ReserveCalifornia)",
+    "lat": 33.4404,
+    "lng": -117.5862,
+    "locationNote": "830 Cristianitos Rd, San Clemente \u2014 ~1.5 mi inland off route, ~34 mi before Newport Beach",
+    "routeMile": 2886,
+    "website": "https://www.parks.ca.gov/?page_id=647",
+    "phone": "949-492-4872",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "State beach campground, open YEAR-ROUND (verified). NOTE: the other San Onofre campground \u2014 Bluffs \u2014 is CLOSED to camping Oct 1\u2013May 15, so it is NOT an option on Nov 11.",
+    "cyclistIntel": "Hot showers, drinking water, flush toilets. Really only useful as a bail-out if you're cooked coming off the Camp Pendleton bike path \u2014 it leaves 87 mi to Santa Monica.",
+    "seasonalNote": "San Mateo open year-round; Bluffs closed in November",
+    "confidence": "medium",
+    "sources": [
+     "https://www.parks.ca.gov/?page_id=647",
+     "https://www.campsitephotos.com/campground/ca/san-onofre-state-beach-san-mateo/",
+     "https://www.hipcamp.com/en-US/campground/united-states/california/san-onofre-bluffs-campground-5yxmcnr9"
+    ]
+   },
+   {
+    "name": "San Clemente State Beach",
+    "type": "state_beach",
+    "price": 45,
+    "priceNote": "Tent campsite $45\u201350/night (parks.ca.gov); a hike/bike site has historically existed here (~$15/pp) but is unverified \u2014 call the park pass office",
+    "lat": 33.4048,
+    "lng": -117.6053,
+    "locationNote": "Blufftop off Avenida Calafia, San Clemente \u2014 ~1 mi off route, ~29 mi before Newport Beach",
+    "routeMile": 2891,
+    "website": "https://www.parks.ca.gov/?page_id=646",
+    "phone": "949-670-8276",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "State beach campground \u2014 fully legal",
+    "cyclistIntel": "Fine campground but Doheny 7 mi further is flatter, cheaper for a cyclist, and confirmed bike-friendly \u2014 skip unless timing forces it.",
+    "seasonalNote": "Generally open year-round \u2014 confirm",
+    "confidence": "medium",
+    "sources": [
+     "https://www.parks.ca.gov/?page_id=646"
+    ]
+   },
+   {
+    "name": "Crystal Cove State Park \u2014 Moro Campground (developed)",
+    "type": "state_park",
+    "price": 45,
+    "priceNote": "Non-hookup 'low impact' tent sites \u2014 reported range $25\u201375/night by season; expect ~$45 off-season, reserve online",
+    "lat": 33.5643,
+    "lng": -117.8248,
+    "locationNote": "Blufftop above PCH at El Moro \u2014 ON route, 10 mi before Newport Beach",
+    "routeMile": 2910.4,
+    "website": "https://www.parks.ca.gov/?page_id=644",
+    "phone": "949-494-3539",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "State park campground \u2014 fully legal; NO dedicated hike/bike site at the developed campground (only the Lower Moro primitive area carries a hike/bike designation)",
+    "cyclistIntel": "Full-service blufftop camp with showers and ocean views, no hike-a-bike required \u2014 the comfort play if you'd rather pay ~$45 than climb to Lower Moro.",
+    "seasonalNote": "Open year-round",
+    "confidence": "medium",
+    "sources": [
+     "https://www.parks.ca.gov/?page_id=644",
+     "https://thedyrt.com/camping/california/california-crystal-cove-state-park-moro-campground"
+    ]
+   }
+  ],
+  "bestBet": "Doheny State Beach \u2014 Hike & Bike site",
+  "gap": true,
+  "gapAdvice": "Newport Beach itself has ZERO legal camping \u2014 the nearest camp to the Day 52 endpoint is Crystal Cove, 10 mi south. Cleanest budget move: sleep at Doheny hike/bike ($15) at mile ~2898 and accept a 74-mi final day, or pay ~$45 at Crystal Cove Moro to keep the plan's mileage. Huntington by the Sea RV Resort (mi 2924.2) is an RV resort \u2014 tent policy unverified and it skews expensive; don't count on it. Newport Dunes Resort allows tents but runs $75+/night."
+ },
+ {
+  "day": 53,
+  "options": [
+   {
+    "name": "HI Los Angeles \u2014 Santa Monica Hostel",
+    "type": "hostel",
+    "price": 45,
+    "priceNote": "Dorm beds typically ~$37\u201360/night in November (rates float; book online early)",
+    "lat": 34.0143,
+    "lng": -118.4941,
+    "locationNote": "1436 2nd St, Santa Monica \u2014 2 blocks from the pier finish line",
+    "routeMile": 2972,
+    "website": "https://www.hiusa.org/find-hostels/california/santa-monica-1436-2nd-street",
+    "phone": "310-393-9913",
+    "booking": "reserve-online",
+    "tentsOk": false,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Hostel \u2014 indoor dorm bed, no tent needed",
+    "cyclistIntel": "The only true budget bed at the finish; big touring-cyclist tradition to end here. Book a few days out \u2014 even Nov weeknights can fill. Ask about bike storage when booking (not confirmed on their site).",
+    "seasonalNote": "Open year-round",
+    "confidence": "medium",
+    "sources": [
+     "https://www.hiusa.org/find-hostels/california/santa-monica-1436-2nd-street",
+     "https://www.hostelworld.com/hostels/p/1851/hi-los-angeles-santa-monica/"
+    ]
+   },
+   {
+    "name": "Dockweiler RV Park (LA County)",
+    "type": "rv_park",
+    "price": 50,
+    "priceNote": "RV sites roughly $45\u201375/night \u2014 IRRELEVANT FOR TENTS: verified NO tent camping, RVs/camper vans only",
+    "lat": 33.9364,
+    "lng": -118.4361,
+    "locationNote": "12001 Vista del Mar, Playa del Rey \u2014 on the beach bike path ~9 mi before the pier",
+    "routeMile": 2963,
+    "website": "https://beaches.lacounty.gov/dockweiler-rv-park/",
+    "phone": "",
+    "booking": "reserve-online",
+    "tentsOk": false,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "VERIFIED: LA County rules prohibit tent camping and overnight outdoor sleeping \u2014 self-contained RVs/camper vans only. The only beach 'camping' in LA County, but a tent tourer cannot legally stay here.",
+    "cyclistIntel": "Do not route your last night around this one \u2014 county rules explicitly bar sleeping outside an RV. It only works if you somehow have vehicle support meeting you.",
+    "seasonalNote": "Open year-round",
+    "confidence": "high",
+    "sources": [
+     "https://beaches.lacounty.gov/dockweiler-rv-park/",
+     "https://file.lacounty.gov/SDSInter/dbh/docs/1138926_RVPARK-Rules.pdf"
+    ]
+   }
+  ],
+  "bestBet": "HI Los Angeles \u2014 Santa Monica Hostel",
+  "gap": false,
+  "gapAdvice": "Final day \u2014 no camp needed at the pier. Dockweiler is verified tent-hostile (RV-only by county rule), so if Grimey wants a roof after the finish it's the HI Santa Monica hostel (~$37\u201360 dorm, 2 blocks from the pier, 310-393-9913) or nothing budget-friendly; book it before rolling out of Doheny/Crystal Cove."
+ }
+]

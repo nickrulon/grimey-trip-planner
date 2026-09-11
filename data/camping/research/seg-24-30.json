@@ -1,0 +1,508 @@
+[
+ {
+  "day": 24,
+  "options": [
+   {
+    "name": "Vashti Skiles Community Center (Langtry)",
+    "type": "community",
+    "price": 0,
+    "priceNote": "Free / suggested $2-5 donation via iron-ranger box",
+    "lat": 29.8087,
+    "lng": -101.5612,
+    "locationNote": "Torres Ave, right in Langtry, 2 blocks from the Judge Roy Bean Visitor Center; coordinates approximate",
+    "routeMile": 1417.9,
+    "website": "https://maps.campendium.com/us/langtry-tx/services/vashti-skiles-community-center-overnight-parking",
+    "phone": "830-703-1554",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": false,
+    "legalityNote": "Community-sanctioned overnight area (former school lot with donation box) - the long-running Langtry cyclist camp tradition continues here; no restrooms on site",
+    "cyclistIntel": "Southern Tier tradition of camping behind the Langtry community center is intact; Campendium reviews through Mar 2025 confirm overnights welcomed (quiet, level gravel, good 5G). Fill ALL bottles at the Judge Roy Bean Visitor Center (drinking water, flush restrooms, AC lobby, open 8-5 daily) BEFORE 5pm - there is no store, gas station, or other water in town. Local dogs bark at night per Mar 2025 review.",
+    "seasonalNote": "Visitor center was under construction in 2025 but lobby/restrooms stayed open 8-5 daily; call TxDOT center (432-291-3340) to confirm water access",
+    "confidence": "medium",
+    "sources": [
+     "https://maps.campendium.com/us/langtry-tx/services/vashti-skiles-community-center-overnight-parking",
+     "https://www.txdot.gov/discover/rest-areas-travel-information-centers/travel-information-centers/langtry.html"
+    ]
+   },
+   {
+    "name": "Seminole Canyon State Park (Desert Vista / Roadrunner Flat primitive)",
+    "type": "state_park",
+    "price": 14,
+    "priceNote": "$10/night primitive site + $4/person daily entrance; sites with water $15 + $4",
+    "lat": 29.6906,
+    "lng": -101.3129,
+    "locationNote": "Park HQ off US 90, ~19 mi before Langtry; primitive areas a short ride inside the park",
+    "routeMile": 1398.5,
+    "website": "https://tpwd.texas.gov/state-parks/seminole-canyon/fees-facilities/campsites",
+    "phone": "432-292-4464",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "TPWD state park - fully legal, reservable on Texas State Parks system",
+    "cyclistIntel": "The guaranteed option: potable water, restrooms with showers near the main loop, shade shelters at water sites. If Langtry feels sketchy on arrival day, shorten the day and stop here; next water is Langtry visitor center (8-5 only).",
+    "seasonalNote": "Open year-round; October is prime season - reserve the $15 water sites online, primitive usually has space",
+    "confidence": "high",
+    "sources": [
+     "https://tpwd.texas.gov/state-parks/seminole-canyon/fees-facilities/campsites",
+     "https://tpwd.texas.gov/state-parks/seminole-canyon/fees-facilities/entrance-fees"
+    ]
+   }
+  ],
+  "bestBet": "Vashti Skiles Community Center (Langtry)",
+  "gap": false,
+  "gapAdvice": "Arrive in Langtry before 5pm to load water at the visitor center. If the community center situation has changed, backtrack is impossible - so if in doubt, commit to Seminole Canyon (mile 1398.5) instead and ride a longer Day 25."
+ },
+ {
+  "day": 25,
+  "options": [
+   {
+    "name": "Terrell County Visitor Center / picnic area grounds",
+    "type": "visitor_center",
+    "price": 0,
+    "priceNote": "Free - Sanderson's famous cyclist camp",
+    "lat": 30.1418,
+    "lng": -102.393,
+    "locationNote": "108 E Oak St, downtown Sanderson, one block off US 90; coordinates approximate",
+    "routeMile": 1478.0,
+    "website": "https://www.co.terrell.tx.us/page/terrell.Visitor.Center",
+    "phone": "432-345-2324",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "County-welcomed cyclist camping outside the community center/visitor center - a documented Southern Tier institution",
+    "cyclistIntel": "David Helder's Southern Tier notes: 'camp outside the community center; nice restrooms at the visitor center; water and WiFi always available.' Official county hours are now Wed-Sat 12-5 (Oct 15 2026 is a Thursday - open). Call ahead to confirm camping is still welcomed and where they want your tent.",
+    "seasonalNote": "Hours reduced vs the old 8-5; outdoor water spigot historically available even when closed - verify by phone",
+    "confidence": "medium",
+    "sources": [
+     "https://words.helder.land/davids-southern-tier-bicycle-tour-notes-f4623306e1d4",
+     "https://www.co.terrell.tx.us/page/terrell.Visitor.Center",
+     "http://pididu.com/wordpress/bike2017/sanderson-tx/"
+    ]
+   },
+   {
+    "name": "Canyons RV Park",
+    "type": "rv_park",
+    "price": 7,
+    "priceNote": "$7 tent + $3 shower per recent reviews - call to confirm current rate",
+    "lat": 30.1349,
+    "lng": -102.3845,
+    "locationNote": "US 90, east side of Sanderson, 0.1 mi off route",
+    "routeMile": 1478.3,
+    "website": "https://www.allstays.com/Campgrounds-details/30876.htm",
+    "phone": "432-345-2916",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established commercial RV park, tents explicitly accepted",
+    "cyclistIntel": "Covered tenting pavilion with lights and electricity - huge in wind or rain. At $7+$3 shower this may beat the free option after 60 desert miles. Open year-round with full hookups, laundry, WiFi.",
+    "seasonalNote": "Open year-round",
+    "confidence": "medium",
+    "sources": [
+     "https://www.allstays.com/Campgrounds-details/30876.htm",
+     "https://thedyrt.com/camping/texas/canyons-rv-park-tx"
+    ]
+   }
+  ],
+  "bestBet": "Terrell County Visitor Center / picnic area grounds",
+  "gap": false,
+  "gapAdvice": "Budget Inn Sanderson (US 90 west side, ~$55-70) is the cheap roof fallback. Sanderson has a grocery (Stripes/Family Dollar) - resupply here, the next 71 mi to Marathon are empty."
+ },
+ {
+  "day": 26,
+  "options": [
+   {
+    "name": "Post Park (Fort Pena Colorado County Park)",
+    "type": "county_park",
+    "price": 0,
+    "priceNote": "Free county park camping",
+    "lat": 30.1427,
+    "lng": -103.282,
+    "locationNote": "5 mi south of Marathon at the south end of Avenue D / Post Rd - 5 mi OFF route each way",
+    "routeMile": 1548.8,
+    "website": "https://visitbigbend.com/big-bend-post-park-marathon-tx/",
+    "phone": "",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Brewster County park; camping explicitly allowed on the east side of the spring-fed pond (pack out trash)",
+    "cyclistIntel": "Restrooms open 24/7, picnic tables, grills, cottonwood shade, spring pond (not potable - carry water from town). Lovely but adds 10 hilly bonus miles; only worth it if the in-town options fail.",
+    "seasonalNote": "Open year-round; occasional community events use the park",
+    "confidence": "high",
+    "sources": [
+     "https://visitbigbend.com/big-bend-post-park-marathon-tx/",
+     "https://www.marathontexas.com/post/post-park-in-marathon"
+    ]
+   },
+   {
+    "name": "Marathon Motel & RV Park",
+    "type": "rv_park",
+    "price": 15,
+    "priceNote": "$15/night tent per reviews - confirm by phone; motel/RV park confirms camping area on site",
+    "lat": 30.2043,
+    "lng": -103.2545,
+    "locationNote": "US 90 at the west end of Marathon, on route as you leave town westbound",
+    "routeMile": 1550.1,
+    "website": "https://www.marathonmotel.com/",
+    "phone": "432-386-4241",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established motel + RV park with dedicated tent camping behind the property",
+    "cyclistIntel": "Flat tent pads, picnic tables, clean restrooms/showers, laundry, and nightly stargazing with telescopes (certified dark-sky country). Reliable, easy, on route.",
+    "seasonalNote": "Open year-round",
+    "confidence": "medium",
+    "sources": [
+     "https://www.marathonmotel.com/",
+     "https://www.allstays.com/Campgrounds-details/30586.htm",
+     "https://thedyrt.com/camping/texas/marathon-motel-and-rv-park"
+    ]
+   },
+   {
+    "name": "La Loma del Chivo hostel",
+    "type": "hostel",
+    "price": 25,
+    "priceNote": "~$20-25/night; long-standing tradition of cyclists' first night FREE if no paying guests - confirm when you call",
+    "lat": 30.203,
+    "lng": -103.25,
+    "locationNote": "401 SW 6th St, a few blocks south of US 90 in Marathon; coordinates approximate - anyone in town can point you",
+    "routeMile": 1548.8,
+    "website": "https://www.yelp.com/biz/la-loma-del-chivo-marathon",
+    "phone": "432-244-7144",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Private hostel property - fully legal, famously quirky (papercrete buildings, resident goats)",
+    "cyclistIntel": "THE legendary Southern Tier cyclist stop in Marathon - beds in eccentric handmade structures plus tent space, kitchen, showers. Active listings on Yelp (Dec 2025) and booking.com indicate still operating; reviews are polarizing (rustic/eccentric), so know what you're getting.",
+    "seasonalNote": "Appears operating as of late 2025 - call to verify before relying on it",
+    "confidence": "medium",
+    "sources": [
+     "https://www.yelp.com/biz/la-loma-del-chivo-marathon",
+     "https://www.booking.com/hotel/us/la-loma-del-chivo-marathon.html",
+     "https://www.realadventures.com/listings/1277113_La-Loma-del-Chivo-A-Creative-Community"
+    ]
+   }
+  ],
+  "bestBet": "La Loma del Chivo hostel",
+  "gap": false,
+  "gapAdvice": "Gage Gardens is a private hotel garden - no camping. If La Loma is full/closed, Marathon Motel's $15 tent sites are the sure thing."
+ },
+ {
+  "day": 27,
+  "options": [
+   {
+    "name": "Tumble In RV Park",
+    "type": "rv_park",
+    "price": 15,
+    "priceNote": "$15/person tent (verified on official rates page); $25 for two",
+    "lat": 30.313,
+    "lng": -103.995,
+    "locationNote": "US 90 at the east edge of Marfa, ~1.5 mi before downtown - you pass it riding in; coordinates approximate",
+    "routeMile": 1605.5,
+    "website": "https://www.tumbleinmarfa.com/rates",
+    "phone": "",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Commercial RV park; tent camping first-come first-served (can pre-pay online but sites not reserved)",
+    "cyclistIntel": "Tent campers get access to all park facilities (restrooms/showers on site). Self-service vibe. Exposed and windy - stake well. NOTE: El Cosmico, the famous Marfa campground, has CLOSED its original site (relocating as 'El Cosmico 2.0') - do not plan on it.",
+    "seasonalNote": "Marfa fills up during events (Chinati Weekend is usually early-to-mid Oct) - arrive early to claim a tent spot",
+    "confidence": "high",
+    "sources": [
+     "https://www.tumbleinmarfa.com/rates",
+     "https://www.tumbleinmarfa.com/tent-camping",
+     "https://elcosmico.com/"
+    ]
+   },
+   {
+    "name": "Lost Alaskan RV Park (Alpine - 26 mi before Marfa)",
+    "type": "rv_park",
+    "price": 30,
+    "priceNote": "~$25-40; covered tent areas with electric; $40 full-site rate reported Oct 2024 - call for tent rate",
+    "lat": 30.3865,
+    "lng": -103.6605,
+    "locationNote": "2401 N Hwy 118, Alpine - about 1.8 mi north of the US 90 route through Alpine",
+    "routeMile": 1581.0,
+    "website": "https://lostalaskan.com/",
+    "phone": "432-837-1136",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Established commercial RV park with 8 dedicated covered tent sites (12x12 gravel pads, electric, picnic table)",
+    "cyclistIntel": "Use this if you want to split the day shorter and stay in Alpine (full grocery, bike shop, restaurants - the best resupply between Del Rio and El Paso). No online booking - phone only.",
+    "seasonalNote": "Open year-round",
+    "confidence": "medium",
+    "sources": [
+     "https://lostalaskan.com/",
+     "https://thedyrt.com/camping/texas/lost-alaskan-rv-park"
+    ]
+   },
+   {
+    "name": "Rancho Estrella Marfa (Hipcamp)",
+    "type": "private",
+    "price": 35,
+    "priceNote": "Rate not published in listing preview - check Hipcamp; area listings average $20-35",
+    "lat": 30.304,
+    "lng": -104.025,
+    "locationNote": "Edge of Marfa, ~0.5-1 mi walk to downtown; coordinates approximate",
+    "routeMile": 1607.2,
+    "website": "https://www.hipcamp.com/en-US/land/texas-rancho-estrella-marfa-wz6hkyn1",
+    "phone": "",
+    "booking": "reserve-online",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Legal private-land camping booked through Hipcamp (tent sites around a 100-year-old adobe church)",
+    "cyclistIntel": "Toilet, potable water, showers, WiFi, picnic tables listed; currently bookable. Good backup if Tumble In is slammed for an event weekend.",
+    "seasonalNote": "Book ahead online",
+    "confidence": "medium",
+    "sources": [
+     "https://www.hipcamp.com/en-US/land/texas-rancho-estrella-marfa-wz6hkyn1"
+    ]
+   },
+   {
+    "name": "Paisano Baptist Encampment",
+    "type": "church",
+    "price": 0,
+    "priceNote": "Unknown - historic church campground; fee/donation possible if they host you at all",
+    "lat": 30.336,
+    "lng": -103.833,
+    "locationNote": "91872 US Hwy 90 at Paisano Pass, between Alpine and Marfa; coordinates approximate",
+    "routeMile": 1591.7,
+    "website": "https://www.paisanoencampment.org/",
+    "phone": "",
+    "booking": "ask-permission",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Private Baptist encampment grounds - ONLY with advance permission; no documented cyclist-hosting tradition found",
+    "cyclistIntel": "Century-old cowboy camp-meeting grounds with tabernacle and cabins, right on route at the pass. Summer meeting is July; grounds likely quiet in October. Contact via their website well ahead - do not just show up.",
+    "seasonalNote": "Main encampment event is in July; off-season access unverified",
+    "confidence": "low",
+    "sources": [
+     "https://www.paisanoencampment.org/",
+     "https://bigbendsentinel.com/2026/07/07/paisano-baptist-encampment-holds-2026-summer-meeting/"
+    ]
+   }
+  ],
+  "bestBet": "Tumble In RV Park",
+  "gap": false,
+  "gapAdvice": "The OSM 'Dispersed Camping Marfa' node at mile 1597.9 could not be verified as legal camping - likely an informal roadside pullout; skip it. El Cosmico is closed. If everything in Marfa is full (event weekend), Alpine at mile 1581 is the pressure valve."
+ },
+ {
+  "day": 28,
+  "options": [
+   {
+    "name": "Valentine School grounds (with permission)",
+    "type": "community",
+    "price": 0,
+    "priceNote": "Free with permission from school staff/principal",
+    "lat": 30.5872,
+    "lng": -104.4922,
+    "locationNote": "Valentine ISD school on US 90 in town (pop ~130); day marker mile 1647.2 sits ~4 mi NW of town - camp in town",
+    "routeMile": 1642.7,
+    "website": "https://www.crazyguyonabike.com/doc/page/?page_id=649229",
+    "phone": "",
+    "booking": "ask-permission",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Permission-based only: a 2023 Southern Tier journal documents the principal allowing cyclists to camp on school grounds and use the bathrooms. Ask first - never set up unannounced at a school.",
+    "cyclistIntel": "Crazyguyonabike 2023 ('Pedaling Through the Southern Tier', Day 34 Van Horn to Valentine) camped here with staff permission and bathroom access. Arrive during school hours (before ~4pm) to ask; a weekend/holiday arrival makes this much harder. Oct 18 2026 is a SUNDAY - school will be closed, so call Valentine ISD the Friday before, or ask at the post office/any local.",
+    "seasonalNote": "School closed Sundays - arrange by phone in advance for an Oct 18 arrival",
+    "confidence": "medium",
+    "sources": [
+     "https://www.crazyguyonabike.com/doc/page/?page_id=649229",
+     "https://en.wikipedia.org/wiki/Valentine_Independent_School_District"
+    ]
+   },
+   {
+    "name": "Love Shaks (Airbnb vintage trailers)",
+    "type": "private",
+    "price": 100,
+    "priceNote": "~$80-120/night estimated - over budget, but the only roofed option; owner has waived the 2-night minimum for passing cyclists",
+    "lat": 30.588,
+    "lng": -104.494,
+    "locationNote": "Vintage trailers in Valentine proper; find via Airbnb search 'Valentine TX'",
+    "routeMile": 1642.7,
+    "website": "https://www.airbnb.com/",
+    "phone": "",
+    "booking": "reserve-online",
+    "tentsOk": false,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Legal short-term rental",
+    "cyclistIntel": "The 2023 CGOAB journal reports the Love Shaks owner waived the two-night minimum for cyclists passing through - message the host ahead explaining you're a Southern Tier rider.",
+    "seasonalNote": "Book several days ahead; inventory is tiny",
+    "confidence": "low",
+    "sources": [
+     "https://www.crazyguyonabike.com/doc/page/?page_id=649229"
+    ]
+   }
+  ],
+  "bestBet": "Valentine School grounds (with permission)",
+  "gap": false,
+  "gapAdvice": "Valentine has NO motel, store, or restaurant - carry dinner/breakfast and full water from Marfa. Sunday arrival means arrange school permission by phone Friday, or knock at the church/post office - locals are used to Southern Tier riders. Prada Marfa (mile ~1645) is an art installation, not a campsite. Fallbacks: book a Love Shak, backtrack nothing (Marfa is 36 mi behind), or grind 38 more mi to Van Horn RV Park - not recommended after a 40-mi day."
+ },
+ {
+  "day": 29,
+  "options": [
+   {
+    "name": "Sierra Blanca Public Park",
+    "type": "city_park",
+    "price": 0,
+    "priceNote": "Free - overnights tolerated per locals",
+    "lat": 31.175,
+    "lng": -105.3575,
+    "locationNote": "Middle of Sierra Blanca, off the I-10 business loop; coordinates approximate",
+    "routeMile": 1721.0,
+    "website": "https://ioverlander.com/places/141578-sierra-blanca-public-park",
+    "phone": "",
+    "booking": "first-come",
+    "tentsOk": true,
+    "water": false,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Public town park; iOverlander reviews report locals confirm overnighting is allowed (mostly RV reports - a tent is more visible, so confirm with the sheriff's office or any local when you arrive)",
+    "cyclistIntel": "Bathrooms and dumpsters at the park, town amenities (gas station food, Delfina's/cafe, small stores) walkable. Sierra Blanca is a Border Patrol town - checking in with a local or deputy buys you a peaceful night. Carry water in from Van Horn; park spigot unverified.",
+    "seasonalNote": "Fine in October; nights get cold at 4,500 ft",
+    "confidence": "medium",
+    "sources": [
+     "https://ioverlander.com/places/141578-sierra-blanca-public-park",
+     "https://www.biketexas.org/bikenews/community/the-road-to-ourselves-cycling-in-the-texas-mountains/"
+    ]
+   },
+   {
+    "name": "Van Horn RV Park (35 mi before, shortened-day option)",
+    "type": "rv_park",
+    "price": 20,
+    "priceNote": "Tent rate not published; typical $20-25 - call 432-283-2728",
+    "lat": 31.032021,
+    "lng": -104.829201,
+    "locationNote": "10 Kampers Lane, east side of Van Horn off the I-10 frontage (exact GPS from park website)",
+    "routeMile": 1685.0,
+    "website": "https://www.vanhorntexasrvpark.com/van-horn-rv-park-tent-sites/",
+    "phone": "432-283-2728",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Commercial RV park with 8 dedicated tent-only sites",
+    "cyclistIntel": "Tent sites have electric, water, picnic tables, BBQ grills; store, cafe (Penny's Cafe opens Oct 1 - perfect timing), laundry, restrooms and showers steps away. Van Horn is the last full-service town before El Paso; if the Valentine night went badly, stop short here and re-split the days.",
+    "seasonalNote": "Penny's Cafe on site operates Oct 1 - Apr 30",
+    "confidence": "medium",
+    "sources": [
+     "https://www.vanhorntexasrvpark.com/van-horn-rv-park-tent-sites/",
+     "https://www.vanhorntexasrvpark.com/"
+    ]
+   },
+   {
+    "name": "Mountain View RV Park (Van Horn)",
+    "type": "rv_park",
+    "price": 20,
+    "priceNote": "Estimated $15-25; large park listed as accepting tents - call to confirm",
+    "lat": 31.043,
+    "lng": -104.845,
+    "locationNote": "Van Horn, off Business I-10/Broadway; coordinates approximate - confirm location on arrival",
+    "routeMile": 1686.0,
+    "website": "https://www.allstays.com/Campgrounds/tx-van-horn-campgrounds.htm",
+    "phone": "",
+    "booking": "call-ahead",
+    "tentsOk": true,
+    "water": true,
+    "showers": true,
+    "toilets": true,
+    "legalityNote": "Commercial RV park listed as accepting tents (200 sites)",
+    "cyclistIntel": "Backup to Van Horn RV Park; Van Horn also has cheap motels ($45-60) if weather turns.",
+    "seasonalNote": "Open year-round",
+    "confidence": "low",
+    "sources": [
+     "https://www.allstays.com/Campgrounds/tx-van-horn-campgrounds.htm"
+    ]
+   }
+  ],
+  "bestBet": "Sierra Blanca Public Park",
+  "gap": false,
+  "gapAdvice": "No RV park in Sierra Blanca itself takes tents (nothing verified operating). If the public park feels wrong, Sierra Blanca has budget motels (Americana Inn, ~$50-60). Load ALL water in Van Horn - the 35 mi between have zero services, and the I-10 frontage climb is exposed."
+ },
+ {
+  "day": 30,
+  "options": [
+   {
+    "name": "Fort Hancock Community Church (18 mi before Fabens)",
+    "type": "church",
+    "price": 0,
+    "priceNote": "Free with permission - donations to the church appreciated",
+    "lat": 31.2983,
+    "lng": -105.8455,
+    "locationNote": "Fort Hancock town center off US 80/route; ask anyone in town for the community church; coordinates approximate",
+    "routeMile": 1772.0,
+    "website": "https://jimsbikeblog.wordpress.com/2010/04/09/anxiety-in-fort-hancock/",
+    "phone": "",
+    "booking": "ask-permission",
+    "tentsOk": true,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Permission-based church-yard camping - a documented Southern Tier cyclist stop (multiple journal accounts, incl. German riders Felix Greiner & Jenny Prasiswa camped at the church)",
+    "cyclistIntel": "Fort Hancock is described in journals as 'a cyclist's oasis' - famously hospitable. Gas station/convenience store and a cash-only restaurant in town; Fort Hancock Motel (~$60-70) as backup. Recent (2024-26) confirmations are thin - call the Hudspeth County sheriff's Fort Hancock substation or knock early.",
+    "seasonalNote": "None",
+    "confidence": "medium",
+    "sources": [
+     "https://jimsbikeblog.wordpress.com/2010/04/09/anxiety-in-fort-hancock/",
+     "https://storiesfromtheamericanroad.substack.com/p/a-border-town-in-texas"
+    ]
+   },
+   {
+    "name": "Cotton Valley Travel Center / RV parking (past Fabens)",
+    "type": "rv_park",
+    "price": 20,
+    "priceNote": "Unverified - likely truck-stop style RV parking; tent policy unknown, call/ask on arrival",
+    "lat": 31.585,
+    "lng": -106.22,
+    "locationNote": "~7 route miles past Fabens toward Clint/San Elizario, ~3 mi off route near I-10; coordinates very approximate",
+    "routeMile": 1797.1,
+    "website": "",
+    "phone": "",
+    "booking": "ask-permission",
+    "tentsOk": false,
+    "water": true,
+    "showers": false,
+    "toilets": true,
+    "legalityNote": "Could NOT be verified as a tent-legal campground - treat as a services stop, not a planned campsite",
+    "cyclistIntel": "Appears in OSM as a travel center; no tent-camping evidence found in any source. Only useful for water/food or paid overnight RV-lot parking if they allow it.",
+    "seasonalNote": "None",
+    "confidence": "low",
+    "sources": [
+     "https://www.hipcamp.com/en-US/d/united-states/texas/fabens/camping/rv"
+    ]
+   }
+  ],
+  "bestBet": "Fort Hancock Community Church (18 mi before Fabens)",
+  "gap": true,
+  "gapAdvice": "Fabens itself has NO verified legal camping - this is the segment's real gap. Best plays: (1) shorten the day and camp at Fort Hancock Community Church (mile ~1772) with permission - the established cyclist move; (2) take a roof night: Fabens Inn, 1884 Fabens Rd near I-10, ~$79/night (reviews warn of surprise fees - confirm total price at check-in), or Fort Hancock Motel ~$60-70; (3) push ~20 more miles into El Paso's Mission Valley where motels are plentiful. Do not stealth camp in the irrigated farm strip - it is all private land near the border with heavy Border Patrol presence."
+ }
+]
