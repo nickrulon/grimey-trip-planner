@@ -19,6 +19,191 @@ const LOITER = {
 };
 const isLibrary = (name) => /librar|bibliot/i.test(name ?? '');
 
+/**
+ * Append a (mile, minute) sample, keeping the series monotonic in BOTH.
+ * A combo can carry the rider past the mile of the next stop in the sorted
+ * list, so the raw walk is not guaranteed to move only forwards — and a
+ * backwards sample would make the interpolation below return nonsense.
+ */
+function pushProgress(progress, mile, min) {
+  const last = progress[progress.length - 1];
+  if (last && (mile < last.mile || min < last.min)) return;
+  progress.push({ mile, min });
+}
+
+/**
+ * When the ride reaches a given route mile, in local minutes. Built from the
+ * same walk that produces the timeline blocks, so it already accounts for
+ * break dwell, the work sit and the wait for the work clock to start. Returns
+ * the FIRST time that mile is reached; null on a rest day, which covers none.
+ */
+function minAtMile(progress, mile) {
+  if (!progress.length) return null;
+  if (mile <= progress[0].mile) return progress[0].min;
+  for (let i = 1; i < progress.length; i++) {
+    const a = progress[i - 1], b = progress[i];
+    if (mile <= b.mile) {
+      if (b.mile - a.mile < 1e-6) return a.min;
+      return a.min + ((mile - a.mile) / (b.mile - a.mile)) * (b.min - a.min);
+    }
+  }
+  return progress[progress.length - 1].min;
+}
+
+/** What a day with nothing in it simulates to. */
+export function emptyDay() {
+  return { blocks: [], progress: [], conflict: null, workCredit: 0, arriveEnd: null };
+}
+
+/**
+ * The day, simulated: a walk along its stops in ROUTE-MILE order — breaks and
+ * the work anchor alike — because you cannot reach mile 60 before mile 40.
+ * Riding legs are whatever falls between them. That is why a weekend with
+ * three breaks and a workday with a 7.5-hour sit use the same code: only the
+ * work block is pinned to a clock, everything else is elapsed time.
+ *
+ * PURE: no database, no clock, no settings. Everything comes in as arguments,
+ * so the same function previews a proposed chain of stops the rider has not
+ * saved yet, and so it can be tested without a plan. Times are LOCAL
+ * minutes-from-midnight; miles are route miles.
+ *
+ *   stops        [{ id?, type: 'break'|'work'|'combo', routeMile, dwellMin, name }], any order
+ *   onTheClock   a workday with a work window (work/combo stops are walked)
+ *   workStartMin when the work clock opens (local minutes), or null
+ *   firstWorkMile the first work stop's mile, for leg labels (null when none)
+ *   workday      whether the calendar says work is owed (labels only)
+ *   owedMin      the work day owed, in minutes
+ *   rideToMin    when the rider said they would stop riding; duskMin civil dusk
+ *   legMin(a, b) effort-aware ride minutes between two miles
+ *   mileAfter(from, minutes) the mile reached after riding that long
+ *
+ * Returns { blocks, progress, conflict, workCredit, arriveEnd } where progress
+ * is a monotonic series of (mile, minute) samples — the walk's own answer to
+ * "when am I at mile X".
+ */
+export function simulateDay({
+  startMile, endMile, departMin, stops,
+  onTheClock = false, workStartMin = null, firstWorkMile = null,
+  workday = false, owedMin = 0,
+  rideToMin = null, duskMin = null, rideUntilOverridden = false,
+  legMin, mileAfter,
+}) {
+  let workCredit = 0;
+  const blocks = [];
+  const progress = [];
+  let conflict = null;
+
+  const ordered = [...stops].sort((a, b) => a.routeMile - b.routeMile);
+
+  let cursorMile = startMile;
+  let cursorMin = departMin;
+  let legIndex = 0;
+  let workBegun = false;
+  pushProgress(progress, cursorMile, cursorMin);
+  const legLabel = () => {
+    if (firstWorkMile == null) return legIndex === 0 ? 'Ride' : 'Ride on';
+    return cursorMile < firstWorkMile ? 'Morning ride'
+      : workBegun && workCredit < owedMin ? 'Midday ride' : 'Afternoon ride';
+  };
+
+  for (const st of ordered) {
+    const m = legMin(cursorMile, st.routeMile);
+    if (st.routeMile > cursorMile + 0.01) {
+      blocks.push({
+        kind: 'ride', label: legLabel(),
+        startMin: cursorMin, endMin: cursorMin + m,
+        miles: r1(st.routeMile - cursorMile), rideMin: m,
+      });
+      legIndex++;
+    }
+    let arrive = cursorMin + m;
+    pushProgress(progress, st.routeMile, arrive);
+
+    // The work day starts on a clock, not on arrival: the first work-ish
+    // block waits for it, and that wait is honest dead time.
+    if ((st.type === 'work' || st.type === 'combo') && !workBegun) {
+      if (arrive < workStartMin) {
+        blocks.push({ kind: 'slack', label: 'Buffer', startMin: arrive, endMin: workStartMin });
+        arrive = workStartMin;
+        // The wait happens standing still at this mile. Without this sample a
+        // combo (which then MOVES) would smear the buffer over its miles.
+        pushProgress(progress, st.routeMile, arrive);
+      } else if (arrive > workStartMin + 5) {
+        conflict ??= {
+          kind: 'work_late',
+          overMin: Math.round(arrive - workStartMin),
+          detail: `Morning ride arrives ${Math.round(arrive - workStartMin)} min after work starts`,
+        };
+      }
+      workBegun = true;
+    }
+
+    if (st.type === 'work') {
+      blocks.push({
+        kind: 'work', id: st.id, label: st.name,
+        startMin: arrive, endMin: arrive + st.dwellMin,
+        dwellMin: st.dwellMin, routeMile: st.routeMile,
+      });
+      workCredit += st.dwellMin;
+      cursorMin = arrive + st.dwellMin;
+      cursorMile = st.routeMile;
+    } else if (st.type === 'combo') {
+      // Logged in AND moving: the clock and the odometer both run.
+      const comboEnd = Math.min(endMile, mileAfter(cursorMile, st.dwellMin));
+      blocks.push({
+        kind: 'combo', id: st.id, label: st.name,
+        startMin: arrive, endMin: arrive + st.dwellMin,
+        dwellMin: st.dwellMin, miles: r1(comboEnd - cursorMile),
+        routeMile: r1(cursorMile),
+      });
+      workCredit += st.dwellMin;
+      cursorMin = arrive + st.dwellMin;
+      cursorMile = comboEnd;
+    } else {
+      blocks.push({
+        kind: 'break', id: st.id, label: st.name,
+        startMin: arrive, endMin: arrive + st.dwellMin,
+        dwellMin: st.dwellMin, routeMile: st.routeMile,
+      });
+      cursorMin = arrive + st.dwellMin;
+      cursorMile = st.routeMile;
+    }
+    pushProgress(progress, cursorMile, cursorMin);
+  }
+
+  // The last leg home.
+  const mEnd = legMin(cursorMile, endMile);
+  if (endMile > cursorMile + 0.01) {
+    blocks.push({
+      kind: 'ride',
+      label: ordered.length ? legLabel() : (workday ? 'Ride (no work stop set)' : 'Ride'),
+      startMin: cursorMin, endMin: cursorMin + mEnd,
+      miles: r1(endMile - cursorMile), rideMin: mEnd,
+    });
+  }
+  const arriveEnd = cursorMin + mEnd;
+  pushProgress(progress, endMile, arriveEnd);
+
+  // Measured against when the rider said they would stop riding, and
+  // separately against actual darkness.
+  if (rideToMin != null && arriveEnd > rideToMin + 5) {
+    conflict = {
+      kind: 'daylight',
+      overMin: Math.round(arriveEnd - rideToMin),
+      detail: `Day ends ~${Math.round(arriveEnd - rideToMin)} min after ${
+        rideUntilOverridden ? 'the time you set to stop riding' : 'civil dusk'}`,
+    };
+  } else if (duskMin != null && arriveEnd > duskMin + 5) {
+    conflict = {
+      kind: 'dark',
+      overMin: Math.round(arriveEnd - duskMin),
+      detail: `Last ~${Math.round(arriveEnd - duskMin)} min of riding is after dark — lights`,
+    };
+  }
+
+  return { blocks, progress, conflict, workCredit, arriveEnd };
+}
+
 export function makeToday(db, planner, camping, intel = null) {
   const {
     activeDays, daylight, effortMiles, ridingSpeed, rideMinutes, dayShape,
@@ -105,37 +290,6 @@ export function makeToday(db, planner, camping, intel = null) {
     ].sort((a, b) => a.startMile - b.startMile);
   }
 
-  /**
-   * Append a (mile, minute) sample, keeping the series monotonic in BOTH.
-   * A combo can carry the rider past the mile of the next stop in the sorted
-   * list, so the raw walk is not guaranteed to move only forwards — and a
-   * backwards sample would make the interpolation below return nonsense.
-   */
-  function pushProgress(progress, mile, min) {
-    const last = progress[progress.length - 1];
-    if (last && (mile < last.mile || min < last.min)) return;
-    progress.push({ mile, min });
-  }
-
-  /**
-   * When the ride reaches a given route mile, in local minutes. Built from the
-   * same walk that produces the timeline blocks, so it already accounts for
-   * break dwell, the work sit and the wait for the work clock to start. Returns
-   * the FIRST time that mile is reached; null on a rest day, which covers none.
-   */
-  function minAtMile(progress, mile) {
-    if (!progress.length) return null;
-    if (mile <= progress[0].mile) return progress[0].min;
-    for (let i = 1; i < progress.length; i++) {
-      const a = progress[i - 1], b = progress[i];
-      if (mile <= b.mile) {
-        if (b.mile - a.mile < 1e-6) return a.min;
-        return a.min + ((mile - a.mile) / (b.mile - a.mile)) * (b.min - a.min);
-      }
-    }
-    return progress[progress.length - 1].min;
-  }
-
   // ---- the Day Canvas -------------------------------------------------------
   function dayCanvas(n) {
     const { d, days } = dayRow(n);
@@ -169,136 +323,30 @@ export function makeToday(db, planner, camping, intel = null) {
     const workStops = planner.workStopsFor(d);
     const combos = planner.combosFor(d);
     const owedMin = model?.workday ? planner.workSettings().minutes : 0;
-    let workCredit = 0;
-    const blocks = [];
-    // (mile, local-minute) samples along the day, in order. This is the walk's
-    // own answer to "when am I at mile X" — used for the transit crossing times
-    // a mark can pin itself to.
-    const progress = [];
-    let conflict = null;
-    if (!rest) {
-      const legMin = (a, b) => Math.round(rideMinutes(a, b, speed));
-      const onTheClock = !!(model?.workday && model.work);
-      const workStartMin = onTheClock ? Math.round(model.work.localStart * 60) : null;
-      const workEndMin = onTheClock ? Math.round(model.work.localEnd * 60) : null;
-      const firstWorkMile = workStops.length ? workStops[0].routeMile : null;
-
-      const stops = [
+    // The walk itself is a pure function (below), so the same code answers
+    // "what does this day look like" for the saved stops AND for a proposed
+    // set the rider is still composing.
+    const onTheClock = !!(model?.workday && model.work);
+    const sim = rest ? emptyDay() : simulateDay({
+      startMile: d.start_mile, endMile: d.end_mile, departMin,
+      stops: [
         ...breaks.map((b) => ({ ...b, type: 'break' })),
         ...(onTheClock ? workStops.map((w) => ({ ...w, type: 'work' })) : []),
         ...(onTheClock ? combos.map((c) => ({ ...c, type: 'combo', dwellMin: c.minutes })) : []),
-      ].sort((a, b) => a.routeMile - b.routeMile);
-
-      let cursorMile = d.start_mile;
-      let cursorMin = departMin;
-      let legIndex = 0;
-      let workBegun = false;
-      pushProgress(progress, cursorMile, cursorMin);
-      const legLabel = () => {
-        if (firstWorkMile == null) return legIndex === 0 ? 'Ride' : 'Ride on';
-        return cursorMile < firstWorkMile ? 'Morning ride'
-          : workBegun && workCredit < owedMin ? 'Midday ride' : 'Afternoon ride';
-      };
-
-      for (const st of stops) {
-        const m = legMin(cursorMile, st.routeMile);
-        if (st.routeMile > cursorMile + 0.01) {
-          blocks.push({
-            kind: 'ride', label: legLabel(),
-            startMin: cursorMin, endMin: cursorMin + m,
-            miles: r1(st.routeMile - cursorMile), rideMin: m,
-          });
-          legIndex++;
-        }
-        let arrive = cursorMin + m;
-        pushProgress(progress, st.routeMile, arrive);
-
-        // The work day starts on a clock, not on arrival: the first work-ish
-        // block waits for it, and that wait is honest dead time.
-        if ((st.type === 'work' || st.type === 'combo') && !workBegun) {
-          if (arrive < workStartMin) {
-            blocks.push({ kind: 'slack', label: 'Buffer', startMin: arrive, endMin: workStartMin });
-            arrive = workStartMin;
-            // The wait happens standing still at this mile. Without this sample a
-            // combo (which then MOVES) would smear the buffer over its miles.
-            pushProgress(progress, st.routeMile, arrive);
-          } else if (arrive > workStartMin + 5) {
-            conflict ??= {
-              kind: 'work_late',
-              overMin: Math.round(arrive - workStartMin),
-              detail: `Morning ride arrives ${Math.round(arrive - workStartMin)} min after work starts`,
-            };
-          }
-          workBegun = true;
-        }
-
-        if (st.type === 'work') {
-          blocks.push({
-            kind: 'work', id: st.id, label: st.name,
-            startMin: arrive, endMin: arrive + st.dwellMin,
-            dwellMin: st.dwellMin, routeMile: st.routeMile,
-          });
-          workCredit += st.dwellMin;
-          cursorMin = arrive + st.dwellMin;
-          cursorMile = st.routeMile;
-        } else if (st.type === 'combo') {
-          // Logged in AND moving: the clock and the odometer both run.
-          const endMile = Math.min(
-            d.end_mile,
-            planner.mileAfterRideMinutes(cursorMile, st.dwellMin, speed)
-          );
-          blocks.push({
-            kind: 'combo', id: st.id, label: st.name,
-            startMin: arrive, endMin: arrive + st.dwellMin,
-            dwellMin: st.dwellMin, miles: r1(endMile - cursorMile),
-            routeMile: r1(cursorMile),
-          });
-          workCredit += st.dwellMin;
-          cursorMin = arrive + st.dwellMin;
-          cursorMile = endMile;
-        } else {
-          blocks.push({
-            kind: 'break', id: st.id, label: st.name,
-            startMin: arrive, endMin: arrive + st.dwellMin,
-            dwellMin: st.dwellMin, routeMile: st.routeMile,
-          });
-          cursorMin = arrive + st.dwellMin;
-          cursorMile = st.routeMile;
-        }
-        pushProgress(progress, cursorMile, cursorMin);
-      }
-
-      // The last leg home.
-      const mEnd = legMin(cursorMile, d.end_mile);
-      if (d.end_mile > cursorMile + 0.01) {
-        blocks.push({
-          kind: 'ride',
-          label: stops.length ? legLabel() : (model?.workday ? 'Ride (no work stop set)' : 'Ride'),
-          startMin: cursorMin, endMin: cursorMin + mEnd,
-          miles: r1(d.end_mile - cursorMile), rideMin: mEnd,
-        });
-      }
-      const arriveEnd = cursorMin + mEnd;
-      pushProgress(progress, d.end_mile, arriveEnd);
-
-      // Measured against when the rider said they would stop riding, and
-      // separately against actual darkness.
-      const rideToMin = model ? Math.round(model.rideTo * 60) : null;
-      if (rideToMin != null && arriveEnd > rideToMin + 5) {
-        conflict = {
-          kind: 'daylight',
-          overMin: Math.round(arriveEnd - rideToMin),
-          detail: `Day ends ~${Math.round(arriveEnd - rideToMin)} min after ${
-            model.overrides.rideUntil ? 'the time you set to stop riding' : 'civil dusk'}`,
-        };
-      } else if (model?.dusk != null && arriveEnd > model.dusk * 60 + 5) {
-        conflict = {
-          kind: 'dark',
-          overMin: Math.round(arriveEnd - model.dusk * 60),
-          detail: `Last ~${Math.round(arriveEnd - model.dusk * 60)} min of riding is after dark — lights`,
-        };
-      }
-    }
+      ],
+      // Leg labels split the day around the FIRST work stop even on a weekend,
+      // where the stop is kept as a wi-fi stop but not walked.
+      firstWorkMile: workStops.length ? workStops[0].routeMile : null,
+      onTheClock,
+      workStartMin: onTheClock ? Math.round(model.work.localStart * 60) : null,
+      workday: !!model?.workday, owedMin,
+      rideToMin: model ? Math.round(model.rideTo * 60) : null,
+      duskMin: model?.dusk != null ? model.dusk * 60 : null,
+      rideUntilOverridden: !!model?.overrides?.rideUntil,
+      legMin: (a, b) => Math.round(rideMinutes(a, b, speed)),
+      mileAfter: (from, minutes) => planner.mileAfterRideMinutes(from, minutes, speed),
+    });
+    const { blocks, progress, conflict, workCredit } = sim;
 
     // Moving-meeting possibility: from the projected midday position, is a
     // reliable work stop reachable within ~60–90 min of riding?
