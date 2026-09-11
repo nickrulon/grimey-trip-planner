@@ -1,9 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import maplibregl, { Map as MLMap } from 'maplibre-gl';
-import { apiGet } from './api';
+import { useEffect, useMemo, useState } from 'react';
+import { Map as MLMap } from 'maplibre-gl';
 import {
   durMin, money, wifiMeta, fullAddress, appleMapsUrl, googleMapsUrl, googleSearchUrl,
 } from './format';
+import type { DayCanvas } from './types';
+import {
+  useCandidateLayer, useAnchorLayer, useCandidateHover, useFitOnce, pointAtMile,
+  type CandFeature, type AnchorFeature,
+} from './pickerLayers';
+import BuildPanel from './BuildPanel';
 
 // MAP PICKER — choosing a bed or a work stop is a geographic decision, so it
 // is made ON the map: every candidate is a named marker on the day's stretch
@@ -12,6 +17,10 @@ import {
 //
 // It draws into the SHARED map canvas rather than spinning up a second one,
 // so the route, its provenance and every other layer stay exactly as drawn.
+//
+// Three modes. 'sleep' and 'work' answer one question and close. 'build'
+// stays open and composes a whole day, link by link (BuildPanel) — the same
+// map, the same drawing code, a different panel.
 
 export interface PickCandidate {
   id: string;
@@ -60,7 +69,7 @@ export interface PickCandidate {
 }
 
 export interface PickerContext {
-  mode: 'sleep' | 'work';
+  mode: 'sleep' | 'work' | 'build';
   dayNumber: number;
   startMile: number;
   startName: string;
@@ -74,14 +83,11 @@ export interface PickerContext {
   onList: () => void;
   onWiden?: (fwd: number) => void;
   widened?: number;
+  // build mode: the day as it stands (the chain is seeded from it) and what
+  // to do once a chain is saved
+  canvas?: DayCanvas;
+  onSaved?: () => void;
 }
-
-const SRC = 'pick-cands';
-const LYR_DOT = 'pick-cand-dot';
-const LYR_LABEL = 'pick-cand-label';
-const SRC_ANCHOR = 'pick-anchors';
-const LYR_ANCHOR = 'pick-anchor-dot';
-const LYR_ANCHOR_LABEL = 'pick-anchor-label';
 
 type Filter = 'all' | 'on_plan' | 'farther' | 'earlier' | 'onroute';
 
@@ -94,13 +100,18 @@ const filtersFor = (mode: 'sleep' | 'work'): { id: Filter; label: string; hint: 
 ];
 
 export default function MapPicker({ ctx, map }: { ctx: PickerContext; map: MLMap | null }) {
+  // Two components rather than one early return, so each keeps a stable hook order.
+  return ctx.mode === 'build' ? <BuildPanel ctx={ctx} map={map} /> : <OneShotPicker ctx={ctx} map={map} />;
+}
+
+function OneShotPicker({ ctx, map }: { ctx: PickerContext; map: MLMap | null }) {
+  const mode = ctx.mode as 'sleep' | 'work';
   const [filter, setFilter] = useState<Filter>('all');
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [selId, setSelId] = useState<string | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const fittedFor = useRef<string>('');
 
   const shown = useMemo(() => ctx.candidates.filter((c) => {
     if (filter === 'all') return true;
@@ -113,165 +124,45 @@ export default function MapPicker({ ctx, map }: { ctx: PickerContext; map: MLMap
   const card = sel ?? hover;
 
   // ---- draw candidates + the day's anchors -----------------------------------
+  const dotColor = mode === 'work'
+    ? ['match', ['get', 'wifi'],
+        'confirmed', '#2f7d32', 'likely', '#8a6d00', 'none', '#b3402a', '#8a8270']
+    : ['match', ['get', 'tier'],
+        'free', '#2f7d32', 'budget', '#4f7942', 'moderate', '#d96f00',
+        'high', '#b3402a', 'room', '#5b4a92', '#8a8270'];
+  const feats = useMemo<CandFeature[]>(() => shown.map((c) => ({
+    id: c.id, name: c.name, lat: c.lat, lng: c.lng,
+    sort: -c.score, chosen: !!c.chosen,
+    props: { wifi: c.wifiStatus ?? 'unknown', tier: c.tier ?? 'unknown' },
+  })), [shown]);
+  useCandidateLayer(map, feats, dotColor);
+
+  // Day start + planned end, so "how far short / past" is visible, not just numeric.
+  const [anchors, setAnchors] = useState<AnchorFeature[]>([]);
   useEffect(() => {
-    if (!map) return;
-    const dotColor = ctx.mode === 'work'
-      ? ['match', ['get', 'wifi'],
-          'confirmed', '#2f7d32', 'likely', '#8a6d00', 'none', '#b3402a', '#8a8270'] as never
-      : ['match', ['get', 'tier'],
-          'free', '#2f7d32', 'budget', '#4f7942', 'moderate', '#d96f00',
-          'high', '#b3402a', 'room', '#5b4a92', '#8a8270'] as never;
-
-    const fc: GeoJSON.FeatureCollection = {
-      type: 'FeatureCollection',
-      features: shown.map((c) => ({
-        type: 'Feature',
-        properties: {
-          id: c.id, name: c.name,
-          wifi: c.wifiStatus ?? 'unknown', tier: c.tier ?? 'unknown',
-          // lower sort key wins label collisions, so the best options keep
-          // their names visible when markers crowd
-          sort: -c.score,
-          chosen: c.chosen ? 1 : 0,
-        },
-        geometry: { type: 'Point', coordinates: [c.lng, c.lat] },
-      })),
-    };
-
-    if (!map.getSource(SRC)) {
-      map.addSource(SRC, { type: 'geojson', data: fc });
-      map.addLayer({
-        id: LYR_DOT, type: 'circle', source: SRC,
-        paint: {
-          'circle-color': dotColor,
-          'circle-radius': ['case', ['==', ['get', 'chosen'], 1], 9, 7] as never,
-          'circle-stroke-color': ['case', ['==', ['get', 'chosen'], 1], '#1a1814', '#ffffff'] as never,
-          'circle-stroke-width': ['case', ['==', ['get', 'chosen'], 1], 3, 2] as never,
-        },
-      });
-      map.addLayer({
-        id: LYR_LABEL, type: 'symbol', source: SRC,
-        layout: {
-          'text-field': ['get', 'name'] as never,
-          'text-size': 12, 'text-offset': [0, 0.9], 'text-anchor': 'top',
-          'text-font': ['Noto Sans Regular'],
-          'text-max-width': 11,
-          'symbol-sort-key': ['get', 'sort'] as never,
-          'text-padding': 3,
-        },
-        paint: {
-          'text-color': '#1a1814',
-          'text-halo-color': '#f3efe4', 'text-halo-width': 1.8,
-        },
-      });
-    } else {
-      (map.getSource(SRC) as maplibregl.GeoJSONSource).setData(fc);
-      map.setPaintProperty(LYR_DOT, 'circle-color', dotColor);
-    }
-
-    // Day start + planned end, so "how far short / past" is visible, not just numeric.
+    let live = true;
     (async () => {
-      try {
-        const [s, e] = await Promise.all([
-          apiGet<{ lat: number; lng: number }>(`/api/position?mile=${ctx.startMile}`),
-          apiGet<{ lat: number; lng: number }>(`/api/position?mile=${ctx.endMile}`),
-        ]);
-        const anchors: GeoJSON.FeatureCollection = {
-          type: 'FeatureCollection',
-          features: [
-            { type: 'Feature', properties: { label: `START mi ${ctx.startMile}` }, geometry: { type: 'Point', coordinates: [s.lng, s.lat] } },
-            { type: 'Feature', properties: { label: `PLANNED END mi ${ctx.endMile}` }, geometry: { type: 'Point', coordinates: [e.lng, e.lat] } },
-          ],
-        };
-        if (!map.getSource(SRC_ANCHOR)) {
-          map.addSource(SRC_ANCHOR, { type: 'geojson', data: anchors });
-          map.addLayer({
-            id: LYR_ANCHOR, type: 'circle', source: SRC_ANCHOR,
-            paint: {
-              'circle-radius': 6, 'circle-color': '#1a1814',
-              'circle-stroke-color': '#f2a900', 'circle-stroke-width': 3,
-            },
-          });
-          map.addLayer({
-            id: LYR_ANCHOR_LABEL, type: 'symbol', source: SRC_ANCHOR,
-            layout: {
-              'text-field': ['get', 'label'] as never,
-              'text-size': 10.5, 'text-offset': [0, -1.1], 'text-anchor': 'bottom',
-              'text-font': ['Noto Sans Regular'], 'text-allow-overlap': true,
-            },
-            paint: { 'text-color': '#1a1814', 'text-halo-color': '#f3efe4', 'text-halo-width': 2 },
-          });
-        } else {
-          (map.getSource(SRC_ANCHOR) as maplibregl.GeoJSONSource).setData(anchors);
-        }
-      } catch { /* anchors are context, not essential */ }
+      const [s, e] = await Promise.all([pointAtMile(ctx.startMile), pointAtMile(ctx.endMile)]);
+      if (!live) return;
+      const a: AnchorFeature[] = [];
+      if (s) a.push({ label: `START mi ${ctx.startMile}`, lat: s.lat, lng: s.lng });
+      if (e) a.push({ label: `PLANNED END mi ${ctx.endMile}`, lat: e.lat, lng: e.lng });
+      setAnchors(a);
     })();
-
-    return () => {
-      // The map itself can be torn down before this cleanup runs (unmount
-      // order, hot reload) — in that case there is nothing left to clean.
-      try {
-        for (const l of [LYR_LABEL, LYR_DOT, LYR_ANCHOR_LABEL, LYR_ANCHOR]) {
-          if (map.getLayer(l)) map.removeLayer(l);
-        }
-        for (const s of [SRC, SRC_ANCHOR]) {
-          if (map.getSource(s)) map.removeSource(s);
-        }
-      } catch { /* map already gone */ }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [map, shown, ctx.mode, ctx.startMile, ctx.endMile]);
+    return () => { live = false; };
+  }, [ctx.startMile, ctx.endMile]);
+  useAnchorLayer(map, anchors);
 
   // ---- hover + click on the markers ------------------------------------------
-  useEffect(() => {
-    if (!map) return;
-    const onMove = (e: maplibregl.MapLayerMouseEvent) => {
-      const id = (e.features?.[0]?.properties as { id?: string })?.id;
-      if (id) { setHoverId(String(id)); map.getCanvas().style.cursor = 'pointer'; }
-    };
-    const onLeave = () => { setHoverId(null); map.getCanvas().style.cursor = ''; };
-    const onClick = (e: maplibregl.MapLayerMouseEvent) => {
-      const id = (e.features?.[0]?.properties as { id?: string })?.id;
-      if (id) setSelId(String(id));
-    };
-    map.on('mousemove', LYR_DOT, onMove);
-    map.on('mouseleave', LYR_DOT, onLeave);
-    map.on('click', LYR_DOT, onClick);
-    return () => {
-      try {
-        map.off('mousemove', LYR_DOT, onMove);
-        map.off('mouseleave', LYR_DOT, onLeave);
-        map.off('click', LYR_DOT, onClick);
-      } catch { /* map already gone */ }
-    };
-  }, [map, shown]);
+  useCandidateHover(map, setHoverId, setSelId, [shown]);
 
   // Frame the day's stretch once per day/mode, then leave the camera alone so
   // panning and zooming to inspect is never fought by a re-fit.
-  useEffect(() => {
-    if (!map) return;
-    const key = `${ctx.mode}-${ctx.dayNumber}-${ctx.widened ?? 0}`;
-    if (fittedFor.current === key) return;
-    fittedFor.current = key;
-    (async () => {
-      try {
-        const lo = Math.min(ctx.startMile, ...ctx.candidates.map((c) => c.routeMile));
-        const hi = Math.max(ctx.endMile, ...ctx.candidates.map((c) => c.routeMile));
-        const { coords } = await apiGet<{ coords: [number, number][] }>(
-          `/api/route/points?minMile=${lo}&maxMile=${hi}`);
-        const pts: [number, number][] = [
-          ...coords,
-          ...ctx.candidates.map((c) => [c.lng, c.lat] as [number, number]),
-        ];
-        if (pts.length < 2) return;
-        const b = pts.reduce((acc, p) => acc.extend(p), new maplibregl.LngLatBounds(pts[0], pts[0]));
-        map.fitBounds(b, {
-          padding: { top: 120, bottom: 260, left: 60, right: 60 },
-          animate: false,
-        });
-      } catch { /* keep whatever view the map already has */ }
-    })();
-  }, [map, ctx.mode, ctx.dayNumber, ctx.startMile, ctx.endMile, ctx.candidates, ctx.widened]);
+  const lo = Math.min(ctx.startMile, ...ctx.candidates.map((c) => c.routeMile));
+  const hi = Math.max(ctx.endMile, ...ctx.candidates.map((c) => c.routeMile));
+  useFitOnce(map, `${mode}-${ctx.dayNumber}-${ctx.widened ?? 0}`, lo, hi,
+    ctx.candidates.map((c) => [c.lng, c.lat] as [number, number]),
+    { top: 120, bottom: 260, left: 60, right: 60 });
 
   const pick = async (c: PickCandidate) => {
     setBusy(true); setErr(null);
@@ -281,7 +172,7 @@ export default function MapPicker({ ctx, map }: { ctx: PickerContext; map: MLMap
 
   const dirLabel = (c: PickCandidate) => {
     if (c.direction === 'on_plan') return 'on plan';
-    if (ctx.mode === 'work') {
+    if (mode === 'work') {
       return c.direction === 'farther'
         ? `${Math.abs(c.deltaMi)} mi longer morning`
         : `${Math.abs(c.deltaMi)} mi shorter morning`;
@@ -295,10 +186,10 @@ export default function MapPicker({ ctx, map }: { ctx: PickerContext; map: MLMap
     <div className="picker-map">
       <div className="pm-top">
         <div className="pm-title">
-          <b>{ctx.mode === 'sleep' ? 'WHERE DO I SLEEP?' : 'WHERE DO I WORK?'}</b>
+          <b>{mode === 'sleep' ? 'WHERE DO I SLEEP?' : 'WHERE DO I WORK?'}</b>
           <span className="dim">
             Day {ctx.dayNumber} · starts {ctx.startName} (mi {ctx.startMile})
-            {ctx.mode === 'sleep'
+            {mode === 'sleep'
               ? <> · planned end {ctx.endName} (mi {ctx.endMile})</>
               : <> · daylight runs out near mi {ctx.idealMile}</>}
           </span>
@@ -310,7 +201,7 @@ export default function MapPicker({ ctx, map }: { ctx: PickerContext; map: MLMap
       </div>
 
       <div className="pm-filters">
-        {filtersFor(ctx.mode).map((f) => (
+        {filtersFor(mode).map((f) => (
           <button key={f.id} title={f.hint}
             className={filter === f.id ? 'chip on' : 'chip'}
             onClick={() => { setFilter(f.id); setSelId(null); }}>
@@ -341,16 +232,16 @@ export default function MapPicker({ ctx, map }: { ctx: PickerContext; map: MLMap
         ) : (<>
           <div className="pm-card-head">
             <span className="pm-name">
-              {ctx.mode === 'sleep' ? (card.type === 'hotel' ? '🏨' : '⛺') : '☕'} {card.name}
+              {mode === 'sleep' ? (card.type === 'hotel' ? '🏨' : '⛺') : '☕'} {card.name}
               {card.chosen && <span className="chosen-tag">CURRENT</span>}
               {card.kind === 'camp' && <span className="veri-tag">RESEARCHED</span>}
             </span>
-            {ctx.mode === 'sleep' && (
+            {mode === 'sleep' && (
               <span className={`price-chip tier-${card.tier ?? 'unknown'}`}>
                 {card.price != null ? money(card.price) : card.type === 'hotel' ? '$$' : '$?'}
               </span>
             )}
-            {ctx.mode === 'work' && (
+            {mode === 'work' && (
               <span className={`wifi-badge ${wifiMeta(card.wifiStatus).cls}`}>
                 {wifiMeta(card.wifiStatus).icon} {wifiMeta(card.wifiStatus).label}
               </span>
@@ -377,7 +268,7 @@ export default function MapPicker({ ctx, map }: { ctx: PickerContext; map: MLMap
               <span className="pm-k">ROUTE MILE</span>
               <span className="pm-v">mi {card.routeMile}</span>
             </div>
-            {ctx.mode === 'sleep' ? (
+            {mode === 'sleep' ? (
               <div className="pm-metric wide">
                 <span className="pm-k">IF YOU PICK IT</span>
                 <span className="pm-v">
@@ -442,11 +333,11 @@ export default function MapPicker({ ctx, map }: { ctx: PickerContext; map: MLMap
 
           <div className="pm-actions">
             {card.chosen ? (
-              <span className="dim">already today's {ctx.mode === 'sleep' ? 'bed' : 'work stop'}</span>
+              <span className="dim">already today's {mode === 'sleep' ? 'bed' : 'work stop'}</span>
             ) : (
               <button className="primary" disabled={busy} onClick={() => pick(card)}>
                 {busy ? 'Applying…'
-                  : ctx.mode === 'sleep'
+                  : mode === 'sleep'
                     ? `Sleep here — end Day ${ctx.dayNumber} at mi ${card.routeMile}`
                     : `Work here — mi ${card.routeMile}`}
               </button>

@@ -48,6 +48,22 @@ export async function apiGet<T>(url: string): Promise<T> {
   return data as T;
 }
 
+/**
+ * A POST that asks a question rather than changing anything (the builder's
+ * dry-run preview): no sync-status flash, no "saving…" chip, but the trip key
+ * still travels so the cloud function admits it.
+ */
+export async function apiQuery<T>(url: string, body?: unknown): Promise<T> {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-trip-key': getTripKey() },
+    body: JSON.stringify(body ?? {}),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error((data as { error?: string }).error ?? `HTTP ${res.status}`);
+  return data as T;
+}
+
 /** A plan write: keyed, and reflected in the shared sync status. */
 export async function apiPost<T>(url: string, body?: unknown): Promise<T> {
   setStatus({ state: 'saving', at: status.at });

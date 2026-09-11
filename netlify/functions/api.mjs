@@ -93,8 +93,14 @@ export default async (req, context) => {
   const ctx = await ready;
   const store = getStore({ name: 'trip', consistency: 'strong' });
   const method = req.method.toUpperCase();
+  // A POST that only asks a question — the Day Builder's dry-run preview —
+  // writes nothing: no key needed, and no state to push afterwards. Saving the
+  // whole state blob on every keystroke of a preview would be the wrong kind
+  // of durable.
+  const pathname = new URL(req.url).pathname.replace(/^\/\.netlify\/functions\/api/, '/api');
+  const isWrite = MUTATING.test(method) && !/^\/api\/plan\/day\/\d+\/simulate\/?$/.test(pathname);
 
-  if (MUTATING.test(method)) {
+  if (isWrite) {
     const expected = process.env.TRIP_WRITE_KEY;
     if (!expected || req.headers.get('x-trip-key') !== expected) {
       return Response.json({ error: 'Enter the trip key on this device to make changes.' }, { status: 401 });
@@ -107,7 +113,7 @@ export default async (req, context) => {
   try {
     saved = await store.get(STATE_KEY, { type: 'json' });
   } catch (err) {
-    if (MUTATING.test(method)) {
+    if (isWrite) {
       return Response.json(
         { error: `Could not read shared trip state, so refusing to overwrite it: ${err.message}` },
         { status: 503 }
@@ -126,7 +132,7 @@ export default async (req, context) => {
 
   const res = await ctx.handler(await toEvent(req), context);
 
-  if (MUTATING.test(method) && res.statusCode < 400) {
+  if (isWrite && res.statusCode < 400) {
     const stamp = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
     await store.setJSON(STATE_KEY, {
       stamp, updatedAt: new Date().toISOString(), tables: dumpState(ctx.db),

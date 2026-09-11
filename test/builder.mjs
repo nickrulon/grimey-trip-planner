@@ -100,6 +100,16 @@ const stack = (db) => {
   const fine = sleep.candidates.filter((c) => c.kind === 'camp' && c.lightLeftMin != null && c.lightLeftMin > 0);
   if (late.length && fine.length) ok('sleep: arriving after dark costs score', Math.max(...late.filter((c) => c.kind === 'camp').map((c) => c.score), -99) < Math.max(...fine.map((c) => c.score)));
 
+  // ---- 6b. "next door": a sit can be a step back along the route; a bed cannot
+  const cursor = work.candidates.find((c) => c.routeMile > d.start_mile + 5)?.routeMile ?? mid;
+  const nextDoor = today.buildCandidates(d.day_number, { fromMile: cursor, fromMin: 12 * 60, reachMi: 30, kind: 'work', limit: 200 });
+  const behind = nextDoor.candidates.filter((c) => c.behind);
+  ok('work: candidates up to a mile behind the cursor are offered, flagged', behind.length > 0 && behind.every((c) => c.routeMile <= cursor && c.routeMile >= cursor - 1.01), `${behind.length}`);
+  ok('work: a behind candidate rides nothing and arrives now', behind.every((c) => c.milesFromStart === 0 && c.rideMinFromStart === 0 && c.arriveMin === 12 * 60));
+  ok('work: nothing more than a mile back', nextDoor.candidates.every((c) => c.routeMile >= cursor - 1.01));
+  const bedsBehind = today.buildCandidates(d.day_number, { fromMile: cursor, fromMin: 12 * 60, reachMi: 60, kind: 'sleep', limit: 200 }).candidates.filter((c) => c.routeMile <= cursor);
+  ok('sleep: never behind the cursor', bedsBehind.length === 0, `${bedsBehind.length}`);
+
   const brk = today.buildCandidates(d.day_number, { fromMile: d.start_mile, fromMin: canvas.departMin, kind: 'break' });
   ok('break: any place will do', brk.candidates.length >= work.candidates.length);
   ok('rejects an unknown kind', (() => { try { today.buildCandidates(d.day_number, { kind: 'nap' }); return false; } catch { return true; } })());

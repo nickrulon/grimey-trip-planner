@@ -117,6 +117,24 @@ ride, work, ride, sleep — with money planned in the same breath as distance.
 - **Sync status bar** — saved / saving / offline / locked, with the time and which device
   saved last, plus a retry action and the trip-key unlock field.
 
+**Added September 2026 — the Day Canvas grew two things**
+
+- **Marks** — the rider's own fixed appointments drawn on the bar ("meet the 3:30 ferry").
+  A mark is *time*-anchored and mile-indifferent, the exact opposite of a break: it never
+  moves when roll-out moves. Block or line, eight named colours, day- or mile-scoped
+  (mile scope follows a ferry crossing when a replan renumbers the days; the form offers
+  it once, when the mark lands on a known crossing). A mile-pinned mark the ride reaches
+  too late becomes a readiness issue — *"Ferry: reach mi 86.5 at 3:53p, need 3:30p"*.
+  Table `canvas_marks`; `+ block` panel → Mark tab; list under Breaks & custom blocks.
+- **Build the day** — a button beside *Edit day* that opens the shared map in a third
+  picker mode and composes the day as a chain: wake → ride → sit → ride → sit → ride →
+  sleep. Every pin is labelled with the *arrival time* and tinted by what that means
+  (before the work clock / late; before dusk / after). The timeline sits beside the map
+  and re-simulates on every change through the same code that will save it, so it goes
+  red the moment a day stops fitting — 13½ hours of sitting plus five of riding shows as
+  a 19-hour day before anything is written. *Save day* replaces the day's stops and moves
+  its endpoint in one transaction; preview and saved state are the same object.
+
 **Why it's built this way**
 
 Days are a chain, not a list. Because a day's start is derived rather than stored, there
@@ -443,6 +461,29 @@ GET  /api/plan/itinerary/auto
 POST /api/plan/itinerary/auto      work-aware scheduling
 ```
 
+**The Day Canvas** *(the Today layer — one day, simulated)*
+
+```
+GET  /api/plan/day/:n/canvas            the day: blocks, sun, marks, crossings, readiness
+POST /api/plan/day/times                roll-out · work start · ride-until overrides
+POST /api/plan/day/break · /combo       mile-anchored, time-derived stops
+POST /api/plan/day/mark · /mark/update · /mark/remove
+                                        time-anchored marks (canvas_marks)
+GET  /api/plan/day/:n/work-options · /sleep-options · /fit-options
+POST /api/plan/day/fit-apply
+POST /api/plan/day/work-stop · /sleep · /costs · /rest · /rest/remove
+```
+
+**Build the day** *(compose a chain; preview == saved by construction)*
+
+```
+POST /api/plan/day/:n/simulate          the canvas for a PROPOSED chain — writes nothing
+GET  /api/plan/day/:n/build-candidates  next work / break / bed from the chain's cursor,
+                                        each with its arrival time; beds blend the camping guide
+POST /api/plan/day/:n/stops             save the chain: stops replaced + endpoint moved,
+                                        one transaction
+```
+
 **Reality vs plan**
 
 ```
@@ -466,4 +507,5 @@ GET  /api/weather                  NWS forecast joined to the plan
 ---
 
 *Grimey's Trip Planner · functional map compiled 28 August 2026 from the live
-application. Counts and the 53-day plan reflect plan revision 21.*
+application; Day Canvas additions (marks, Build the day) noted 11 September 2026.
+Counts and the 53-day plan reflect plan revision 21.*

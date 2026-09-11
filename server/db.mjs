@@ -8,7 +8,9 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = path.join(root, 'data');
 fs.mkdirSync(dataDir, { recursive: true });
 
-export const DB_PATH = path.join(dataDir, 'trip.sqlite');
+// TRIP_DB points a second instance at a throwaway copy — the way the UI is
+// exercised without touching the rider's real plan.
+export const DB_PATH = process.env.TRIP_DB || path.join(dataDir, 'trip.sqlite');
 
 export function openDb() {
   const db = new Database(DB_PATH);

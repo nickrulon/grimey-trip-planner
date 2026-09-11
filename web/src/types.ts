@@ -206,6 +206,59 @@ export interface DayCanvas {
   dayCount: number;
 }
 
+// ---- the Day Builder -----------------------------------------------------------
+/** One link the builder can add next: a place, measured from the chain's cursor. */
+export interface BuildCandidate {
+  id: string;
+  kind: 'resource' | 'camp';
+  name: string; brand?: string | null; type?: string;
+  routeMile: number; offRouteMi: number | null; lat: number; lng: number;
+  /** from the CURSOR, not the day start */
+  milesFromStart: number; rideMinFromStart: number;
+  /** at or just behind the cursor — "next door"; adding it rides nothing */
+  behind?: boolean;
+  arriveMin: number | null; arriveClock: string | null;
+  beforeWorkOpen: boolean | null; minsLateForWork: number | null; lightLeftMin: number | null;
+  deltaMi: number; direction: 'farther' | 'earlier' | 'on_plan'; detour: boolean;
+  wifiStatus?: string | null; hours?: string | null;
+  address?: string | null; phone?: string | null; website?: string | null;
+  town?: string | null; state?: string | null;
+  price?: number | null; priceNote?: string | null; tier?: string;
+  water?: boolean; showers?: boolean; toilets?: boolean; tentsOk?: boolean;
+  legalityNote?: string | null; cyclistIntel?: string | null; seasonalNote?: string | null;
+  booking?: string | null; sources?: string[]; confidence?: string | null;
+  wifiNear: number; newDayMiles: number; nextDayMiles: number | null;
+  score: number;
+}
+
+export interface BuildCandidatesResponse {
+  dayNumber: number; kind: 'work' | 'break' | 'sleep'; speedMph: number;
+  fromMile: number; fromMin: number | null; reachTo: number;
+  startMile: number; startName: string; endMile: number; endName: string;
+  farthestMile: number; nextDayEndMile: number | null;
+  workOpenMin: number | null; rideToMin: number | null;
+  candidates: BuildCandidate[];
+}
+
+/** A stop in the draft chain. routeMile is resolved by the first preview when a stop was added "after N minutes". */
+export interface ChainStop {
+  key: string;
+  kind: 'work' | 'break' | 'combo';
+  routeMile?: number;
+  afterRideMin?: number;
+  dwellMin: number;
+  name: string;
+  resourceId?: string | null;
+  lat?: number; lng?: number;
+}
+
+/** Where the draft day ends and sleeps. null in the builder means "keep the planned end". */
+export interface ChainEnd {
+  endMile: number; endName: string;
+  resourceId?: string; campId?: string;
+  lat: number; lng: number;
+}
+
 export interface SleepOption {
   kind: 'resource' | 'camp';
   id: string; name: string; type: string;

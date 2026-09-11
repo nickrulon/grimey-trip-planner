@@ -899,13 +899,17 @@ export function makePlanner(db) {
    * as planned. In a builder the endpoint is an OUTCOME, so clamping to it
    * would make the last leg unplannable.
    */
-  function stopCandidates({ dayNumber, fromMile, fromMin = null, reachMi = null, cats, limit = 40 }) {
+  function stopCandidates({ dayNumber, fromMile, fromMin = null, reachMi = null, behindMi = 0, cats, limit = 40 }) {
     const { days } = activeDays();
     const day = days.find((d) => d.day_number === dayNumber);
     if (!day) throw new Error(`No day ${dayNumber}`);
     const speed = ridingSpeed();
     const from = fromMile ?? day.start_mile;
-    const lo = Math.max(day.start_mile, from) + 0.05;
+    // behindMi lets the builder see "next door" — the library beside the
+    // McDonald's you are sitting in is 0.2 mi back along the route, and going
+    // back to it is a real thing a day does. Such a stop rides nothing.
+    const back = Math.max(0, Number(behindMi) || 0);
+    const lo = Math.max(day.start_mile + 0.05, back > 0 ? from - back : from + 0.05);
     const next = days.find((d) => d.day_number === day.day_number + 1) ?? null;
     const farthest = Math.min(totalMiles, next ? next.end_mile - 0.05 : totalMiles);
     const hi = reachMi != null ? Math.min(from + Number(reachMi), farthest) : day.end_mile - 0.05;
@@ -928,13 +932,15 @@ export function makePlanner(db) {
     const rideTo = model ? Math.round(model.rideTo * 60) : null;
 
     const out = rows.map((r) => {
-      const rideMin = Math.round(rideMinutes(from, r.route_mile, speed));
+      const behind = r.route_mile <= from;
+      const rideMin = behind ? 0 : Math.round(rideMinutes(from, r.route_mile, speed));
       const arriveMin = fromMin != null ? Math.round(Number(fromMin) + rideMin) : null;
       return {
         resourceId: r.id, name: r.name, brand: r.brand, category: r.category_id,
         routeMile: r1(r.route_mile), offRouteMi: r2(r.off_route_mi),
-        rideMiles: r1(r.route_mile - from),
+        rideMiles: behind ? 0 : r1(r.route_mile - from),
         rideMinutes: rideMin,
+        behind,
         wifiStatus: r.wifi_status, address: r.address, phone: r.phone,
         website: r.website, hours: r.hours, lat: r.lat, lng: r.lng,
         // the headline number on a builder pin

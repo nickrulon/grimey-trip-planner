@@ -888,6 +888,8 @@ export function makeToday(db, planner, camping, intel = null) {
     const cats = kind === 'work' ? ['wifi_work'] : kind === 'sleep' ? ['hotel', 'campground'] : ['wifi_work', 'campground', 'hotel'];
     const base = planner.stopCandidates({
       dayNumber: d.day_number, fromMile: from, fromMin: min, reachMi: reach, cats, limit: lim * 3,
+      // a sit "next door" can be a step back along the route; a bed cannot
+      behindMi: kind === 'sleep' ? 0 : 1,
     });
     const maxOff = OFF_ROUTE_MI[kind];
     const rideTo = base.rideToMin ?? null;
@@ -902,7 +904,7 @@ export function makeToday(db, planner, camping, intel = null) {
         id: c.resourceId, kind: 'resource', name: c.name, brand: c.brand, type: c.category,
         routeMile: c.routeMile, offRouteMi: c.offRouteMi, lat: c.lat, lng: c.lng,
         // consequence, measured from the CURSOR, not the day start
-        milesFromStart: c.rideMiles, rideMinFromStart: c.rideMinutes,
+        milesFromStart: c.rideMiles, rideMinFromStart: c.rideMinutes, behind: !!c.behind,
         arriveMin: c.arriveMin, arriveClock: c.arriveClock,
         beforeWorkOpen: c.beforeWorkOpen, minsLateForWork: c.minsLateForWork, lightLeftMin: c.lightLeftMin,
         deltaMi: r1(c.routeMile - d.end_mile), direction: direction(c.routeMile),
