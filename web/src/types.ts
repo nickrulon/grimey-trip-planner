@@ -76,6 +76,10 @@ export interface Schedule {
   plannedDays: number; projectedArrival?: string; maxDayMiles?: number;
   availableDays?: number; slackDays?: number;
   requiredAvgMiles?: number | null; daysLate?: number;
+  // Measured against what is LEFT, not the whole trip — days already ridden
+  // must not keep pulling the required average around.
+  remainingMiles?: number; daysRidden?: number; calendarDaysLeft?: number;
+  plannedAvgMiles?: number | null; weekendMaxMiles?: number;
 }
 
 export interface PlanResponse {

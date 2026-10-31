@@ -167,7 +167,7 @@ export function makeDaylight(db, settingsGet) {
     departH = null, workStartH = null, rideUntilH = null,
   }) {
     const key = `${date}|${startMile.toFixed(1)}|${endMile.toFixed(1)}|${effortMi ?? ''}|${speedMph}`
-      + `|${departH ?? ''}|${workStartH ?? ''}|${rideUntilH ?? ''}`;
+      + `|${departH ?? ''}|${workStartH ?? ''}|${rideUntilH ?? ''}|wb${settingsGet('workBlock') === '1' ? 1 : 0}`;
     if (cache.has(key)) return cache.get(key);
     if (cache.size > 400) cache.clear();
 
@@ -180,7 +180,11 @@ export function makeDaylight(db, settingsGet) {
     const etStartLocal = et.startH + (zone.off - eo);
     const workStartLocal = workStartH ?? etStartLocal;
     const workEndLocal = workStartLocal + (et.endH - et.startH);
-    const workday = isWorkday(date);
+    // The work block on the timeline is opt-in (setting workBlock='1'). By
+    // default a day is simply wake-up → sleep: the rider decides where and
+    // when to work each day, so the fit, readiness and legs ignore it. Work
+    // stops are still kept — as bookmarks, not as a pinned clock.
+    const workday = settingsGet('workBlock') === '1' && isWorkday(date);
     // A shifted work block is still the same owed hours — just held later or
     // earlier in the local day, which moves what it means in Eastern time.
     const workShiftH = workStartLocal - etStartLocal;

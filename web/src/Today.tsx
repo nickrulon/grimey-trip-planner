@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { getTripKey } from './api';
 import { apiGet, apiPost } from './api';
 import {
   DayCanvas, PlanResponse, SleepOption, WorkOption, FitOptions, DayWeather, ReplanPreview,
@@ -8,8 +9,7 @@ import type { PickerContext, PickCandidate } from './MapPicker';
 import type { IntelRecord } from './types';
 import {
   clockH, clockMin, durMin, money, stampDate, wifiMeta, readinessMeta, NOTE_ICON, r1,
-  fullAddress, pasteAddress, appleMapsUrl, googleMapsUrl, googleSearchUrl,
-} from './format';
+  fullAddress, pasteAddress, appleMapsUrl, googleMapsUrl, googleSearchUrl, isWeekendDate } from './format';
 import { Timeline, hhmm, minOf, MARK_COLORS } from './Timeline';
 
 // TODAY — the Day Canvas. One day, understood at a glance before it is edited:
@@ -301,7 +301,8 @@ export default function Today({ curDay, setCurDay, plan, refetchPlan, showDayOnM
                 {' '}· mi {c.startMile} → {c.endMile}
               </>}
               {sun && <span className="zone-chip">{sun.zone}</span>}
-              {sun?.workday ? <span className="work-chip">WORK DAY</span> : <span className="weekend-chip">WEEKEND</span>}
+              {sun?.workday ? <span className="work-chip">WORK DAY</span>
+                : isWeekendDate(c.date) ? <span className="weekend-chip">WEEKEND</span> : null}
             </div>
           </div>
         </div>
@@ -623,7 +624,9 @@ export default function Today({ curDay, setCurDay, plan, refetchPlan, showDayOnM
           </div>
 
           <div className={`leg-card work-card${!c.workStop && sun?.workday ? ' missing' : ''}`}>
-            <div className="leg-kicker">WORK STOP</div>
+            <div className="leg-kicker">WORK STOP
+              <span className="dim"> — optional bookmark; the day is planned wake-up → sleep</span>
+            </div>
             {c.workStop ? (<>
               <div className="leg-main"><b>{c.workStop.name}</b></div>
               <div className="leg-sub">
@@ -781,6 +784,9 @@ export default function Today({ curDay, setCurDay, plan, refetchPlan, showDayOnM
           <div className="leg-main missing-text">{c.rest ? 'Same bed as yesterday (not recorded)' : 'Not resolved'}</div>
           {!locked && <button className="primary" onClick={() => openSleepMap()}>Where do I sleep? — on the map</button>}
         </>)}
+        {/* Reality outruns the map: a spot found on the road can be named and
+            addressed here, and becomes the bed (and the day's actual end). */}
+        <AddSleepPlace n={n} onDone={() => { load(); refetchPlan(); }} />
       </section>
 
       {/* ---------- money ---------- */}
@@ -808,6 +814,8 @@ export default function Today({ curDay, setCurDay, plan, refetchPlan, showDayOnM
       ) : (
         <div className="wx-line dim">No forecast yet — NWS covers ~7 days out.</div>
       )}
+
+      <DayNotes n={n} initial={plan?.days.find((d) => d.dayNumber === n)?.notes ?? null} onSaved={refetchPlan} />
 
       {c.riderNotes.length > 0 && (
         <section className="notes-block">
@@ -974,6 +982,7 @@ export default function Today({ curDay, setCurDay, plan, refetchPlan, showDayOnM
             </div>
           )}
           <ul className="sleep-list">
+            <AddSleepPlace n={n} onDone={() => { setSheet(null); refetchPlan(); }} />
             {sleepShown.map((o) => {
               const open = openSleep === `${o.kind}-${o.id}`;
               return (
@@ -1458,5 +1467,99 @@ function CostEditor({ label, value, chips, onSet, disabled }: {
         </span>
       )}
     </span>
+  );
+}
+
+/** The rider's own notes for a day. Saves on blur; the plan re-fetches so the
+ *  Trip list's glyph and any other reader agree. */
+function DayNotes({ n, initial, onSaved }: { n: number; initial: string | null; onSaved: () => void }) {
+  const [text, setText] = useState(initial ?? '');
+  const [state, setState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  useEffect(() => { setText(initial ?? ''); setState('idle'); }, [n, initial]);
+  const save = async () => {
+    if ((initial ?? '') === text.trim()) return;
+    setState('saving');
+    try {
+      const res = await fetch('/api/plan/day/notes', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'x-trip-key': getTripKey() },
+        body: JSON.stringify({ dayNumber: n, notes: text }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setState('saved'); onSaved();
+    } catch { setState('error'); }
+  };
+  return (
+    <section className="notes-block day-notes">
+      <div className="leg-kicker">NOTES
+        <span className="dim"> — yours, for this day</span>
+        {state === 'saving' && <span className="dim"> · saving…</span>}
+        {state === 'saved' && <span className="dim"> · saved</span>}
+        {state === 'error' && <span className="err"> · not saved — enter the trip key</span>}
+      </div>
+      <textarea className="day-notes-input" rows={2} value={text} placeholder="headwind after lunch · library closes at 5 · ask about the ferry"
+        onChange={(e) => setText(e.target.value)} onBlur={save} />
+    </section>
+  );
+}
+
+/** "I slept somewhere else": name + address → geocode → confirm → it becomes
+ *  the day's bed (and its actual end, if the rider says that's where they
+ *  really ended up). Places added this way persist with the plan. */
+function AddSleepPlace({ n, onDone }: { n: number; onDone: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [addr, setAddr] = useState('');
+  const [cost, setCost] = useState('');
+  const [actual, setActual] = useState(true);
+  const [cands, setCands] = useState<{ lat: number; lng: number; label: string; mile?: number; offMi?: number }[] | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const hdr = { 'Content-Type': 'application/json', 'x-trip-key': getTripKey() };
+  const find = async () => {
+    setBusy(true); setErr(null); setCands(null);
+    try {
+      const r = await fetch('/api/geocode', { method: 'POST', headers: hdr, body: JSON.stringify({ q: addr || name, dayNumber: n }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || r.status);
+      if (!j.candidates?.length) throw new Error('No match — try adding the town and state');
+      setCands(j.candidates.slice(0, 4));
+    } catch (e) { setErr(String((e as Error).message ?? e)); }
+    setBusy(false);
+  };
+  const choose = async (c: { lat: number; lng: number }) => {
+    setBusy(true); setErr(null);
+    try {
+      const r = await fetch('/api/plan/day/sleep-place', { method: 'POST', headers: hdr,
+        body: JSON.stringify({ dayNumber: n, name: name.trim() || addr.trim(), address: addr.trim() || undefined, lat: c.lat, lng: c.lng, cost: cost === '' ? undefined : Number(cost), actual }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || r.status);
+      onDone();
+    } catch (e) { setErr(String((e as Error).message ?? e)); setBusy(false); }
+  };
+  if (!open) return <button className="linkish add-place-link" onClick={() => setOpen(true)}>+ Somewhere else — add by name and address</button>;
+  return (
+    <div className="add-place">
+      <div className="leg-kicker">ADD A SLEEP SPOT</div>
+      <input type="text" placeholder="name (e.g. Colonial RV Park)" value={name} onChange={(e) => setName(e.target.value)} />
+      <input type="text" placeholder="address, town, state" value={addr} onChange={(e) => setAddr(e.target.value)} />
+      <div className="add-place-row">
+        <label>$ <input type="number" min="0" placeholder="cost" value={cost} onChange={(e) => setCost(e.target.value)} /></label>
+        <label><input type="checkbox" checked={actual} onChange={(e) => setActual(e.target.checked)} /> this is where I actually slept</label>
+      </div>
+      {!cands && <button className="primary" disabled={busy || (!name.trim() && !addr.trim())} onClick={find}>{busy ? 'Finding…' : 'Find it'}</button>}
+      {cands && (
+        <div className="add-place-cands">
+          {cands.map((c, i) => (
+            <button key={i} className="cand" disabled={busy} onClick={() => choose(c)}>
+              <b>{c.label.split(',').slice(0, 3).join(',')}</b>
+              {c.mile != null && <span className="dim"> · mi {Math.round(c.mile * 10) / 10}{c.offMi != null && c.offMi > 0.2 ? ` · ${Math.round(c.offMi * 10) / 10} mi off route` : ''}</span>}
+            </button>
+          ))}
+          <button className="linkish" onClick={() => setCands(null)}>search again</button>
+        </div>
+      )}
+      {err && <div className="err">{err}</div>}
+      <button className="linkish" onClick={() => setOpen(false)}>cancel</button>
+    </div>
   );
 }

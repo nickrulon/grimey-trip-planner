@@ -2,6 +2,8 @@
 // routes serve both the local better-sqlite3 process and the serverless
 // WASM-SQLite function.
 import express from 'express';
+import { syncRiderPlaces } from './rider-places.mjs';
+import { makeAssistant } from './assistant.mjs';
 import * as turf from '@turf/turf';
 import { makePlanner } from './plan.mjs';
 import { makeCamping } from './camping.mjs';
@@ -16,22 +18,39 @@ const planner = makePlanner(db);
 const camping = makeCamping(db, planner);
 const intel = makeIntel();
 const today = makeToday(db, planner, camping, intel);
+const assistant = makeAssistant(db, planner, today, camping);
+app.assistant = assistant; // the serverless function streams from it directly
 
 // ---- Route geometry, simplified for rendering, one feature per segment ----
 let routeCache = null;
 
+// The rider's real start. The route was traced from Pensacola, but the trip
+// actually began at Perdido Key, so everything before that mile is not part of
+// this journey and must not appear on the map, in resource lists, or in the
+// sleep guide. Mile numbering itself is left alone: every piece of research
+// (camping spots, rider notes, intel) is anchored to the traced scale, and
+// re-basing it mid-trip would silently invalidate all of it.
+function tripStart() {
+  const v = Number(db.prepare(`SELECT value FROM settings WHERE key='tripStartMile'`).get()?.value);
+  return Number.isFinite(v) && v > 0 ? v : 0;
+}
+
 function buildRouteResponse() {
-  if (routeCache) return routeCache;
+  const start = tripStart();
+  if (routeCache && routeCache._start === start) return routeCache;
   const segments = db.prepare(
     `SELECT * FROM route_segments ORDER BY seq`
   ).all();
   const features = [];
   const mileMarkers = [];
-  let nextMarker = 0;
+  // Markers stay on the 25-mile grid of the traced route; the trip simply
+  // joins it partway along.
+  let nextMarker = Math.ceil(start / 25) * 25;
   for (const seg of segments) {
+    if (seg.end_mile <= start) continue; // entirely before the rider's start
     const pts = db.prepare(
-      `SELECT lat, lng, mile FROM route_points WHERE segment_id = ? ORDER BY seq`
-    ).all(seg.id);
+      `SELECT lat, lng, mile FROM route_points WHERE segment_id = ? AND mile >= ? ORDER BY seq`
+    ).all(seg.id, start);
     if (pts.length < 2) continue;
     const line = turf.lineString(pts.map((p) => [p.lng, p.lat]));
     const simplified = turf.simplify(line, { tolerance: 0.0004, highQuality: false });
@@ -39,7 +58,7 @@ function buildRouteResponse() {
       type: 'Feature',
       properties: {
         id: seg.id, name: seg.name, provenance: seg.provenance,
-        startMile: Math.round(seg.start_mile * 10) / 10,
+        startMile: Math.round(Math.max(seg.start_mile, start) * 10) / 10,
         endMile: Math.round(seg.end_mile * 10) / 10,
         confidence: seg.confidence, source: seg.source,
         sourceUrl: seg.source_url, notes: seg.notes,
@@ -56,7 +75,17 @@ function buildRouteResponse() {
   }
   const route = db.prepare(`SELECT * FROM routes WHERE id = 'personal'`).get();
   routeCache = {
-    route: route ? { name: route.name, totalMiles: route.total_miles, notes: route.notes } : null,
+    _start: start,
+    route: route
+      ? {
+        name: route.name,
+        // What the rider still has to ride, not what was traced.
+        totalMiles: route.total_miles,
+        tripStartMile: Math.round(start * 10) / 10,
+        tripMiles: Math.round((route.total_miles - start) * 10) / 10,
+        notes: route.notes,
+      }
+      : null,
     segments: { type: 'FeatureCollection', features },
     mileMarkers,
   };
@@ -73,7 +102,7 @@ app.get('/api/route', (_req, res) => {
 
 // ---- Resources: filter by mile window + categories, GeoJSON out ----
 app.get('/api/resources', (req, res) => {
-  const minMile = Number(req.query.minMile ?? 0);
+  const minMile = Math.max(Number(req.query.minMile ?? 0), tripStart());
   const maxMile = Number(req.query.maxMile ?? 1e9);
   const cats = req.query.cats ? String(req.query.cats).split(',') : null;
   let sql = `SELECT r.*, group_concat(s.provider || ':' || s.provider_ref) AS srcs
@@ -110,10 +139,16 @@ app.get('/api/categories', (_req, res) => {
 
 app.get('/api/summary', (_req, res) => {
   const route = db.prepare(`SELECT * FROM routes WHERE id = 'personal'`).get();
+  const start = tripStart();
   const counts = db.prepare(
-    `SELECT category_id, COUNT(*) AS n FROM resources GROUP BY category_id`
-  ).all();
-  res.json({ totalMiles: route?.total_miles ?? null, resourceCounts: counts });
+    `SELECT category_id, COUNT(*) AS n FROM resources WHERE route_mile >= ? GROUP BY category_id`
+  ).all(start);
+  res.json({
+    totalMiles: route?.total_miles ?? null,
+    tripStartMile: Math.round(start * 10) / 10,
+    tripMiles: route ? Math.round((route.total_miles - start) * 10) / 10 : null,
+    resourceCounts: counts,
+  });
 });
 
 // ---- Trip plan (Phases 2–3) ----
@@ -230,12 +265,118 @@ app.post('/api/plan/day/mark/update', handle((req) => planner.updateMark(req.bod
 app.post('/api/plan/day/mark/remove', handle((req) => planner.removeMark(req.body ?? {})));
 
 app.post('/api/plan/day/costs', handle((req) => planner.setDayCosts(req.body ?? {})));
+app.post('/api/plan/day/notes', handle((req) => planner.setDayNotes(req.body ?? {})));
 app.post('/api/plan/day/work-stop', handle((req) => planner.setWorkStop(req.body ?? {})));
 app.post('/api/plan/day/rest', handle((req) => planner.insertRestDay(req.body ?? {})));
 app.post('/api/plan/day/rest/remove', handle((req) => planner.removeRestDay(req.body ?? {})));
+app.post('/api/plan/retrace-tail', handle((req) => planner.replaceTail(req.body ?? {})));
 
 // One action: pick tonight's bed AND set the day's endpoint (they are the
 // same fact — the plan never holds two answers to "where do I sleep").
+// Address → coordinates, for places the rider found that no dataset knows.
+// Nominatim (OSM) first, biased to a box around where the day ends so
+// "1370 E Airline Hwy" resolves to the one in LaPlace; Photon as a fallback.
+async function geocode(q, near) {
+  const UA = 'grimey-trip-planner/1.0 (personal bike tour planner)';
+  const out = [];
+  const box = near ? `&viewbox=${near.lng - 0.6},${near.lat + 0.5},${near.lng + 0.6},${near.lat - 0.5}&bounded=0` : '';
+  try {
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=5&countrycodes=us&q=${encodeURIComponent(q)}${box}`, { headers: { 'User-Agent': UA } });
+    for (const x of (await r.json()) ?? []) out.push({ lat: +x.lat, lng: +x.lon, label: x.display_name, source: 'nominatim' });
+  } catch { /* fall through */ }
+  if (!out.length) {
+    try {
+      const bias = near ? `&lat=${near.lat}&lon=${near.lng}` : '';
+      const r = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&limit=5${bias}`, { headers: { 'User-Agent': UA } });
+      for (const f of ((await r.json())?.features ?? [])) {
+        const pr = f.properties ?? {};
+        out.push({ lat: f.geometry.coordinates[1], lng: f.geometry.coordinates[0],
+          label: [pr.name, pr.housenumber && pr.street ? `${pr.housenumber} ${pr.street}` : pr.street, pr.city, pr.state, pr.postcode].filter(Boolean).join(', '), source: 'photon' });
+      }
+    } catch { /* nothing */ }
+  }
+  // nearest-to-the-day first
+  if (near) out.sort((a, b) => Math.hypot(a.lat - near.lat, a.lng - near.lng) - Math.hypot(b.lat - near.lat, b.lng - near.lng));
+  return out.map((c) => ({ ...c, ...planner.locate(c.lat, c.lng) }));
+}
+// Local dev only: the deployed function streams this itself (serverless-http
+// buffers, which would defeat the point). Same contract: plain streamed text.
+app.post('/api/assistant', async (req, res) => {
+  try {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-store');
+    for await (const chunk of assistant.stream(req.body ?? {})) res.write(chunk);
+    res.end();
+  } catch (err) {
+    if (!res.headersSent) res.status(err.status ?? 400).json({ error: err.message ?? String(err) });
+    else res.end('\n\n[error: ' + (err.message ?? err) + ']');
+  }
+});
+// Which credentials the assistant is running on (names + masked prefixes only).
+// Netlify can inject provider keys at runtime (AI Gateway), which never show
+// in `netlify env:list` — this is how we know who is paying for answers.
+app.get('/api/assistant/env', handle(() => Object.fromEntries(
+  Object.entries(process.env)
+    .filter(([k]) => /^ANTHROPIC_|AI_GATEWAY|NETLIFY_AI/i.test(k))
+    .map(([k, v]) => [k, /KEY|TOKEN/i.test(k) ? String(v).slice(0, 10) + '…(' + String(v).length + ' chars)' : String(v)])
+)));
+app.get('/api/assistant/context', handle((req) => ({ ready: assistant.ready(), context: assistant.buildContext(Number(req.query.day) || undefined) })));
+
+app.post('/api/geocode', handle(async (req) => {
+  const b = req.body ?? {};
+  if (!b.q || String(b.q).trim().length < 4) throw new Error('address required');
+  let near = null;
+  if (b.dayNumber) {
+    const { days } = planner.activeDays();
+    const d = days.find((x) => x.day_number === Number(b.dayNumber));
+    if (d) { const p = planner.pointAtMile(d.end_mile); if (p) near = { lat: p.lat, lng: p.lng }; }
+  }
+  return { candidates: await geocode(String(b.q), near) };
+}));
+
+// "I slept somewhere the map doesn't know": save the place, make it the day's
+// bed, and — when the rider says so — the day's actual end.
+app.post('/api/plan/day/sleep-place', handle((req) => {
+  const b = req.body ?? {};
+  const dayNumber = Number(b.dayNumber);
+  const lat = Number(b.lat), lng = Number(b.lng);
+  if (!Number.isFinite(dayNumber) || !Number.isFinite(lat) || !Number.isFinite(lng) || !b.name) {
+    throw new Error('dayNumber, name, lat and lng required');
+  }
+  const loc = planner.locate(lat, lng);
+  if (!loc) throw new Error('could not place that on the route');
+  const name = String(b.name).trim();
+  const category = b.category === 'hotel' || b.category === 'campground' ? b.category
+    : /camp|rv|park|hipcamp|host|yard/i.test(name) ? 'campground' : 'hotel';
+  const id = 'rider-' + name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) + '-' + Math.round(loc.mile);
+  db.prepare(`INSERT INTO rider_places (id, name, category, lat, lng, address, route_mile, off_route_mi, cost, notes, created_at)
+              VALUES (?,?,?,?,?,?,?,?,?,?,?)
+              ON CONFLICT(id) DO UPDATE SET name=excluded.name, category=excluded.category, lat=excluded.lat, lng=excluded.lng,
+                address=excluded.address, route_mile=excluded.route_mile, off_route_mi=excluded.off_route_mi, cost=excluded.cost, notes=excluded.notes`)
+    .run(id, name, category, lat, lng, b.address ? String(b.address) : null, loc.mile, loc.offMi,
+      b.cost != null && b.cost !== '' ? Number(b.cost) : null, b.notes ? String(b.notes) : null, new Date().toISOString());
+  syncRiderPlaces(db);
+  const { days } = planner.activeDays();
+  const day = days.find((d) => d.day_number === dayNumber);
+  if (!day) throw new Error(`No day ${dayNumber}`);
+  // A completed day has to be reopened to change its bed, then closed again.
+  const wasDone = day.status !== 'planned';
+  if (wasDone) planner.unlockDay({ dayNumber });
+  const res = planner.setSleep({ dayNumber, endMile: loc.mile, endName: name, overnightResourceId: id,
+    cost: b.cost != null && b.cost !== '' ? Number(b.cost) : undefined });
+  let actual = null;
+  if (b.actual || wasDone) {
+    // The day's calendar date: the client may send it; otherwise derive it
+    // from the trip's start date so the actual is never left undated.
+    const startDate = db.prepare(`SELECT value FROM settings WHERE key='startDate'`).get()?.value;
+    const isoDate = b.date ?? (startDate
+      ? new Date(Date.parse(`${startDate}T12:00:00Z`) + (dayNumber - 1) * 86400000).toISOString().slice(0, 10)
+      : undefined);
+    actual = planner.recordActual({ dayNumber, endMile: loc.mile, endName: name, date: isoDate, notes: b.notes ?? undefined });
+  }
+  return { ok: true, id, mile: Math.round(loc.mile * 10) / 10, offRouteMi: Math.round(loc.offMi * 100) / 100, category, sleep: res, actual };
+}));
+
 app.post('/api/plan/day/sleep', handle((req) => {
   const b = req.body ?? {};
   if (b.campId) {
@@ -341,6 +482,54 @@ app.get('/api/route/points', handle((req) => {
 // ---- Camping guide: sleep planning, separate from ride planning ----
 app.get('/api/camping', handle(() => camping.campingResponse()));
 
+// The rider's own beds (added from the phone), as GeoJSON with the day they
+// belong to. Served live from the function, never from the CDN snapshot, so a
+// place added tonight is on the map tonight.
+app.get('/api/rider-places', handle(() => {
+  const rows = db.prepare(`SELECT * FROM rider_places ORDER BY route_mile`).all();
+  const rev = db.prepare(`SELECT id FROM plan_revisions WHERE active=1`).get();
+  const planned = rev ? db.prepare(`SELECT day_number, end_name, end_mile FROM planned_days WHERE revision_id=?`).all(rev.id) : [];
+  const actual = db.prepare(`SELECT day_number, end_name, end_mile, date FROM actual_days`).all();
+  const near = (list, r) => list.find((d) => d.end_name === r.name || Math.abs(d.end_mile - r.route_mile) < 0.15);
+  return {
+    type: 'FeatureCollection',
+    features: rows.map((r) => {
+      const a = near(actual, r); const pl = a ? null : near(planned, r);
+      return {
+        type: 'Feature',
+        properties: {
+          id: r.id, name: r.name, category: r.category, address: r.address, cost: r.cost, notes: r.notes,
+          routeMile: Math.round(r.route_mile * 10) / 10, offRouteMi: Math.round(r.off_route_mi * 10) / 10,
+          status: a ? 'slept' : pl ? 'planned' : 'extra',
+          dayNumber: a?.day_number ?? pl?.day_number ?? null, date: a?.date ?? null,
+        },
+        geometry: { type: 'Point', coordinates: [r.lng, r.lat] },
+      };
+    }),
+  };
+}));
+
+// Population along the corridor as weighted points for a heat map. Static
+// reference data, so it is snapshotted to the CDN like /api/resources.
+// Coordinates are rounded and keys kept short: ~20k points ride to a phone.
+app.get('/api/population', handle((req) => {
+  const maxOff = Math.min(Number(req.query.maxOff ?? 20), 25);
+  const rows = db.prepare(
+    `SELECT lat, lng, pop, density, route_mile, off_route_mi FROM population_cells
+     WHERE off_route_mi <= ? AND route_mile >= ? ORDER BY route_mile`
+  ).all(maxOff, tripStart());
+  const r4 = (n) => Math.round(n * 1e4) / 1e4;
+  return {
+    type: 'FeatureCollection',
+    source: 'US Census 2020 (PL 94-171) block groups via TIGERweb',
+    features: rows.map((c) => ({
+      type: 'Feature',
+      properties: { pop: c.pop, dens: Math.round(c.density), mile: Math.round(c.route_mile) },
+      geometry: { type: 'Point', coordinates: [r4(c.lng), r4(c.lat)] },
+    })),
+  };
+}));
+
 // ---- Ride intel: what other riders found out there, joined by route mile ----
 app.get('/api/intel', handle(() => intel.summary()));
 app.get('/api/intel/range', handle((req) => ({
@@ -389,6 +578,8 @@ app.post('/api/settings', handle((req) => {
   for (const [k, v] of Object.entries(req.body ?? {})) {
     if (typeof v !== 'string' || k.length > 64) throw new Error('string settings only');
     upsert.run(k, v);
+    // The map is clipped to the trip start, so moving it must redraw the route.
+    if (k === 'tripStartMile') routeCache = null;
   }
   return { ok: true };
 }));

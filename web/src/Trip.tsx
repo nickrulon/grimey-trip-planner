@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { apiGet, apiPost } from './api';
 import { PlanResponse, PlanDay, ReplanPreview } from './types';
-import { shortDate, dowOf, isWeekendDate, durMin, money, readinessMeta, wifiMeta } from './format';
+import { shortDate, dowOf, isWeekendDate, durMin, money, readinessMeta, wifiMeta, localISODate } from './format';
 
 // TRIP — does the whole trip work, and which days need attention?
 // A scanable overview first; the engine's heavy levers live below it.
@@ -34,6 +34,7 @@ export default function Trip({ plan, refetch, gotoDay, showDayOnMap }: {
   const [startDate, setStartDate] = useState('');
   const [arriveDate, setArriveDate] = useState('');
   const [maxMiles, setMaxMiles] = useState(65);
+  const [weekendMiles, setWeekendMiles] = useState(65);
   const [startMile, setStartMile] = useState('0');
   const [startMilePreview, setStartMilePreview] = useState<{ mile: number; place: string } | null>(null);
   const [fit, setFit] = useState<FitResult | null>(null);
@@ -49,6 +50,7 @@ export default function Trip({ plan, refetch, gotoDay, showDayOnMap }: {
         if (s.startDate) setStartDate(s.startDate);
         if (s.arriveDate) setArriveDate(s.arriveDate);
         if (s.maxDayMiles) setMaxMiles(Number(s.maxDayMiles));
+        if (s.weekendMaxMiles) setWeekendMiles(Number(s.weekendMaxMiles));
         setStartMile(s.tripStartMile ?? '0');
         setWorkAware(s.workAwarePlanning === '1');
       } catch { /* dates stay blank */ }
@@ -155,10 +157,17 @@ export default function Trip({ plan, refetch, gotoDay, showDayOnMap }: {
             <input type="date" value={arriveDate}
               onChange={(e) => { setArriveDate(e.target.value); setFit(null); if (e.target.value) saveSetting('arriveDate', e.target.value); }} />
           </label>
-          <label>Max mi/day
+          {/* Two numbers, because the rider's week has two shapes: a weekday
+              carries a work block, a weekend does not. */}
+          <label>Weekday mi
             <input type="number" min={20} max={140} value={maxMiles}
               onChange={(e) => setMaxMiles(Number(e.target.value))}
               onBlur={(e) => saveSetting('maxDayMiles', String(Number(e.target.value)))} />
+          </label>
+          <label>Weekend mi
+            <input type="number" min={20} max={140} value={weekendMiles}
+              onChange={(e) => setWeekendMiles(Number(e.target.value))}
+              onBlur={(e) => saveSetting('weekendMaxMiles', String(Number(e.target.value)))} />
           </label>
           <label>Start at mile
             <input type="number" min={0} max={Math.floor(plan.totalMiles)} step="0.1" value={startMile}
@@ -216,6 +225,24 @@ export default function Trip({ plan, refetch, gotoDay, showDayOnMap }: {
               <div className="sched-tight">
                 {sched.slackDays === 0 ? 'No spare days' : `Only ${sched.slackDays} spare day(s)`} —
                 one weather day or mechanical puts you behind.
+              </div>
+            )}
+            {/* Falling short is a normal state on this trip, not an error: the
+                rider set the daily numbers on purpose. Say how far short, and
+                what it would take to close it, without nagging them to ride
+                past limits they chose. */}
+            {(sched.daysLate ?? 0) > 0 && (
+              <div className="sched-short">
+                <b>Falling short by {sched.daysLate} day{sched.daysLate === 1 ? '' : 's'}.</b>{' '}
+                At {sched.maxDayMiles} mi weekdays and {sched.weekendMaxMiles} on weekends,
+                this plan finishes {sched.projectedArrival} — past {sched.arriveDate}.
+                {sched.requiredAvgMiles != null && sched.plannedAvgMiles != null && (
+                  <div className="dim sched-short-math">
+                    {sched.remainingMiles} mi left over {sched.calendarDaysLeft} days needs{' '}
+                    <b>{sched.requiredAvgMiles} mi/day</b>; the plan averages {sched.plannedAvgMiles}.
+                    Close it by stretching days as you go, or move the arrive date.
+                  </div>
+                )}
               </div>
             )}
             <div className="sched-actions">
@@ -384,6 +411,8 @@ function TripRow({ d, gotoDay, showDayOnMap }: {
     <li className={`trip-row${d.actual ? ' done' : ''}${d.rest ? ' rest' : ''}`}>
       <button className="trip-row-main" onClick={() => gotoDay(d.dayNumber)}>
         <span className="tr-day">{d.dayNumber}</span>
+        {d.date === localISODate() && <span className="today-stamp" title="today">TODAY</span>}
+        {d.notes && <span className="note-glyph" title={d.notes}>✎</span>}
         <span className="tr-date"><span className="tr-dow">{dowOf(d.date)} </span>{shortDate(d.date)}</span>
         <span className="tr-dest">
           {d.rest ? <i>Rest — {d.endName}</i> : d.endName}

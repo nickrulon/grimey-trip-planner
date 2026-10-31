@@ -29,6 +29,12 @@ const CATEGORIES = {
     overpassFilters: ['["tourism"~"^(camp_site|caravan_site)$"]'],
     config: {},
   },
+  resupply: {
+    label: 'Resupply (fuel / store)',
+    corridor_width_mi: 2,
+    overpassFilters: ['["amenity"="fuel"]', '["shop"~"^(convenience|supermarket|general)$"]'],
+    config: {},
+  },
   hotel: {
     label: 'Hotels / Motels',
     corridor_width_mi: 3,
@@ -109,6 +115,7 @@ const upsertSrc = db.prepare(
 
 function categorize(tags) {
   if (/^(fast_food|cafe|library)$/.test(tags.amenity || '')) return 'wifi_work';
+  if (tags.amenity === 'fuel' || /^(convenience|supermarket|general)$/.test(tags.shop || '')) return 'resupply';
   if (/^(camp_site|caravan_site)$/.test(tags.tourism || '')) return 'campground';
   if (/^(hotel|motel)$/.test(tags.tourism || '')) return 'hotel';
   return null;
@@ -150,6 +157,11 @@ for (const chunk of chunks) {
       const lat = el.lat ?? el.center?.lat;
       const lng = el.lon ?? el.center?.lon;
       if (lat == null || lng == null) continue;
+      // Mexico: explicit tag, Mexican brands, or the Los Algodones box south of
+      // the Yuma line. A corridor bbox has no idea where the border is.
+      if (tags['addr:country'] === 'MX') continue;
+      if (/^(pemex|oxxo)$/i.test(tags.brand || tags.name || '')) continue;
+      if (lat < 32.7185 && lng > -114.80 && lng < -114.70) continue;
       total++;
       const { mile, offMi } = projectOntoRoute(lat, lng);
       if (offMi > CATEGORIES[catId].corridor_width_mi) continue;

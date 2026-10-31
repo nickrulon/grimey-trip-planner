@@ -1,0 +1,340 @@
+[
+  {
+    "day": 1043,
+    "bestBet": "Sonoran Desert RV Park — tents confirmed, private shower rooms, pool, laundry, Wi-Fi; the only full-service camp in Gila Bend",
+    "options": [
+      {
+        "name": "Sonoran Desert RV Park",
+        "type": "rv_park",
+        "price": null,
+        "priceNote": "Tent rate not published. Guest-reported RV rates in 2026 run $48 (Mar), $62 (Feb) and $79 (Class A). Expect a tent rate well under the RV rate — call.",
+        "lat": 32.9395696,
+        "lng": -112.6793648,
+        "locationNote": "800 Butterfield Trail, Gila Bend AZ 85337 — 0.2 mi off route at mile 2202.3, east end of town. Full Gila Bend services (McDonald's, Burger King, Taco Bell, Carl's Jr., Love's, Pilot, Shell, Chevron, Circle K, Gila Bend Food Market) sit 1–3 mi further on at 2204–2206.",
+        "routeMile": 2202.3,
+        "website": "https://www.sonorandesertrvpark.com/",
+        "phone": "928-683-2850 (reservations 800-562-1895)",
+        "booking": "call-ahead",
+        "tentsOk": true,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "Established private RV park with tent camping listed.",
+        "cyclistIntel": "Reviewers describe private shower rooms inside the larger bathroom block, clean modern laundry, a swimming pool and a dog park. OSM tags it internet_access=wlan. This is the last reliable shower before the Dateland stretch.",
+        "seasonalNote": "Open year-round; November is peak snowbird season so call ahead rather than turning up.",
+        "confidence": "medium",
+        "sources": [
+          "https://www.campendium.com/sonoran-desert-rv-park",
+          "https://campgrounds.rvlife.com/regions/arizona/gila-bend/sonoran-desert-rv-park-4675"
+        ]
+      }
+    ]
+  },
+  {
+    "day": 1044,
+    "bestBet": "Dateland RV Park — tents and private shower rooms confirmed; noisy (I-8 one side, Union Pacific the other) but it is the only camp in Dateland",
+    "gapAdvice": "Gila Bend → Dateland is 50 mi. Water and food stops: Sentinel (Conde's Middle of Nowhere + Chevron, mile 2234.3) and the Dateland Travel Center (Chevron, Pizza Hut, date shakes, mile 2254.0). Nothing else.",
+    "options": [
+      {
+        "name": "Dateland RV Park",
+        "type": "rv_park",
+        "price": null,
+        "priceNote": "Rate not published in any listing found; call or ask at the office.",
+        "lat": 32.7956905,
+        "lng": -113.5444037,
+        "locationNote": "Dateland AZ, 0.2 mi off route at mile 2255.3, right beside the Dateland Travel Center exit (mile 2254.0). This is the OSM 'Unnamed campground' at 2255.3.",
+        "routeMile": 2255.3,
+        "website": "https://www.campendium.com/dateland-rv-park",
+        "phone": null,
+        "booking": "walk-in",
+        "tentsOk": true,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "Private RV park; tent camping listed on Campendium and The Dyrt.",
+        "cyclistIntel": "Private shower rooms, each with its own sink, toilet and shower. Laundry is dated (a couple of washers/dryers). Mostly full-timers with ~20 overnight spaces. One reviewer: 'really run down, though reasonably clean.' Expect freeway noise on one side and trains on the other. Zero shade — pitch in the lee of a rig if they let you.",
+        "seasonalNote": "Year-round; Oct–Mar is the comfortable season.",
+        "confidence": "medium",
+        "sources": [
+          "https://www.campendium.com/dateland-rv-park",
+          "https://www.thedyrt.com/camping/arizona/dateland-rv-park"
+        ]
+      },
+      {
+        "name": "Oasis RV Park at Aztec Hills",
+        "type": "rv_park",
+        "price": null,
+        "priceNote": "Rate not published.",
+        "lat": 32.804608,
+        "lng": -113.5014685,
+        "locationNote": "~2 mi east of Dateland, 0.8 mi off route at mile 2251.3.",
+        "routeMile": 2251.3,
+        "website": null,
+        "phone": null,
+        "booking": "call-ahead",
+        "tentsOk": null,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "Private RV park. TENT POLICY UNKNOWN — no listing confirms tent sites.",
+        "cyclistIntel": "Dyrt summary: full hookups, water, electric, sewer, showers, toilets. 'Wonderful RV park, off the beaten path.' Quieter than Dateland RV Park but 4 mi short of it and tents unconfirmed — a fallback if Dateland is full.",
+        "seasonalNote": null,
+        "confidence": "low",
+        "sources": [
+          "https://thedyrt.com/camping/arizona/near/aztec/with/tent"
+        ]
+      }
+    ]
+  },
+  {
+    "day": 1045,
+    "bestBet": "Tier Drop RV Park, Wellton — tents, showers and a pool confirmed, Dyrt 4.8/5, bookable. Liguerta Station (the planner's original pick) has no listing, no phone and no reviews anywhere — do not plan on it.",
+    "gapAdvice": "Dateland → Wellton is 39 mi with one stop: Tacna (Basque Etche restaurant, Chevron, Shell, Pilot, Subway, Gonzo's Tacna Market, mile 2281). Wellton itself has a library (2292.9), Jack in the Box (2293.9) and several stores.",
+    "options": [
+      {
+        "name": "Tier Drop RV Park",
+        "type": "rv_park",
+        "price": 37,
+        "priceNote": "$37/night RV (Feb 2026 Campendium report; $375 monthly); operator rate sheet lists $32 daily. Tent rate not published — ask, it should be lower.",
+        "lat": 32.6647404,
+        "lng": -114.1545655,
+        "locationNote": "28320 E County 11th St, Wellton AZ 85356 — 0.5 mi off route at mile 2294.1, south side of town.",
+        "routeMile": 2294.1,
+        "website": "https://www.campspot.com/park/tier-drop-rv-park-wellton-az",
+        "phone": "928-785-9295",
+        "booking": "reserve",
+        "tentsOk": true,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "Private RV park; Campendium lists 'Tent camping: Yes'; The Dyrt lists RVs, Tents, Cabins.",
+        "cyclistIntel": "Showers, swimming pool, cabins; reservations through Campspot. Dyrt 4.8 from five reviews. Listed in the Town of Wellton's own RV-park directory. The strongest verified bed between Gila Bend and Yuma.",
+        "seasonalNote": "Year-round.",
+        "confidence": "high",
+        "sources": [
+          "https://www.campendium.com/tier-drop-rv-park",
+          "https://www.campspot.com/park/tier-drop-rv-park-wellton-az",
+          "https://www.welltonaz.gov/1247/RV-Parks"
+        ]
+      },
+      {
+        "name": "Copper Mountain RV Park",
+        "type": "rv_park",
+        "price": 55,
+        "priceNote": "$55 last reported (Jul 2023); another guest paid $50. Likely higher now. Tent rate unpublished.",
+        "lat": 32.6881465,
+        "lng": -113.9552458,
+        "locationNote": "39886 E County 9 1/2 St, Tacna AZ 85352 — 0.6 mi off route at mile 2281.2, 10 mi east of Wellton.",
+        "routeMile": 2281.2,
+        "website": "https://coppermountainrvpark.com/",
+        "phone": null,
+        "booking": "call-ahead",
+        "tentsOk": null,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "Marketed as a 55+ RV park with full hookups. Three listings repeat identical 'offers tent sites' wording that may be boilerplate — treat tents as unconfirmed.",
+        "cyclistIntel": "Large clubhouse with clean laundry and showers; ice-cream sandwiches in the clubhouse freezer. Open Oct 1 – Apr 15 only. Fallback if Tier Drop is full, 13 mi earlier.",
+        "seasonalNote": "Seasonal: Oct 1 – Apr 15.",
+        "confidence": "low",
+        "sources": [
+          "https://www.campendium.com/copper-mountain-rv-park",
+          "https://www.thedyrt.com/camping/arizona/copper-mountain-rv-park"
+        ]
+      },
+      {
+        "name": "Liguerta Station RV Park",
+        "type": "rv_park",
+        "price": null,
+        "priceNote": "Unknown — no listing anywhere.",
+        "lat": 32.6756393,
+        "lng": -114.2977597,
+        "locationNote": "Ligurta, AZ (OSM spells it Liguerta), 0.3 mi off route at mile 2303.3, east of Wellton on the frontage road. Real place name is Ligurta — a former Sunset Route railroad station.",
+        "routeMile": 2303.3,
+        "website": null,
+        "phone": null,
+        "booking": "unknown",
+        "tentsOk": null,
+        "water": null,
+        "showers": null,
+        "toilets": null,
+        "legalityNote": "UNVERIFIED. Exists in OSM (way 452813102) and in one secondary guide as a big-rig-friendly dump station 'just east of town'. Not on Campendium, The Dyrt, RVezy, Hipcamp or the Town of Wellton directory.",
+        "cyclistIntel": "Do not plan a night here. The two I-8 rest areas at Ligurta (westbound permits overnight parking, eastbound is 1-hr max) are the only other thing at this exit and are not tent-legal. If you reach it and it is open, it is 9 mi past Tier Drop.",
+        "seasonalNote": null,
+        "confidence": "low",
+        "sources": [
+          "https://www.openstreetmap.org/way/452813102",
+          "https://www.rvinglife.com/arizona-wellton-rv-dumpsite?page=2",
+          "https://en.wikipedia.org/wiki/Ligurta,_Arizona"
+        ]
+      }
+    ]
+  },
+  {
+    "day": 1046,
+    "bestBet": "Pilot Knob RV Resort, Winterhaven — hot showers and tent sites listed, a Chevron next door, and it is the LAST water before a 39-mile void. Gordon's Well (the planner's pick) sits in the middle of that void with no tent confirmation and zero reviews.",
+    "gap": true,
+    "gapAdvice": "Winterhaven (mile 2335) → Holtville (2374.6) is 39 mi with NO services at all — the longest true gap on the corridor. Fill every bottle at the Pilot Knob Chevron. Hot Spring LTVA at 2367.6 has toilets, a hot spring and a rinse shower but NO potable water.",
+    "options": [
+      {
+        "name": "Pilot Knob RV Resort",
+        "type": "rv_park",
+        "price": 50,
+        "priceNote": "$50–53/night RV (recent Campendium reports). Tent sites listed (RVezy) with no price. One reviewer paid $20 for dump + water + shower as a non-guest. 2021 Coast listing showed $22.50 + $5 resort fee — dated.",
+        "lat": 32.7457357,
+        "lng": -114.7645488,
+        "locationNote": "Winterhaven CA, 0.2 mi off route at mile 2335.9, at the Sidewinder Rd / I-8 exit. Chevron at mile 2335.2 beside it; Pilot Knob LTVA (BLM) and the Pilot Knob 14-day area are across the road.",
+        "routeMile": 2335.9,
+        "website": "https://www.pilotknobrvcamping.com/",
+        "phone": "760-572-0875 (also listed: 800-378-3709, 619-572-5232 — confirm on the website)",
+        "booking": "call-ahead",
+        "tentsOk": true,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "Private RV resort (Encore / Thousand Trails family). Tent sites listed on RVezy.",
+        "cyclistIntel": "Hot showers and restrooms confirmed by multiple reviewers. Open Oct 1 – Apr 30. If tents are refused, the BLM Pilot Knob 14-day area directly across the road is free dispersed camping (no facilities) and the resort has sold dump/water/shower access to non-guests.",
+        "seasonalNote": "Seasonal: Oct 1 – Apr 30.",
+        "confidence": "medium",
+        "sources": [
+          "https://www.campendium.com/pilot-knob-rv-resort",
+          "https://www.rvezy.com/rv-rentals/campground/7af545d3-a843-49d7-9806-208928761bba",
+          "https://www.campendium.com/pilot-knob-14-day-area"
+        ]
+      },
+      {
+        "name": "Gordon's Well RV Park And Storage",
+        "type": "rv_park",
+        "price": null,
+        "priceNote": "Rate not published.",
+        "lat": 32.7109004,
+        "lng": -114.9661703,
+        "locationNote": "6594 Evan Hewes Hwy, Winterhaven CA 92283 — 0.1 mi off route at mile 2349.2, mid-way through the 39-mile no-services stretch beside the Imperial Dunes.",
+        "routeMile": 2349.2,
+        "website": "https://www.campendium.com/gordons-well-rv-park-and-storage",
+        "phone": "619-792-0266",
+        "booking": "reserve",
+        "tentsOk": null,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "Private RV park and storage yard. TENTS NOT CONFIRMED by any listing; amenity lists cover hookups, restrooms, showers, dump, Wi-Fi, laundry only.",
+        "cyclistIntel": "Zero reviews on Campendium or ParkAdvisor. Reservations are taken by phone, so a call settles the tent question. If it says yes it is a fine stop; if not, there is nothing else for 25 mi either way.",
+        "seasonalNote": null,
+        "confidence": "low",
+        "sources": [
+          "https://www.campendium.com/gordons-well-rv-park-and-storage",
+          "https://parkadvisor.com/us/california/winterhaven/2000655/Gordons+Well+RV+Park+And+Storage"
+        ]
+      },
+      {
+        "name": "Hot Spring LTVA (South)",
+        "type": "blm_ltva",
+        "price": 40,
+        "priceNote": "$40 short-visit permit = 14 consecutive days (season Sept 15 – Apr 15); $180 season; $80 4-week option on recreation.gov. Hot-spring day use is free. Ordinary BLM land outside the LTVA line stays free for 14 days.",
+        "lat": 32.7669156,
+        "lng": -115.2700415,
+        "locationNote": "Holdridge Rd off I-8, 0.05 mi off route at mile 2367.6, 7 mi east of Holtville.",
+        "routeMile": 2367.6,
+        "website": "https://www.recreation.gov/gateways/15082",
+        "phone": "760-337-4400 (BLM El Centro Field Office)",
+        "booking": "permit",
+        "tentsOk": true,
+        "water": false,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "BLM Long-Term Visitor Area; permit required inside the boundary during the season.",
+        "cyclistIntel": "Vault toilets, trash, and a 'rainbow' rinse shower beside the hot-spring pool. NO potable water — nearest dump and drinking water are 6 mi away in Holtville. The South side is softer ground and better for tents; the North side is rocky. CAUTION: a March 2026 review reports the spring's underground pipeline sprang a serious leak and BLM said it would shut the spring down — call the field office before counting on the soak.",
+        "seasonalNote": "Permit season Sept 15 – Apr 15; free the rest of the year.",
+        "confidence": "medium",
+        "sources": [
+          "https://www.campendium.com/hot-spring-south-ltva",
+          "https://www.recreation.gov/gateways/15082",
+          "https://www.boondockersbible.com/campsite/hot-springs-ltva-holtville-california/"
+        ]
+      }
+    ]
+  },
+  {
+    "day": 1047,
+    "bestBet": "Sunbeam Lake RV Resort, Seeley — tents listed, showers rated 'great', 300 sites, on-route-ish; Desert Trails RV Park (already researched, high confidence) is the verified fallback 8 mi earlier.",
+    "gapAdvice": "Holtville (mile 2374.6–2375.2: Sellers Petroleum, Shell, 7-Eleven, Del Sol Market, Donut Avenue, George's Pizza, Holtville Library) is the first resupply after the 39-mile void. El Centro (2384–2388) has everything, including In-N-Out, McDonald's ×2, Panera, Starbucks ×3 and two libraries.",
+    "options": [
+      {
+        "name": "Sunbeam Lake RV Resort",
+        "type": "rv_park",
+        "price": 41,
+        "priceNote": "$41/night RV (Nov 2023); $32 in 2018. Tent rate not published; weekly/monthly rates offered.",
+        "lat": 32.7809312,
+        "lng": -115.684139,
+        "locationNote": "Seeley CA, 0.8 mi off route at mile 2393.8, on Sunbeam Lake west of El Centro.",
+        "routeMile": 2393.8,
+        "website": "http://sunbeamlake.com",
+        "phone": "760-352-7154",
+        "booking": "call-ahead",
+        "tentsOk": true,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "Private RV resort; The Dyrt lists RVs, Tents, Cabins; RVezy lists tent sites among 300 sites.",
+        "cyclistIntel": "A Campendium reviewer called the showers 'great'. Big park, so a walk-up tent site in early November should be realistic — but phone first.",
+        "seasonalNote": "Year-round.",
+        "confidence": "medium",
+        "sources": [
+          "https://www.campendium.com/sunbeam-lake-rv-resort",
+          "https://thedyrt.com/camping/california/near/anza-2/with/group"
+        ]
+      },
+      {
+        "name": "Country Life RV Park",
+        "type": "rv_park",
+        "price": null,
+        "priceNote": "Rate not published.",
+        "lat": 32.7802375,
+        "lng": -115.5030897,
+        "locationNote": "El Centro CA, 1.25 mi off route at mile 2382.8.",
+        "routeMile": 2382.8,
+        "website": "https://countrylifervpark.com/",
+        "phone": "760-353-1040",
+        "booking": "call-ahead",
+        "tentsOk": null,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "CONFLICTING: AAA lists 169 sites with 6 tent sites; OSM tags tents=no. Call.",
+        "cyclistIntel": "A 2016 Good Sam report says bathrooms and showers were locked at check-in with no key given — old and single-source, but ask about shower access when you call.",
+        "seasonalNote": null,
+        "confidence": "low",
+        "sources": [
+          "https://www.aaa.com/travelguides/campgrounds/el%20centro-ca",
+          "https://community.goodsam.com/discussions/campgrounds/country-life-rv-park-el-centro-ca/2119985"
+        ]
+      },
+      {
+        "name": "Rio Bend RV & Golf Resort",
+        "type": "rv_park",
+        "price": null,
+        "priceNote": "Rate not published.",
+        "lat": 32.7667189,
+        "lng": -115.6920114,
+        "locationNote": "El Centro / Seeley CA, 1.7 mi off route at mile 2394.0.",
+        "routeMile": 2394.0,
+        "website": "https://www.camp-california.com/campground/rio-bend-rv-golf-resort/",
+        "phone": null,
+        "booking": "call-ahead",
+        "tentsOk": null,
+        "water": true,
+        "showers": true,
+        "toilets": true,
+        "legalityNote": "CONFLICTING: AAA says '500 sites. No tent. Self-contained units/RVs only'; The Dyrt and RVezy list tents. Assume no tents unless the park confirms.",
+        "cyclistIntel": "Modern bathhouses per the resort's own listing. Only worth a call if Sunbeam Lake and Desert Trails are both full.",
+        "seasonalNote": null,
+        "confidence": "low",
+        "sources": [
+          "https://www.aaa.com/travelguides/campgrounds/el%20centro-ca",
+          "https://www.camp-california.com/campground/rio-bend-rv-golf-resort/"
+        ]
+      }
+    ]
+  }
+]

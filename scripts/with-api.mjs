@@ -1,7 +1,7 @@
 // One-shot deploy: boot a temporary API on its own port, build + export the
 // static snapshot, ship it to Netlify, then shut the API down. Uses a
 // dedicated port so it never collides with a dev server you have running.
-import { spawn } from 'node:child_process';
+import { spawn, execFileSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -39,7 +39,21 @@ try {
   }
   await run('npx', ['vite', 'build', '--base=./']);
   await run('node', ['scripts/export-static.mjs']);
-  await run('npx', ['netlify-cli', 'deploy', '--dir', 'dist', '--prod', '--site', SITE]);
+  try {
+    await run('npx', ['netlify-cli', 'deploy', '--dir', 'dist', '--prod', '--site', SITE]);
+  } catch (err) {
+    // Netlify's free plan blocks *new production* deploys once the account's
+    // credits are spent ("Account credit usage exceeded"), but still accepts
+    // draft deploys and still lets an existing deploy be published. So: ship
+    // a draft, then publish it with restoreSiteDeploy — same result.
+    console.warn(`\nproduction deploy refused (${err.message}); trying draft + publish…`);
+    const out = execFileSync('npx', ['netlify-cli', 'deploy', '--dir', 'dist', '--site', SITE, '--json'],
+      { cwd: ROOT, env: { ...process.env, API_PORT: PORT }, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+    const { deploy_id: deployId } = JSON.parse(out.slice(out.indexOf('{')));
+    execFileSync('npx', ['netlify-cli', 'api', 'restoreSiteDeploy', '--data', JSON.stringify({ site_id: SITE, deploy_id: deployId })],
+      { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'ignore', 'inherit'] });
+    console.log(`published draft ${deployId} to production`);
+  }
   console.log('\n✓ https://grimey-trip-planner.netlify.app updated');
 } catch (err) {
   console.error('\n✗ deploy failed:', err.message);

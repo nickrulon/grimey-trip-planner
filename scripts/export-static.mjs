@@ -44,6 +44,7 @@ async function snap(apiPath, file, { optional = false } = {}) {
 const flat = {
   '/api/route': 'route.json', '/api/resources': 'resources.json',
   '/api/camping': 'camping.json', '/api/plan': 'plan.json',
+  '/api/population': 'population.json',
 };
 let total = 0;
 for (const [p, f] of Object.entries(flat)) total += await snap(p, f);

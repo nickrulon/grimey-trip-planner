@@ -14,12 +14,13 @@
     "ingest:notes": "node scripts/ingest-notes.mjs",
     "export:static": "vite build --base=./ && node scripts/export-static.mjs",
     "deploy:site": "API_PORT=5481 node scripts/with-api.mjs",
-    "push-state": "node scripts/push-state.mjs && netlify blobs:set trip db-state --input /tmp/db-state.json",
+    "push-state": "node scripts/push-state.mjs && npx netlify-cli blobs:set trip db-state --input /tmp/db-state.json",
     "build:intel": "node scripts/build-intel.mjs",
     "test:intel": "node test/regress.mjs",
     "test": "node test/regress.mjs && node test/marks.mjs && node test/simulate.mjs && node test/builder.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
     "@netlify/blobs": "^11.0.1",
     "@turf/turf": "^7.1.0",
     "better-sqlite3": "^11.5.0",

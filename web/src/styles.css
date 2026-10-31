@@ -664,6 +664,19 @@ button.primary:disabled, button.ghost:disabled { opacity: 0.5; cursor: default; 
 .sched.tight { border-color: var(--orange); background: var(--orange-soft); }
 .sched.late { border-color: var(--red); background: var(--red-soft); }
 .sched-tight { margin-top: 4px; font-size: 12px; color: var(--orange-ink); }
+
+/* Falling short of the arrive date: a state the rider chose to accept, so it
+   reads as information, not alarm. */
+.sched-short {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--warn, #c2740a);
+  background: rgba(194, 116, 10, 0.07);
+  font-size: 0.93em;
+  line-height: 1.45;
+}
+.sched-short-math { margin-top: 4px; }
+
 .sched-actions { display: flex; gap: 8px; margin-top: 7px; }
 .fit-note { margin-top: 6px; font-size: 12.5px; padding: 7px 9px; background: var(--paper2); }
 .fit-note.warn { background: var(--red-soft); }
@@ -748,7 +761,25 @@ button.primary:disabled, button.ghost:disabled { opacity: 0.5; cursor: default; 
   border: 2px solid var(--ink); padding: 10px 12px;
   box-shadow: 3px 3px 0 rgba(26, 24, 20, 0.2);
 }
-.map-panel-head { margin-bottom: 6px; }
+.map-panel-head {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+}
+/* Collapsed, the legend is just its own handle — small enough to ignore,
+   still obviously the thing you tap to get the layers back. */
+.map-panel--min {
+  width: auto; max-height: none; overflow: visible; padding: 6px 8px;
+}
+.map-panel--min .map-panel-head { margin-bottom: 0; }
+.map-panel-toggle {
+  margin-left: auto; flex: 0 0 auto;
+  width: 24px; height: 24px; line-height: 1;
+  display: grid; place-items: center;
+  font: 600 16px/1 inherit; cursor: pointer;
+  background: transparent; color: var(--ink);
+  border: 1.5px solid var(--ink); border-radius: 2px; padding: 0;
+}
+.map-panel-toggle:hover { background: var(--ink); color: var(--paper, #f6f2e6); }
+.map-panel-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .cat-toggle { display: flex; align-items: center; gap: 8px; font-size: 12.5px; padding: 4px 0; cursor: pointer; }
 .cat-toggle .dot { width: 11px; height: 11px; border-radius: 50%; }
 .cat-toggle .count { margin-left: auto; color: var(--dim); font-size: 11.5px; }
@@ -1168,3 +1199,105 @@ button.primary:disabled, button.ghost:disabled { opacity: 0.5; cursor: default; 
 }
 .calib { margin: 8px 0; padding: 7px 10px; background: var(--green-soft); border-left: 3px solid var(--green); font-size: 12.5px; }
 .calib .leg-kicker { margin-bottom: 3px; }
+
+
+/* Legend swatch for the population heat layer: the ramp itself, not a dot. */
+.heat-swatch {
+  background: linear-gradient(90deg, rgba(232,217,168,.6), #d9a441, #c2740a, #8a3d0a) !important;
+  border-radius: 2px !important;
+  width: 22px !important;
+}
+
+
+/* "You are here" — a slow, quiet pulse; a phone on the roadside should not strobe. */
+.you-are-here { width: 40px; height: 40px; position: relative; pointer-events: none; }
+.you-are-here .yah-dot {
+  position: absolute; left: 14px; top: 14px; width: 12px; height: 12px; border-radius: 50%;
+  background: #c2740a; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.25);
+}
+.you-are-here.live .yah-dot { background: #2563eb; }
+.you-are-here .yah-ring, .you-are-here::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%;
+  border: 2.5px solid #c2740a; opacity: .75;
+  animation: yah-pulse 2.4s ease-out infinite;
+}
+.you-are-here::after { animation-delay: 1.2s; }
+.you-are-here.live::after { border-color: #2563eb; }
+.you-are-here.live .yah-ring { border-color: #2563eb; }
+@keyframes yah-pulse {
+  0%   { transform: scale(.3); opacity: .9; }
+  70%  { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .you-are-here .yah-ring, .you-are-here::after { animation: none; transform: scale(.8); opacity: .5; } }
+
+.day-notes-input {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: .95em; line-height: 1.4;
+  padding: 8px 10px; border: 1px solid var(--rule, #d3c9b3); border-radius: 3px; background: rgba(255,255,255,.55); resize: vertical;
+}
+.today-stamp {
+  display: inline-block; margin-left: 6px; padding: 1px 5px; font-size: 9px; font-weight: 700; letter-spacing: .12em;
+  border: 1.5px solid #c2740a; color: #c2740a; border-radius: 2px; vertical-align: middle; transform: rotate(-3deg);
+}
+.note-glyph { margin-left: 5px; color: #6b5d45; font-size: .9em; }
+
+
+/* Current mileage, bottom-left of the map — a field stamp, digits first. */
+.mile-chip {
+  position: fixed; left: 10px; bottom: 66px; z-index: 45;
+  padding: 6px 10px 5px; background: var(--card, #f6f2e6);
+  border: 1.5px solid var(--ink, #1c1a16); box-shadow: 2px 2px 0 rgba(28,26,22,.25);
+  transform: rotate(-1deg); pointer-events: none; min-width: 118px;
+}
+.mile-chip-main { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-soft, #5a4f3c); line-height: 1; }
+.mile-chip-main b { font-size: 22px; letter-spacing: 0; text-transform: none; color: var(--ink, #1c1a16); font-variant-numeric: tabular-nums; }
+.mile-chip-sub { margin-top: 3px; font-size: 11px; color: var(--ink-soft, #5a4f3c); font-variant-numeric: tabular-nums; }
+.mile-chip-src { margin-top: 1px; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #c2740a; }
+@media (min-width: 900px) { .mile-chip { left: 92px; bottom: 14px; } }
+
+
+/* Sleep spot by address */
+.add-place-link { display: block; margin: 6px 0 10px; }
+.add-place { border: 1px dashed var(--line-hard, #b9ad93); padding: 10px; margin: 6px 0 12px; background: rgba(255,255,255,.4); }
+.add-place input[type=text] { width: 100%; box-sizing: border-box; margin: 4px 0; padding: 7px 9px; font: inherit; border: 1px solid var(--rule, #d3c9b3); border-radius: 3px; }
+.add-place-row { display: flex; gap: 14px; align-items: center; font-size: .92em; margin: 4px 0 8px; flex-wrap: wrap; }
+.add-place-row input[type=number] { width: 70px; padding: 4px 6px; font: inherit; }
+.add-place-cands { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+.add-place-cands .cand { text-align: left; padding: 8px 10px; font: inherit; background: var(--card, #f6f2e6); border: 1px solid var(--line-hard, #b9ad93); border-radius: 3px; cursor: pointer; }
+
+
+/* ASK — the on-the-road assistant */
+.ask { display: flex; flex-direction: column; gap: 10px; padding-bottom: 80px; }
+.ask-head { display: flex; gap: 12px; align-items: flex-start; }
+.ask-sub { font-size: .92em; color: var(--ink-soft, #5a4f3c); line-height: 1.4; }
+.ask-quick { display: flex; flex-wrap: wrap; gap: 6px; }
+.ask-quick.compact .chip { font-size: .82em; }
+.ask-log { display: flex; flex-direction: column; gap: 8px; }
+.ask-msg { padding: 9px 12px; border-radius: 4px; line-height: 1.45; white-space: pre-wrap; max-width: 92%; font-size: .97em; }
+.ask-msg.user { align-self: flex-end; background: var(--ink, #1c1a16); color: #f6f2e6; }
+.ask-msg.assistant { align-self: flex-start; background: var(--card, #f6f2e6); border: 1px solid var(--line-hard, #b9ad93); }
+.ask-typing { color: var(--ink-soft, #5a4f3c); font-style: italic; }
+.ask-err { font-size: .9em; }
+.ask-input { position: fixed; left: 0; right: 0; bottom: 55px; display: flex; gap: 6px; padding: 8px 10px calc(8px + env(safe-area-inset-bottom)); background: var(--paper, #efe9d8); border-top: 1px solid var(--line-hard, #b9ad93); z-index: 40; }
+.ask-input input { flex: 1; font: inherit; padding: 10px 12px; border: 1px solid var(--line-hard, #b9ad93); border-radius: 3px; background: #fff; }
+@media (min-width: 900px) { .ask-input { left: 82px; bottom: 0; } .ask { max-width: 720px; } }
+
+/* Alternate-route legend swatch and popups */
+.alt-swatch { background: repeating-linear-gradient(90deg, #7c3aed 0 6px, transparent 6px 9px) !important; border-radius: 2px !important; width: 22px !important; height: 4px !important; }
+.alt-pop p { margin: 4px 0 6px; font-size: 12px; }
+.alt-pop ul { margin: 0; padding-left: 16px; font-size: 12px; }
+.alt-pop li { margin: 2px 0; }
+.alt-pop .dim { color: #6b6250; font-size: 11px; }
+.alt-legend-note { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 11px; color: var(--dim); padding: 0 0 4px 22px; }
+.alt-legend-note i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 3px; vertical-align: middle; }
+
+.mine-swatch { background:#1a1814 !important; box-shadow: 0 0 0 2.5px #d96f00; width:9px !important; height:9px !important; }
+
+
+/* The skipped ACA line's legend swatch: dashed, to read as "reference, not route". */
+.old-swatch {
+  background: repeating-linear-gradient(90deg, #8a6d3b 0 3px, transparent 3px 6px);
+  border-radius: 0;
+  height: 3px;
+  align-self: center;
+}

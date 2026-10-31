@@ -97,6 +97,41 @@ export function makePlanner(db) {
     };
   }
 
+  /**
+   * How far day N is allowed to run. The rider's ceiling is not one number:
+   * weekdays carry a work block, weekends do not, so a Saturday may legitimately
+   * be longer than a Tuesday. Everything that judges a day's length — the
+   * planner, manual endpoint edits, merges, the readiness chips — has to ask
+   * this, or a perfectly legal weekend gets flagged as over-cap against the
+   * weekday number.
+   */
+  function weekendMiles(overrides = {}) {
+    const v = overrides.weekendMaxMiles ?? Number(settingStmt.get('weekendMaxMiles')?.value);
+    return Number.isFinite(Number(v)) && Number(v) > 0 ? Number(v) : null;
+  }
+
+  /**
+   * The distance the rider will never exceed, any day of the week. This is ONE
+   * number: "I don't ride more than 65" is a statement about the rider, not
+   * about the calendar. Only the daily AIM changes between weekdays and
+   * weekends (see targetForDayNumber) — keeping the two apart is what lets a
+   * weekday stretch two miles to reach a real bed instead of stopping short of
+   * one and burning a whole extra day.
+   */
+  function capForDayNumber(dayNumber, overrides = {}) {
+    const weekday = dayShape(overrides).maxMiles;
+    return Math.max(weekday, weekendMiles(overrides) ?? weekday);
+  }
+
+  /** What day N should AIM for: the weekday figure, or the weekend one. */
+  function targetForDayNumber(dayNumber, overrides = {}) {
+    const weekday = dayShape(overrides).maxMiles;
+    const planStartDate = settingStmt.get('startDate')?.value ?? null;
+    if (!planStartDate || dayNumber == null) return weekday;
+    if (isWorkday(dateForDay(planStartDate, dayNumber))) return weekday;
+    return weekendMiles(overrides) ?? weekday;
+  }
+
   // ---- Route sampled every ~0.2 mi, shared by place naming and GPS locate().
   const refPts = [];
   {
@@ -169,7 +204,15 @@ export function makePlanner(db) {
   } catch { /* labels degrade to no state, which is honest enough */ }
   // Segments built from OSM relations have no town list; they are single-state
   // by construction, so seed them from the segment table directly.
-  const OSM_SEG_STATE = { 'st-fl': 'FL', 'st-al': 'AL', 'st-la-w': 'LA', 'st-az-w': 'AZ' };
+  // Every segment that carries no recon-leg town list needs its state seeded
+  // here, or stateAtMile silently carries the PREVIOUS state forward across it.
+  // That is how a 2026-10 reroute (st-az replacing st-az-w) put 400 miles of
+  // Arizona under New Mexico's label and its camping rules.
+  const OSM_SEG_STATE = {
+    'st-fl': 'FL', 'st-al': 'AL', 'st-ms': 'MS', 'st-la': 'LA', 'st-la-w': 'LA',
+    'st-tx': 'TX', 'st-nm': 'NM', 'st-az': 'AZ', 'st-az-w': 'AZ', 'st-ca': 'CA',
+    'sd-la': 'CA',
+  };
   for (const seg of db.prepare(`SELECT id, start_mile FROM route_segments`).all()) {
     if (OSM_SEG_STATE[seg.id]) {
       stateMarks.push({ mile: seg.start_mile, state: OSM_SEG_STATE[seg.id] });
@@ -245,7 +288,7 @@ export function makePlanner(db) {
      AND route_mile BETWEEN ? AND ? AND status='active'`
   );
   const nextAnchorStmt = db.prepare(
-    `SELECT route_mile FROM resources WHERE category_id IN ('campground','hotel')
+    `SELECT id, name, route_mile FROM resources WHERE category_id IN ('campground','hotel')
      AND status='active' AND off_route_mi <= 5
      AND route_mile > ? AND route_mile <= ? ORDER BY route_mile LIMIT 1`
   );
@@ -362,42 +405,80 @@ export function makePlanner(db) {
     // rider's preferred ceiling — is what actually governs a working day.
     const workAware = opts.workAware ?? (settingStmt.get('workAwarePlanning')?.value === '1');
     const planStartDate = settingStmt.get('startDate')?.value ?? null;
-    let weekdayCap = maxMiles;
     // Weekends carry no desk time, so they can absorb the long miles the
-    // working days give up. Explicit setting; defaults to the normal ceiling.
-    const weekendSetting = Number(settingStmt.get('weekendMaxMiles')?.value);
-    const weekendCap = opts.weekendMaxMiles
-      ?? (Number.isFinite(weekendSetting) && weekendSetting > 0 ? weekendSetting : maxMiles);
+    // working days give up. This split applies whenever a weekend ceiling is
+    // set — it is a statement about the rider's week, not about whether the
+    // planner is also placing work stops for them.
+    // The season-blind fallback: a nominal 05:30-to-arriveBy window less the
+    // desk time. Used only when the daylight engine cannot answer.
+    let weekdayTarget = maxMiles;
     if (workAware) {
       const ws = workSettings();
       const rideable = toMin(ws.arriveBy) - toMin('05:30') - ws.minutes;
-      weekdayCap = Math.max(minMiles, Math.min(maxMiles, (rideable / 60) * ridingSpeed()));
+      weekdayTarget = Math.max(minMiles, Math.min(maxMiles, (rideable / 60) * ridingSpeed()));
     }
-    const capFor = (n) => {
-      if (!workAware || !planStartDate) return maxMiles;
-      return isWorkday(dateForDay(planStartDate, n)) ? weekdayCap : weekendCap;
+    // ...but the window that actually governs a working day is the daylight
+    // left over at that date and that place, and it shrinks hard: the same
+    // 7.5 h of desk time leaves ~5 h of light in east Texas in early October
+    // and under 4 h in Arizona in mid-November. A plan built on the nominal
+    // window quietly promises miles the rider cannot ride once the clocks
+    // turn, so ask the daylight engine for the real day.
+    const weekdayTargetAt = (date, mile) => {
+      if (!workAware) return maxMiles;
+      try {
+        const m = daylight.dayModel({
+          date, startMile: mile, endMile: mile, speedMph: ridingSpeed(),
+        });
+        if (m && Number.isFinite(m.usableH) && m.usableH > 0) {
+          return Math.max(minMiles, Math.min(maxMiles, m.usableH * ridingSpeed()));
+        }
+      } catch { /* fall through to the nominal window */ }
+      return weekdayTarget;
     };
+    const targetFor = (n, mile) => {
+      if (!planStartDate) return weekdayTarget;
+      const date = dateForDay(planStartDate, n);
+      return isWorkday(date)
+        ? weekdayTargetAt(date, mile)
+        : (weekendMiles(opts) ?? weekdayTarget);
+    };
+    const ceilingFor = (n) => capForDayNumber(n, opts);
+    // An explicit effort target overrides the per-day ceiling; otherwise each
+    // day aims at its own cap, so weekends stretch and weekdays do not.
+    const explicitEffort = opts.effortTarget
+      ?? (() => {
+        const v = Number(settingStmt.get('effortTargetMiles')?.value);
+        return Number.isFinite(v) && v > 0 ? v : null;
+      })();
 
     const days = [];
     let from = opts.startMile ?? tripStartMile(), dayNum = opts.startDayNumber ?? 1;
     let guard = 0;
 
-    while (totalMiles - from > capFor(dayNum) && guard++ < 400) {
-      const maxMiles = capFor(dayNum);
-      effortTarget = workAware ? maxMiles : shape.effortTarget;
+    while (totalMiles - from > targetFor(dayNum, from) && guard++ < 400) {
+      const maxMiles = ceilingFor(dayNum);   // hard limit on the search
+      const target = targetFor(dayNum, from); // what this day aims for
+      effortTarget = explicitEffort ?? target;
       // Aim at whatever distance is expected to cost effortTarget here: on flat
-      // ground that is the cap, in the mountains it is a good deal less.
-      let aim = maxMiles;
+      // ground that is the target, in the mountains it is a good deal less.
+      let aim = target;
       for (let i = 0; i < 3; i++) {
         const probe = Math.min(from + aim, totalMiles);
         const { effort, miles } = effortMiles(from, probe);
         if (!miles || effort <= 0) break;
         const scaled = aim * (effortTarget / effort);
-        aim = Math.max(minMiles, Math.min(maxMiles, (aim + scaled) / 2));
+        aim = Math.max(minMiles, Math.min(target, (aim + scaled) / 2));
       }
 
+      // Search for a bed NEAR the day's target, and only near it. Widening
+      // the hunt until something turns up is what quietly turns a 55-mile
+      // plan into a 39-mile one: in rural stretches the nearest motel can be
+      // 20 miles short, and taking it costs a whole extra day. If nothing sits
+      // close to the target, the day runs its full distance and is flagged
+      // no_anchor — an honest "you still need a bed here" the rider can solve,
+      // rather than a silently shortened day.
       let picked = null;
-      for (const w of [10, 18, Math.max(20, maxMiles - minMiles)]) {
+      for (const w of [10, 18]) {
         const sugs = suggestEndpoints(from, aim, w, { maxMiles, effortTarget });
         if (sugs.length) { picked = sugs[0]; break; }
       }
@@ -409,16 +490,20 @@ export function makePlanner(db) {
         endName = picked.town;
         overnightId = picked.resourceId;
       } else {
-        // Nothing to sleep at within the ceiling. Stopping dead on the cap can
-        // strand a 16-mile stub tomorrow, so peek past it: if the next anchor
-        // is just out of reach, split the gap into two balanced days instead.
-        end = Math.min(from + maxMiles, totalMiles);
-        const nxt = nextAnchorStmt.get(from + maxMiles, from + maxMiles * 2);
-        if (nxt && nxt.route_mile - end < DAY_BOUNDS.veryShort) {
-          end = from + (nxt.route_mile - from) / 2;
+        // Nothing to sleep at around the target. Reach PAST it for the next
+        // real bed — but never past the ceiling. Halving the distance to that
+        // bed (the old behaviour) turned a 56-mile day into two 28-mile days
+        // and quietly cost a day of the trip every time it fired.
+        const reach = nextAnchorStmt.get(from + aim, Math.min(from + maxMiles, totalMiles));
+        if (reach) {
+          end = reach.route_mile;
+          endName = nameNearMile(end);
+          overnightId = reach.id;
+        } else {
+          end = Math.min(from + target, totalMiles);
+          endName = nameNearMile(end);
+          flags.push('no_anchor');
         }
-        endName = nameNearMile(end);
-        flags.push('no_anchor');
       }
       if (end - from < 1) { end = Math.min(from + maxMiles, totalMiles); }
       if (end - from > maxMiles + 0.5) flags.push('over_cap');
@@ -1345,12 +1430,26 @@ export function makePlanner(db) {
       startDate, arriveDate, plannedDays, projectedArrival,
       maxDayMiles: r1(dayShape().maxMiles),
     };
+    // What the rider still has to ride, and how many days are left to do it
+    // in. Averaged over the WHOLE trip these numbers quietly lie once days are
+    // in the bank: a strong first week would keep telling you to ride harder.
+    const lastDone = db.prepare(`SELECT * FROM actual_days ORDER BY day_number DESC LIMIT 1`).get();
+    const doneDays = lastDone ? lastDone.day_number : 0;
+    const fromMile = lastDone ? lastDone.end_mile : tripStartMile();
+    const remainingMiles = Math.max(0, totalMiles - fromMile);
+    info.remainingMiles = r1(remainingMiles);
+    info.daysRidden = doneDays;
+    const plannedDaysLeft = Math.max(0, plannedDays - doneDays);
+    info.plannedAvgMiles = plannedDaysLeft > 0 ? r1(remainingMiles / plannedDaysLeft) : null;
+    info.weekendMaxMiles = r1(weekendMiles() ?? dayShape().maxMiles);
     if (arriveDate) {
       // Inclusive: depart Sept 21, arrive Sept 21 = one day of riding.
       const availableDays = daysBetween(startDate, arriveDate) + 1;
       info.availableDays = availableDays;
       info.slackDays = availableDays - plannedDays;
-      info.requiredAvgMiles = availableDays > 0 ? r1((totalMiles - tripStartMile()) / availableDays) : null;
+      const calendarDaysLeft = Math.max(0, availableDays - doneDays);
+      info.calendarDaysLeft = calendarDaysLeft;
+      info.requiredAvgMiles = calendarDaysLeft > 0 ? r1(remainingMiles / calendarDaysLeft) : null;
       info.daysLate = Math.max(0, plannedDays - availableDays);
     }
     return info;
@@ -1492,11 +1591,27 @@ export function makePlanner(db) {
         geometry: line.geometry,
       });
     }
+    // Day numbers are an internal index; out on the road the rider thinks in
+    // dates. Label the badges with the date and carry the number alongside for
+    // anything that still keys on it.
+    const planStart = settingStmt.get('startDate')?.value ?? null;
+    const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const badgeLabel = (n) => {
+      if (!planStart) return `D${n}`;
+      const iso = dateForDay(planStart, n);
+      if (!iso) return `D${n}`;
+      const [, m, dd] = iso.split('-');
+      return `${MON[Number(m) - 1]} ${Number(dd)}`;
+    };
     const boundFeatures = days.map((d) => {
       const p = pointAtMile(d.start_mile);
       return {
         type: 'Feature',
-        properties: { label: `D${d.day_number}`, dayNumber: d.day_number },
+        properties: {
+          label: badgeLabel(d.day_number),
+          date: planStart ? dateForDay(planStart, d.day_number) : null,
+          dayNumber: d.day_number,
+        },
         geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
       };
     });
@@ -1860,7 +1975,7 @@ export function makePlanner(db) {
         const { miles, gainFt } = effortMiles(from, a.endMile);
         const flags = [...a.origFlags.filter((f) => f === 'no_anchor')];
         let splitOptions;
-        if (miles > shape.maxMiles) {
+        if (miles > capForDayNumber(dayNum)) {
           flags.push('over_cap');
           splitOptions = suggestEndpoints(from, Math.round(miles / 2), 18).slice(0, 5);
         } else if (miles < DAY_BOUNDS.veryShort) {
@@ -1957,11 +2072,11 @@ export function makePlanner(db) {
    * layer so a PREVIEW of a proposed endpoint carries the same flags the save
    * will write.
    */
-  function dayFlags(startM, endM, hasAnchor) {
-    const shape = dayShape();
+  function dayFlags(startM, endM, hasAnchor, dayNumber = null) {
+    const cap = capForDayNumber(dayNumber);
     const f = [];
     const len = endM - startM;
-    if (len > shape.maxMiles + 0.5) f.push('over_cap');
+    if (len > cap + 0.5) f.push('over_cap');
     if (len < DAY_BOUNDS.veryShort) f.push('very_short');
     if (!hasAnchor) f.push('no_anchor');
     return JSON.stringify(f);
@@ -1996,7 +2111,7 @@ export function makePlanner(db) {
          lodging_cost = CASE WHEN ? THEN lodging_cost ELSE NULL END
        WHERE revision_id=? AND day_number=?`
     ).run(endMile, name, overnightResourceId ?? null, overnightCampId ?? null,
-      dayFlags(day.start_mile, endMile, !!(overnightResourceId ?? overnightCampId ?? null)),
+      dayFlags(day.start_mile, endMile, !!(overnightResourceId ?? overnightCampId ?? null), dayNumber),
       sameBed ? 1 : 0,
       rev.id, dayNumber);
     if (next) {
@@ -2004,7 +2119,7 @@ export function makePlanner(db) {
         `UPDATE planned_days SET start_mile=?, start_name=?, flags=?
          WHERE revision_id=? AND day_number=?`
       ).run(endMile, name,
-        dayFlags(endMile, next.end_mile, !!(next.overnight_resource_id ?? next.overnight_camp_id)),
+        dayFlags(endMile, next.end_mile, !!(next.overnight_resource_id ?? next.overnight_camp_id), next.day_number),
         rev.id, next.day_number);
     }
     geomCache.delete(rev.id);
@@ -2038,6 +2153,20 @@ export function makePlanner(db) {
       rev.id, day.day_number
     );
     return { ok: true };
+  }
+
+  // Free-text notes for a day — the rider's own words ("stopped early, headwind",
+  // "library closes at 5"). Kept on the plan row so they survive replans that
+  // keep the day, and shown on the canvas and in the trip list.
+  function setDayNotes({ dayNumber, notes }) {
+    const { rev, days } = activeDays();
+    if (!rev) throw new Error('No active plan');
+    const day = days.find((d) => d.day_number === Number(dayNumber));
+    if (!day) throw new Error(`No day ${dayNumber}`);
+    const text = typeof notes === 'string' ? notes.trim() : '';
+    db.prepare(`UPDATE planned_days SET notes=? WHERE revision_id=? AND day_number=?`)
+      .run(text || null, rev.id, day.day_number);
+    return { ok: true, dayNumber: day.day_number, notes: text || null };
   }
 
   // The day's WORK ANCHOR: one mile-anchored stop marked kind='work'. Setting
@@ -2184,6 +2313,39 @@ export function makePlanner(db) {
     return { ok: true, dayNumber: day.day_number + 1 };
   }
 
+  // Replace every planned day from `fromDay` onward with an explicit list.
+  // Used once after a route retrace: the old tail's endpoints no longer exist
+  // on the line, so re-cutting them is meaningless — the rider's chosen towns
+  // are written in directly. Rest days are rows with rest=1 and no distance.
+  function replaceTail({ fromDay, days }) {
+    const { rev, days: cur } = activeDays();
+    if (!rev) throw new Error('No active plan');
+    const from = Number(fromDay);
+    const prev = cur.find((d) => d.day_number === from - 1);
+    if (!prev) throw new Error(`No day ${from - 1} to start from`);
+    const lastActual = db.prepare(`SELECT MAX(day_number) n FROM actual_days`).get()?.n ?? 0;
+    if (from <= lastActual) throw new Error(`Day ${from} is already ridden`);
+    if (!Array.isArray(days) || !days.length) throw new Error('days required');
+    const tx = db.transaction(() => {
+      db.prepare(`DELETE FROM planned_days WHERE revision_id=? AND day_number>=?`).run(rev.id, from);
+      db.prepare(`DELETE FROM planned_stops WHERE route_mile>?`).run(prev.end_mile + 0.01);
+      for (const t of ['day_plans', 'canvas_marks']) db.prepare(`DELETE FROM ${t} WHERE day_number>=?`).run(from);
+      let start = prev.end_mile, startName = prev.end_name, n = from;
+      for (const d of days) {
+        const rest = d.rest ? 1 : 0;
+        const end = rest ? start : Number(d.endMile);
+        if (!rest && !(end > start)) throw new Error(`Day ${n}: end ${end} is not past start ${start}`);
+        const endName = d.endName ?? (rest ? startName : nameNearMile(end));
+        insertDay.run(rev.id, n, start, end, startName, endName, d.overnightResourceId ?? null,
+          'planned', '[]', d.notes ?? null, rest, d.lodgingCost ?? null, null, d.overnightCampId ?? null);
+        start = end; startName = endName; n++;
+      }
+    });
+    tx();
+    geomCache.delete(rev.id);
+    return planResponse();
+  }
+
   function removeRestDay({ dayNumber }) {
     const { rev, days } = activeDays();
     if (!rev) throw new Error('No active plan');
@@ -2226,10 +2388,9 @@ export function makePlanner(db) {
     if (day.status !== 'planned' || next.status !== 'planned') {
       throw new Error('Only planned days can be merged');
     }
-    const shape = dayShape();
     const merged = next.end_mile - day.start_mile;
     const flags = [];
-    if (merged > shape.maxMiles + 0.5) flags.push('over_cap');
+    if (merged > capForDayNumber(dayNumber) + 0.5) flags.push('over_cap');
     if (!next.overnight_resource_id) flags.push('no_anchor');
 
     const tx = db.transaction(() => {
@@ -2402,14 +2563,14 @@ export function makePlanner(db) {
   return {
     totalMiles, pointAtMile, nameNearMile, suggestEndpoints,
     autoPlan, planResponse, recordActual, replanPreview, replanApply,
-    editDayEnd, splitDay, mergeDays, completeDay, unlockDay, fitToDates,
+    editDayEnd, splitDay, mergeDays, completeDay, unlockDay, fitToDates, replaceTail,
     dayItinerary, stopCandidates, addStop, updateStop, removeStop, setDayStart,
     proposeDayItinerary, autoItineraries, previewAutoPlan,
     locate, positionInfo, elevationForRange, activeDays,
     // canonical-plan extensions
     setDayCosts, setWorkStop, setSleep, insertRestDay, removeRestDay, applyDayEnd, dayFlags,
     activateRevision, workStopFor, workStopsFor, combosFor, addCombo,
-    readinessFor, placeOf, tripStartMile, workSettings,
+    readinessFor, placeOf, tripStartMile, workSettings, setDayNotes,
     setDayTimes, dayTimes, addBreak, breaksFor, mileAfterRideMinutes, modelForDay,
     addMark, updateMark, removeMark, marksFor, MARK_COLORS,
     // internals shared with the Today layer

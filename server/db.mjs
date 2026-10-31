@@ -83,6 +83,31 @@ export function openDb() {
     -- auto-plan; category alone made SQLite scan every wi-fi row each call.
     CREATE INDEX IF NOT EXISTS idx_resources_cat_mile ON resources(category_id, route_mile);
 
+    -- 2020 Census block groups within the corridor: glance-level "is there
+    -- anybody out here" for choosing where to look for water, beds and wi-fi.
+    -- Reference data (scripts/ingest-population.mjs), never edited by the app.
+    CREATE TABLE IF NOT EXISTS population_cells (
+      geoid TEXT PRIMARY KEY,
+      lat REAL NOT NULL, lng REAL NOT NULL,
+      pop INTEGER NOT NULL, housing INTEGER,
+      aland_sqmi REAL NOT NULL, density REAL NOT NULL,
+      route_mile REAL NOT NULL, off_route_mi REAL NOT NULL,
+      source TEXT NOT NULL, retrieved_at TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS idx_popcells_mile ON population_cells(route_mile);
+
+    -- Places the rider adds from the road ("I slept at Colonial RV Park,
+    -- 1370 E Airline Hwy"). STATE, not reference data: it must survive a
+    -- serverless cold start, so it lives with the plan in the shared store and
+    -- is mirrored into resources (which the plan joins on) after every load.
+    CREATE TABLE IF NOT EXISTS rider_places (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL, category TEXT NOT NULL,
+      lat REAL NOT NULL, lng REAL NOT NULL, address TEXT,
+      route_mile REAL NOT NULL, off_route_mi REAL NOT NULL,
+      cost REAL, notes TEXT, created_at TEXT NOT NULL
+    );
+
     -- Mile-anchored rider notes (ferries, detours, hard roads, no-service gaps).
     -- Anchored to route miles, NOT day numbers: days shift when the plan is
     -- revised, and notes must follow the road, not the schedule.
@@ -185,3 +210,4 @@ export function openDb() {
   applyMigrations(db);
   return db;
 }
+

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { localISODate } from './format';
 import maplibregl, { Map as MLMap, MapGeoJSONFeature } from 'maplibre-gl';
 import Today from './Today';
+import Ask from './Ask';
 import Trip from './Trip';
 import Ride from './Ride';
 import More from './More';
@@ -8,6 +10,9 @@ import ResourceDetail, { ResourceInfo } from './Detail';
 import MapPicker, { PickerContext } from './MapPicker';
 import { apiGet, getTripKey, setTripKey, onSync, SyncStatus } from './api';
 import { PlanResponse, PositionInfo } from './types';
+import ALTERNATES from './alternates.json';
+import ALT_POIS from './alternate-pois.json';
+import OLD_ROUTE from './old-route.json';
 
 // Shell: one persistent map canvas, three core surfaces over it —
 //   TODAY  (time)   what exactly happens today?
@@ -16,12 +21,15 @@ import { PlanResponse, PositionInfo } from './types';
 // — plus RIDE (the roadside dashboard) and MORE (reference & settings).
 // The map never unmounts; content surfaces are opaque pages laid over it.
 
-export type Surface = 'today' | 'trip' | 'map' | 'more' | 'ride';
+export type Surface = 'today' | 'trip' | 'map' | 'more' | 'ride' | 'ask';
 
 const CAT_META: Record<string, { label: string; color: string }> = {
   wifi_work: { label: 'Wi-Fi / Work', color: '#b06000' },
   campground: { label: 'Campgrounds', color: '#4f7942' },
   hotel: { label: 'Hotels / Motels', color: '#5b4a92' },
+  // Gas stations, convenience stores and travel centres. In the desert west of
+  // Gila Bend these ARE the water stops, and none of them were in the app.
+  resupply: { label: 'Resupply (fuel / store)', color: '#b91c1c' },
 };
 
 const PROV_META: Record<string, { label: string; color: string; dashed?: boolean }> = {
@@ -32,6 +40,28 @@ const PROV_META: Record<string, { label: string; color: string; dashed?: boolean
 };
 
 const EMPTY_FC: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
+
+// Where the route crosses a state line: binary-searched along the route
+// geometry against the Census TIGER state polygons (so the Louisiana line
+// is the East Pearl, and Texas is the Sabine past Merryville, not the town).
+// Labels on the map read as stamps at the border: "TEXAS · mi 591".
+const STATE_CROSSINGS: { state: string; mile: number; lat: number; lng: number }[] = [
+  { state: 'Alabama', mile: 54.9, lat: 30.2814, lng: -87.5191 },
+  { state: 'Mississippi', mile: 124.2, lat: 30.4726, lng: -88.4006 },
+  { state: 'Louisiana', mile: 209.3, lat: 30.239, lng: -89.6153 },
+  { state: 'Texas', mile: 590.6, lat: 30.7468, lng: -93.609 },
+  { state: 'New Mexico', mile: 1753.9, lat: 31.9171, lng: -106.6211 },
+  { state: 'Arizona', mile: 1932.1, lat: 32.2275, lng: -109.0484 },
+  { state: 'California', mile: 2327.7, lat: 32.7375, lng: -114.6304 },
+];
+const STATE_CROSSINGS_FC: GeoJSON.FeatureCollection = {
+  type: 'FeatureCollection',
+  features: STATE_CROSSINGS.map((c) => ({
+    type: 'Feature',
+    properties: { state: c.state, mile: Math.round(c.mile), label: `${c.state.toUpperCase()}\nmi ${Math.round(c.mile)}` },
+    geometry: { type: 'Point', coordinates: [c.lng, c.lat] },
+  })),
+};
 
 function esc(s: unknown): string {
   return String(s ?? '').replace(/[&<>"']/g, (c) =>
@@ -109,6 +139,19 @@ export default function App() {
   const [resources, setResources] = useState<GeoJSON.FeatureCollection | null>(null);
   const [plan, setPlan] = useState<PlanResponse | null>(null);
   const [camping, setCamping] = useState<CampingResponse | null>(null);
+  // The rider's own beds, live from the API (re-fetched with the plan).
+  const [riderPlaces, setRiderPlaces] = useState<GeoJSON.FeatureCollection | null>(null);
+  // The rider navigates by date, not by day index. One formatter, used by every
+  // label that used to read "D24" / "Day 24".
+  const dayDateLabel = useCallback((n: number | null | undefined) => {
+    if (n == null) return '';
+    const iso = plan?.days.find((d) => d.dayNumber === n)?.date;
+    if (!iso) return `Day ${n}`;
+    const [, m, dd] = iso.split('-');
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${MON[Number(m) - 1]} ${Number(dd)}`;
+  }, [plan]);
+  const [showMine, setShowMine] = useState(true);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [selectedResource, setSelectedResource] = useState<ResourceInfo | null>(null);
   const [ridePos, setRidePos] = useState<PositionInfo | null>(null);
@@ -116,8 +159,24 @@ export default function App() {
   const [styleReady, setStyleReady] = useState(false);
   const [layersReady, setLayersReady] = useState(false);
   const [visibleCats, setVisibleCats] = useState<Record<string, boolean>>(
-    { wifi_work: true, campground: true, hotel: true });
+    { wifi_work: true, campground: true, hotel: true, resupply: true });
   const [showCamps, setShowCamps] = useState(false);
+  // Rider-proposed alternate lines (scripts/build-alternates.mjs), off by
+  // default: they are options to weigh against the route, not the route.
+  const [showAlts, setShowAlts] = useState(true);
+  const [showOld, setShowOld] = useState(true);
+  // The legend covers a quarter of the map on a phone. Collapsing is a per-device
+  // preference, so it survives reloads rather than reopening every time.
+  const [legendOpen, setLegendOpen] = useState(() => {
+    try { return localStorage.getItem('legendOpen') !== '0'; } catch { return true; }
+  });
+  useEffect(() => {
+    try { localStorage.setItem('legendOpen', legendOpen ? '1' : '0'); } catch { /* private mode */ }
+  }, [legendOpen]);
+  // Population heat is ON by default: it is the glance-level "will there be
+  // anything out here" read the rider plans a day around, not an overlay.
+  const [showPop, setShowPop] = useState(true);
+  const [population, setPopulation] = useState<GeoJSON.FeatureCollection | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [sync, setSync] = useState<SyncStatus>({ state: 'idle', at: null });
   const [keyInput, setKeyInput] = useState('');
@@ -147,19 +206,22 @@ export default function App() {
         setPlan(p);
         setCurDay((c) => c ?? frontierDay(p));
       }
+      apiGet<GeoJSON.FeatureCollection>('/api/rider-places').then(setRiderPlaces).catch(() => {});
     } catch { /* surfaces show their own errors */ }
   }, []);
 
   useEffect(() => {
     (async () => {
       try {
-        const [r, res, camp] = await Promise.all([
+        const [r, res, camp, pop] = await Promise.all([
           apiGet<RouteData>('/api/route'),
           apiGet<GeoJSON.FeatureCollection>('/api/resources'),
           apiGet<CampingResponse>('/api/camping').catch(() => null),
+          apiGet<GeoJSON.FeatureCollection>('/api/population').catch(() => null),
         ]);
         setRouteData(r); setResources(res);
         if (camp) setCamping(camp);
+        if (pop) setPopulation(pop);
       } catch (err) { setError(String(err)); }
     })();
     refetchPlan();
@@ -187,6 +249,72 @@ export default function App() {
     const map = mapRef.current;
     if (!map || !styleReady || !routeData || !resources || layersAdded.current) return;
     layersAdded.current = true;
+
+    // Population heat goes in first: layer order is add order, and this is
+    // background context — the route and every pin must draw on top of it.
+    // Weight is people per block group (cells are sized for ~600–3,000 people,
+    // so heat comes mostly from how densely the centroids pack, which is the
+    // honest signal). Radius grows with zoom so a town reads as a town at day
+    // zoom and as a footprint when you zoom in; opacity fades past z11 where
+    // the individual pins take over the job.
+    map.addSource('population', { type: 'geojson', data: EMPTY_FC });
+    map.addLayer({
+      id: 'population-heat', type: 'heatmap', source: 'population', maxzoom: 15,
+      layout: { visibility: 'visible' },
+      paint: {
+        'heatmap-weight': ['interpolate', ['linear'], ['get', 'pop'],
+          0, 0, 300, 0.25, 1500, 0.6, 4000, 1] as never,
+        'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 4, 0.5, 8, 1.1, 12, 2.2] as never,
+        // Wider at mid zoom so scattered rural cells merge into a faint haze
+        // instead of reading as a field of separate dots.
+        'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 4, 6, 7, 22, 10, 40, 13, 56] as never,
+        // Field-manual warmth, not weather-radar neon: parchment → ochre → rust.
+        // The bottom stop is kept very faint on purpose: a lone block group
+        // is a few hundred people and must not look like a town.
+        'heatmap-color': ['interpolate', ['linear'], ['heatmap-density'],
+          0, 'rgba(0,0,0,0)',
+          0.18, 'rgba(232,217,168,0.28)',
+          0.4, 'rgba(217,164,65,0.6)',
+          0.68, 'rgba(194,116,10,0.78)',
+          1, 'rgba(138,61,10,0.9)'] as never,
+        'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 4, 0.8, 11, 0.75, 14, 0.2] as never,
+      },
+    });
+
+    // State lines. The basemap draws admin_level 3–6 boundaries as one faint
+    // grey dashed hairline that vanishes under the route and the heat; the
+    // trip is organised by state, so redraw admin_level 4 (US states) bold:
+    // a white casing under a dark dashed line, visible from the whole-route
+    // zoom, sitting under the route so the ride still wins where they cross.
+    {
+      const boundarySource = (map.getLayer('boundary_3') as { source?: string } | undefined)?.source ?? 'openmaptiles';
+      const stateFilter = ['all',
+        ['==', ['get', 'admin_level'], 4],
+        ['!=', ['get', 'maritime'], 1],
+        ['!=', ['get', 'disputed'], 1],
+      ] as never;
+      map.addLayer({
+        id: 'state-lines-casing', type: 'line', source: boundarySource, 'source-layer': 'boundary', minzoom: 2,
+        filter: stateFilter,
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': '#fbf8ef',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 3, 3.5, 7, 6, 12, 9] as never,
+          'line-opacity': 0.85,
+        },
+      });
+      map.addLayer({
+        id: 'state-lines', type: 'line', source: boundarySource, 'source-layer': 'boundary', minzoom: 2,
+        filter: stateFilter,
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': '#4b3f2a',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 3, 1.4, 7, 2.2, 12, 3] as never,
+          'line-dasharray': [3, 1.6] as never,
+          'line-opacity': 0.9,
+        },
+      });
+    }
 
     map.addSource('route', { type: 'geojson', data: routeData.segments });
     map.addLayer({
@@ -379,6 +507,234 @@ export default function App() {
       paint: { 'line-color': '#1d4ed8', 'line-width': 8, 'line-opacity': 0.5 },
     }, 'route-casing');
 
+    // State-line crossings: a stamp at each border with the state you enter
+    // and the route mile, so the whole-route view reads like a strip map.
+    map.addSource('state-crossings', { type: 'geojson', data: STATE_CROSSINGS_FC });
+    map.addLayer({
+      id: 'state-crossing-pts', type: 'circle', source: 'state-crossings', minzoom: 3,
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 3, 3, 8, 5] as never,
+        'circle-color': '#4b3f2a', 'circle-stroke-color': '#fbf8ef', 'circle-stroke-width': 2,
+      },
+    });
+    map.addLayer({
+      id: 'state-crossing-labels', type: 'symbol', source: 'state-crossings', minzoom: 3,
+      layout: {
+        'text-field': ['get', 'label'] as never,
+        'text-font': ['Noto Sans Bold'],
+        'text-size': ['interpolate', ['linear'], ['zoom'], 3, 10, 7, 12, 11, 14] as never,
+        'text-letter-spacing': 0.08,
+        'text-line-height': 1.15,
+        'text-anchor': 'top',
+        'text-offset': [0, 0.7] as never,
+        'text-allow-overlap': true,
+        'text-ignore-placement': true,
+      },
+      paint: {
+        'text-color': '#4b3f2a',
+        'text-halo-color': '#fbf8ef', 'text-halo-width': 1.8,
+      },
+    });
+
+    // Alternate routes: candidate lines that leave the ACA route and rejoin
+    // it, drawn dashed in their own colour under the route so the official
+    // line still wins where they share a road. Stops carry a McDonald's flag —
+    // the rider's unit of "I can work here".
+    // The ACA Southern Tier as it ran before the 2026-10-11 I-8 retrace: El Paso
+    // over Emory Pass (8,228 ft) through Silver City, Globe and Tempe. Kept as a
+    // dotted ghost under the live route so the rider can see what the reroute
+    // actually bought him. It is reference geometry only — nothing plans on it.
+    map.addSource('old-route', { type: 'geojson', data: OLD_ROUTE.line as GeoJSON.FeatureCollection });
+    map.addSource('old-route-marks', { type: 'geojson', data: OLD_ROUTE.marks as GeoJSON.FeatureCollection });
+    map.addLayer({
+      id: 'old-route-line', type: 'line', source: 'old-route',
+      layout: { 'line-cap': 'butt', 'line-join': 'round' },
+      paint: {
+        'line-color': ['get', 'color'] as never, 'line-width': 2.6,
+        'line-dasharray': [1.6, 2.2] as never, 'line-opacity': 0.85,
+      },
+    }, 'route-casing');
+    map.addLayer({
+      id: 'old-route-mark-pts', type: 'circle', source: 'old-route-marks', minzoom: 4,
+      paint: {
+        'circle-radius': 4, 'circle-color': '#f6f2e6',
+        'circle-stroke-color': '#8a6d3b', 'circle-stroke-width': 2,
+      },
+    }, 'route-casing');
+    map.addLayer({
+      id: 'old-route-mark-labels', type: 'symbol', source: 'old-route-marks', minzoom: 5,
+      layout: {
+        'text-field': ['get', 'name'] as never, 'text-size': 10.5,
+        'text-offset': [0, -1.2], 'text-anchor': 'bottom',
+        'text-font': ['Noto Sans Regular'], 'text-optional': true,
+      },
+      paint: { 'text-color': '#6b5428', 'text-halo-color': '#fff', 'text-halo-width': 1.3 },
+    });
+    const oldLineClick = (e: maplibregl.MapLayerMouseEvent) => {
+      if (pickResolver.current || pickerRef.current) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      const p = f.properties as {
+        name: string; miles: number; climbFt: number; highPointFt: number;
+        summary: string; savedMiles: number; savedClimbFt: number;
+      };
+      new maplibregl.Popup({ maxWidth: '330px' }).setLngLat(e.lngLat).setHTML(
+        `<div class="alt-pop"><b>${p.name}</b> · ${p.miles} mi` +
+        `<p class="alt-taken">You are NOT riding this. It is here to compare against.</p>` +
+        `<p>${p.summary}</p>` +
+        `<ul><li>Climb <b>${p.climbFt.toLocaleString()} ft</b>, topping out at ${p.highPointFt.toLocaleString()} ft</li>` +
+        `<li>Your I-10/I-8 line saves <b>${p.savedMiles} mi</b> and <b>${p.savedClimbFt.toLocaleString()} ft</b> of climbing</li></ul></div>`
+      ).addTo(map);
+    };
+    map.on('click', 'old-route-line', oldLineClick);
+    map.on('mouseenter', 'old-route-line', () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', 'old-route-line', () => { map.getCanvas().style.cursor = ''; });
+    map.addSource('alt-lines', { type: 'geojson', data: ALTERNATES.lines as GeoJSON.FeatureCollection });
+    map.addSource('alt-stops', { type: 'geojson', data: ALTERNATES.stops as GeoJSON.FeatureCollection });
+    map.addLayer({
+      id: 'alt-lines-casing', type: 'line', source: 'alt-lines',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': '#f6f2e6', 'line-width': 7, 'line-opacity': 0.8 },
+    }, 'route-casing');
+    map.addLayer({
+      id: 'alt-lines', type: 'line', source: 'alt-lines',
+      filter: ['!=', ['get', 'taken'], true] as never,
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': ['get', 'color'] as never, 'line-width': 3.5, 'line-dasharray': [2.2, 1.4] as never, 'line-opacity': 0.9 },
+    }, 'route-casing');
+    // A line the rider actually rode is not a proposal any more. It is drawn
+    // solid, heavier, and OVER the official route, because on the ground it is
+    // the route — the ACA miles it replaces were never ridden. The route-mile
+    // numbering still follows the ACA line: every anchored thing in this app
+    // (intel, camping, resources, his own logged days) is keyed to it, so the
+    // map tells the truth about the road without renumbering the world.
+    map.addLayer({
+      id: 'alt-lines-taken', type: 'line', source: 'alt-lines',
+      filter: ['==', ['get', 'taken'], true] as never,
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': ['get', 'color'] as never, 'line-width': 4.5, 'line-opacity': 1 },
+    });
+    map.addLayer({
+      id: 'alt-stop-pts', type: 'circle', source: 'alt-stops', minzoom: 5,
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 5, 3.5, 9, 6] as never,
+        'circle-color': ['case', ['get', 'mcd'], '#f2a900', '#f6f2e6'] as never,
+        'circle-stroke-color': '#7c3aed', 'circle-stroke-width': 2,
+      },
+    });
+    map.addLayer({
+      id: 'alt-stop-labels', type: 'symbol', source: 'alt-stops', minzoom: 7,
+      layout: {
+        'text-field': ['case', ['get', 'mcd'], ['concat', ['get', 'name'], ' · M'], ['get', 'name']] as never,
+        'text-size': 10.5, 'text-offset': [0, 1.1], 'text-anchor': 'top',
+        'text-font': ['Noto Sans Regular'], 'text-optional': true,
+      },
+      paint: { 'text-color': '#5b21b6', 'text-halo-color': '#fff', 'text-halo-width': 1.2 },
+    });
+    const altLineClick = (e: maplibregl.MapLayerMouseEvent) => {
+      if (pickResolver.current || pickerRef.current) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      const p = f.properties as { name: string; miles: number; summary: string; legs: string; taken?: boolean };
+      const legs = (typeof p.legs === 'string' ? JSON.parse(p.legs) : p.legs) as { from: string; to: string; miles: number; roads: string[] }[];
+      new maplibregl.Popup({ maxWidth: '340px' }).setLngLat(e.lngLat).setHTML(
+        `<div class="alt-pop"><b>${p.name}</b> · ${p.miles} mi` +
+        (p.taken ? '<p class="alt-taken">You rode this. It is your route.</p>' : '') +
+        `<p>${p.summary}</p><ul>` +
+        legs.map((l) => `<li>${l.from} → ${l.to} <b>${l.miles} mi</b>${l.roads?.length ? `<br><span class="dim">${l.roads.join(' · ')}</span>` : ''}</li>`).join('') +
+        '</ul></div>').addTo(map);
+    };
+    map.on('click', 'alt-lines', altLineClick);
+    map.on('click', 'alt-lines-taken', altLineClick);
+    map.on('click', 'alt-stop-pts', (e) => {
+      if (pickResolver.current || pickerRef.current) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      const p = f.properties as { name: string; state: string; note: string; mcd: boolean };
+      new maplibregl.Popup({ maxWidth: '260px' }).setLngLat(e.lngLat).setHTML(
+        `<div class="alt-pop"><b>${p.name}, ${p.state}</b><p>${p.mcd ? 'McDonald’s: yes' : 'No McDonald’s'}${p.note ? ' · ' + p.note : ''}</p></div>`).addTo(map);
+    });
+    for (const id of ['alt-lines', 'alt-lines-taken', 'alt-stop-pts']) {
+      map.on('mouseenter', id, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', id, () => { map.getCanvas().style.cursor = ''; });
+    }
+
+    // Work/sleep options within 10 mi of the alternate lines (McDonald's,
+    // libraries, campsites, RV parks) — the rider's "can I work and sleep
+    // along this detour" question, answered as pins that share the alternate
+    // toggle. Colours: gold McDonald's, blue library, green camp, teal RV.
+    map.addSource('alt-pois', { type: 'geojson', data: ALT_POIS.pois as GeoJSON.FeatureCollection });
+    map.addLayer({
+      id: 'alt-poi-pts', type: 'circle', source: 'alt-pois', minzoom: 6,
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 6, 2.5, 9, 4.5, 12, 6] as never,
+        'circle-color': ['match', ['get', 'kind'], 'mcd', '#f2a900', 'library', '#2563eb', 'camp', '#2f7d32', 'rv', '#0d9488', '#888'] as never,
+        'circle-stroke-color': '#fff', 'circle-stroke-width': 1.2,
+        'circle-opacity': ['interpolate', ['linear'], ['get', 'dist'], 0, 0.95, 10, 0.55] as never,
+      },
+    });
+    map.addLayer({
+      id: 'alt-poi-labels', type: 'symbol', source: 'alt-pois', minzoom: 10.5,
+      layout: {
+        'text-field': ['get', 'name'] as never,
+        'text-size': 10, 'text-offset': [0, 0.9], 'text-anchor': 'top',
+        'text-font': ['Noto Sans Regular'], 'text-optional': true,
+      },
+      paint: { 'text-color': '#3b3325', 'text-halo-color': '#fff', 'text-halo-width': 1.1 },
+    });
+    map.on('click', 'alt-poi-pts', (e) => {
+      if (pickResolver.current || pickerRef.current) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      const p = f.properties as { name: string; kind: string; dist: number; town: string; townDist: number; phone?: string; website?: string; addr?: string; fee?: string; tents?: string };
+      const kind = { mcd: 'McDonald’s', library: 'Library', camp: 'Campsite', rv: 'RV park' }[p.kind] ?? p.kind;
+      const bits = [`${kind} · ${p.dist} mi off the line`, `${Math.round(p.townDist)} mi from ${p.town}`];
+      if (p.addr) bits.push(p.addr);
+      if (p.tents) bits.push(`tents: ${p.tents}`);
+      if (p.fee) bits.push(`fee: ${p.fee}`);
+      if (p.phone) bits.push(p.phone);
+      new maplibregl.Popup({ maxWidth: '280px' }).setLngLat(e.lngLat).setHTML(
+        `<div class="alt-pop"><b>${p.name}</b><p>${bits.join('<br>')}${p.website ? `<br><a href="${p.website}" target="_blank" rel="noopener">website</a>` : ''}</p></div>`).addTo(map);
+    });
+    map.on('mouseenter', 'alt-poi-pts', () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', 'alt-poi-pts', () => { map.getCanvas().style.cursor = ''; });
+
+    // The rider's own beds: filled pin where he slept, hollow where he plans
+    // to, drawn above every other pin — these are the trip's spine.
+    map.addSource('rider-places', { type: 'geojson', data: EMPTY_FC });
+    map.addLayer({
+      id: 'rider-place-pts', type: 'circle', source: 'rider-places', minzoom: 4,
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 4, 9, 7] as never,
+        'circle-color': ['case', ['==', ['get', 'status'], 'slept'], '#1a1814', '#faf7ee'] as never,
+        'circle-stroke-color': '#d96f00', 'circle-stroke-width': 2.5,
+      },
+    });
+    map.addLayer({
+      id: 'rider-place-labels', type: 'symbol', source: 'rider-places', minzoom: 8,
+      layout: {
+        'text-field': ['case', ['has', 'dateLabel'], ['concat', ['get', 'dateLabel'], ' · ', ['get', 'name']], ['get', 'name']] as never,
+        'text-size': 11, 'text-offset': [0, 1.2], 'text-anchor': 'top', 'text-max-width': 14,
+        'text-font': ['Noto Sans Regular'], 'text-optional': true,
+      },
+      paint: { 'text-color': '#a54e00', 'text-halo-color': '#fff', 'text-halo-width': 1.3 },
+    });
+    map.on('click', 'rider-place-pts', (e) => {
+      if (pickResolver.current || pickerRef.current) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      const p = f.properties as Record<string, unknown>;
+      const cost = p.cost == null || p.cost === '' ? '' : Number(p.cost) === 0 ? 'FREE' : `$${p.cost}`;
+      const when = p.status === 'slept' ? `Slept · day ${p.dayNumber}${p.date ? ' · ' + p.date : ''}` : p.status === 'planned' ? `Planned · day ${p.dayNumber}` : 'Added';
+      new maplibregl.Popup({ maxWidth: '300px' }).setLngLat(e.lngLat).setHTML(
+        `<div class="popup"><div class="popup-title" style="border-color:#d96f00">${p.category === 'campground' ? '⛺' : '🛏'} ${esc(p.name)}</div>` +
+        `<div><b>${esc(when)}</b>${cost ? ' · ' + esc(cost) : ''}</div>` +
+        `<div>Mile ${esc(p.routeMile)}${Number(p.offRouteMi) > 0.3 ? ` · ${esc(p.offRouteMi)} mi off` : ''}${p.address ? ' · ' + esc(p.address) : ''}</div>` +
+        (p.notes ? `<div class="dim">${esc(p.notes)}</div>` : '') + '</div>').addTo(map);
+    });
+    map.on('mouseenter', 'rider-place-pts', () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', 'rider-place-pts', () => { map.getCanvas().style.cursor = ''; });
+
     // Ride position
     map.addSource('ride-pos', { type: 'geojson', data: EMPTY_FC });
     map.addLayer({
@@ -445,6 +801,55 @@ export default function App() {
       if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', vis);
     }
   }, [showCamps, layersReady, picker]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady) return;
+    const vis = showAlts && !picker ? 'visible' : 'none';
+    for (const id of ['alt-lines-casing', 'alt-lines', 'alt-lines-taken', 'alt-stop-pts', 'alt-stop-labels', 'alt-poi-pts', 'alt-poi-labels']) {
+      if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', vis);
+    }
+  }, [showAlts, layersReady, picker]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady) return;
+    const vis = showOld && !picker ? 'visible' : 'none';
+    for (const id of ['old-route-line', 'old-route-mark-pts', 'old-route-mark-labels']) {
+      if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', vis);
+    }
+  }, [showOld, layersReady, picker]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady) return;
+    (map.getSource('rider-places') as maplibregl.GeoJSONSource | undefined)
+      ?.setData(({
+        ...(riderPlaces ?? EMPTY_FC),
+        features: (riderPlaces?.features ?? []).map((f) => {
+          const n = (f.properties as { dayNumber?: number } | null)?.dayNumber;
+          return n == null ? f : { ...f, properties: { ...f.properties, dateLabel: dayDateLabel(n) } };
+        }),
+      }) as GeoJSON.GeoJSON);
+  }, [riderPlaces, layersReady, dayDateLabel]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady) return;
+    const vis = showMine && !picker ? 'visible' : 'none';
+    for (const id of ['rider-place-pts', 'rider-place-labels']) {
+      if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', vis);
+    }
+  }, [showMine, layersReady, picker]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady) return;
+    (map.getSource('population') as maplibregl.GeoJSONSource | undefined)
+      ?.setData((population ?? EMPTY_FC) as GeoJSON.GeoJSON);
+  }, [population, layersReady]);
+  // Stays visible while a picker is open — choosing a stop is exactly when
+  // "is there a town there" matters most.
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady || !map.getLayer('population-heat')) return;
+    map.setLayoutProperty('population-heat', 'visibility', showPop ? 'visible' : 'none');
+  }, [showPop, layersReady]);
 
   // Resource cluster visibility. While a picker is open its own candidates are
   // the only markers that matter — the global clusters would bury them.
@@ -482,6 +887,59 @@ export default function App() {
       } catch { /* cosmetic */ }
     })();
   }, [selectedDay, layersReady, plan]);
+
+  // "You are here": a live GPS/manual fix when Ride mode has one, otherwise
+  // the start of the day the rider is on (last night's bed). The marker is a
+  // DOM element so it can pulse with CSS — a MapLibre circle can't animate
+  // without a render loop, and a phone on the roadside doesn't want one.
+  const [homePos, setHomePos] = useState<{ lng: number; lat: number; mile: number } | null>(null);
+  const hereMarker = useRef<maplibregl.Marker | null>(null);
+  useEffect(() => {
+    const day = plan?.days.find((d) => d.dayNumber === curDay);
+    if (!day) { setHomePos(null); return; }
+    let live = true;
+    (async () => {
+      try {
+        const res = await fetch(`/api/position?mile=${day.startMile}`);
+        if (!res.ok) return;
+        const p = await res.json();
+        if (live && Number.isFinite(p.lat) && Number.isFinite(p.lng)) setHomePos({ lng: p.lng, lat: p.lat, mile: Number(p.mile) });
+      } catch { /* marker is a convenience */ }
+    })();
+    return () => { live = false; };
+  }, [plan, curDay]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady) return;
+    const at = ridePos ? { lng: ridePos.lng, lat: ridePos.lat } : homePos;
+    if (!at) { hereMarker.current?.remove(); hereMarker.current = null; return; }
+    if (!hereMarker.current) {
+      const el = document.createElement('div');
+      el.className = 'you-are-here';
+      el.title = 'You are here';
+      el.innerHTML = '<span class="yah-ring"></span><span class="yah-dot"></span>';
+      hereMarker.current = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(at).addTo(map);
+    } else {
+      hereMarker.current.setLngLat(at);
+    }
+    hereMarker.current.getElement().classList.toggle('live', !!ridePos);
+  }, [ridePos, homePos, layersReady]);
+
+  // Opening the map from the nav lands on the rider, not on the whole
+  // route. The intent is recorded on the click and consumed once a position
+  // exists, so a map opened before the day's start has loaded still centres
+  // correctly a moment later. Day/point views set their own camera and do
+  // not set this flag.
+  const centerOnMe = useRef(false);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady || surface !== 'map' || !centerOnMe.current) return;
+    const at = ridePos ? { lng: ridePos.lng, lat: ridePos.lat } : homePos;
+    if (!at) return;
+    centerOnMe.current = false;
+    map.resize();
+    map.easeTo({ center: [at.lng, at.lat], zoom: Math.max(map.getZoom(), 12.5), duration: 700 });
+  }, [surface, ridePos, homePos, layersReady]);
 
   // Ride position marker + follow
   useEffect(() => {
@@ -566,6 +1024,7 @@ export default function App() {
     { id: 'today', label: 'Today', glyph: '☀' },
     { id: 'trip', label: 'Trip', glyph: '☰' },
     { id: 'map', label: 'Map', glyph: '✕' },
+    { id: 'ask', label: 'Ask', glyph: '?' },
     { id: 'more', label: 'More', glyph: '⋯' },
   ];
 
@@ -582,10 +1041,20 @@ export default function App() {
 
       {/* Map surface chrome (legend / toggles / detail) */}
       {surface === 'map' && !pickPrompt && (
-        <div className="map-panel">
+        <div className={`map-panel${legendOpen ? '' : ' map-panel--min'}`}>
           <div className="map-panel-head">
-            <span className="hand">the whole mess, on a map</span>
+            <span className="hand">{legendOpen ? 'the whole mess, on a map' : 'layers'}</span>
+            <button
+              type="button"
+              className="map-panel-toggle"
+              onClick={() => setLegendOpen((v) => !v)}
+              aria-expanded={legendOpen}
+              title={legendOpen ? 'Shrink the legend' : 'Show the legend'}
+            >
+              {legendOpen ? '–' : '+'}
+            </button>
           </div>
+          {legendOpen && (<>
           {Object.entries(CAT_META).map(([cat, meta]) => (
             <label key={cat} className="cat-toggle">
               <input type="checkbox" checked={visibleCats[cat]}
@@ -601,9 +1070,54 @@ export default function App() {
             Researched camps
             <span className="count">{camping?.spots?.features?.length ?? 0}</span>
           </label>
+          <label className="cat-toggle">
+            <input type="checkbox" checked={showMine} onChange={(e) => setShowMine(e.target.checked)} />
+            <span className="dot mine-swatch" />
+            My stops
+            <span className="count" title="beds you slept in (filled) and plan to (hollow)">{riderPlaces?.features.length ?? 0}</span>
+          </label>
+          <label className="cat-toggle">
+            <input type="checkbox" checked={showOld} onChange={(e) => setShowOld(e.target.checked)} />
+            <span className="dot old-swatch" />
+            Old Southern Tier
+            <span className="count" title="the ACA line you skipped: El Paso → Emory Pass → Silver City → Globe → Phoenix → San Diego">
+              +{OLD_ROUTE.line.features[0].properties.savedMiles} mi
+            </span>
+          </label>
+          {showOld && (
+            <div className="alt-legend-note" title="what the I-10/I-8 reroute saved you">
+              <span>Emory Pass 8,228 ft · {OLD_ROUTE.line.features[0].properties.savedClimbFt.toLocaleString()} ft less climbing</span>
+            </div>
+          )}
+          <label className="cat-toggle">
+            <input type="checkbox" checked={showAlts} onChange={(e) => setShowAlts(e.target.checked)} />
+            <span className="dot alt-swatch" />
+            Alternate lines
+            <span className="count" title="rider-proposed detours; gold stop = McDonald’s">{ALTERNATES.lines.features.length}</span>
+          </label>
+          {showAlts && (() => {
+            const n: Record<string, number> = {};
+            for (const f of ALT_POIS.pois.features) n[f.properties.kind] = (n[f.properties.kind] ?? 0) + 1;
+            return (
+              <div className="alt-legend-note" title="within 10 mi of the alternate lines">
+                <span><i style={{ background: '#f2a900' }} /> {n.mcd ?? 0} McDonald’s</span>
+                <span><i style={{ background: '#2563eb' }} /> {n.library ?? 0} libraries</span>
+                <span><i style={{ background: '#2f7d32' }} /> {n.camp ?? 0} camps</span>
+                <span><i style={{ background: '#0d9488' }} /> {n.rv ?? 0} RV parks</span>
+              </div>
+            );
+          })()}
+          <label className="cat-toggle">
+            <input type="checkbox" checked={showPop} onChange={(e) => setShowPop(e.target.checked)} />
+            <span className="dot heat-swatch" />
+            Population
+            <span className="count" title="2020 Census block groups within 20 mi of the route">
+              {population ? `${Math.round((population.features.length) / 1000)}k` : '…'}
+            </span>
+          </label>
           {selectedDay != null && (
             <div className="map-day-chip">
-              Day {selectedDay} highlighted
+              {dayDateLabel(selectedDay)} highlighted
               <button className="linkish" onClick={() => gotoDay(selectedDay)}>open day</button>
               <button className="linkish" onClick={() => setSelectedDay(null)}>clear</button>
             </div>
@@ -611,8 +1125,32 @@ export default function App() {
           {selectedResource && (
             <ResourceDetail r={selectedResource} onClose={() => setSelectedResource(null)} />
           )}
+          </>)}
         </div>
       )}
+
+      {/* Current mileage, bottom-left. Same position the marker uses: a live
+          fix when Ride mode has one, otherwise the start of today. Ridden and
+          to-go are measured from the trip start (Perdido Key), not mile 0 of
+          the traced route. */}
+      {surface === 'map' && !pickPrompt && (() => {
+        const mile = ridePos?.mile ?? homePos?.mile;
+        if (mile == null || !Number.isFinite(mile)) return null;
+        const start = plan?.tripStartMile ?? 0;
+        const total = plan?.tripMiles ?? (plan ? plan.totalMiles - start : null);
+        const ridden = Math.max(0, mile - start);
+        const toGo = total != null ? Math.max(0, total - ridden) : null;
+        const day = plan?.days.find((d) => d.dayNumber === curDay);
+        return (
+          <div className="mile-chip" title={ridePos ? 'live position' : `start of day ${curDay ?? ''}`}>
+            <div className="mile-chip-main">mi <b>{mile.toFixed(1)}</b></div>
+            <div className="mile-chip-sub">
+              {Math.round(ridden).toLocaleString()} ridden{toGo != null && <> · {Math.round(toGo).toLocaleString()} to go</>}
+            </div>
+            <div className="mile-chip-src">{ridePos ? 'live' : day ? `${dayDateLabel(day.dayNumber)} start` : ''}</div>
+          </div>
+        );
+      })()}
 
       {/* The map picker replaces the page: choosing a bed or a work stop is a
           geographic decision, so the map is the surface, not a thumbnail. */}
@@ -637,6 +1175,11 @@ export default function App() {
       {surface === 'trip' && (
         <div className="page">
           <Trip plan={plan} refetch={refetchPlan} gotoDay={gotoDay} showDayOnMap={showDayOnMap} />
+        </div>
+      )}
+      {surface === 'ask' && (
+        <div className="page">
+          <Ask curDay={curDay} />
         </div>
       )}
       {surface === 'more' && (
@@ -682,7 +1225,8 @@ export default function App() {
       {surface !== 'ride' && !picker && (
         <nav className="nav">
           {navItems.map((it) => (
-            <button key={it.id} className={surface === it.id ? 'on' : ''} onClick={() => { cancelPick(); setSurface(it.id); }}>
+            <button key={it.id} className={surface === it.id ? 'on' : ''}
+              onClick={() => { cancelPick(); if (it.id === 'map') centerOnMe.current = true; setSurface(it.id); }}>
               <span className="nav-glyph">{it.glyph}</span>
               {it.label}
             </button>
@@ -698,7 +1242,14 @@ export default function App() {
 }
 
 function frontierDay(p: PlanResponse): number {
-  // The day the rider is "on": first planned day after the last actual.
+  // The day the rider is "on". The calendar decides: the day dated today.
+  // Only if no day carries today's date (before the trip, after it, or a
+  // plan with no dates) fall back to the first day after the last actual —
+  // otherwise a morning where yesterday's ride wasn't recorded yet would
+  // still open on yesterday.
+  const today = localISODate();
+  const dated = p.days.find((d) => d.date === today);
+  if (dated) return dated.dayNumber;
   const last = p.days.filter((d) => d.actual).reduce((m, d) => Math.max(m, d.dayNumber), 0);
   const next = p.days.find((d) => d.dayNumber > last);
   return next?.dayNumber ?? p.days[0]?.dayNumber ?? 1;

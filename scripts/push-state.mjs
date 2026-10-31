@@ -8,8 +8,7 @@ import fs from 'node:fs';
 // is silently left at whatever the cloud already had.
 const TABLES = [
   'settings', 'plan_revisions', 'planned_days', 'actual_days', 'planned_stops', 'day_plans',
-  'route_transits', 'canvas_marks',
-];
+  'route_transits', 'canvas_marks', 'rider_places'];
 const db = openDb();
 db.pragma('wal_checkpoint(TRUNCATE)');
 const tables = {};

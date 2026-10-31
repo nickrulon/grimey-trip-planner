@@ -55,6 +55,10 @@ function tierOf(price) {
 }
 
 export function makeCamping(db, planner) {
+  const tripStart = () => {
+    const v = Number(db.prepare(`SELECT value FROM settings WHERE key='tripStartMile'`).get()?.value);
+    return Number.isFinite(v) && v > 0 ? v : 0;
+  };
   let cache = null; // { mtimeMs, data }
 
   function loadData() {
@@ -138,7 +142,9 @@ export function makeCamping(db, planner) {
       laws: data.laws ?? null,
       spots: {
         type: 'FeatureCollection',
-        features: data.spots.map((s) => ({
+        // Spots behind the rider's start belong to a leg of the traced route
+        // that is not part of this trip.
+        features: data.spots.filter((s) => s.routeMile >= tripStart()).map((s) => ({
           type: 'Feature',
           properties: {
             id: s.id, name: s.name, kind: s.type, price: s.price ?? null,

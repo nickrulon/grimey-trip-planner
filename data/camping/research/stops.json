@@ -3678,5 +3678,50 @@
     "attrs": "{\"shower\":\"no\",\"drinking_water\":\"yes\",\"tents\":\"yes\"}"
    }
   ]
+ },
+ {
+  "day": 1043,
+  "date": "2026-11-01",
+  "endMile": 2204.4,
+  "miles": 0,
+  "endName": "Gila Bend (I-8 corridor research)",
+  "lat": 32.9478,
+  "lng": -112.7169
+ },
+ {
+  "day": 1044,
+  "date": "2026-11-02",
+  "endMile": 2255.3,
+  "miles": 0,
+  "endName": "Dateland (I-8 corridor research)",
+  "lat": 32.7957,
+  "lng": -113.5444
+ },
+ {
+  "day": 1045,
+  "date": "2026-11-03",
+  "endMile": 2294.1,
+  "miles": 0,
+  "endName": "Wellton (I-8 corridor research)",
+  "lat": 32.6647,
+  "lng": -114.1546
+ },
+ {
+  "day": 1046,
+  "date": "2026-11-04",
+  "endMile": 2335.9,
+  "miles": 0,
+  "endName": "Winterhaven / Pilot Knob (I-8 corridor research)",
+  "lat": 32.7457,
+  "lng": -114.7645
+ },
+ {
+  "day": 1047,
+  "date": "2026-11-05",
+  "endMile": 2393.8,
+  "miles": 0,
+  "endName": "Seeley / El Centro (I-8 corridor research)",
+  "lat": 32.7809,
+  "lng": -115.6841
  }
 ]

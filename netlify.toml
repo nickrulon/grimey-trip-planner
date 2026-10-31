@@ -32,6 +32,11 @@
   to = "/api-data/camping.json"
   status = 200
 
+[[redirects]]
+  from = "/api/population"
+  to = "/api-data/population.json"
+  status = 200
+
 # Everything else is served live by the planning engine.
 [[redirects]]
   from = "/api/*"

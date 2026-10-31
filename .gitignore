@@ -32,3 +32,7 @@ data/.fuse_hidden*
 .claude/
 # working backups the intel pipeline leaves beside its source
 data/intel/*.bak-*
+
+# The reference DB is the build: route, resources, population, elevation, researched camps.
+# Not regenerable from scripts alone (retrace + hand corrections live in it). Keep it.
+!data/trip.sqlite

@@ -7,6 +7,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { openDb } from '../server/db.mjs';
+import { haversineMi } from './lib/geo.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const RESEARCH_DIR = path.join(ROOT, 'data', 'camping', 'research');
@@ -65,6 +67,20 @@ for (const file of fs.readdirSync(RESEARCH_DIR).sort()) {
   }
 }
 
+// Research was written against several route revisions. Any option whose
+// coordinates sit far from the CURRENT line (e.g. Emory Pass campgrounds after
+// the 2026-10-11 I-10/I-8 retrace) is retired, not shown: a spot pinned at the
+// wrong mile is worse than no spot. Mile is also re-derived from the line.
+const db = openDb();
+const line = db.prepare(`SELECT lat, lng, mile FROM route_points ORDER BY mile`).all().filter((_, i) => i % 6 === 0);
+const MAX_OFF_MI = 6;
+const retired = [];
+const nearest = (lat, lng) => { let b = null, bd = Infinity; for (const p of line) { const d = haversineMi([lng, lat], [p.lng, p.lat]); if (d < bd) { bd = d; b = p; } } return { mile: b.mile, off: bd }; };
+for (let i = spots.length - 1; i >= 0; i--) {
+  const s = spots[i]; const n = nearest(s.lat, s.lng);
+  if (n.off > MAX_OFF_MI) { retired.push({ ...s, retiredReason: `${n.off.toFixed(0)} mi from the current route line` }); spots.splice(i, 1); continue; }
+  if (Math.abs(n.mile - s.routeMile) > 2) s.routeMile = +n.mile.toFixed(1);
+}
 spots.sort((a, b) => a.routeMile - b.routeMile);
 dayAdvice.sort((a, b) => a.nearMile - b.nearMile);
 
@@ -74,7 +90,8 @@ const out = {
   spots,
   dayAdvice,
   laws,
+  retired,
 };
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 const free = spots.filter((s) => s.price === 0).length;
-console.log(`camping.json: ${spots.length} spots (${free} free), ${dayAdvice.length} day-advice anchors, laws: ${laws ? 'yes' : 'MISSING'}`);
+console.log(`camping.json: ${spots.length} spots (${free} free), ${retired.length} retired as off-route, ${dayAdvice.length} day-advice anchors, laws: ${laws ? 'yes' : 'MISSING'}`);

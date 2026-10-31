@@ -129,3 +129,8 @@ export const NOTE_ICON: Record<string, string> = {
   ferry: '⛴', detour: '⚠', highway: '▲', no_services: '∅',
   climb: '⛰', bridge: '≈', traffic: '▲', trail: '↟', caution: '!',
 };
+
+/** Today's date in the device's local zone, as the plan writes dates (YYYY-MM-DD). */
+export function localISODate(d = new Date()): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}

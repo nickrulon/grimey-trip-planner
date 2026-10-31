@@ -418,7 +418,7 @@ export function makeToday(db, planner, camping, intel = null) {
     return {
       ...d0, end_mile: endMile, end_name: endName ?? nameNearMile(endMile), ...over,
       // the same flags the save will write, so the mileage chip cannot differ
-      flags: planner.dayFlags(d0.start_mile, endMile, !!(over.overnight_resource_id ?? over.overnight_camp_id)),
+      flags: planner.dayFlags(d0.start_mile, endMile, !!(over.overnight_resource_id ?? over.overnight_camp_id), d0.day_number),
     };
   }
 
