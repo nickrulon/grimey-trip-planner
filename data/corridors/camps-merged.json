@@ -10197,16 +10197,3515 @@
   }
  },
  {
+  "name": "BLM land at Sentinel exit 87 (dirt track south or frontage road west)",
+  "kind": "blm_dispersed",
+  "lat": 32.85,
+  "lng": -113.215,
+  "corridor": "i8",
+  "corridorMileApprox": 92.3,
+  "offRouteMiApprox": 0.6,
+  "access": "I-8 exit 87 (Sentinel). South option: a graded dirt track (OSM grade3, way 1144544092) leaves the exit beside Conde's/Chevron and runs south. BLM land starts about 0.3 mi south of I-8 (32.854,-113.215) and runs at least 2 mi south. The Barry M. Goldwater Range (USAF), which is closed, begins 2-4 mi south: do not cross its signs or fence. North option: a paved frontage road runs west from the exit along the north side of I-8. BLM land starts about 1.3 mi west (32.859,-113.235), about 1.5 riding mi from the exit, and continues toward the Sentinel rest area. The first 1.3 mi north of the exit is State Trust land (ASLD permit needed). A third option, from segment I8-A: BLM land along paved Agua Caliente Rd, about 1.6 mi NW.",
+  "address": "I-8 exit 87, Sentinel, AZ 85333",
+  "nearestTown": "Sentinel",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "Free (BLM dispersed, 14-day limit)",
+  "phone": "623-580-5500 (BLM Lower Sonoran Field Office / Phoenix District)",
+  "website": "https://www.blm.gov/office/lower-sonoran-field-office",
+  "reservations": "None; first come. Arrive any time.",
+  "openNov2026": "yes",
+  "cyclistNotes": "I found no camper reports for these spots. The land status comes from the BLM Surface Management Agency map, checked at 6 points: BLM directly south of the exit and west along the north frontage road, State Trust land NW of the exit, and USAF range about 4 mi south. Camp out of sight of I-8; Border Patrol traffic is normal here. Water and snacks at Conde's Middle of Nowhere and the Chevron at the exit (hours unverified). ADOT's Sentinel rest areas, about 2-3 mi west (corridor mi 94.6 and 95.3), reopened in January 2024 with new restrooms and water but are not legal campsites.",
+  "confidence": "medium",
+  "sources": [
+   "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer",
+   "https://www.openstreetmap.org/way/1144544092",
+   "https://www.openstreetmap.org/way/5574758",
+   "https://azdot.gov/news/interstate-8-sentinel-rest-areas-reopen-after-rehabilitation"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.6
+  },
+  "id": "cs-185",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 92.3,
+    "off": 0.6
+   },
+   "hybrid": {
+    "mile": 92.3,
+    "off": 0.6
+   }
+  }
+ },
+ {
+  "name": "Sun Portal Acres (Hipcamp)",
+  "kind": "hipcamp_private",
+  "lat": 32.791947,
+  "lng": -113.446041,
+  "corridor": "i8",
+  "corridorMileApprox": 105.5,
+  "offRouteMiApprox": 2.5,
+  "access": "I-8 exit 73 (Aztec): 0.3 mi on historic US 80/Aztec Rd, then about 1.8 mi south on unpaved N Avenue 69 1/2 E. The host says 2WD access; loose gravel, flat. South of I-8.",
+  "address": "Aztec, AZ (exact spot on booking)",
+  "nearestTown": "Aztec",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "$25/night base price on Hipcamp, plus fees (one RV/tent site, up to 4 guests)",
+  "phone": "unknown",
+  "website": "https://www.hipcamp.com/en-US/land/arizona-sun-portal-acres-ex9hv07p",
+  "reservations": "Book on Hipcamp. Check-in 2-10 PM; strict no-refund cancellation; 1-night minimum; bookable 12 months out.",
+  "openNov2026": "yes",
+  "cyclistNotes": "A new listing with no reviews yet. Private open-desert acreage with a firepit and trash bin, and nothing else. Carry all your water from Sentinel (13 mi back) or Dateland (6 mi ahead). Aztec has no store.",
+  "confidence": "medium",
+  "sources": [
+   "https://www.hipcamp.com/en-US/land/arizona-sun-portal-acres-ex9hv07p"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.5
+  },
+  "id": "cs-186",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 106.1,
+    "off": 2.5
+   },
+   "hybrid": {
+    "mile": 106.1,
+    "off": 2.5
+   }
+  }
+ },
+ {
+  "name": "Aztec Hills Retreat (Hipcamp)",
+  "kind": "hipcamp_private",
+  "lat": 32.789152,
+  "lng": -113.454157,
+  "corridor": "i8",
+  "corridorMileApprox": 105.5,
+  "offRouteMiApprox": 2.5,
+  "access": "I-8 exit 73 (Aztec): historic US 80/Aztec Rd, then south on unpaved N Avenue 69 1/2 E, about 2.5 mi in all. Open 80-acre parcel south of I-8; you camp where you park.",
+  "address": "Aztec, AZ (exact spot on booking)",
+  "nearestTown": "Aztec",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "$15/night base price on Hipcamp, plus fees (40 dispersed RV/tent sites)",
+  "phone": "unknown",
+  "website": "https://www.hipcamp.com/en-US/land/arizona-aztec-hills-retreat-lz9h5rmq",
+  "reservations": "Book on Hipcamp.",
+  "openNov2026": "yes",
+  "cyclistNotes": "It is the cheapest paid tent spot on this segment. One Hipcamp review (100%). No toilet, water or shade, but campfires are allowed. Sun Portal Acres is about 0.5 mi away if this one is full. Water: Dateland Travel Center, 6 mi ahead.",
+  "confidence": "medium",
+  "sources": [
+   "https://www.hipcamp.com/en-US/land/arizona-aztec-hills-retreat-lz9h5rmq"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.5
+  },
+  "id": "cs-187",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 107.4,
+    "off": 2.5
+   },
+   "hybrid": {
+    "mile": 107.4,
+    "off": 2.5
+   }
+  }
+ },
+ {
+  "name": "Oasis RV Park at Aztec Hills",
+  "kind": "rv_park",
+  "lat": 32.805069,
+  "lng": -113.502085,
+  "corridor": "i8",
+  "corridorMileApprox": 109.2,
+  "offRouteMiApprox": 2.2,
+  "access": "On the old US 80 frontage road between exits 73 and 67, 0.5 mi south via Ave 66E/Morton Rd (1401 S Ave 66E). From Dateland exit 67, ride 1.6 mi back east on paved Old Highway 80 (about 2.2 mi total). From Aztec exit 73 the frontage road runs about 4 mi west to it; OSM shows part of it unpaved.",
+  "address": "1401 S Avenue 66 E, Dateland, AZ 85333",
+  "nearestTown": "Dateland",
+  "tents": "unknown",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "Tent rate not published. RV full hookup was $35 (Mar 2025) and $40 (Mar 2026).",
+  "phone": "928-454-2229",
+  "website": "https://www.facebook.com/people/Oasis-RV-Park-at-Aztec-Hills/100054613292100/",
+  "reservations": "Call ahead. A 2025 reviewer got a call back within minutes for a one-night site. Also a Harvest Hosts host (self-contained RVs only).",
+  "openNov2026": "yes",
+  "cyclistNotes": "35-site, 10-acre park with a pool, laundry, showers and a rec hall. Quiet and dark, though trains are audible; reviewed Mar and Apr 2026. No listing (Campendium, The Dyrt, RoverPass) shows tent sites, and The Dyrt marks it RV-only. Ask by phone. Dateland RV Park, 3 mi on, takes tents.",
+  "confidence": "medium",
+  "sources": [
+   "https://www.thedyrt.com/camping/arizona/the-oasis-rv-park-at-aztec-hills",
+   "https://maps.campendium.com/us/dateland-az/camping-rv/oasis-rv-park-at-aztec-hills-dateland"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.2
+  },
+  "id": "cs-188",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 109.2,
+    "off": 2.2
+   },
+   "hybrid": {
+    "mile": 109.2,
+    "off": 2.2
+   }
+  }
+ },
+ {
+  "name": "Dateland RV Park",
+  "kind": "rv_park",
+  "lat": 32.796282,
+  "lng": -113.544173,
+  "corridor": "i8",
+  "corridorMileApprox": 112.1,
+  "offRouteMiApprox": 0.2,
+  "access": "I-8 exit 67 (Dateland / Ave 64E): south of the interchange, 1/8 mi on the frontage road. Register at the Dateland Date Gardens gift shop / travel center across the road.",
+  "address": "1737 S Avenue 64 E, Dateland, AZ 85333",
+  "nearestTown": "Dateland",
+  "tents": "yes",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "Not published. Last reported nightly rate $26 (May 2023); The Dyrt lists 'from $25'. Ask for a tent rate.",
+  "phone": "928-454-2772",
+  "website": "https://www.dateland.com/dateland-rv-park/",
+  "reservations": "Walk-in. Register at the gift shop; dateland.com lists 8 AM-9 PM daily for the travel center. After-hours arrival is unverified, so call before 9 PM.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium and The Dyrt list tent camping. A cyclist tented here in Sept 2022 under trees, noting 'very sandy roads' and a long walk to the showers. Another rider called the 'tent spaces' RV pull-throughs. Private shower rooms (sink, toilet, shower), dated laundry. I-8 on one side, Union Pacific trains about every 30 min on the other. An April 2026 review says the water tastes 'thick'. The travel center has a Chevron, Pizza Hut and date shakes, the only food between Sentinel and Tacna.",
+  "confidence": "high",
+  "sources": [
+   "https://www.campendium.com/dateland-rv-park",
+   "https://www.thedyrt.com/camping/arizona/dateland-rv-park",
+   "https://www.dateland.com/dateland-rv-park/",
+   "https://59rides.blogspot.com/2022/09/day-5-dateland-arizona.html"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.2
+  },
+  "id": "cs-189",
+  "tier": "full",
+  "anchors": {
+   "i8": {
+    "mile": 112.1,
+    "off": 0.2
+   },
+   "hybrid": {
+    "mile": 112.1,
+    "off": 0.2
+   }
+  }
+ },
+ {
+  "name": "BLM dispersed on S Avenue 52 1/2 E (Mohawk, I-8 exit 54)",
+  "kind": "blm_dispersed",
+  "lat": 32.742,
+  "lng": -113.7384,
+  "corridor": "i8",
+  "corridorMileApprox": 125.8,
+  "offRouteMiApprox": 1.3,
+  "access": "I-8 exit 54. North side: about 0.3 mi west on Old Highway 80 / County 2nd St N, then north on S Avenue 52 1/2 E. BLM land begins at Old Hwy 80 and lines both sides of the road for 1.5+ mi. iOverlander says the road is washboard for the first 1/2 mi and some sites need you to cross a gravel berm. Between Dateland and here the old frontage road is abandoned (OSM access=no), so ride I-8 from exit 67 to exit 54 (about 13 mi).",
+  "address": "S Avenue 52 1/2 E, Yuma County, AZ (north of I-8 exit 54)",
+  "nearestTown": "Mohawk / Roll",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "Free (BLM dispersed, 14-day limit)",
+  "phone": "928-317-3200 (BLM Yuma Field Office)",
+  "website": "https://www.blm.gov/office/yuma-field-office",
+  "reservations": "None.",
+  "openNov2026": "yes",
+  "cyclistNotes": "This is the only free camp found between Dateland (mi 112) and Wellton (mi 150). An iOverlander report calls it 'dozens of free, level BLM sites, well dispersed'. I could not open the full listing to date it. The federal land map shows BLM at every point I checked along the road (8 points). Fill water at the Mohawk Rest Area (I-8 MP 56, corridor mi 124.6-125.1), 1 mi before the exit: OSM tags a public drinking-water fountain, restrooms and vending machines. Nearest food is Tacna, 13 mi west.",
+  "confidence": "medium",
+  "sources": [
+   "https://ioverlander.com/places/171659-s-ave-52-east-east-of-yuma-az",
+   "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer",
+   "https://www.openstreetmap.org/way/16954103",
+   "https://azdot.gov/news/mohawk-rest-area-i-8-reopens-after-eight-year-hiatus"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.3
+  },
+  "id": "cs-190",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 126,
+    "off": 1.3
+   },
+   "hybrid": {
+    "mile": 126,
+    "off": 1.3
+   }
+  }
+ },
+ {
+  "name": "Arizona State Trust land south of Tacna (ASLD recreation permit)",
+  "kind": "other",
+  "lat": 32.68,
+  "lng": -113.95,
+  "corridor": "i8",
+  "corridorMileApprox": 139,
+  "offRouteMiApprox": 1.5,
+  "access": "I-8 exit 42 (Tacna): south past the Pilot/Shell on Main St/Ave 40E toward Copper Mountain RV Park. The federal land map shows State Trust land around the park on the north, east and south (checked at 7 points). Use an existing two-track and keep clear of the RV park, fenced or leased parcels and anything posted.",
+  "address": "South of I-8 exit 42, Tacna, AZ 85352",
+  "nearestTown": "Tacna",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "Legal only with an Arizona State Land Department individual recreational permit: $15 for 12 months, bought online in advance. Camping is capped at 14 days per year.",
+  "phone": "602-542-4631 (Arizona State Land Department)",
+  "website": "https://land.az.gov/recreational-permit-terms-and-conditions",
+  "reservations": "No reservations. Buy the permit online before you lose signal and carry proof (a screenshot works).",
+  "openNov2026": "yes",
+  "cyclistNotes": "This is a legal fallback only; I found no camper reports for these parcels. It splits the 38-mi Dateland-Wellton gap if the Mohawk BLM site does not work out. All Tacna services are at the exit. In 2013 a cyclist was allowed to tent free behind the Chaparral Motel in Tacna; that is not current, but asking a business is a last resort.",
+  "confidence": "low",
+  "sources": [
+   "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer",
+   "https://land.az.gov/recreational-permit-terms-and-conditions",
+   "https://travelinjo.blogspot.com/2013/04/tacna-trials.html"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.5
+  },
+  "id": "cs-191",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 139,
+    "off": 1.5
+   },
+   "hybrid": {
+    "mile": 139,
+    "off": 1.5
+   }
+  }
+ },
+ {
+  "name": "Copper Mountain RV Park (55+; tents only for active-duty military)",
+  "kind": "rv_park",
+  "lat": 32.68835,
+  "lng": -113.955924,
+  "corridor": "i8",
+  "corridorMileApprox": 139.2,
+  "offRouteMiApprox": 1.3,
+  "access": "I-8 exit 42 (Tacna): south on Main St/Ave 40E, then County 9 1/2 St, about 1.3 mi paved.",
+  "address": "39886 E County 9 1/2 St, Tacna, AZ 85352",
+  "nearestTown": "Tacna",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "Not available to civilians. The park allows tents only for active-duty personnel ('Tents for Troops', max 4 nights). RV nightly was $55 (Jul 2023).",
+  "phone": "928-750-6652",
+  "website": "https://coppermountainrvpark.com/",
+  "reservations": "Seasonal Oct 1-Apr 15; reservations through the park.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Do not plan on a tent here. It is a 55+ park for self-contained RVs, and Camping Roadtrip and AllStays both say no tents. The State Trust land around it is the legal fallback (see previous entry). Tacna has a Pilot with Subway, a Shell, a Chevron Food Mart, Gonzo's market and Basque Etche restaurant.",
+  "confidence": "high",
+  "sources": [
+   "https://www.campendium.com/copper-mountain-rv-park",
+   "https://www.thedyrt.com/camping/arizona/copper-mountain-rv-park",
+   "https://marketing.gocampingamerica.com/?p=17417",
+   "https://coppermountainrvpark.com/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.3
+  },
+  "id": "cs-192",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 139.2,
+    "off": 1.3
+   },
+   "hybrid": {
+    "mile": 139.2,
+    "off": 1.3
+   }
+  }
+ },
+ {
+  "name": "Coach Stop RV Park (adults only)",
+  "kind": "rv_park",
+  "lat": 32.675505,
+  "lng": -114.119948,
+  "corridor": "i8",
+  "corridorMileApprox": 148.8,
+  "offRouteMiApprox": 0.3,
+  "access": "In Wellton, just north of Los Angeles Ave on Wellton Mohawk Dr.",
+  "address": "30333 E Wellton Mohawk Dr, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "unknown",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "Tent rate not published. Dry site $30/day, $42/day with electricity (rates effective Oct 2025).",
+  "phone": "928-785-9798",
+  "website": "https://www.coachstoprvpark.com/",
+  "reservations": "Call the office or use the site's reservation form.",
+  "openNov2026": "yes",
+  "cyclistNotes": "The rate page says 'Coach Stop RV Park is an Adults Only Park' (not stated as 55+). Its $30 dry-site rate is the cheapest showers-and-toilets option in Wellton if they accept a tent, which no source confirms. 190 sites, laundry, game room.",
+  "confidence": "medium",
+  "sources": [
+   "https://www.coachstoprvpark.com/rates",
+   "https://www.welltonaz.gov/1247/RV-Parks",
+   "https://www.campendium.com/coach-stop-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.3
+  },
+  "id": "cs-193",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 148.9,
+    "off": 0.3
+   },
+   "hybrid": {
+    "mile": 148.9,
+    "off": 0.3
+   }
+  }
+ },
+ {
+  "name": "Arrowhead RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.67407,
+  "lng": -114.11833,
+  "corridor": "i8",
+  "corridorMileApprox": 148.8,
+  "offRouteMiApprox": 0.6,
+  "access": "In Wellton, from Los Angeles Ave (old US 80, the line) north 0.3 mi on Wellton Mohawk Dr.",
+  "address": "30115 Wellton Mohawk Dr, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park. RV nightly $42 + tax with electric (2026-27 season).",
+  "phone": "928-919-0887 (park); 928-785-3648 (town directory)",
+  "website": "https://www.arrowheadrvparkaz.com/",
+  "reservations": "Five pull-throughs, first come first served. Office Mon-Sat 8:30-noon and 1-4:30.",
+  "openNov2026": "yes",
+  "cyclistNotes": "'An active 55+ community' with 154 full-hookup sites. No tent option is listed anywhere.",
+  "confidence": "medium",
+  "sources": [
+   "https://www.arrowheadrvparkaz.com/",
+   "https://www.welltonaz.gov/1247/RV-Parks"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.6
+  },
+  "id": "cs-194",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 148.8,
+    "off": 0.6
+   },
+   "hybrid": {
+    "mile": 148.8,
+    "off": 0.6
+   }
+  }
+ },
+ {
+  "name": "Desert Sands RV Park",
+  "kind": "rv_park",
+  "lat": 32.6742976,
+  "lng": -114.1312094,
+  "corridor": "i8",
+  "corridorMileApprox": 149.5,
+  "offRouteMiApprox": 0.2,
+  "access": "On Los Angeles Ave (old US 80), Wellton, directly on the line.",
+  "address": "29590 Los Angeles Ave, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "928-550-0764 (Town of Wellton directory)",
+  "website": "https://www.welltonaz.gov/1247/RV-Parks",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "The town directory gives this park the same phone number and description ('10 RV spaces, full hook-ups, cable TV, propane and coffee shop') as Lazy Cactus RV Park, so it may be the same operator or a directory mix-up. It has no reviews anywhere. Call the number and ask about both.",
+  "confidence": "low",
+  "sources": [
+   "https://www.welltonaz.gov/1247/RV-Parks",
+   "https://www.openstreetmap.org/way/1453820800"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.2
+  },
+  "id": "cs-195",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 149.5,
+    "off": 0.2
+   },
+   "hybrid": {
+    "mile": 149.5,
+    "off": 0.2
+   }
+  }
+ },
+ {
+  "name": "Sun Country RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.67251,
+  "lng": -114.138162,
+  "corridor": "i8",
+  "corridorMileApprox": 149.9,
+  "offRouteMiApprox": 0.1,
+  "access": "Just south of Los Angeles Ave on Fresno St, Wellton.",
+  "address": "10321 Fresno St, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park. Full-hookup RV sites from $30/night plus electric.",
+  "phone": "928-785-4072",
+  "website": "https://suncountryrv.com/",
+  "reservations": "Book online or call; open all year.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+ and a guest review on its own site calls it a 'small quiet 55 and over RV park'. The rules say one RV per site and no tent option is listed.",
+  "confidence": "medium",
+  "sources": [
+   "https://suncountryrv.com/rules/",
+   "https://suncountryrv.com/rates/",
+   "https://www.campendium.com/sun-country-55-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.1
+  },
+  "id": "cs-196",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 149.9,
+    "off": 0.1
+   },
+   "hybrid": {
+    "mile": 149.9,
+    "off": 0.1
+   }
+  }
+ },
+ {
+  "name": "Desert Rose RV Park",
+  "kind": "rv_park",
+  "lat": 32.6705337,
+  "lng": -114.1384244,
+  "corridor": "i8",
+  "corridorMileApprox": 150,
+  "offRouteMiApprox": 0.2,
+  "access": "Arizona Ave, Wellton, a block south of the line.",
+  "address": "29301 Arizona Ave, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "no",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tents: AAA lists it as 'No tent. RVs only.'",
+  "phone": "928-785-9421 (town directory)",
+  "website": "https://www.welltonaz.gov/1247/RV-Parks",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "It has 28 full-hookup spaces (town directory) and no reviews anywhere. AAA and AllStays both list it as RV-only.",
+  "confidence": "low",
+  "sources": [
+   "https://www.welltonaz.gov/1247/RV-Parks",
+   "https://www.aaa.com/travelguides/campgrounds/Wellton-AZ"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.2
+  },
+  "id": "cs-197",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 151.2,
+    "off": 0.2
+   },
+   "hybrid": {
+    "mile": 151.2,
+    "off": 0.2
+   }
+  }
+ },
+ {
+  "name": "Lazy Cactus RV Park",
+  "kind": "rv_park",
+  "lat": 32.673335,
+  "lng": -114.146413,
+  "corridor": "i8",
+  "corridorMileApprox": 150.4,
+  "offRouteMiApprox": 0.1,
+  "access": "10319 Maybelle St, beside the Wellton post office and town hall, one block off Los Angeles Ave.",
+  "address": "10319 Maybelle St, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "yes",
+  "showers": "unknown",
+  "water": "potable",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "From $25/night (The Dyrt, owner-managed listing, updated June 2025)",
+  "phone": "928-550-0764",
+  "website": "https://www.facebook.com/lazycactusrv/",
+  "reservations": "Call; the park takes reservations.",
+  "openNov2026": "unknown",
+  "cyclistNotes": "A 10-unit park with a coffee shop. Its owner-claimed Dyrt listing offers RV and tent stays from $25. Neither The Dyrt nor Campendium lists showers or restrooms, so confirm before you count on them. Del Sol supermarket, Circle K, Family Dollar, Dollar General and Geronimo's are all within 0.5 mi. The only review is from 2019.",
+  "confidence": "low",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/lazy-cactus-rv",
+   "https://campendium.com/lazy-cactus-rv-park",
+   "https://www.welltonaz.gov/1247/RV-Parks"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.1
+  },
+  "id": "cs-198",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 150.4,
+    "off": 0.1
+   },
+   "hybrid": {
+    "mile": 150.4,
+    "off": 0.1
+   }
+  }
+ },
+ {
+  "name": "Lazy Coyote RV Village (55+)",
+  "kind": "rv_park",
+  "lat": 32.670663,
+  "lng": -114.150106,
+  "corridor": "i8",
+  "corridorMileApprox": 150.5,
+  "offRouteMiApprox": 0.2,
+  "access": "Arizona Ave, one block south of Los Angeles Ave, Wellton.",
+  "address": "28541 Arizona Ave, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-750-6004",
+  "website": "https://www.lazycoyoterv.com/",
+  "reservations": "Daily, weekly, monthly and annual RV rates; call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "The park's own site calls it 'a pet friendly, 55+ community with 90 full hookups'. Public dump station.",
+  "confidence": "medium",
+  "sources": [
+   "https://www.lazycoyoterv.com/",
+   "https://www.welltonaz.gov/1247/RV-Parks"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.2
+  },
+  "id": "cs-199",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 150.5,
+    "off": 0.2
+   },
+   "hybrid": {
+    "mile": 150.5,
+    "off": 0.2
+   }
+  }
+ },
+ {
+  "name": "Pioneer RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.662995,
+  "lng": -114.149666,
+  "corridor": "i8",
+  "corridorMileApprox": 151.2,
+  "offRouteMiApprox": 0.8,
+  "access": "South of I-8 at exit 30: William St, then east on County 11th St.",
+  "address": "28595 E County 11th St, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-785-3579",
+  "website": "https://www.campendium.com/pioneer-55-rv-park",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+ with full-time residents. 327 spaces, pool, spa, showers and laundry, per the town directory.",
+  "confidence": "medium",
+  "sources": [
+   "https://maps.campendium.com/us/wellton-az/camping-rv/pioneer-55-rv-park",
+   "https://www.welltonaz.gov/1247/RV-Parks"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.8
+  },
+  "id": "cs-200",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 152,
+    "off": 0.8
+   },
+   "hybrid": {
+    "mile": 152,
+    "off": 0.8
+   }
+  }
+ },
+ {
+  "name": "Tier Drop RV Park",
+  "kind": "rv_park",
+  "lat": 32.663678,
+  "lng": -114.154817,
+  "corridor": "i8",
+  "corridorMileApprox": 151.2,
+  "offRouteMiApprox": 1.1,
+  "access": "From Wellton's main street (Los Angeles Ave/William St) go south on William St across I-8 at exit 30, then 0.7 mi west on County 11th St (the south frontage road). Paved.",
+  "address": "28320 E County 11th St, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "yes",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "Tent rate not published. A tent camper paid $20 (Jan 2020). The operator lists RV daily at $40 (2026); a Campendium report says $37 (Feb 2026).",
+  "phone": "928-785-9295",
+  "website": "https://tierdroprvpark.com",
+  "reservations": "Book through the park website or by phone. The posted (summer) office hours are Mon-Fri 8-4. A 2023 guest arrived at 8:30 PM and paid cash in an envelope at the office. The website was returning errors on Nov 2, 2026, so phone ahead.",
+  "openNov2026": "yes",
+  "cyclistNotes": "This is the most reliable tent spot between Dateland and Yuma. It advertises 'No Age Restrictions', which is rare here. Campendium lists 'Tent camping: Yes'. A repeat tent guest pitched 'in a more remote section, quiet and clean' (2020), and The Dyrt lists tents. AAA's directory says 'No tent. RVs only', so confirm by phone. Amenities: heated pool and spa, two laundries, restrooms and showers, clubhouse. Chevron and Jack in the Box are at exit 30; Del Sol supermarket is 1.5 mi.",
+  "confidence": "medium",
+  "sources": [
+   "https://www.campendium.com/tier-drop-rv-park",
+   "https://thedyrt.com/camping/arizona/tier-drop-rv-park",
+   "https://tierdroprvpark.com",
+   "https://www.aaa.com/travelguides/campgrounds/Wellton-AZ"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.1
+  },
+  "id": "cs-201",
+  "tier": "full",
+  "anchors": {
+   "i8": {
+    "mile": 152,
+    "off": 1.1
+   },
+   "hybrid": {
+    "mile": 152,
+    "off": 1.1
+   }
+  }
+ },
+ {
+  "name": "Welton Canal dispersed area (BLM / State Trust patchwork)",
+  "kind": "blm_dispersed",
+  "lat": 32.6355,
+  "lng": -114.1395,
+  "corridor": "i8",
+  "corridorMileApprox": 151.2,
+  "offRouteMiApprox": 2.7,
+  "access": "From Wellton south on William St / S Avenue 29 E across I-8 (about 1.8 mi), then E County 13th St to the Wellton-Mohawk canal, about 2.7 mi from the line. Land is a checkerboard on the federal map: BLM (32.635,-114.140 and 32.637,-114.135), State Trust (32.640,-114.140) and Bureau of Reclamation canal land. Camp on the BLM piece, or carry an ASLD permit to be legal on the State Trust piece.",
+  "address": "Near S Avenue 29 E and E County 13th St, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "Free on the BLM parcel. The State Trust parcel needs the $15/yr ASLD recreational permit.",
+  "phone": "928-317-3200 (BLM Yuma Field Office)",
+  "website": "https://thedyrt.com/camping/arizona/welton-canal",
+  "reservations": "None.",
+  "openNov2026": "yes",
+  "cyclistNotes": "The Dyrt lists tents. A Jan 2026 review: 'Good group of people using the area. The trains do move through the valley at night. Could not hear the highway. Level and easy entry.' A Dec 2023 reviewer said it is State Trust land needing a permit but had never seen anyone check. Stock up in Wellton first.",
+  "confidence": "medium",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/welton-canal",
+   "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer",
+   "https://land.az.gov/recreational-permit-terms-and-conditions"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.7
+  },
+  "id": "cs-202",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 152,
+    "off": 2.7
+   },
+   "hybrid": {
+    "mile": 152,
+    "off": 2.7
+   }
+  }
+ },
+ {
+  "name": "Old Desert Bull RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.625321,
+  "lng": -114.159293,
+  "corridor": "i8",
+  "corridorMileApprox": 152,
+  "offRouteMiApprox": 3.9,
+  "access": "From I-8 exit 30, south about 2.2 mi on S Avenue 29 E, then to 13550 Ave 28 E.",
+  "address": "13550 Ave 28 E, Wellton, AZ 85356",
+  "nearestTown": "Wellton",
+  "tents": "no",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites (10 full-hookup RV sites, 55+).",
+  "phone": "928-318-7714",
+  "website": "http://olddesertbullrv.com/",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+ and The Dyrt marks it RV-only. Listed so the app does not suggest it.",
+  "confidence": "medium",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/old-desert-bull-rv-park",
+   "https://www.campendium.com/old-desert-bull-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 3.9
+  },
+  "id": "cs-203",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 153.4,
+    "off": 3.9
+   },
+   "hybrid": {
+    "mile": 153.4,
+    "off": 3.9
+   }
+  }
+ },
+ {
+  "name": "Brewery on an Organic Date Farm (Naked Date Farms / High Tanks Brewing, Hipcamp)",
+  "kind": "hipcamp_private",
+  "lat": 32.627145,
+  "lng": -114.212538,
+  "corridor": "i8",
+  "corridorMileApprox": 152,
+  "offRouteMiApprox": 6.5,
+  "access": "From Wellton exit 30: S Ave 29E, Colorado Ave, Canal Ave, E County 12th St, then E City 12 Rd west about 2.5 mi, S Avenue 25 E south about 1.5 mi, and Gila Ranch Rd. About 6.5 mi; the last leg is a well-kept dirt road ('a Corolla handles it'). Leaving west, rejoin I-8 at Dome Valley exit 21 (corridor mi 161.1) via Ave 25E north and paved old Hwy 80 west, about 8.3 mi. That loop adds only about 6 mi over riding I-8 straight through.",
+  "address": "Gila Ranch Rd off S Avenue 25 E, Wellton, AZ 85356 (exact spot on booking)",
+  "nearestTown": "Wellton",
+  "tents": "yes",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "no",
+  "wifi": "yes",
+  "priceTent": "$40/night base price on Hipcamp, plus fees (dry 'RV/Tent' sites under the palms; max 7 nights)",
+  "phone": "unknown",
+  "website": "https://www.hipcamp.com/en-US/land/arizona-brewery-on-an-organic-date-farm-5x5h95m7",
+  "reservations": "Book on Hipcamp or request through The Dyrt. The Dyrt gives the camping season as Nov 1-Apr 30; the brewery and restaurant are open Nov-Apr, Thu-Sun 11-5.",
+  "openNov2026": "yes",
+  "cyclistNotes": "This is the best-reviewed camp on the segment: 149 Hipcamp reviews, 97% recommend, a 2024 'Best in Arizona' finalist. Sites are named 'RV/Tent Site 1-6 - Dry Camping', and car, rooftop-tent and van campers reviewed it through April 2026. A reviewer reports a 'decent restroom with showers'. You camp in shade among Medjool date palms, with date beer and food Thu-Sun and live music some weekends. One complaint is a generator. Wi-Fi at the brewery only.",
+  "confidence": "high",
+  "sources": [
+   "https://www.hipcamp.com/en-US/land/arizona-brewery-on-an-organic-date-farm-5x5h95m7",
+   "https://thedyrt.com/camping/arizona/organic-date-farm"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 6.5
+  },
+  "id": "cs-204",
+  "tier": "full",
+  "anchors": {
+   "i8": {
+    "mile": 155.7,
+    "off": 6.5
+   },
+   "hybrid": {
+    "mile": 155.7,
+    "off": 6.5
+   }
+  }
+ },
+ {
+  "name": "Camp'n Dirty (Hipcamp)",
+  "kind": "hipcamp_private",
+  "lat": 32.62679,
+  "lng": -114.22525,
+  "corridor": "i8",
+  "corridorMileApprox": 152,
+  "offRouteMiApprox": 7.5,
+  "access": "Same farm roads as the date farm, about 1 mi further west via Gila Ranch Rd and S Avenue 24 E (sand and rock). About 7.5 mi from Wellton exit 30, or about 9.3 mi from Dome Valley exit 21 via old Hwy 80 and Ave 25E.",
+  "address": "Wellton, AZ 85356 (exact spot on booking)",
+  "nearestTown": "Wellton",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "$35/night base price on Hipcamp, plus fees (5 private RV/tent sites)",
+  "phone": "unknown",
+  "website": "https://www.hipcamp.com/en-US/land/arizona-camp-n-dirty-ozxhql25",
+  "reservations": "Book on Hipcamp. Late arrival works: a Feb 2025 guest arrived 7-8 PM and the host flagged them in. It is very dark after sunset.",
+  "openNov2026": "yes",
+  "cyclistNotes": "40-acre off-grid desert property beside the Goldwater Range. Tent guests reviewed it in Nov 2025 and Jun 2024 (93% recommend, latest March 2026). No toilet or water. Eat and fill bottles at the date farm brewery, 1 mi east, on Thu-Sun.",
+  "confidence": "high",
+  "sources": [
+   "https://www.hipcamp.com/en-US/land/arizona-camp-n-dirty-ozxhql25"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 7.5
+  },
+  "id": "cs-205",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 155.9,
+    "off": 7.5
+   },
+   "hybrid": {
+    "mile": 155.9,
+    "off": 7.5
+   }
+  }
+ },
+ {
+  "name": "Liguerta (Ligurta) Station RV Park",
+  "kind": "rv_park",
+  "lat": 32.6756754,
+  "lng": -114.2976641,
+  "corridor": "i8",
+  "corridorMileApprox": 161.1,
+  "offRouteMiApprox": 0.7,
+  "access": "I-8 exit 21 (Dome Valley / Ligurta), north side on paved E Highway 80 (old US 80).",
+  "address": "19702 E Highway 80, Wellton, AZ 85356",
+  "nearestTown": "Ligurta / Wellton",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "928-785-9831 (RoverPass, unverified)",
+  "website": "https://roverpass.com/c/ligurta-station-rv-park-wellton-az",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "It exists in OSM and in an unclaimed RoverPass listing (updated Jul 2025) that claims showers, laundry, a pool and a dump station, rated 2.0 from 4 reviews. It is not on Campendium, The Dyrt or Hipcamp. Phone before relying on it. The I-8 'Ligurta parking areas' at this exit are truck parking, not legal campsites.",
+  "confidence": "low",
+  "sources": [
+   "https://roverpass.com/c/ligurta-station-rv-park-wellton-az",
+   "https://www.openstreetmap.org/way/452813102"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.7
+  },
+  "id": "cs-206",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 161.1,
+    "off": 0.7
+   },
+   "hybrid": {
+    "mile": 161.1,
+    "off": 0.7
+   }
+  }
+ },
+ {
+  "name": "BLM land at Dome Valley / Ligurta exit 21",
+  "kind": "blm_dispersed",
+  "lat": 32.668,
+  "lng": -114.306,
+  "corridor": "i8",
+  "corridorMileApprox": 161.4,
+  "offRouteMiApprox": 1.4,
+  "access": "I-8 exit 21: about 0.5 mi west on paved E Highway 80 (old US 80) on the south side. The federal map shows BLM on both sides of the road west of the exit (32.662-32.670 N, 114.300-114.315 W), and an OSM track enters it at 32.6672,-114.3044. North of the exit, BLM also starts about 0.5 mi up Ave 20E / Dome Valley Rd.",
+  "address": "E Highway 80 west of I-8 exit 21, Yuma County, AZ",
+  "nearestTown": "Ligurta / Dome",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "Free (BLM dispersed, 14-day limit)",
+  "phone": "928-317-3200 (BLM Yuma Field Office)",
+  "website": "https://www.blm.gov/office/yuma-field-office",
+  "reservations": "None.",
+  "openNov2026": "yes",
+  "cyclistNotes": "I found no camper reports here; legality comes from the federal land-status map only. West of this exit I-8 climbs Telegraph Pass with no exit for about 7 mi. The unpaved alternative is the 'Route of Butterfield Stage' county road (OSM, surface unknown), about 11 mi NW to US 95 at the Yuma VFW BLM camp. There is no water between Wellton and the Fortuna Foothills, about 16 mi.",
+  "confidence": "low",
+  "sources": [
+   "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer",
+   "https://www.openstreetmap.org/way/604843124",
+   "https://www.openstreetmap.org/way/16953316"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.4
+  },
+  "id": "cs-207",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 161.4,
+    "off": 1.4
+   },
+   "hybrid": {
+    "mile": 161.4,
+    "off": 1.4
+   }
+  }
+ },
+ {
+  "name": "Fortuna de Oro RV Resort (Cal-Am, 55+)",
+  "kind": "rv_park",
+  "lat": 32.667825,
+  "lng": -114.39709,
+  "corridor": "i8",
+  "corridorMileApprox": 167.7,
+  "offRouteMiApprox": 1.6,
+  "access": "I-8 exit 14 (Foothills Blvd), north frontage road east.",
+  "address": "13650 N Frontage Rd, Yuma, AZ 85367",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-342-5051",
+  "website": "https://www.cal-am.com/resorts/fortuna-de-oro/",
+  "reservations": "Through Cal-Am.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Cal-Am markets it 'for 55+ active seniors'. The Dyrt's tent flag is boilerplate.",
+  "confidence": "medium",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/fortuna-de-oro-55-rv-resort-yuma-az--0",
+   "https://www.cal-am.com/resorts/fortuna-de-oro/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.6
+  },
+  "id": "cs-208",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 167.6,
+    "off": 1.6
+   },
+   "hybrid": {
+    "mile": 167.6,
+    "off": 1.6
+   }
+  }
+ },
+ {
+  "name": "Sundance RV Resort (Cal-Am, 55+)",
+  "kind": "rv_park",
+  "lat": 32.66933,
+  "lng": -114.40285,
+  "corridor": "i8",
+  "corridorMileApprox": 168,
+  "offRouteMiApprox": 0.8,
+  "access": "I-8 exit 14, north frontage road 1/4 mi east.",
+  "address": "13502 N Frontage Rd, Yuma, AZ 85367",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-342-9333",
+  "website": "https://www.cal-am.com/resorts/sundance/",
+  "reservations": "Through Cal-Am.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+ and a 2025 reviewer calls it a '55+ resort'. 499 sites.",
+  "confidence": "medium",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/sundance-55-rv-resort",
+   "https://thedyrt.com/camping/arizona/sundance-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.8
+  },
+  "id": "cs-209",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 168,
+    "off": 0.8
+   },
+   "hybrid": {
+    "mile": 168,
+    "off": 0.8
+   }
+  }
+ },
+ {
+  "name": "Encore Foothill Village",
+  "kind": "rv_park",
+  "lat": 32.669125,
+  "lng": -114.413079,
+  "corridor": "i8",
+  "corridorMileApprox": 168.5,
+  "offRouteMiApprox": 0.8,
+  "access": "I-8 exit 14, 200 yd west on the south frontage road.",
+  "address": "12705 E South Frontage Rd, Yuma, AZ 85367",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites listed (Encore / Thousand Trails RV resort, 160 RV sites).",
+  "phone": "866-315-9332",
+  "website": "https://thousandtrails.com/arizona/foothill-village-rv-resort",
+  "reservations": "Thousand Trails / Encore reservations.",
+  "openNov2026": "yes",
+  "cyclistNotes": "RV-only listings everywhere. It is next to the Foothills grocery store, restaurants and Mickey B's.",
+  "confidence": "medium",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/foothill-village-rv-resort",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/encore-foothill-village"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.8
+  },
+  "id": "cs-210",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 168.5,
+    "off": 0.8
+   },
+   "hybrid": {
+    "mile": 168.5,
+    "off": 0.8
+   }
+  }
+ },
+ {
+  "name": "Gila Mountain RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.67005,
+  "lng": -114.42157,
+  "corridor": "i8",
+  "corridorMileApprox": 168.7,
+  "offRouteMiApprox": 1.2,
+  "access": "South frontage road between exits 14 and 12.",
+  "address": "12325 S Frontage Rd, Yuma, AZ 85367",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-342-1310",
+  "website": "https://www.gilamountainrvresort.com/",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its site calls it 'Yuma's premier 55+ RV resort'.",
+  "confidence": "high",
+  "sources": [
+   "https://www.gilamountainrvresort.com/",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/gila-mountain-55-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.2
+  },
+  "id": "cs-211",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 168.7,
+    "off": 1.2
+   },
+   "hybrid": {
+    "mile": 168.7,
+    "off": 1.2
+   }
+  }
+ },
+ {
+  "name": "Yuma VFW BLM dispersed area (Blaisdell, US 95)",
+  "kind": "blm_dispersed",
+  "lat": 32.729115,
+  "lng": -114.423031,
+  "corridor": "i8",
+  "corridorMileApprox": 170,
+  "offRouteMiApprox": 5.8,
+  "access": "From I-8 exit 12 (Fortuna Rd): north on paved S Fortuna Rd about 1.8 mi, then Old Ocean-to-Ocean Hwy, Rifle Range Rd and Ave 12E to US 95 (about 5.8 mi). Enter the VFW Post driveway (7120 US-95), go around the west side of the building and north onto the open flat. Map pins can be 0.5 mi off, so navigate to the VFW building. Coming from Dome Valley exit 21, the 'Route of Butterfield Stage' back road reaches it in about 15 mi without crossing Telegraph Pass. Expect loose 'sugar sand'.",
+  "address": "7120 US-95 (behind the VFW post), Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills / Yuma",
+  "tents": "yes",
+  "showers": "no",
+  "water": "none",
+  "toilets": "none",
+  "power": "no",
+  "wifi": "no",
+  "priceTent": "Free (14-day limit)",
+  "phone": "928-317-3200 (BLM Yuma Field Office)",
+  "website": "https://www.campendium.com/yuma-vfw",
+  "reservations": "None; first come. A camp host is sometimes listed but rarely present.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Current and busy: an Oct 28, 2026 Dyrt review says 'Fine for a night. Maybe a dozen other campers.' Reviews mention tents. Downsides are UP freight trains and US 95 right alongside, jets, and dust in wind. A 2021 reviewer reported unsettling campers in the back brush, so camp near others. The federal map shows the land as Bureau of Reclamation; Campendium and The Dyrt list it as BLM Yuma FO dispersed camping. Do not use the nearby 'Gila Canal' spot (32.739,-114.430), where a sign reads 'State Property... No Camping'. Buy food and water in the Foothills first: Fry's, Circle K and Chevron at Fortuna Rd and I-8.",
+  "confidence": "high",
+  "sources": [
+   "https://www.campendium.com/yuma-vfw",
+   "https://thedyrt.com/camping/arizona/arizona-yuma-vfw",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/gila-canal-dispersed-campsites",
+   "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 5.8
+  },
+  "id": "cs-212",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 168.7,
+    "off": 5.8
+   },
+   "hybrid": {
+    "mile": 168.7,
+    "off": 5.8
+   }
+  }
+ },
+ {
+  "name": "Caravan Oasis RV Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.67104,
+  "lng": -114.44877,
+  "corridor": "i8",
+  "corridorMileApprox": 170.6,
+  "offRouteMiApprox": 1.1,
+  "access": "I-8 exit 12 (Fortuna Rd), north frontage road west, behind Daybreakers Cafe.",
+  "address": "10500 N Frontage Rd, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-342-1480",
+  "website": "https://www.caravanoasisrv.com/",
+  "reservations": "Call or reserve online.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its site is titled 'The Caravan Oasis 55+ RV Park'. The Dyrt's tent flag is boilerplate.",
+  "confidence": "high",
+  "sources": [
+   "https://www.caravanoasisrv.com/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.1
+  },
+  "id": "cs-213",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 170.6,
+    "off": 1.1
+   },
+   "hybrid": {
+    "mile": 170.6,
+    "off": 1.1
+   }
+  }
+ },
+ {
+  "name": "Shangri-La RV Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.67102,
+  "lng": -114.45021,
+  "corridor": "i8",
+  "corridorMileApprox": 170.8,
+  "offRouteMiApprox": 0.8,
+  "access": "I-8 exit 12, north frontage road west.",
+  "address": "10498 N Frontage Rd, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-342-9123",
+  "website": "https://www.shangrilarv.com/",
+  "reservations": "Online inquiry or phone.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its site calls it 'Yuma's premier 55+ snowbird community'.",
+  "confidence": "high",
+  "sources": [
+   "https://www.shangrilarv.com/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.8
+  },
+  "id": "cs-214",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 170.8,
+    "off": 0.8
+   },
+   "hybrid": {
+    "mile": 170.8,
+    "off": 0.8
+   }
+  }
+ },
+ {
+  "name": "Las Quintas Oasis RV Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.67102,
+  "lng": -114.45372,
+  "corridor": "i8",
+  "corridorMileApprox": 170.9,
+  "offRouteMiApprox": 1,
+  "access": "I-8 exit 12, north frontage road west.",
+  "address": "10442 N Frontage Rd, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park. RVs must be self-contained.",
+  "phone": "928-320-9761",
+  "website": "https://livecobblestone.com/las-quintas/",
+  "reservations": "Campspot.",
+  "openNov2026": "yes",
+  "cyclistNotes": "AllStays lists 'RVs only, Age Restricted (55+), No tent'.",
+  "confidence": "high",
+  "sources": [
+   "https://www.campendium.com/las-quintas-oasis-rv-resort",
+   "https://www.campspot.com/park/la-quintas-oasis-rv-resort-yuma-az"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1
+  },
+  "id": "cs-215",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 170.9,
+    "off": 1
+   },
+   "hybrid": {
+    "mile": 170.9,
+    "off": 1
+   }
+  }
+ },
+ {
+  "name": "Blue Sky RV Resort",
+  "kind": "rv_park",
+  "lat": 32.670094,
+  "lng": -114.456339,
+  "corridor": "i8",
+  "corridorMileApprox": 170.9,
+  "offRouteMiApprox": 1.3,
+  "access": "South of I-8 exit 12 on the south frontage road.",
+  "address": "10247 S Frontage Rd, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "unknown",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "Tent rate not published. Full-hookup RV sites from $58/night (operator, 2026).",
+  "phone": "928-342-1444",
+  "website": "https://www.blueskyyuma.com/",
+  "reservations": "Book online. A camp host is on site 24/7, so late arrival is plausible; call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Sources conflict. AAA's guide lists it with 'Tents, RVs' and AllStays lists tents but also '55+'. The operator's 2026 site only markets full-hookup RV sites, and Campendium says it is open to all ages. Worth one phone call because of the 24/7 host.",
+  "confidence": "low",
+  "sources": [
+   "https://www.blueskyyuma.com/",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/blue-sky-rv-resort",
+   "https://www.aaa.com/travelguides/campgrounds/Yuma-AZ"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.3
+  },
+  "id": "cs-216",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 170.9,
+    "off": 1.3
+   },
+   "hybrid": {
+    "mile": 170.9,
+    "off": 1.3
+   }
+  }
+ },
+ {
+  "name": "Sunset Palm 55+ RV Park",
+  "kind": "rv_park",
+  "lat": 32.663919,
+  "lng": -114.452903,
+  "corridor": "i8",
+  "corridorMileApprox": 170.9,
+  "offRouteMiApprox": 1.3,
+  "access": "South of I-8 exit 12 via S Payson Dr.",
+  "address": "11450 S Payson Dr, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tents: park rules ban tents ('No ... tents ... allowed'); 55+.",
+  "phone": "928-345-1159",
+  "website": "http://sunsetpalmrv.com/",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its posted rules list tents among the things not allowed.",
+  "confidence": "high",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/sunset-palm-rv-park",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/sunset-palm-55-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.3
+  },
+  "id": "cs-217",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 170.9,
+    "off": 1.3
+   },
+   "hybrid": {
+    "mile": 170.9,
+    "off": 1.3
+   }
+  }
+ },
+ {
+  "name": "Western Sands RV Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.666954,
+  "lng": -114.453601,
+  "corridor": "i8",
+  "corridorMileApprox": 170.9,
+  "offRouteMiApprox": 1.4,
+  "access": "South of I-8 exit 12 via the south frontage road and Payson Dr.",
+  "address": "10460 E 34th St, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park. RV daily $55 + tax.",
+  "phone": "928-342-6133",
+  "website": "https://www.westernsandsrv.com/",
+  "reservations": "Deposit required; non-refundable.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium and MHVillage list it as 55+.",
+  "confidence": "medium",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/western-sands-55-rv-park",
+   "https://westernsandsrv.com/rates/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.4
+  },
+  "id": "cs-218",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 170.9,
+    "off": 1.4
+   },
+   "hybrid": {
+    "mile": 170.9,
+    "off": 1.4
+   }
+  }
+ },
+ {
+  "name": "Adobe Sunset RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.6649796,
+  "lng": -114.453862,
+  "corridor": "i8",
+  "corridorMileApprox": 170.9,
+  "offRouteMiApprox": 1.5,
+  "access": "South of I-8 exit 12 via Payson Dr.",
+  "address": "11350-11450 S Payson Dr area, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "unknown",
+  "water": "potable",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "unknown",
+  "website": "https://www.adobesunsetrv.com/",
+  "reservations": "unknown",
+  "openNov2026": "yes",
+  "cyclistNotes": "RV LIFE lists it as '55+ Only' (formerly Adobe Village RV Park). Its sister park Sunset Palm bans tents.",
+  "confidence": "medium",
+  "sources": [
+   "https://campgrounds.rvlife.com/regions/arizona/yuma/adobe-sunset-rv-park-13302"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.5
+  },
+  "id": "cs-219",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 170.9,
+    "off": 1.5
+   },
+   "hybrid": {
+    "mile": 170.9,
+    "off": 1.5
+   }
+  }
+ },
+ {
+  "name": "Sunridge RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.66668,
+  "lng": -114.45548,
+  "corridor": "i8",
+  "corridorMileApprox": 170.9,
+  "offRouteMiApprox": 1.5,
+  "access": "South of I-8 exit 12 via Payson Dr / E 34th St.",
+  "address": "10347 E 34th St, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park. RV nightly was $48 (Mar 2026).",
+  "phone": "928-345-4280",
+  "website": "http://sunridgervaz.com/",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+. All sites are full-hookup back-ins.",
+  "confidence": "high",
+  "sources": [
+   "https://www.campendium.com/sun-ridge-55-rv-park",
+   "https://thedyrt.com/camping/arizona/sun-ridge-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.5
+  },
+  "id": "cs-220",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 170.9,
+    "off": 1.5
+   },
+   "hybrid": {
+    "mile": 170.9,
+    "off": 1.5
+   }
+  }
+ },
+ {
+  "name": "Westwind RV & Golf Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.670073,
+  "lng": -114.463459,
+  "corridor": "i8",
+  "corridorMileApprox": 171.6,
+  "offRouteMiApprox": 1.5,
+  "access": "South frontage road between exits 12 and 9.",
+  "address": "9797 S Frontage Rd, Yuma, AZ 85365",
+  "nearestTown": "Fortuna Foothills",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park. RV nightly was $57 (Nov 2023).",
+  "phone": "928-342-2992",
+  "website": "https://www.westwindrvgolfresort.com/",
+  "reservations": "Online or phone.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it '55+' and '18+ Adults only'. Its on-site bar and grill is open Mon-Sat 8 AM-8 PM.",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/westwind-55-rv-golf-resort-yuma-az--0",
+   "https://www.westwindrvgolfresort.com/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.5
+  },
+  "id": "cs-221",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 171.6,
+    "off": 1.5
+   },
+   "hybrid": {
+    "mile": 171.6,
+    "off": 1.5
+   }
+  }
+ },
+ {
+  "name": "Bonita Mesa RV Resort",
+  "kind": "rv_park",
+  "lat": 32.67107,
+  "lng": -114.470674,
+  "corridor": "i8",
+  "corridorMileApprox": 172.1,
+  "offRouteMiApprox": 1.2,
+  "access": "North frontage road, 1.5 mi west of exit 12 (or from exit 9).",
+  "address": "9400 N Frontage Rd, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tents: AAA lists 'No tent. RVs only.' RV daily $65 + tax (Sept 2026).",
+  "phone": "928-342-2999",
+  "website": "https://bonitamesa.com/",
+  "reservations": "$250 deposit; call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Open to all ages but mostly 55+ guests. The Dyrt's tent tag conflicts with AAA's 'RVs only'.",
+  "confidence": "medium",
+  "sources": [
+   "https://bonitamesa.com/rates/",
+   "https://www.aaa.com/travelguides/campgrounds/Yuma-AZ",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/bonita-mesa-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.2
+  },
+  "id": "cs-222",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 172.1,
+    "off": 1.2
+   },
+   "hybrid": {
+    "mile": 172.1,
+    "off": 1.2
+   }
+  }
+ },
+ {
+  "name": "Encore Cactus Gardens (55+)",
+  "kind": "rv_park",
+  "lat": 32.674794,
+  "lng": -114.477898,
+  "corridor": "i8",
+  "corridorMileApprox": 172.3,
+  "offRouteMiApprox": 1.1,
+  "access": "North of I-8 near exit 9 via the north frontage road and S Ave 9E.",
+  "address": "10657 S Ave 9E, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-342-9188",
+  "website": "https://www.rvonthego.com/arizona/cactus-gardens-rv-resort/",
+  "reservations": "Encore reservations.",
+  "openNov2026": "yes",
+  "cyclistNotes": "An age-qualified Encore resort.",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/cactus-gardens-55-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.1
+  },
+  "id": "cs-223",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 172.3,
+    "off": 1.1
+   },
+   "hybrid": {
+    "mile": 172.3,
+    "off": 1.1
+   }
+  }
+ },
+ {
+  "name": "Encore Desert Paradise (55+)",
+  "kind": "rv_park",
+  "lat": 32.677002,
+  "lng": -114.478145,
+  "corridor": "i8",
+  "corridorMileApprox": 172.3,
+  "offRouteMiApprox": 1.2,
+  "access": "North of I-8 near exit 9 via S Ave 9E.",
+  "address": "10537 S Ave 9E, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-342-9313",
+  "website": "https://www.rvonthego.com/arizona/desert-paradise-rv-resort/",
+  "reservations": "Encore reservations.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+.",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/desert-paradise-55-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.2
+  },
+  "id": "cs-224",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 172.3,
+    "off": 1.2
+   },
+   "hybrid": {
+    "mile": 172.3,
+    "off": 1.2
+   }
+  }
+ },
+ {
+  "name": "Lazy K RV Park (Yuma)",
+  "kind": "rv_park",
+  "lat": 32.6884247,
+  "lng": -114.4776588,
+  "corridor": "i8",
+  "corridorMileApprox": 172.6,
+  "offRouteMiApprox": 2.4,
+  "access": "North of I-8 near exit 9 via the north frontage road and S Ave 9E.",
+  "address": "9705 S Ave 9E, Yuma, AZ 85365 (mobile-home directory)",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "unknown",
+  "website": "unknown",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "This is an OSM-only park. A mobile-home directory lists 'Lazy K (all ages / pet friendly)' at this address, and The Dyrt's 'Lazy K RV Park' page is a Texas park. It may be long-term only.",
+  "confidence": "low",
+  "sources": [
+   "https://www.openstreetmap.org/way/542995813"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.4
+  },
+  "id": "cs-225",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 172.6,
+    "off": 2.4
+   },
+   "hybrid": {
+    "mile": 172.6,
+    "off": 2.4
+   }
+  }
+ },
+ {
+  "name": "Carefree Village Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.6576478,
+  "lng": -114.4897546,
+  "corridor": "i8",
+  "corridorMileApprox": 172.6,
+  "offRouteMiApprox": 2.7,
+  "access": "South of I-8 exit 9 via E 32nd St and S Ave 8 1/2 E.",
+  "address": "3900 S Ave 8 1/2 E, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "unknown",
+  "water": "potable",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-342-7900",
+  "website": "https://www.carefreevillageresort.com/",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its site calls it 'a superior 55+ RV resort' with resort housing.",
+  "confidence": "high",
+  "sources": [
+   "https://www.carefreevillageresort.com/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.7
+  },
+  "id": "cs-226",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 172.6,
+    "off": 2.7
+   },
+   "hybrid": {
+    "mile": 172.6,
+    "off": 2.7
+   }
+  }
+ },
+ {
+  "name": "Arizona West RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.669861,
+  "lng": -114.514595,
+  "corridor": "i8",
+  "corridorMileApprox": 174.5,
+  "offRouteMiApprox": 0.9,
+  "access": "I-8 exit 7, south on Araby Rd to E 32nd St, east 0.4 mi.",
+  "address": "6825 E 32nd St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-655-3457",
+  "website": "https://www.azwestrv.com/",
+  "reservations": "Online or phone.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its site says 'A 55+ RV PARK!'.",
+  "confidence": "high",
+  "sources": [
+   "https://www.azwestrv.com/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.9
+  },
+  "id": "cs-227",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 174.5,
+    "off": 0.9
+   },
+   "hybrid": {
+    "mile": 174.5,
+    "off": 0.9
+   }
+  }
+ },
+ {
+  "name": "Sun Vista RV Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.669788,
+  "lng": -114.510428,
+  "corridor": "i8",
+  "corridorMileApprox": 174.5,
+  "offRouteMiApprox": 1.2,
+  "access": "I-8 exit 7 (Araby Rd), south about 0.5 mi to E 32nd St, then east.",
+  "address": "7201 E 32nd St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park. RV nightly was $57 (Dec 2024).",
+  "phone": "928-726-8920",
+  "website": "https://www.sunvistarvresort.com/",
+  "reservations": "Online or phone.",
+  "openNov2026": "yes",
+  "cyclistNotes": "It calls itself 'Yuma's best 55+ resort' (1,230 sites); AAA lists it as RVs only.",
+  "confidence": "high",
+  "sources": [
+   "https://www.sunvistarvresort.com/",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/sun-vista-55-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.2
+  },
+  "id": "cs-228",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 174.3,
+    "off": 1.2
+   },
+   "hybrid": {
+    "mile": 174.3,
+    "off": 1.2
+   }
+  }
+ },
+ {
+  "name": "The Palms RV Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.66675,
+  "lng": -114.5128,
+  "corridor": "i8",
+  "corridorMileApprox": 174.5,
+  "offRouteMiApprox": 1.3,
+  "access": "I-8 exit 7, south on Araby Rd, E 32nd St east, then S Ave 7E.",
+  "address": "3400 S Ave 7E, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-341-4646",
+  "website": "https://yumapalmsrvresort.com/",
+  "reservations": "Call 855-725-6778.",
+  "openNov2026": "yes",
+  "cyclistNotes": "An 'active adult' resort; Campendium tags it 55+ and AAA lists it as RVs only.",
+  "confidence": "high",
+  "sources": [
+   "https://yumapalmsrvresort.com/",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/the-palms-55-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.3
+  },
+  "id": "cs-229",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 174.5,
+    "off": 1.3
+   },
+   "hybrid": {
+    "mile": 174.5,
+    "off": 1.3
+   }
+  }
+ },
+ {
+  "name": "Yuma Lakes RV Resort",
+  "kind": "rv_park",
+  "lat": 32.740852,
+  "lng": -114.482702,
+  "corridor": "i8",
+  "corridorMileApprox": 174.5,
+  "offRouteMiApprox": 7.7,
+  "access": "I-8 exit 7, north on Araby Rd, County 9 1/2 St, Ave 7E/Laguna Dam Rd and County 6th St to S Ave 8 1/2 E, about 7.7 mi into the North Gila Valley.",
+  "address": "6275 S Ave 8 1/2 E, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tents (Good Sam: 'No tents').",
+  "phone": "866-217-8111",
+  "website": "https://www.yumalakesrvresort.com/",
+  "reservations": "Coast/Colorado River Adventures resort; season Sep 15-May 15.",
+  "openNov2026": "yes",
+  "cyclistNotes": "It is a membership-style resort, 7+ mi off.",
+  "confidence": "medium",
+  "sources": [
+   "https://www.goodsam.com/campgrounds-rv-parks/arizona/yuma/yuma-lakes-rv-resort-colorado-river-adventure-201203667",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/yuma-lakes-rv-resort-yuma"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 7.7
+  },
+  "id": "cs-230",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 174,
+    "off": 7.7
+   },
+   "hybrid": {
+    "mile": 174,
+    "off": 7.7
+   }
+  }
+ },
+ {
+  "name": "Sandbar RV Park",
+  "kind": "rv_park",
+  "lat": 32.7367413,
+  "lng": -114.4799238,
+  "corridor": "i8",
+  "corridorMileApprox": 174.5,
+  "offRouteMiApprox": 8.5,
+  "access": "Next to Yuma Lakes RV Resort in the North Gila Valley, about 8.5 mi from I-8 exit 7 via Araby Rd and Laguna Dam Rd.",
+  "address": "North Gila Valley, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "unknown",
+  "website": "unknown",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "This is an OSM-only listing; I found no listing, reviews or website. Do not plan on it.",
+  "confidence": "low",
+  "sources": [
+   "https://www.openstreetmap.org/way/455882007"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 8.5
+  },
+  "id": "cs-231",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 174,
+    "off": 8.5
+   },
+   "hybrid": {
+    "mile": 174,
+    "off": 8.5
+   }
+  }
+ },
+ {
+  "name": "Encore Araby Acres (55+)",
+  "kind": "rv_park",
+  "lat": 32.6699,
+  "lng": -114.51824,
+  "corridor": "i8",
+  "corridorMileApprox": 174.8,
+  "offRouteMiApprox": 0.6,
+  "access": "I-8 exit 7, south on Araby Rd to E 32nd St.",
+  "address": "6649 E 32nd St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-344-8666",
+  "website": "https://www.rvonthego.com/arizona/araby-acres-rv-resort/",
+  "reservations": "Encore reservations.",
+  "openNov2026": "yes",
+  "cyclistNotes": "An age-qualified Encore resort.",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/araby-acres-55-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.6
+  },
+  "id": "cs-232",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 174.8,
+    "off": 0.6
+   },
+   "hybrid": {
+    "mile": 174.8,
+    "off": 0.6
+   }
+  }
+ },
+ {
+  "name": "Windhaven RV Park",
+  "kind": "rv_park",
+  "lat": 32.67036,
+  "lng": -114.51951,
+  "corridor": "i8",
+  "corridorMileApprox": 174.9,
+  "offRouteMiApprox": 0.7,
+  "access": "I-8 exit 7 (Araby Rd), south about 0.5 mi to E 32nd St (Business 8 / old US 80), then 0.15 mi west.",
+  "address": "6580 E 32nd St (US Hwy 80), Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "unknown",
+  "phone": "928-726-0284",
+  "website": "https://thedyrt.com/camping/arizona/windhaven-rv-park",
+  "reservations": "A 2021 reviewer said three first-come, first-served one-night spots sit at the front. Otherwise call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "It is not age-restricted, which is rare in Yuma ('one of the few in the area friendly to young people and families', 2021). The owner-claimed Dyrt listing, updated Dec 2025, lists 'Tent Sites' along with showers and restrooms, and one AAA record mentions tent-only sites. Another AAA record and AllStays say 'RVs only, no tent'. Call; this is the closest possible tent spot to central Yuma's I-8 exits.",
+  "confidence": "low",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/windhaven-rv-park",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/windhaven-rv-park",
+   "https://www.aaa.com/travelguides/campgrounds/Yuma-AZ"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 0.7
+  },
+  "id": "cs-233",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 174.9,
+    "off": 0.7
+   },
+   "hybrid": {
+    "mile": 174.9,
+    "off": 0.7
+   }
+  }
+ },
+ {
+  "name": "El Prado Estates RV Park",
+  "kind": "rv_park",
+  "lat": 32.70221,
+  "lng": -114.52794,
+  "corridor": "i8",
+  "corridorMileApprox": 175.2,
+  "offRouteMiApprox": 1.9,
+  "access": "I-8 exit 7, north on Araby Rd about 1.6 mi to US 95, then west.",
+  "address": "6200 E US Highway 95, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tents: AAA lists 'No tent. RVs only.'",
+  "phone": "928-726-4006",
+  "website": "unknown",
+  "reservations": "unknown",
+  "openNov2026": "yes",
+  "cyclistNotes": "A mixed mobile-home and RV park with full-time residents.",
+  "confidence": "medium",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/el-prado-estates-rv-park",
+   "https://www.aaa.com/travelguides/campgrounds/Yuma-AZ"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.9
+  },
+  "id": "cs-234",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 175.2,
+    "off": 1.9
+   },
+   "hybrid": {
+    "mile": 175.2,
+    "off": 1.9
+   }
+  }
+ },
+ {
+  "name": "Rocking K RV Park",
+  "kind": "rv_park",
+  "lat": 32.670336,
+  "lng": -114.533421,
+  "corridor": "i8",
+  "corridorMileApprox": 175.4,
+  "offRouteMiApprox": 1.2,
+  "access": "I-8 exit 7 (Araby Rd), south about 0.5 mi to E 32nd St, then about 0.65 mi west (paved, busy arterial).",
+  "address": "5730 E 32nd St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "yes",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "Tent rate not published. Back-in RV lot $50 + tax/day incl. electric; pull-through $55 + tax (2026 rate page).",
+  "phone": "928-344-2646",
+  "website": "https://rockingkrvpark.com/",
+  "reservations": "Call or use the site's booking form ($100 deposit for longer stays). Campendium's description says '3-day minimum stay Oct.-April'; the current rate page does not mention it, so ask.",
+  "openNov2026": "yes",
+  "cyclistNotes": "The operator's facilities page lists 'Tent Camping Sites', 'Clean bathrooms & Free showers', laundry, clubhouse Wi-Fi and 24-hour on-call maintenance; Campendium also lists tents. A Jan 2024 reviewer found it overpriced. The possible 3-night minimum is the catch for a one-night rider. It may now include the closed Yuma Mesa RV Park next door; Good Sam lists 'Rocking K Grande' at that ID.",
+  "confidence": "medium",
+  "sources": [
+   "https://rockingkrvpark.com/facilities/",
+   "https://rockingkrvpark.com/rates/",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/rocking-k-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.2
+  },
+  "id": "cs-235",
+  "tier": "full",
+  "anchors": {
+   "i8": {
+    "mile": 175.6,
+    "off": 1.2
+   },
+   "hybrid": {
+    "mile": 175.6,
+    "off": 1.2
+   }
+  }
+ },
+ {
+  "name": "Yuma Mesa RV Park (permanently closed)",
+  "kind": "rv_park",
+  "lat": 32.67093,
+  "lng": -114.53126,
+  "corridor": "i8",
+  "corridorMileApprox": 175.6,
+  "offRouteMiApprox": 1.1,
+  "access": "E 32nd St, south of I-8 exit 7.",
+  "address": "5990 E 32nd St (US Hwy 80), Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "Closed.",
+  "phone": "928-344-3369 (old)",
+  "website": "unknown",
+  "reservations": "n/a",
+  "openNov2026": "no",
+  "cyclistNotes": "Campendium marks it '[3.27.23 Permanently closed]'. Use Rocking K next door instead.",
+  "confidence": "medium",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/yuma-mesa-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.1
+  },
+  "id": "cs-236",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 175.6,
+    "off": 1.1
+   },
+   "hybrid": {
+    "mile": 175.6,
+    "off": 1.1
+   }
+  }
+ },
+ {
+  "name": "Miles Last Resort RV Park (permanently closed)",
+  "kind": "rv_park",
+  "lat": 32.67018,
+  "lng": -114.53622,
+  "corridor": "i8",
+  "corridorMileApprox": 175.8,
+  "offRouteMiApprox": 1.3,
+  "access": "E 32nd St, south of I-8 exit 7.",
+  "address": "5590 E 32nd St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "Closed.",
+  "phone": "928-580-7383 (old)",
+  "website": "unknown",
+  "reservations": "n/a",
+  "openNov2026": "no",
+  "cyclistNotes": "Campendium's page for it is titled 'Permanently Closed'; AllStays listed it as RVs only.",
+  "confidence": "medium",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/miles-last-resort-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.3
+  },
+  "id": "cs-237",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 175.8,
+    "off": 1.3
+   },
+   "hybrid": {
+    "mile": 175.8,
+    "off": 1.3
+   }
+  }
+ },
+ {
+  "name": "Blue Sky Ranch RV Park (55+)",
+  "kind": "rv_park",
+  "lat": 32.67022,
+  "lng": -114.53855,
+  "corridor": "i8",
+  "corridorMileApprox": 175.9,
+  "offRouteMiApprox": 1.5,
+  "access": "E 32nd St, south of I-8 exit 7.",
+  "address": "5510 E 32nd St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park. AAA lists 'RVs only, no tents'.",
+  "phone": "928-726-0160",
+  "website": "https://www.blueskyranchyuma.com/",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+.",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/blue-sky-ranch-55-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.5
+  },
+  "id": "cs-238",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 175.9,
+    "off": 1.5
+   },
+   "hybrid": {
+    "mile": 175.9,
+    "off": 1.5
+   }
+  }
+ },
+ {
+  "name": "Villa Alameda RV Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.66302,
+  "lng": -114.54676,
+  "corridor": "i8",
+  "corridorMileApprox": 176.1,
+  "offRouteMiApprox": 2.3,
+  "access": "I-8 exit 7 or 3, then E 32nd St and S Ave 5E.",
+  "address": "3547 S Ave 5E, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-344-8081",
+  "website": "https://villaalamedarvresort.com/",
+  "reservations": "Call or email.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its site calls it 'an Adult (55+) RV Park ... 302 full hookup sites ... all back-in'.",
+  "confidence": "high",
+  "sources": [
+   "https://villaalamedarvresort.com/features-and-rates/"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.3
+  },
+  "id": "cs-239",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 176.1,
+    "off": 2.3
+   },
+   "hybrid": {
+    "mile": 176.1,
+    "off": 2.3
+   }
+  }
+ },
+ {
+  "name": "Del Pueblo RV Park & Tennis Resort (55+)",
+  "kind": "rv_park",
+  "lat": 32.61315,
+  "lng": -114.58083,
+  "corridor": "i8",
+  "corridorMileApprox": 178.2,
+  "offRouteMiApprox": 5.5,
+  "access": "I-8 exit 3 (Ave 3E), about 5.3 mi south on Ave 3E.",
+  "address": "14794 S Ave 3E, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-341-2100 (The Dyrt) / 928-222-4601 (Campendium)",
+  "website": "https://livecobblestone.com/del-pueblo/",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+ and it is 5+ mi off the line.",
+  "confidence": "high",
+  "sources": [
+   "https://www.campendium.com/del-pueblo-55-rv-park-tennis-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 5.5
+  },
+  "id": "cs-240",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 176.3,
+    "off": 5.5
+   },
+   "hybrid": {
+    "mile": 176.3,
+    "off": 5.5
+   }
+  }
+ },
+ {
+  "name": "SKP Kofa Ko-op Retreat (Escapees, 55+)",
+  "kind": "rv_park",
+  "lat": 32.583722,
+  "lng": -114.566431,
+  "corridor": "i8",
+  "corridorMileApprox": 178.2,
+  "offRouteMiApprox": 8.4,
+  "access": "I-8 exit 3, about 7.4 mi south on Ave 3E, then E County 17th St.",
+  "address": "E County 17th St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tents (Escapees 55+ co-op, RVs; dry RV camping $12).",
+  "phone": "928-344-0645",
+  "website": "https://kofako-op.com/",
+  "reservations": "No reservations; call for openings.",
+  "openNov2026": "yes",
+  "cyclistNotes": "For Escapees members, and The Dyrt marks it RV-only.",
+  "confidence": "medium",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/skp-kofa-ko-op-retreat-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 8.4
+  },
+  "id": "cs-241",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 176.1,
+    "off": 8.4
+   },
+   "hybrid": {
+    "mile": 176.1,
+    "off": 8.4
+   }
+  }
+ },
+ {
+  "name": "Lost Traveler RV Park (formerly Southern Mesa)",
+  "kind": "rv_park",
+  "lat": 32.55925,
+  "lng": -114.580228,
+  "corridor": "i8",
+  "corridorMileApprox": 178.2,
+  "offRouteMiApprox": 9.2,
+  "access": "I-8 exit 3 (Ave 3E), about 9 mi south on Ave 3E toward Somerton/San Luis; flat farm road.",
+  "address": "18540 S Ave 3E, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "Tent rate not published. Back-in RV sites $45/night + tax.",
+  "phone": "928-344-5720",
+  "website": "https://losttravelerrvpark.com/",
+  "reservations": "Check-in must be before dark; check-out 11 AM; one-night cancellation fee.",
+  "openNov2026": "yes",
+  "cyclistNotes": "It markets itself as the 'Best Family-Friendly Park in Yuma' (not 55+), with free showers, laundry and a pool. The Dyrt tags it 'RVs, Tents', but the park's own pages mention only RV sites. It is 9 mi off route, so only worth a call if the Yuma options fail.",
+  "confidence": "low",
+  "sources": [
+   "https://losttravelerrvpark.com/rates/",
+   "https://losttravelerrvpark.com/facilities/",
+   "https://thedyrt.com/camping/arizona/southern-mesa-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 9.2
+  },
+  "id": "cs-242",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 176.1,
+    "off": 9.2
+   },
+   "hybrid": {
+    "mile": 176.1,
+    "off": 9.2
+   }
+  }
+ },
+ {
+  "name": "Yuma River RV Park (OSM 'River RV Park')",
+  "kind": "rv_park",
+  "lat": 32.731577,
+  "lng": -114.5362928,
+  "corridor": "i8",
+  "corridorMileApprox": 178.2,
+  "offRouteMiApprox": 10.1,
+  "access": "In the North Gila Valley, about 3.6 mi straight-line north of I-8. It sits across the Gila River from Yuma, so you must go round via Araby Rd / Ave 7E / Laguna Dam Rd: about 10 mi from exit 3 by the bike router.",
+  "address": "5625 E County 5 1/2 St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "potable",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "unknown",
+  "phone": "unknown",
+  "website": "https://www.hipcamp.com/en-US/land/arizona-yuma-river-rv-park-v1qhmo9x",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "Unverified listings (Hipcamp, Passport America) market only RV sites: 30/50-amp full hookups, laundry, Starlink Wi-Fi, and a short walk to the river.",
+  "confidence": "low",
+  "sources": [
+   "https://www.hipcamp.com/en-US/land/arizona-yuma-river-rv-park-v1qhmo9x"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 10.1
+  },
+  "id": "cs-243",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 177.4,
+    "off": 10.1
+   },
+   "hybrid": {
+    "mile": 177.4,
+    "off": 10.1
+   }
+  }
+ },
+ {
+  "name": "Encore Suni Sands (55+)",
+  "kind": "rv_park",
+  "lat": 32.670792,
+  "lng": -114.600819,
+  "corridor": "i8",
+  "corridorMileApprox": 178.6,
+  "offRouteMiApprox": 2.2,
+  "access": "I-8 exit 3 (Ave 3E) south to E 32nd St, then 1/2 mi west; behind the Nissan dealer next to Walmart.",
+  "address": "1960 E 32nd St, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-726-5941",
+  "website": "https://www.thousandtrails.com/arizona/suni-sands-rv-resort/",
+  "reservations": "Encore reservations.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium tags it 55+; it has a private walkway to Walmart.",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/suni-sands-rv-resort-yuma"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.2
+  },
+  "id": "cs-244",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 179.3,
+    "off": 2.2
+   },
+   "hybrid": {
+    "mile": 179.3,
+    "off": 2.2
+   }
+  }
+ },
+ {
+  "name": "Avenue B RV Park",
+  "kind": "rv_park",
+  "lat": 32.6978171,
+  "lng": -114.6518828,
+  "corridor": "i8",
+  "corridorMileApprox": 181.6,
+  "offRouteMiApprox": 2,
+  "access": "West on 16th St from 4th Ave about 1.8 mi.",
+  "address": "3553 W 16th St, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "unknown",
+  "website": "https://outreserve.com/stays/united-states/arizona/yuma/avenue-b-rv-park",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "One directory calls it a 'boutique' 55+ community, so treat it as no tents.",
+  "confidence": "low",
+  "sources": [
+   "https://outreserve.com/stays/united-states/arizona/yuma/avenue-b-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2
+  },
+  "id": "cs-245",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 181.6,
+    "off": 2
+   },
+   "hybrid": {
+    "mile": 181.6,
+    "off": 2
+   }
+  }
+ },
+ {
+  "name": "Encore Capri (55+)",
+  "kind": "rv_park",
+  "lat": 32.66698,
+  "lng": -114.6246,
+  "corridor": "i8",
+  "corridorMileApprox": 182.1,
+  "offRouteMiApprox": 2,
+  "access": "S 4th Ave (Business 8), 2 mi south of 16th St.",
+  "address": "3380 S 4th Ave, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-726-0959",
+  "website": "https://www.rvonthego.com/arizona/capri-rv-resort/",
+  "reservations": "Encore reservations.",
+  "openNov2026": "yes",
+  "cyclistNotes": "An age-qualified Encore resort.",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/capri-55-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2
+  },
+  "id": "cs-246",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 182.1,
+    "off": 2
+   },
+   "hybrid": {
+    "mile": 182.1,
+    "off": 2
+   }
+  }
+ },
+ {
+  "name": "Desert Holiday RV Resort (now 'Sandstone Cottages', 55+)",
+  "kind": "rv_park",
+  "lat": 32.66177,
+  "lng": -114.62427,
+  "corridor": "i8",
+  "corridorMileApprox": 182.1,
+  "offRouteMiApprox": 2.4,
+  "access": "S 4th Ave, south of Capri.",
+  "address": "3601 S 4th Ave, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park. RV nightly was $42 (Dec 2023).",
+  "phone": "480-282-6014",
+  "website": "https://marcommunities.com/community-detail/desert-holiday-rv-resort/",
+  "reservations": "Campspot.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Campendium now lists this address as 'Sandstone Cottages' (55+).",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/sandstone-cottages-yuma-az--0",
+   "https://thedyrt.com/camping/arizona/desert-holiday-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.4
+  },
+  "id": "cs-247",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 182.1,
+    "off": 2.4
+   },
+   "hybrid": {
+    "mile": 182.1,
+    "off": 2.4
+   }
+  }
+ },
+ {
+  "name": "Encore Mesa Verde (55+)",
+  "kind": "rv_park",
+  "lat": 32.6604,
+  "lng": -114.62368,
+  "corridor": "i8",
+  "corridorMileApprox": 182.1,
+  "offRouteMiApprox": 2.5,
+  "access": "S 4th Ave extension, south of Capri.",
+  "address": "3649 S 4th Ave, Yuma, AZ 85365",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tent sites: 55+ RV-only park. RVs must be self-contained.",
+  "phone": "888-707-1477 (Encore)",
+  "website": "https://www.rvonthego.com/arizona/mesa-verde-rv-resort/",
+  "reservations": "Encore reservations.",
+  "openNov2026": "yes",
+  "cyclistNotes": "A Jan 2026 review: 'Nice 55+ RV resort, must be self contained RV.'",
+  "confidence": "high",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/mesa-verde-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 2.5
+  },
+  "id": "cs-248",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 182.1,
+    "off": 2.5
+   },
+   "hybrid": {
+    "mile": 182.1,
+    "off": 2.5
+   }
+  }
+ },
+ {
+  "name": "Cocopah Casino overnight RV lot (Somerton)",
+  "kind": "casino_or_business",
+  "lat": 32.610811,
+  "lng": -114.660033,
+  "corridor": "i8",
+  "corridorMileApprox": 182.1,
+  "offRouteMiApprox": 7.6,
+  "access": "From 4th Ave/16th St south via S 8th Ave and Ave A about 7.6 mi.",
+  "address": "15318 S Avenue B, Somerton, AZ 85350",
+  "nearestTown": "Somerton",
+  "tents": "no",
+  "showers": "no",
+  "water": "none",
+  "toilets": "flush",
+  "power": "no",
+  "wifi": "yes",
+  "priceTent": "No tents. RV dry camping $10/night (Jan 2026), up to 3 nights.",
+  "phone": "928-726-8066",
+  "website": "unknown",
+  "reservations": "Register at the casino cashier.",
+  "openNov2026": "yes",
+  "cyclistNotes": "AllStays and every listing describe it as RV-only, a dry-camping section of the parking lot. Listed so the app does not route a tent here.",
+  "confidence": "medium",
+  "sources": [
+   "https://thedyrt.com/camping/arizona/cocopah-casino"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 7.6
+  },
+  "id": "cs-249",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 182.1,
+    "off": 7.6
+   },
+   "hybrid": {
+    "mile": 182.1,
+    "off": 7.6
+   }
+  }
+ },
+ {
+  "name": "Lazy 8 RV Park",
+  "kind": "rv_park",
+  "lat": 32.7122938,
+  "lng": -114.6570053,
+  "corridor": "i8",
+  "corridorMileApprox": 183.7,
+  "offRouteMiApprox": 1.9,
+  "access": "W 8th St, 1.8 mi west of 4th Ave.",
+  "address": "3035 W 8th St, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "unknown",
+  "website": "unknown",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "This is an OSM-only park with no web presence found. It is probably long-term.",
+  "confidence": "low",
+  "sources": [
+   "https://www.openstreetmap.org/way/453216895"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 1.9
+  },
+  "id": "cs-250",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 183.7,
+    "off": 1.9
+   },
+   "hybrid": {
+    "mile": 183.7,
+    "off": 1.9
+   }
+  }
+ },
+ {
+  "name": "Sherwood Forest RV Park",
+  "kind": "rv_park",
+  "lat": 32.7175947,
+  "lng": -114.6549426,
+  "corridor": "i8",
+  "corridorMileApprox": 184,
+  "offRouteMiApprox": 2.3,
+  "access": "W 3rd St west to Ave B, then W 5th St.",
+  "address": "2831 W 5th St, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "unknown",
+  "website": "unknown",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "This is an OSM-only park; the Campendium and Dyrt pages under this name are for other states.",
+  "confidence": "low",
+  "sources": [
+   "https://www.openstreetmap.org/way/453198562"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B",
+   "I8-C"
+  ],
+  "est": {
+   "i8": 2.3
+  },
+  "id": "cs-251",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 186.7,
+    "off": 2.3
+   },
+   "hybrid": {
+    "mile": 186.7,
+    "off": 2.3
+   }
+  }
+ },
+ {
+  "name": "Rolle's Lynda Vista RV Park (55+, adults only)",
+  "kind": "rv_park",
+  "lat": 32.7199285,
+  "lng": -114.6560849,
+  "corridor": "i8",
+  "corridorMileApprox": 184,
+  "offRouteMiApprox": 2.4,
+  "access": "W 3rd St west to Ave B, then W 5th St.",
+  "address": "2900 W 5th St, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent sites: 55+ RV-only park.",
+  "phone": "928-782-9009",
+  "website": "https://www.yumarvcommunity.com/",
+  "reservations": "Online reservation request.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its site says 'Historic RV Community in Yuma, AZ 55+ Park ... our adult-only RV Park'.",
+  "confidence": "high",
+  "sources": [
+   "https://www.yumarvcommunity.com/",
+   "https://www.campendium.com/rolles-lynda-vista-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B",
+   "I8-C"
+  ],
+  "est": {
+   "i8": 2.4
+  },
+  "id": "cs-252",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 186.7,
+    "off": 2.4
+   },
+   "hybrid": {
+    "mile": 186.7,
+    "off": 2.4
+   }
+  }
+ },
+ {
+  "name": "Unnamed RV park at 345 S May Ave (OSM 'Unnamed campground')",
+  "kind": "rv_park",
+  "lat": 32.7210146,
+  "lng": -114.6584605,
+  "corridor": "i8",
+  "corridorMileApprox": 184,
+  "offRouteMiApprox": 2.6,
+  "access": "W 5th St / S May Ave, west Yuma.",
+  "address": "345 S May Ave, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "unknown",
+  "website": "unknown",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "Reverse geocodes to 345 S May Ave, next to Desert Breeze RV Park; it may be part of it. Nothing online.",
+  "confidence": "low",
+  "sources": [
+   "https://www.openstreetmap.org/way/453191010"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B",
+   "I8-C"
+  ],
+  "est": {
+   "i8": 2.6
+  },
+  "id": "cs-253",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 186.7,
+    "off": 2.6
+   },
+   "hybrid": {
+    "mile": 186.7,
+    "off": 2.6
+   }
+  }
+ },
+ {
+  "name": "Desert Breeze RV Park (386 S May Ave)",
+  "kind": "rv_park",
+  "lat": 32.7208165,
+  "lng": -114.6598984,
+  "corridor": "i8",
+  "corridorMileApprox": 184,
+  "offRouteMiApprox": 2.7,
+  "access": "W 5th St / S May Ave, west Yuma.",
+  "address": "386 S May Ave, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "unknown",
+  "showers": "unknown",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "unknown",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "unknown",
+  "website": "unknown",
+  "reservations": "unknown",
+  "openNov2026": "unknown",
+  "cyclistNotes": "Not the Army's 'Desert Breeze Travel Camp' at Yuma Proving Ground, which is military-ID only; Campendium mixes the two up. No independent listing was found.",
+  "confidence": "low",
+  "sources": [
+   "https://www.openstreetmap.org/way/453187168",
+   "https://maps.campendium.com/us/yuma-az/camping-rv/desert-breeze-travel-camp"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B",
+   "I8-C"
+  ],
+  "est": {
+   "i8": 2.7
+  },
+  "id": "cs-254",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 187.1,
+    "off": 2.7
+   },
+   "hybrid": {
+    "mile": 187.1,
+    "off": 2.7
+   }
+  }
+ },
+ {
   "name": "A Shady Tree RV Park",
   "kind": "rv_park",
   "lat": 32.7219366,
   "lng": -114.6346154,
-  "address": "1210 W 3rd St, Yuma, AZ 85364",
   "corridor": "i8",
   "corridorMileApprox": 184.4,
   "offRouteMiApprox": 0.7,
-  "access": "Paved city streets, flat: leave 4th Ave in downtown Yuma (AZ side, before the river bridge) and ride about 0.7 mi west on 3rd St.",
-  "nearestTown": "Yuma, AZ",
+  "access": "W 3rd St, 0.6 mi west of 4th Ave.",
+  "address": "1210 W 3rd St, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
   "tents": "unknown",
   "showers": "unknown",
   "water": "unknown",
@@ -10218,21 +13717,23 @@
   "website": "unknown",
   "reservations": "unknown: no published contact; you would have to walk in during the day",
   "openNov2026": "unknown",
-  "cyclistNotes": "Small in-town Yuma RV park known only from OSM (fee=yes). No tent policy found anywhere. Many Yuma parks are snowbird, monthly or 55+ RV-only. The reliable tent options begin 9 mi west at Pilot Knob.",
+  "cyclistNotes": "This is an OSM-only park; one directory shows a single Google review. Its tent policy is unknown.",
   "confidence": "low",
   "sources": [
-   "https://www.openstreetmap.org/way/442598432"
+   "https://www.openstreetmap.org/way/442598432",
+   "https://www.allcampsandparks.com/park/shady-tree-rv-park-yuma-az"
   ],
-  "seg": "I8-C",
+  "seg": "I8-B",
   "run": "workflow-2026-11-01.json",
   "verdict": "unchecked",
   "seen": [
+   "I8-B",
    "I8-C"
   ],
   "est": {
    "i8": 0.7
   },
-  "id": "cs-185",
+  "id": "cs-255",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -10250,12 +13751,12 @@
   "kind": "rv_park",
   "lat": 32.7219354,
   "lng": -114.6355583,
-  "address": "1290 W 3rd St, Yuma, AZ 85364",
   "corridor": "i8",
   "corridorMileApprox": 184.4,
   "offRouteMiApprox": 0.7,
-  "access": "Paved, flat: about 0.7 mi west of 4th Ave on 3rd St, Yuma (AZ side).",
-  "nearestTown": "Yuma, AZ",
+  "access": "W 3rd St, 0.6 mi west of 4th Ave (next to A Shady Tree).",
+  "address": "W 3rd St, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
   "tents": "unknown",
   "showers": "unknown",
   "water": "unknown",
@@ -10267,21 +13768,22 @@
   "website": "unknown",
   "reservations": "unknown",
   "openNov2026": "unknown",
-  "cyclistNotes": "Small Yuma RV park, known only from OSM. No phone, rates or tent policy found. Not worth planning around.",
+  "cyclistNotes": "This is an OSM-only park with no listings found.",
   "confidence": "low",
   "sources": [
    "https://www.openstreetmap.org/way/442599724"
   ],
-  "seg": "I8-C",
+  "seg": "I8-B",
   "run": "workflow-2026-11-01.json",
   "verdict": "unchecked",
   "seen": [
+   "I8-B",
    "I8-C"
   ],
   "est": {
    "i8": 0.7
   },
-  "id": "cs-186",
+  "id": "cs-256",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -10295,297 +13797,313 @@
   }
  },
  {
-  "name": "Sherwood Forest RV Park",
-  "kind": "rv_park",
-  "lat": 32.7175947,
-  "lng": -114.6549426,
-  "address": "2831 W 5th St, Yuma, AZ 85364",
+  "name": "Yuma River Front KOA Journey (former Riverfront RV Park)",
+  "kind": "koa",
+  "lat": 32.7296,
+  "lng": -114.64846,
   "corridor": "i8",
-  "corridorMileApprox": 184.2,
-  "offRouteMiApprox": 1.9,
-  "access": "Paved, flat: about 1.9 mi west of 4th Ave on 5th St, Yuma (AZ side). It is across the river from Winterhaven, so you have to reach it from the Yuma side before the bridge.",
-  "nearestTown": "Yuma, AZ",
-  "tents": "unknown",
-  "showers": "unknown",
-  "water": "unknown",
-  "toilets": "unknown",
-  "power": "unknown",
-  "wifi": "unknown",
-  "priceTent": "unknown",
-  "phone": "unknown",
-  "website": "unknown",
-  "reservations": "unknown",
-  "openNov2026": "unknown",
-  "cyclistNotes": "Known only from OSM. No tent information. The baseline's mile 186.7 was measured across the river; actual riding access is from Yuma at about mile 184.",
-  "confidence": "low",
+  "corridorMileApprox": 185,
+  "offRouteMiApprox": 2.3,
+  "access": "From 4th Ave near the Colorado River (corridor mi about 185), west on 1st St, or the paved Colorado River levee path, to W Water St, about 2.3 mi. It sits beside the Yuma East/West Wetlands and their riverside trails, about 1.5 mi west of the 4th Ave (Business 8) bridge into Winterhaven.",
+  "address": "2300 W Water St, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "yes",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "About $40/night plus fees for a tent site (Oct 2026 tent review). Tent sites have no hookups, sand, a table and fire ring, one tent per site.",
+  "phone": "928-783-5868",
+  "website": "https://koa.com/campgrounds/yuma/",
+  "reservations": "Reserve on koa.com or call; KOA advertises a well-lit after-hours check-in. Open year-round.",
+  "openNov2026": "yes",
+  "cyclistNotes": "The surest tent bed in Yuma. It converted to a KOA Journey in Dec 2025 (new owners, new bathhouses, pool and spa); a Jan 2026 reviewer called the bathrooms 'new and immaculate'. An Oct 2026 tent camper felt $40+ was poor value and could only see the canal, not the river; another 2026 tent review called it great. A Dec 2025 reviewer reported a dispute over a dog pen. Grocery: Walmart Neighborhood Market and Food City on W 8th St, about 1.5 mi.",
+  "confidence": "high",
   "sources": [
-   "https://www.openstreetmap.org/way/453198562"
+   "https://maps.campendium.com/us/yuma-az/camping-rv/yuma-river-front-koa-yuma-az--0",
+   "https://thedyrt.com/camping/arizona/yuma-river-front-koa-journey",
+   "https://koa.com/campgrounds/yuma/reviews/tent-camping-sites/",
+   "https://rv-pro.com/?p=114553",
+   "https://www.openstreetmap.org/way/454591851"
   ],
-  "seg": "I8-C",
+  "seg": "I8-B",
   "run": "workflow-2026-11-01.json",
   "verdict": "unchecked",
   "seen": [
+   "I8-B",
    "I8-C"
   ],
   "est": {
-   "i8": 1.9
+   "i8": 2.3
   },
-  "id": "cs-187",
-  "tier": "maybe",
+  "id": "cs-257",
+  "tier": "full",
   "anchors": {
    "i8": {
     "mile": 186.7,
-    "off": 1.9
+    "off": 2.3
    },
    "hybrid": {
     "mile": 186.7,
-    "off": 1.9
+    "off": 2.3
    }
   }
  },
  {
-  "name": "Rolle's Lynda Vista 55+ RV Park",
+  "name": "Hidden Cove RV Park (55+)",
   "kind": "rv_park",
-  "lat": 32.7199285,
-  "lng": -114.6560849,
-  "address": "2900 W 5th St, Yuma, AZ 85364",
+  "lat": 32.72961,
+  "lng": -114.6499,
   "corridor": "i8",
-  "corridorMileApprox": 184.2,
-  "offRouteMiApprox": 2,
-  "access": "Paved, flat: 2 mi west of 4th Ave on 5th St, Yuma (AZ side).",
-  "nearestTown": "Yuma, AZ",
+  "corridorMileApprox": 185,
+  "offRouteMiApprox": 2.4,
+  "access": "Next door to the KOA on W Water St.",
+  "address": "2450 W Water St, Yuma, AZ 85364",
+  "nearestTown": "Yuma",
+  "tents": "no",
+  "showers": "unknown",
+  "water": "potable",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tents: AAA lists '117 sites. No tent. RVs only'; Campendium tags it 55+.",
+  "phone": "928-248-4864 (Campendium) / 928-783-3534 (OSM)",
+  "website": "http://www.hiddencovervpark.net/",
+  "reservations": "Call.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Use the KOA next door.",
+  "confidence": "high",
+  "sources": [
+   "https://maps.campendium.com/us/yuma-az/camping-rv/hidden-cove-55-rv-park",
+   "https://www.openstreetmap.org/way/454591771"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B",
+   "I8-C"
+  ],
+  "est": {
+   "i8": 2.4
+  },
+  "id": "cs-258",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 186.7,
+    "off": 2.4
+   },
+   "hybrid": {
+    "mile": 186.7,
+    "off": 2.4
+   }
+  }
+ },
+ {
+  "name": "McCoy Mobile Home / RV Park",
+  "kind": "rv_park",
+  "lat": 32.7477586,
+  "lng": -114.6322532,
+  "corridor": "i8",
+  "corridorMileApprox": 185.9,
+  "offRouteMiApprox": 0.8,
+  "access": "Winterhaven, via 2nd Ave, G St and 1st Ave.",
+  "address": "1st Ave, Winterhaven, CA 92283",
+  "nearestTown": "Winterhaven",
+  "tents": "unknown",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "yes",
+  "priceTent": "No tent rate. Jan 2025: $30 for an electric-only spot behind the office with no bathroom access, showers $8 extra. Full hookups about $400/month (2022). Passport America rates for up to 3 nights.",
+  "phone": "(760) 572-0744",
+  "website": "unknown",
+  "reservations": "The manager shows you the open sites; call ahead.",
+  "openNov2026": "yes",
+  "cyclistNotes": "This is an OSM-only mobile-home and RV park on Quechan land with no listings, probably long-term only.",
+  "confidence": "low",
+  "sources": [
+   "https://www.openstreetmap.org/way/1481997961",
+   "https://www.campendium.com/mccoy-mobile-home-rv-park"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B",
+   "I8-C"
+  ],
+  "est": {
+   "i8": 0.8
+  },
+  "id": "cs-259",
+  "tier": "maybe",
+  "anchors": {
+   "i8": {
+    "mile": 185.9,
+    "off": 0.8
+   },
+   "hybrid": {
+    "mile": 185.9,
+    "off": 0.8
+   }
+  }
+ },
+ {
+  "name": "River's Edge RV Resort (no tents)",
+  "kind": "rv_park",
+  "lat": 32.73349,
+  "lng": -114.63977,
+  "corridor": "i8",
+  "corridorMileApprox": 186,
+  "offRouteMiApprox": 1.1,
+  "access": "Winterhaven Dr, just west of the 4th Ave (Business 8) bridge.",
+  "address": "2299 W Winterhaven Dr, Winterhaven, CA 92283",
+  "nearestTown": "Winterhaven",
+  "tents": "no",
+  "showers": "yes",
+  "water": "potable",
+  "toilets": "flush",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "No tents: the rules say 'Tents of any kind are not allowed'. RV daily $55-65.",
+  "phone": "760-572-5105",
+  "website": "https://www.riversedgervresort.com/",
+  "reservations": "Deposit required.",
+  "openNov2026": "yes",
+  "cyclistNotes": "Its rules also say 'No one is allowed to sleep on the ground'. The Dyrt's tent flag is wrong.",
+  "confidence": "high",
+  "sources": [
+   "https://riversedgervresort.com/rules/",
+   "https://riversedgervresort.com/pricing/",
+   "https://riversedgervresort.com/",
+   "https://www.campendium.com/rivers-edge-rv-resort"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B",
+   "I8-C"
+  ],
+  "est": {
+   "i8": 1.1
+  },
+  "id": "cs-260",
+  "tier": "no",
+  "anchors": {
+   "i8": {
+    "mile": 186.1,
+    "off": 1.1
+   },
+   "hybrid": {
+    "mile": 186.1,
+    "off": 1.1
+   }
+  }
+ },
+ {
+  "name": "Salamander RV Park & Storage (Bard area)",
+  "kind": "rv_park",
+  "lat": 32.823485,
+  "lng": -114.530565,
+  "corridor": "i8",
+  "corridorMileApprox": 186,
+  "offRouteMiApprox": 10.9,
+  "access": "About 10.9 mi north of Winterhaven on farm roads (1st Ave, Arnold Rd, Cocopah Rd, Flood Rd, Colby Rd, CR S24). It is north, away from the route, and only listed because Campendium shows tent camping.",
+  "address": "906 Mehring Rd, Winterhaven, CA 92283",
+  "nearestTown": "Bard / Winterhaven",
+  "tents": "yes",
+  "showers": "yes",
+  "water": "unknown",
+  "toilets": "unknown",
+  "power": "yes",
+  "wifi": "unknown",
+  "priceTent": "unknown",
+  "phone": "928-210-8851",
+  "website": "https://salamanderrvparkan.wixsite.com/",
+  "reservations": "Reservations taken (Campendium).",
+  "openNov2026": "unknown",
+  "cyclistNotes": "Campendium shows 'Tent camping: Yes', showers and laundry, with full-time residents. No reviews. Use the Yuma KOA instead unless you are heading north.",
+  "confidence": "low",
+  "sources": [
+   "https://maps.campendium.com/us/winterhaven-ca/camping-rv/salamander-rv-park-storage"
+  ],
+  "seg": "I8-B",
+  "run": "workflow-2026-11-01.json",
+  "verdict": "unchecked",
+  "seen": [
+   "I8-B"
+  ],
+  "est": {
+   "i8": 10.9
+  },
+  "id": "cs-261",
+  "tier": "basic",
+  "anchors": {
+   "i8": {
+    "mile": 185.3,
+    "off": 10.9
+   },
+   "hybrid": {
+    "mile": 185.3,
+    "off": 10.9
+   }
+  }
+ },
+ {
+  "name": "Sans End RV Park (45+, no tents)",
+  "kind": "rv_park",
+  "lat": 32.73991,
+  "lng": -114.64191,
+  "corridor": "i8",
+  "corridorMileApprox": 186.3,
+  "offRouteMiApprox": 0.1,
+  "access": "On Winterhaven Dr, on the line.",
+  "address": "2209 W Winterhaven Dr, Winterhaven, CA 92283",
+  "nearestTown": "Winterhaven",
   "tents": "no",
   "showers": "yes",
   "water": "potable",
   "toilets": "flush",
   "power": "yes",
   "wifi": "yes",
-  "priceTent": "Tents not accepted. RV $30 reported in 2018 (dated).",
-  "phone": "(928) 782-9009",
-  "website": "https://www.yumarvcommunity.com/",
-  "reservations": "Call the office.",
+  "priceTent": "No tents: the 2026 rates page says 'Tent camping is not allowed.' RV daily $40.",
+  "phone": "760-572-0797",
+  "website": "https://sansendrv.com/",
+  "reservations": "Office in season (Oct 1-Apr 30) 9-5 daily, Arizona time; after-hours check-in kiosk.",
   "openNov2026": "yes",
-  "cyclistNotes": "The operator site calls it an adult-only 55+ RV park, and Campendium lists it as Rolle's Lynda Vista 55+. Not a tent option.",
-  "confidence": "medium",
+  "cyclistNotes": "A 45+ park. It posts that the east laundry and east men's restroom are closed.",
+  "confidence": "high",
   "sources": [
-   "https://www.yumarvcommunity.com/",
-   "https://www.campendium.com/rolles-lynda-vista-rv-park"
+   "https://sansendrv.com/rates/",
+   "https://sansendrv.com/",
+   "https://www.campendium.com/sans-end-rv-park",
+   "https://www.hipcamp.com/en-US/land/california-sans-end-rv-park-88lhyd0m"
   ],
-  "seg": "I8-C",
+  "seg": "I8-B",
   "run": "workflow-2026-11-01.json",
   "verdict": "unchecked",
   "seen": [
+   "I8-B",
    "I8-C"
   ],
   "est": {
-   "i8": 2
+   "i8": 0.1
   },
-  "id": "cs-188",
+  "id": "cs-262",
   "tier": "no",
   "anchors": {
    "i8": {
-    "mile": 186.7,
-    "off": 2
+    "mile": 186.3,
+    "off": 0.1
    },
    "hybrid": {
-    "mile": 186.7,
-    "off": 2
-   }
-  }
- },
- {
-  "name": "Unnamed RV park, 345 S May Ave (Yuma)",
-  "kind": "rv_park",
-  "lat": 32.7210146,
-  "lng": -114.6584605,
-  "address": "345 S May Ave, Yuma, AZ 85364",
-  "corridor": "i8",
-  "corridorMileApprox": 184.2,
-  "offRouteMiApprox": 2.2,
-  "access": "Paved, flat: west on 5th St from 4th Ave, then north on May Ave, about 2.2 mi.",
-  "nearestTown": "Yuma, AZ",
-  "tents": "unknown",
-  "showers": "unknown",
-  "water": "unknown",
-  "toilets": "unknown",
-  "power": "unknown",
-  "wifi": "unknown",
-  "priceTent": "unknown",
-  "phone": "unknown",
-  "website": "unknown",
-  "reservations": "unknown",
-  "openNov2026": "unknown",
-  "cyclistNotes": "This is the baseline's OSM 'Unnamed campground' at mile 186.7. It is an untitled caravan-site polygon at 345 S May Ave, next to Desert Breeze RV Park. Probably a monthly or residential RV lot. Nothing found.",
-  "confidence": "low",
-  "sources": [
-   "https://www.openstreetmap.org/way/453191010"
-  ],
-  "seg": "I8-C",
-  "run": "workflow-2026-11-01.json",
-  "verdict": "unchecked",
-  "seen": [
-   "I8-C"
-  ],
-  "est": {
-   "i8": 2.2
-  },
-  "id": "cs-189",
-  "tier": "maybe",
-  "anchors": {
-   "i8": {
-    "mile": 186.7,
-    "off": 2.2
-   },
-   "hybrid": {
-    "mile": 186.7,
-    "off": 2.2
-   }
-  }
- },
- {
-  "name": "Desert Breeze RV Park",
-  "kind": "rv_park",
-  "lat": 32.7208165,
-  "lng": -114.6598984,
-  "address": "386 S May Ave, Yuma, AZ 85364",
-  "corridor": "i8",
-  "corridorMileApprox": 184.2,
-  "offRouteMiApprox": 2.3,
-  "access": "Paved, flat: 5th St west from 4th Ave, then May Ave, about 2.3 mi (AZ side).",
-  "nearestTown": "Yuma, AZ",
-  "tents": "unknown",
-  "showers": "unknown",
-  "water": "unknown",
-  "toilets": "unknown",
-  "power": "unknown",
-  "wifi": "unknown",
-  "priceTent": "unknown",
-  "phone": "unknown",
-  "website": "unknown",
-  "reservations": "unknown",
-  "openNov2026": "unknown",
-  "cyclistNotes": "A 38-site park known only from OSM. No tent information found.",
-  "confidence": "low",
-  "sources": [
-   "https://www.openstreetmap.org/way/453187168"
-  ],
-  "seg": "I8-C",
-  "run": "workflow-2026-11-01.json",
-  "verdict": "unchecked",
-  "seen": [
-   "I8-C"
-  ],
-  "est": {
-   "i8": 2.3
-  },
-  "id": "cs-190",
-  "tier": "maybe",
-  "anchors": {
-   "i8": {
-    "mile": 187.1,
-    "off": 2.3
-   },
-   "hybrid": {
-    "mile": 187.1,
-    "off": 2.3
-   }
-  }
- },
- {
-  "name": "Hidden Cove RV Park",
-  "kind": "rv_park",
-  "lat": 32.7312698,
-  "lng": -114.650075,
-  "address": "2450 W Water St, Yuma, AZ 85364",
-  "corridor": "i8",
-  "corridorMileApprox": 184.5,
-  "offRouteMiApprox": 1.8,
-  "access": "Paved, flat: from 4th Ave at 1st St, ride west about 1.8 mi to Water St along the river (AZ side).",
-  "nearestTown": "Yuma, AZ",
-  "tents": "unknown",
-  "showers": "unknown",
-  "water": "potable",
-  "toilets": "unknown",
-  "power": "yes",
-  "wifi": "unknown",
-  "priceTent": "unknown",
-  "phone": "(928) 783-3534",
-  "website": "http://www.hiddencovervpark.net/",
-  "reservations": "Call; the website blocks automated access, so the policy could not be read.",
-  "openNov2026": "unknown",
-  "cyclistNotes": "A 117-site riverside park; OSM lists power and a dump station. Tent policy unknown. Call before detouring.",
-  "confidence": "low",
-  "sources": [
-   "https://www.openstreetmap.org/way/454591771"
-  ],
-  "seg": "I8-C",
-  "run": "workflow-2026-11-01.json",
-  "verdict": "unchecked",
-  "seen": [
-   "I8-C"
-  ],
-  "est": {
-   "i8": 1.8
-  },
-  "id": "cs-191",
-  "tier": "maybe",
-  "anchors": {
-   "i8": {
-    "mile": 186.7,
-    "off": 1.8
-   },
-   "hybrid": {
-    "mile": 186.7,
-    "off": 1.8
-   }
-  }
- },
- {
-  "name": "Riverfront RV Park",
-  "kind": "rv_park",
-  "lat": 32.7311307,
-  "lng": -114.6489052,
-  "address": "2300 W Water St, Yuma, AZ 85364",
-  "corridor": "i8",
-  "corridorMileApprox": 184.5,
-  "offRouteMiApprox": 1.7,
-  "access": "Paved, flat: about 1.7 mi west of 4th Ave via 1st St and Water St (AZ side).",
-  "nearestTown": "Yuma, AZ",
-  "tents": "unknown",
-  "showers": "unknown",
-  "water": "unknown",
-  "toilets": "unknown",
-  "power": "unknown",
-  "wifi": "unknown",
-  "priceTent": "unknown",
-  "phone": "unknown",
-  "website": "unknown",
-  "reservations": "unknown",
-  "openNov2026": "unknown",
-  "cyclistNotes": "Known only from OSM. Nothing found on tents or rates.",
-  "confidence": "low",
-  "sources": [
-   "https://www.openstreetmap.org/way/454591851"
-  ],
-  "seg": "I8-C",
-  "run": "workflow-2026-11-01.json",
-  "verdict": "unchecked",
-  "seen": [
-   "I8-C"
-  ],
-  "est": {
-   "i8": 1.7
-  },
-  "id": "cs-192",
-  "tier": "maybe",
-  "anchors": {
-   "i8": {
-    "mile": 186.7,
-    "off": 1.7
-   },
-   "hybrid": {
-    "mile": 186.7,
-    "off": 1.7
+    "mile": 186.3,
+    "off": 0.1
    }
   }
  },
@@ -10627,7 +14145,7 @@
   "est": {
    "i8": 5
   },
-  "id": "cs-193",
+  "id": "cs-263",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -10676,7 +14194,7 @@
   "est": {
    "i8": 0.6
   },
-  "id": "cs-194",
+  "id": "cs-264",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -10686,157 +14204,6 @@
    "hybrid": {
     "mile": 185.1,
     "off": 0.6
-   }
-  }
- },
- {
-  "name": "McCoy Mobile Home & RV Park",
-  "kind": "rv_park",
-  "lat": 32.7477586,
-  "lng": -114.6322532,
-  "address": "640 1st Ave, Winterhaven, CA 92283",
-  "corridor": "i8",
-  "corridorMileApprox": 185.9,
-  "offRouteMiApprox": 0.7,
-  "access": "Paved, flat: from Winterhaven Dr ride about 0.7 mi north on 1st Ave.",
-  "nearestTown": "Winterhaven, CA",
-  "tents": "unknown",
-  "showers": "yes",
-  "water": "potable",
-  "toilets": "flush",
-  "power": "yes",
-  "wifi": "yes",
-  "priceTent": "No tent rate. Jan 2025: $30 for an electric-only spot behind the office with no bathroom access, showers $8 extra. Full hookups about $400/month (2022). Passport America rates for up to 3 nights.",
-  "phone": "(760) 572-0744",
-  "website": "unknown",
-  "reservations": "The manager shows you the open sites; call ahead.",
-  "openNov2026": "yes",
-  "cyclistNotes": "Half mobile-home park, half RV park, away from I-8 and quiet. The Jan 2025 electric-only spot behind the office shows they will sell a bare spot, so ask whether a tent can go there and whether a shower is included.",
-  "confidence": "low",
-  "sources": [
-   "https://www.campendium.com/mccoy-mobile-home-rv-park",
-   "https://www.openstreetmap.org/way/1481997961"
-  ],
-  "seg": "I8-C",
-  "run": "workflow-2026-11-01.json",
-  "verdict": "unchecked",
-  "seen": [
-   "I8-C"
-  ],
-  "est": {
-   "i8": 0.7
-  },
-  "id": "cs-195",
-  "tier": "maybe",
-  "anchors": {
-   "i8": {
-    "mile": 185.9,
-    "off": 0.7
-   },
-   "hybrid": {
-    "mile": 185.9,
-    "off": 0.7
-   }
-  }
- },
- {
-  "name": "River's Edge RV Resort",
-  "kind": "rv_park",
-  "lat": 32.733084,
-  "lng": -114.6390563,
-  "address": "2299 W Winterhaven Dr, Winterhaven, CA 92283",
-  "corridor": "i8",
-  "corridorMileApprox": 186,
-  "offRouteMiApprox": 0.4,
-  "access": "Paved, flat: off Winterhaven Dr right where the route passes.",
-  "nearestTown": "Winterhaven, CA",
-  "tents": "no",
-  "showers": "yes",
-  "water": "potable",
-  "toilets": "flush",
-  "power": "yes",
-  "wifi": "unknown",
-  "priceTent": "Tents not accepted. RV $50 (Oct 2025).",
-  "phone": "(760) 572-5105",
-  "website": "https://riversedgervresort.com/",
-  "reservations": "Call the office. Short stays have historically been booked same day by phone.",
-  "openNov2026": "yes",
-  "cyclistNotes": "Listings say tents of any kind are not allowed, and AAA lists it as self-contained RVs only. A riverfront snowbird park beside noisy I-8; an Oct 2025 review describes run-down sites and broken laundry. Skip.",
-  "confidence": "medium",
-  "sources": [
-   "https://riversedgervresort.com/",
-   "https://www.campendium.com/rivers-edge-rv-resort"
-  ],
-  "seg": "I8-C",
-  "run": "workflow-2026-11-01.json",
-  "verdict": "unchecked",
-  "seen": [
-   "I8-C"
-  ],
-  "est": {
-   "i8": 0.4
-  },
-  "id": "cs-196",
-  "tier": "no",
-  "anchors": {
-   "i8": {
-    "mile": 186,
-    "off": 0.4
-   },
-   "hybrid": {
-    "mile": 186,
-    "off": 0.4
-   }
-  }
- },
- {
-  "name": "Sans End RV Park",
-  "kind": "rv_park",
-  "lat": 32.7392575,
-  "lng": -114.6429298,
-  "address": "2209 W Winterhaven Dr, Winterhaven, CA 92283",
-  "corridor": "i8",
-  "corridorMileApprox": 186.3,
-  "offRouteMiApprox": 0.1,
-  "access": "On the route: paved Winterhaven Dr, flat.",
-  "nearestTown": "Winterhaven, CA",
-  "tents": "unknown",
-  "showers": "yes",
-  "water": "potable",
-  "toilets": "flush",
-  "power": "yes",
-  "wifi": "yes",
-  "priceTent": "No tent rate. RV $41 (Jun 2024). An overflow spot with electric was $15 in 2018 (dated). Coin showers about $1.",
-  "phone": "(760) 572-0797",
-  "website": "https://sansendrv.com/",
-  "reservations": "After-hours check-in kiosk (operator site). In season Oct 1 to Apr 30.",
-  "openNov2026": "yes",
-  "cyclistNotes": "The park markets itself as a 45+ community with 170 RV sites. Campendium flags tent camping 'Yes' and AAA once listed 4 tent sites, but The Dyrt says no tents and the park's own site is RV-only. A good call to make since it sits right on the line. The operator site says the east laundry and east men's restroom are closed.",
-  "confidence": "low",
-  "sources": [
-   "https://sansendrv.com/",
-   "https://www.campendium.com/sans-end-rv-park",
-   "https://www.hipcamp.com/en-US/land/california-sans-end-rv-park-88lhyd0m"
-  ],
-  "seg": "I8-C",
-  "run": "workflow-2026-11-01.json",
-  "verdict": "unchecked",
-  "seen": [
-   "I8-C"
-  ],
-  "est": {
-   "i8": 0.1
-  },
-  "id": "cs-197",
-  "tier": "maybe",
-  "anchors": {
-   "i8": {
-    "mile": 186.3,
-    "off": 0.1
-   },
-   "hybrid": {
-    "mile": 186.3,
-    "off": 0.1
    }
   }
  },
@@ -10878,7 +14245,7 @@
   "est": {
    "i8": 0.3
   },
-  "id": "cs-198",
+  "id": "cs-265",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -10929,7 +14296,7 @@
   "est": {
    "i8": 1.6
   },
-  "id": "cs-199",
+  "id": "cs-266",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -10979,7 +14346,7 @@
   "est": {
    "i8": 0.8
   },
-  "id": "cs-200",
+  "id": "cs-267",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -11031,7 +14398,7 @@
   "est": {
    "i8": 1
   },
-  "id": "cs-201",
+  "id": "cs-268",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -11082,7 +14449,7 @@
   "est": {
    "i8": 2
   },
-  "id": "cs-202",
+  "id": "cs-269",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11133,7 +14500,7 @@
   "est": {
    "i8": 2.3
   },
-  "id": "cs-203",
+  "id": "cs-270",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11184,7 +14551,7 @@
   "est": {
    "i8": 5.3
   },
-  "id": "cs-204",
+  "id": "cs-271",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11234,7 +14601,7 @@
   "est": {
    "i8": 9.8
   },
-  "id": "cs-205",
+  "id": "cs-272",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -11286,7 +14653,7 @@
   "est": {
    "i8": 0.5
   },
-  "id": "cs-206",
+  "id": "cs-273",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11336,7 +14703,7 @@
   "est": {
    "i8": 2.6
   },
-  "id": "cs-207",
+  "id": "cs-274",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11386,7 +14753,7 @@
   "est": {
    "i8": 3.4
   },
-  "id": "cs-208",
+  "id": "cs-275",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11436,7 +14803,7 @@
   "est": {
    "i8": 1.2
   },
-  "id": "cs-209",
+  "id": "cs-276",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11487,7 +14854,7 @@
   "est": {
    "i8": 0.2
   },
-  "id": "cs-210",
+  "id": "cs-277",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -11538,7 +14905,7 @@
   "est": {
    "i8": 3
   },
-  "id": "cs-211",
+  "id": "cs-278",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -11588,7 +14955,7 @@
   "est": {
    "i8": 0.3
   },
-  "id": "cs-212",
+  "id": "cs-279",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11639,7 +15006,7 @@
    "I8-C"
   ],
   "est": {},
-  "id": "cs-213",
+  "id": "cs-280",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -11690,7 +15057,7 @@
   "est": {
    "i8": 1.8
   },
-  "id": "cs-214",
+  "id": "cs-281",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11740,7 +15107,7 @@
   "est": {
    "i8": 0.5
   },
-  "id": "cs-215",
+  "id": "cs-282",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11790,7 +15157,7 @@
   "est": {
    "i8": 1.5
   },
-  "id": "cs-216",
+  "id": "cs-283",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -11841,7 +15208,7 @@
   "est": {
    "i8": 7.6
   },
-  "id": "cs-217",
+  "id": "cs-284",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11892,7 +15259,7 @@
   "est": {
    "i8": 0.2
   },
-  "id": "cs-218",
+  "id": "cs-285",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11942,7 +15309,7 @@
   "est": {
    "i8": 1.7
   },
-  "id": "cs-219",
+  "id": "cs-286",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -11993,7 +15360,7 @@
   "est": {
    "i8": 0.2
   },
-  "id": "cs-220",
+  "id": "cs-287",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12038,7 +15405,7 @@
   "est": {
    "i8": 0.2
   },
-  "id": "cs-221",
+  "id": "cs-288",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -12088,7 +15455,7 @@
   "est": {
    "i8": 1.6
   },
-  "id": "cs-222",
+  "id": "cs-289",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12134,7 +15501,7 @@
   "est": {
    "i8": 1.5
   },
-  "id": "cs-223",
+  "id": "cs-290",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12180,7 +15547,7 @@
   "est": {
    "i8": 4.5
   },
-  "id": "cs-224",
+  "id": "cs-291",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12226,7 +15593,7 @@
   "est": {
    "i8": 0.7
   },
-  "id": "cs-225",
+  "id": "cs-292",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12272,7 +15639,7 @@
   "est": {
    "i8": 1
   },
-  "id": "cs-226",
+  "id": "cs-293",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12316,7 +15683,7 @@
   "est": {
    "i8": 1.6
   },
-  "id": "cs-227",
+  "id": "cs-294",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -12364,7 +15731,7 @@
   "est": {
    "i8": 0.4
   },
-  "id": "cs-228",
+  "id": "cs-295",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12413,7 +15780,7 @@
   "est": {
    "i8": 3.4
   },
-  "id": "cs-229",
+  "id": "cs-296",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -12457,7 +15824,7 @@
   "est": {
    "i8": 3.5
   },
-  "id": "cs-230",
+  "id": "cs-297",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12501,7 +15868,7 @@
   "est": {
    "i8": 0.7
   },
-  "id": "cs-231",
+  "id": "cs-298",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12549,7 +15916,7 @@
   "est": {
    "i8": 4
   },
-  "id": "cs-232",
+  "id": "cs-299",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12597,7 +15964,7 @@
   "est": {
    "i8": 4.2
   },
-  "id": "cs-233",
+  "id": "cs-300",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -12643,7 +16010,7 @@
   "est": {
    "i8": 5.1
   },
-  "id": "cs-234",
+  "id": "cs-301",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12689,7 +16056,7 @@
   "est": {
    "i8": 0.1
   },
-  "id": "cs-235",
+  "id": "cs-302",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12738,7 +16105,7 @@
   "est": {
    "i8": 7.5
   },
-  "id": "cs-236",
+  "id": "cs-303",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -12784,7 +16151,7 @@
   "est": {
    "i8": 10
   },
-  "id": "cs-237",
+  "id": "cs-304",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12830,7 +16197,7 @@
   "est": {
    "i8": 10.4
   },
-  "id": "cs-238",
+  "id": "cs-305",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12877,7 +16244,7 @@
   "est": {
    "i8": 8
   },
-  "id": "cs-239",
+  "id": "cs-306",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -12924,7 +16291,7 @@
   "est": {
    "i8": 2.9
   },
-  "id": "cs-240",
+  "id": "cs-307",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -12970,7 +16337,7 @@
   "est": {
    "i8": 4.5
   },
-  "id": "cs-241",
+  "id": "cs-308",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13016,7 +16383,7 @@
   "est": {
    "i8": 9.6
   },
-  "id": "cs-242",
+  "id": "cs-309",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13060,7 +16427,7 @@
   "est": {
    "i8": 2.1
   },
-  "id": "cs-243",
+  "id": "cs-310",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -13104,7 +16471,7 @@
   "est": {
    "i8": 3.9
   },
-  "id": "cs-244",
+  "id": "cs-311",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -13150,7 +16517,7 @@
   "est": {
    "i8": 1.6
   },
-  "id": "cs-245",
+  "id": "cs-312",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -13194,7 +16561,7 @@
   "est": {
    "i8": 2.8
   },
-  "id": "cs-246",
+  "id": "cs-313",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13241,7 +16608,7 @@
   "est": {
    "i8": 2
   },
-  "id": "cs-247",
+  "id": "cs-314",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13288,7 +16655,7 @@
   "est": {
    "i8": 0.4
   },
-  "id": "cs-248",
+  "id": "cs-315",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13339,7 +16706,7 @@
   "est": {
    "i8": 6.9
   },
-  "id": "cs-249",
+  "id": "cs-316",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13386,7 +16753,7 @@
   "est": {
    "i8": 0.2
   },
-  "id": "cs-250",
+  "id": "cs-317",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -13433,7 +16800,7 @@
   "est": {
    "i8": 4.4
   },
-  "id": "cs-251",
+  "id": "cs-318",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -13478,7 +16845,7 @@
   "est": {
    "i8": 2.7
   },
-  "id": "cs-252",
+  "id": "cs-319",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -13523,7 +16890,7 @@
   "est": {
    "i8": 0.2
   },
-  "id": "cs-253",
+  "id": "cs-320",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -13569,7 +16936,7 @@
   "est": {
    "i8": 0.3
   },
-  "id": "cs-254",
+  "id": "cs-321",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -13615,7 +16982,7 @@
   "est": {
    "i8": 6
   },
-  "id": "cs-255",
+  "id": "cs-322",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13663,7 +17030,7 @@
   "est": {
    "i8": 9.5
   },
-  "id": "cs-256",
+  "id": "cs-323",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13710,7 +17077,7 @@
   "est": {
    "i8": 0.3
   },
-  "id": "cs-257",
+  "id": "cs-324",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -13757,7 +17124,7 @@
   "est": {
    "i8": 7.9
   },
-  "id": "cs-258",
+  "id": "cs-325",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13805,7 +17172,7 @@
   "est": {
    "i8": 10.2
   },
-  "id": "cs-259",
+  "id": "cs-326",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -13852,7 +17219,7 @@
   "est": {
    "i8": 2
   },
-  "id": "cs-260",
+  "id": "cs-327",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -13898,7 +17265,7 @@
   "est": {
    "i8": 1.5
   },
-  "id": "cs-261",
+  "id": "cs-328",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -13947,7 +17314,7 @@
   "est": {
    "i8": 0.2
   },
-  "id": "cs-262",
+  "id": "cs-329",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -13995,7 +17362,7 @@
   "est": {
    "i8": 0.8
   },
-  "id": "cs-263",
+  "id": "cs-330",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14041,7 +17408,7 @@
   "est": {
    "i8": 0.1
   },
-  "id": "cs-264",
+  "id": "cs-331",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -14087,7 +17454,7 @@
   "est": {
    "i8": 1
   },
-  "id": "cs-265",
+  "id": "cs-332",
   "tier": "maybe",
   "anchors": {
    "i8": {
@@ -14133,7 +17500,7 @@
    "I8-E"
   ],
   "est": {},
-  "id": "cs-266",
+  "id": "cs-333",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14180,7 +17547,7 @@
   "est": {
    "i8": 0.1
   },
-  "id": "cs-267",
+  "id": "cs-334",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14227,7 +17594,7 @@
   "est": {
    "i8": 0.3
   },
-  "id": "cs-268",
+  "id": "cs-335",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14275,7 +17642,7 @@
   "est": {
    "i8": 9.5
   },
-  "id": "cs-269",
+  "id": "cs-336",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14320,7 +17687,7 @@
    "I8-E"
   ],
   "est": {},
-  "id": "cs-270",
+  "id": "cs-337",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -14367,7 +17734,7 @@
   "est": {
    "i8": 2
   },
-  "id": "cs-271",
+  "id": "cs-338",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14415,7 +17782,7 @@
   "est": {
    "i8": 0.4
   },
-  "id": "cs-272",
+  "id": "cs-339",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14463,7 +17830,7 @@
   "est": {
    "i8": 10.9
   },
-  "id": "cs-273",
+  "id": "cs-340",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14519,7 +17886,7 @@
   "est": {
    "i8": 0.1
   },
-  "id": "cs-274",
+  "id": "cs-341",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14570,7 +17937,7 @@
   "est": {
    "i8": 0.7
   },
-  "id": "cs-275",
+  "id": "cs-342",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14621,7 +17988,7 @@
   "est": {
    "i8": 4.4
   },
-  "id": "cs-276",
+  "id": "cs-343",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -14668,7 +18035,7 @@
   "est": {
    "i8": 4.2
   },
-  "id": "cs-277",
+  "id": "cs-344",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -14718,7 +18085,7 @@
   "est": {
    "i8": 0.6
   },
-  "id": "cs-278",
+  "id": "cs-345",
   "tier": "full",
   "anchors": {
    "i8": {
@@ -14764,7 +18131,7 @@
   "est": {
    "i8": 1
   },
-  "id": "cs-279",
+  "id": "cs-346",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -14809,7 +18176,7 @@
   "est": {
    "i8": 0.9
   },
-  "id": "cs-280",
+  "id": "cs-347",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -14855,7 +18222,7 @@
   "est": {
    "i8": 1
   },
-  "id": "cs-281",
+  "id": "cs-348",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -14902,7 +18269,7 @@
   "est": {
    "i8": 0.8
   },
-  "id": "cs-282",
+  "id": "cs-349",
   "tier": "no",
   "anchors": {
    "i8": {
@@ -14948,7 +18315,7 @@
   "est": {
    "i8": 3.5
   },
-  "id": "cs-283",
+  "id": "cs-350",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -14995,7 +18362,7 @@
   "est": {
    "i8": 12.5
   },
-  "id": "cs-284",
+  "id": "cs-351",
   "tier": "no",
   "anchors": {
    "i10": {
@@ -15054,7 +18421,7 @@
   "est": {
    "i8": 1.5
   },
-  "id": "cs-285",
+  "id": "cs-352",
   "tier": "basic",
   "anchors": {
    "i8": {
@@ -15099,7 +18466,7 @@
   "est": {
    "i8": 0.3
   },
-  "id": "cs-286",
+  "id": "cs-353",
   "tier": "no",
   "anchors": {
    "i10": {
@@ -15158,7 +18525,7 @@
   "est": {
    "i8": 12.1
   },
-  "id": "cs-287",
+  "id": "cs-354",
   "tier": "basic",
   "anchors": {
    "i10": {
@@ -15215,7 +18582,7 @@
   "est": {
    "i8": 10.1
   },
-  "id": "cs-288",
+  "id": "cs-355",
   "tier": "basic",
   "anchors": {}
  },
@@ -15255,7 +18622,7 @@
   "est": {
    "i8": 12.2
   },
-  "id": "cs-289",
+  "id": "cs-356",
   "tier": "basic",
   "anchors": {}
  }
