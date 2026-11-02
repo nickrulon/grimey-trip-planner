@@ -1,0 +1,5 @@
+[
+  {"match": "Estrella Mountain Regional Park", "set": {"openNov2026": "no", "tents": "no"},
+   "note": "Maricopa County is building the new campground; construction runs to about March 2027, so there is no camping yet.",
+   "source": "https://maricopacountyparks.net/assets/1/6/ESTRELLA_MOUNTAIN_REGIONAL_PARK_-_Area_Closure_and_New_Campground_Construction.pdf"}
+]

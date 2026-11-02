@@ -76,9 +76,19 @@ const line = db.prepare(`SELECT lat, lng, mile FROM route_points ORDER BY mile`)
 const MAX_OFF_MI = 6;
 const retired = [];
 const nearest = (lat, lng) => { let b = null, bd = Infinity; for (const p of line) { const d = haversineMi([lng, lat], [p.lng, p.lat]); if (d < bd) { bd = d; b = p; } } return { mile: b.mile, off: bd }; };
+// Newer research can name older entries it replaces (same place, fresher facts,
+// often a new name: "Q View RV Park (formerly B-10 Campground)"). Drop those.
+const superseded = spots.flatMap((s) => (s.supersedes ?? []).map((name) => ({ name, by: s })));
+for (let i = spots.length - 1; i >= 0; i--) {
+  const s = spots[i];
+  const hit = superseded.find((x) => x.name === s.name && x.by !== s && haversineMi([s.lng, s.lat], [x.by.lng, x.by.lat]) < 2);
+  if (hit) { retired.push({ ...s, retiredReason: `superseded by ${hit.by.name}` }); spots.splice(i, 1); }
+}
 for (let i = spots.length - 1; i >= 0; i--) {
   const s = spots[i]; const n = nearest(s.lat, s.lng);
-  if (n.off > MAX_OFF_MI) { retired.push({ ...s, retiredReason: `${n.off.toFixed(0)} mi from the current route line` }); spots.splice(i, 1); continue; }
+  // research that measured its own riding detour may allow more than the default
+  const lim = Number.isFinite(s.maxOffMi) ? s.maxOffMi : MAX_OFF_MI;
+  if (n.off > lim) { retired.push({ ...s, retiredReason: `${n.off.toFixed(0)} mi from the current route line` }); spots.splice(i, 1); continue; }
   if (Math.abs(n.mile - s.routeMile) > 2) s.routeMile = +n.mile.toFixed(1);
 }
 spots.sort((a, b) => a.routeMile - b.routeMile);

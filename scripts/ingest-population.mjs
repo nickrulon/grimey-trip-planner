@@ -28,7 +28,10 @@ db.exec(`
 `);
 
 const startMile = Number(db.prepare(`SELECT value FROM settings WHERE key='tripStartMile'`).get()?.value) || 0;
-const pts = db.prepare(`SELECT lat, lng, mile FROM route_points WHERE mile >= ? ORDER BY mile`).all(startMile);
+// --minMile=N re-ingests only the route past mile N (after a retrace), instead of the whole trip.
+const minArg = Number(process.argv.find((a) => a.startsWith('--minMile='))?.slice(10));
+const fromMile = Number.isFinite(minArg) ? Math.max(startMile, minArg) : startMile;
+const pts = db.prepare(`SELECT lat, lng, mile FROM route_points WHERE mile >= ? ORDER BY mile`).all(fromMile);
 console.log(`route: ${pts.length} points from mile ${startMile}`);
 
 // Reference points every ~0.5 mi for projecting cells onto the route.

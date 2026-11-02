@@ -13,6 +13,10 @@ import { PlanResponse, PositionInfo } from './types';
 import ALTERNATES from './alternates.json';
 import ALT_POIS from './alternate-pois.json';
 import OLD_ROUTE from './old-route.json';
+import {
+  STUDY, CorridorLegend, CorridorSheet, corrCampPopup, corrLinePopup, corrGapPopup, corrServicePopup,
+  CORR_LINE_IDS, CORR_GAP_IDS, TIER_FILL, CorrKey,
+} from './Corridors';
 
 // Shell: one persistent map canvas, three core surfaces over it —
 //   TODAY  (time)   what exactly happens today?
@@ -52,7 +56,8 @@ const STATE_CROSSINGS: { state: string; mile: number; lat: number; lng: number }
   { state: 'Texas', mile: 590.6, lat: 30.7468, lng: -93.609 },
   { state: 'New Mexico', mile: 1753.9, lat: 31.9171, lng: -106.6211 },
   { state: 'Arizona', mile: 1932.1, lat: 32.2275, lng: -109.0484 },
-  { state: 'California', mile: 2327.7, lat: 32.7375, lng: -114.6304 },
+  // 2026-11-01 I-10 retrace: California starts at the Colorado River between Ehrenberg and Blythe.
+  { state: 'California', mile: 2346.3, lat: 33.6067, lng: -114.5362 },
 ];
 const STATE_CROSSINGS_FC: GeoJSON.FeatureCollection = {
   type: 'FeatureCollection',
@@ -165,6 +170,21 @@ export default function App() {
   // default: they are options to weigh against the route, not the route.
   const [showAlts, setShowAlts] = useState(true);
   const [showOld, setShowOld] = useState(true);
+  // Casa Grande → LA corridor study: which candidate lines (and their camps)
+  // are drawn, per device. All on by default — the point is to compare.
+  const [corr, setCorr] = useState<Record<CorrKey, boolean>>(() => {
+    try {
+      const v = JSON.parse(localStorage.getItem('corrLayers') ?? 'null');
+      if (v && typeof v === 'object') return { i10: v.i10 !== false, i8: v.i8 !== false, hyb: v.hyb !== false };
+    } catch { /* private mode */ }
+    return { i10: true, i8: true, hyb: true };
+  });
+  useEffect(() => {
+    try { localStorage.setItem('corrLayers', JSON.stringify(corr)); } catch { /* private mode */ }
+  }, [corr]);
+  const corrRef = useRef(corr);
+  corrRef.current = corr;
+  const [showCompare, setShowCompare] = useState(false);
   // The legend covers a quarter of the map on a phone. Collapsing is a per-device
   // preference, so it survives reloads rather than reopening every time.
   const [legendOpen, setLegendOpen] = useState(() => {
@@ -699,6 +719,114 @@ export default function App() {
     map.on('mouseenter', 'alt-poi-pts', () => { map.getCanvas().style.cursor = 'pointer'; });
     map.on('mouseleave', 'alt-poi-pts', () => { map.getCanvas().style.cursor = ''; });
 
+    // Casa Grande → the Elysian corridor study (Corridors.tsx, built by
+    // scripts/build-corridor-study.mjs): the I-10 line and its two
+    // off-interstate variants, the Salton Sea hybrid's own stretch, the I-8
+    // line's LA River finish, red bands where 40+ miles pass with no tent spot,
+    // mile ticks from Casa Grande, water stops, and every tent-legal camp —
+    // filled by what it has, ringed by the line it serves.
+    map.addSource('corr-lines', { type: 'geojson', data: STUDY.lines });
+    map.addSource('corr-gaps', { type: 'geojson', data: STUDY.gaps });
+    map.addSource('corr-marks', { type: 'geojson', data: STUDY.marks });
+    map.addSource('corr-camps', { type: 'geojson', data: STUDY.camps });
+    map.addSource('corr-services', { type: 'geojson', data: STUDY.services });
+    map.addLayer({
+      id: 'corr-gap-lines', type: 'line', source: 'corr-gaps',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': '#dc2626',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 5, 9, 10, 18] as never,
+        'line-opacity': ['case', ['get', 'severe'], 0.34, 0.2] as never, 'line-blur': 1,
+      },
+    }, 'route-casing');
+    map.addLayer({
+      id: 'corr-line-casing', type: 'line', source: 'corr-lines',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': '#f6f2e6', 'line-width': ['match', ['get', 'kind'], 'main', 7.5, 5.5] as never, 'line-opacity': 0.85 },
+    }, 'route-casing');
+    map.addLayer({
+      id: 'corr-line', type: 'line', source: 'corr-lines',
+      layout: { 'line-cap': 'butt', 'line-join': 'round' },
+      paint: {
+        'line-color': ['get', 'color'] as never,
+        'line-width': ['match', ['get', 'kind'], 'main', 4.2, 'spur', 3.6, 2.8] as never,
+        'line-dasharray': [2.6, 1.3] as never, 'line-opacity': 0.95,
+      },
+    }, 'route-casing');
+    map.addLayer({
+      id: 'corr-mark-labels', type: 'symbol', source: 'corr-marks', minzoom: 6.5,
+      layout: {
+        'text-field': ['get', 'label'] as never, 'text-size': 10,
+        'text-font': ['Noto Sans Regular'], 'text-optional': true,
+      },
+      paint: {
+        'text-color': ['match', ['get', 'corridor'], 'i10', '#3730a3', 'hybrid', '#0f766e', '#92400e'] as never,
+        'text-halo-color': '#fff', 'text-halo-width': 1.6,
+      },
+    });
+    map.addLayer({
+      id: 'corr-svc-pts', type: 'circle', source: 'corr-services', minzoom: 7,
+      filter: ['==', ['get', 'water'], true] as never,
+      paint: { 'circle-radius': 3.2, 'circle-color': '#0284c7', 'circle-stroke-color': '#fff', 'circle-stroke-width': 1 },
+    });
+    map.addLayer({
+      id: 'corr-camp-pts', type: 'circle', source: 'corr-camps', minzoom: 4.5,
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'],
+          5, ['match', ['get', 'tier'], 'full', 4.6, 'basic', 4, 3.2],
+          10, ['match', ['get', 'tier'], 'full', 8.5, 'basic', 7.5, 6]] as never,
+        'circle-color': ['case', ['get', 'mapOnly'], '#e7e5e4',
+          ['match', ['get', 'tier'], 'full', TIER_FILL.full, 'basic', TIER_FILL.basic, TIER_FILL.maybe]] as never,
+        'circle-stroke-color': ['case', ['get', 'c_i10'], '#4f46e5', ['get', 'c_hyb'], '#0f766e', '#b45309'] as never,
+        'circle-stroke-width': ['case', ['get', 'mapOnly'], 1, 2.2] as never,
+        'circle-opacity': ['case', ['get', 'mapOnly'], 0.7, 1] as never,
+      },
+    });
+    map.addLayer({
+      id: 'corr-camp-labels', type: 'symbol', source: 'corr-camps', minzoom: 9.5,
+      layout: {
+        'text-field': ['get', 'name'] as never, 'text-size': 10.5, 'text-max-width': 12,
+        'text-offset': [0, 1.0], 'text-anchor': 'top',
+        'text-font': ['Noto Sans Regular'], 'text-optional': true,
+      },
+      paint: { 'text-color': '#14532d', 'text-halo-color': '#fff', 'text-halo-width': 1.3 },
+    });
+    map.on('click', 'corr-camp-pts', (e) => {
+      if (pickResolver.current || pickerRef.current) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      new maplibregl.Popup({ maxWidth: '320px' }).setLngLat(e.lngLat)
+        .setHTML(corrCampPopup(f.properties as Record<string, unknown>, corrRef.current)).addTo(map);
+    });
+    map.on('click', 'corr-gap-lines', (e) => {
+      if (pickResolver.current || pickerRef.current) return;
+      if (map.queryRenderedFeatures(e.point).some((h) => h.layer.id === 'corr-camp-pts' || h.layer.id.startsWith('res-'))) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      new maplibregl.Popup({ maxWidth: '300px' }).setLngLat(e.lngLat)
+        .setHTML(corrGapPopup(f.properties as Record<string, unknown>)).addTo(map);
+    });
+    map.on('click', 'corr-line', (e) => {
+      if (pickResolver.current || pickerRef.current) return;
+      if (map.queryRenderedFeatures(e.point).some((h) => ['corr-camp-pts', 'corr-gap-lines', 'corr-svc-pts'].includes(h.layer.id) || h.layer.id.startsWith('res-'))) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      new maplibregl.Popup({ maxWidth: '340px' }).setLngLat(e.lngLat)
+        .setHTML(corrLinePopup(f.properties as Record<string, unknown>)).addTo(map);
+    });
+    map.on('click', 'corr-svc-pts', (e) => {
+      if (pickResolver.current || pickerRef.current) return;
+      if (map.queryRenderedFeatures(e.point).some((h) => h.layer.id === 'corr-camp-pts')) return;
+      const f = e.features?.[0] as MapGeoJSONFeature | undefined;
+      if (!f) return;
+      new maplibregl.Popup({ maxWidth: '260px' }).setLngLat(e.lngLat)
+        .setHTML(corrServicePopup(f.properties as Record<string, unknown>)).addTo(map);
+    });
+    for (const id of ['corr-camp-pts', 'corr-gap-lines', 'corr-line', 'corr-svc-pts']) {
+      map.on('mouseenter', id, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', id, () => { map.getCanvas().style.cursor = ''; });
+    }
+
     // The rider's own beds: filled pin where he slept, hollow where he plans
     // to, drawn above every other pin — these are the trip's spine.
     map.addSource('rider-places', { type: 'geojson', data: EMPTY_FC });
@@ -817,6 +945,24 @@ export default function App() {
       if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', vis);
     }
   }, [showOld, layersReady, picker]);
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !layersReady || !map.getLayer('corr-line')) return;
+    const keys = (Object.keys(corr) as CorrKey[]).filter((k) => corr[k] && !picker);
+    const inIds = (prop: string, ids: string[]) => ['in', ['get', prop], ['literal', ids]] as never;
+    const lineIds = keys.flatMap((k) => CORR_LINE_IDS[k]);
+    const gapIds = keys.flatMap((k) => CORR_GAP_IDS[k]);
+    map.setFilter('corr-line', inIds('id', lineIds));
+    map.setFilter('corr-line-casing', inIds('id', lineIds));
+    map.setFilter('corr-gap-lines', inIds('corridor', gapIds));
+    map.setFilter('corr-mark-labels', inIds('corridor', gapIds));
+    const flags = keys.map((k) => ['==', ['get', k === 'i10' ? 'c_i10' : k === 'i8' ? 'c_i8' : 'c_hyb'], true]);
+    const campFilter = (flags.length ? ['any', ...flags] : ['==', 1, 0]) as never;
+    map.setFilter('corr-camp-pts', campFilter);
+    map.setFilter('corr-camp-labels', campFilter);
+    map.setFilter('corr-svc-pts', (keys.includes('i10') || keys.includes('hyb')
+      ? ['==', ['get', 'water'], true] : ['==', 1, 0]) as never);
+  }, [corr, layersReady, picker]);
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !layersReady) return;
@@ -964,6 +1110,22 @@ export default function App() {
     map.fitBounds(b, { padding: 60, animate: false });
   }
 
+  // "show on map" from the corridor sheet: turn that line on and frame it with
+  // its camps (the I-8 line itself is the app's route, so its camps frame it).
+  function showCorridor(key: CorrKey) {
+    setCorr((c) => ({ ...c, [key]: true }));
+    setSurface('map');
+    const coords: [number, number][] = [];
+    for (const f of STUDY.lines.features) {
+      if (CORR_LINE_IDS[key].includes(String(f.properties?.id))) coords.push(...((f.geometry as GeoJSON.LineString).coordinates as [number, number][]));
+    }
+    const flag = key === 'i10' ? 'c_i10' : key === 'i8' ? 'c_i8' : 'c_hyb';
+    for (const f of STUDY.camps.features) {
+      if (f.properties?.[flag]) coords.push((f.geometry as GeoJSON.Point).coordinates as [number, number]);
+    }
+    fitTo(coords);
+  }
+
   // ---- cross-surface actions --------------------------------------------------
   const gotoDay = useCallback((n: number) => {
     setCurDay(n);
@@ -1055,6 +1217,7 @@ export default function App() {
             </button>
           </div>
           {legendOpen && (<>
+          <CorridorLegend corr={corr} setCorr={setCorr} onOpen={() => setShowCompare(true)} />
           {Object.entries(CAT_META).map(([cat, meta]) => (
             <label key={cat} className="cat-toggle">
               <input type="checkbox" checked={visibleCats[cat]}
@@ -1127,6 +1290,9 @@ export default function App() {
           )}
           </>)}
         </div>
+      )}
+      {showCompare && (
+        <CorridorSheet onClose={() => setShowCompare(false)} onShow={showCorridor} />
       )}
 
       {/* Current mileage, bottom-left. Same position the marker uses: a live

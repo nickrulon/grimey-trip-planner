@@ -3723,5 +3723,167 @@
   "endName": "Seeley / El Centro (I-8 corridor research)",
   "lat": 32.7809,
   "lng": -115.6841
+ },
+ {
+  "day": 1050,
+  "date": null,
+  "endMile": 2142.1,
+  "miles": 0,
+  "endName": "Casa Grande (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1051,
+  "date": null,
+  "endMile": 2164.2,
+  "miles": 0,
+  "endName": "Maricopa (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1052,
+  "date": null,
+  "endMile": 2224.9,
+  "miles": 0,
+  "endName": "Buckeye (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1053,
+  "date": null,
+  "endMile": 2249.9,
+  "miles": 0,
+  "endName": "Tonopah (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1054,
+  "date": null,
+  "endMile": 2327.7,
+  "miles": 0,
+  "endName": "Quartzsite (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1055,
+  "date": null,
+  "endMile": 2345.7,
+  "miles": 0,
+  "endName": "Ehrenberg (I-10 exit 1) (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1056,
+  "date": null,
+  "endMile": 2358.6,
+  "miles": 0,
+  "endName": "Mesa Dr (I-10 exit 232) (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1057,
+  "date": null,
+  "endMile": 2398.8,
+  "miles": 0,
+  "endName": "Desert Center (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1058,
+  "date": null,
+  "endMile": 2418,
+  "miles": 0,
+  "endName": "Chiriaco Summit (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1059,
+  "date": null,
+  "endMile": 2444.5,
+  "miles": 0,
+  "endName": "Dillon Rd (I-10 exit 146) (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1060,
+  "date": null,
+  "endMile": 2448.8,
+  "miles": 0,
+  "endName": "Indio (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1061,
+  "date": null,
+  "endMile": 2472.6,
+  "miles": 0,
+  "endName": "Palm Springs (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1062,
+  "date": null,
+  "endMile": 2490.1,
+  "miles": 0,
+  "endName": "Cabazon (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1063,
+  "date": null,
+  "endMile": 2495.9,
+  "miles": 0,
+  "endName": "Banning (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1064,
+  "date": null,
+  "endMile": 2501.7,
+  "miles": 0,
+  "endName": "Beaumont (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1065,
+  "date": null,
+  "endMile": 2520.2,
+  "miles": 0,
+  "endName": "Redlands (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1066,
+  "date": null,
+  "endMile": 2556.1,
+  "miles": 0,
+  "endName": "Claremont (I-10 corridor research)",
+  "lat": null,
+  "lng": null
+ },
+ {
+  "day": 1067,
+  "date": null,
+  "endMile": 2584.3,
+  "miles": 0,
+  "endName": "Pasadena (I-10 corridor research)",
+  "lat": null,
+  "lng": null
  }
 ]

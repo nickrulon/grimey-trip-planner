@@ -1301,3 +1301,51 @@ button.primary:disabled, button.ghost:disabled { opacity: 0.5; cursor: default; 
   height: 3px;
   align-self: center;
 }
+
+/* ---- Casa Grande → LA corridor study (Corridors.tsx) ---- */
+.corr-block { padding: 2px 0 6px; margin-bottom: 6px; border-bottom: 1px dashed var(--line-hard); }
+.corr-title {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font-family: var(--stamp); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 2px;
+}
+.corr-title .linkish { font-family: var(--body, inherit); text-transform: none; letter-spacing: 0; font-size: 12px; font-weight: 700; color: var(--orange); }
+.cat-toggle .corr-swatch { width: 20px; height: 5px; border-radius: 2px; }
+.corr-pins i.maybe { box-shadow: inset 0 0 0 1px #a16207; }
+.corr-pins i.gapband { width: 14px !important; height: 7px !important; border-radius: 3px !important; background: rgba(220, 38, 38, 0.35); }
+.corr-pop .corr-anchor { margin: 3px 0; font-size: 12px; }
+.corr-pop .corr-amen { display: flex; flex-wrap: wrap; gap: 2px 9px; margin: 4px 0; font-size: 11.5px; }
+.corr-pop .corr-amen .yes { color: #15803d; font-weight: 600; }
+.corr-pop .corr-amen .no { color: #b91c1c; }
+.corr-pop .corr-amen .unk { color: #8a8270; }
+.corr-pop .warn { color: #b45309; font-weight: 600; font-size: 12px; }
+.corr-pop .dim { margin-top: 3px; }
+.corr-sheet { max-width: 760px; }
+.corr-verdict { background: var(--card); border-left: 4px solid var(--orange); padding: 8px 10px; margin: 4px 0 12px; font-size: 13.5px; }
+.corr-verdict ul { margin: 6px 0 0; padding-left: 18px; }
+.corr-verdict li { margin: 3px 0; }
+.corr-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 4px 0 6px; }
+.corr-table th { text-align: left; font-family: var(--stamp); font-weight: 500; font-size: 11.5px; letter-spacing: 0.03em; border-top: 4px solid transparent; padding: 4px 4px 3px; vertical-align: bottom; }
+.corr-table td { padding: 4px; border-top: 1px solid var(--line); vertical-align: top; }
+.corr-table td:first-child { color: var(--dim); }
+.corr-table.small { font-size: 12px; }
+.corr-sheet .bad { color: #b91c1c; font-weight: 700; }
+.corr-sheet .meh { color: #b45309; font-weight: 600; }
+.corr-sheet .good { color: #15803d; }
+.corr-foot { font-size: 11.5px; margin: 4px 0 12px; }
+.corr-pace { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 12.5px; margin: 6px 0 8px; }
+.corr-pace button { border: 1.5px solid var(--ink); background: transparent; padding: 3px 8px; font-size: 12px; }
+.corr-pace button.on { background: var(--ink); color: var(--paper, #f6f2e6); }
+.corr-card { border-left: 5px solid #999; background: var(--card); margin: 6px 0; padding: 0 10px 6px; }
+.corr-card-head { width: 100%; display: flex; gap: 8px; align-items: baseline; background: none; border: none; padding: 8px 0 6px; text-align: left; }
+.corr-card-head span:last-child { margin-left: auto; font-weight: 700; }
+.corr-night { display: grid; grid-template-columns: 92px 1fr auto; gap: 8px; font-size: 12.5px; padding: 4px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.corr-night i.tier { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; background: #fdf6d8; box-shadow: inset 0 0 0 1px #a16207; }
+.corr-night i.tier.full { background: #15803d; box-shadow: none; }
+.corr-night i.tier.basic { background: #86efac; box-shadow: none; }
+.corr-gaps { font-size: 12px; margin: 8px 0 4px; }
+.corr-gaps div { margin: 2px 0; }
+.corr-sec { margin-top: 14px; font-size: 13px; }
+.corr-sec h4 { font-family: var(--stamp); font-weight: 600; font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase; margin: 0 0 4px; }
+.corr-sec ul { margin: 4px 0; padding-left: 18px; }
+.corr-sec li { margin: 3px 0; }
+.corr-night .corr-fallback { grid-column: 2 / 4; font-size: 11.5px; margin-top: -2px; }
