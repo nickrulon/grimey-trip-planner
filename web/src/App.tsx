@@ -592,6 +592,7 @@ export default function App() {
     });
     const oldLineClick = (e: maplibregl.MapLayerMouseEvent) => {
       if (pickResolver.current || pickerRef.current) return;
+      if (map.queryRenderedFeatures(e.point).some((h) => ['route-line', 'corr-line', 'corr-camp-pts', 'corr-svc-pts', 'rider-place-pts', 'camp-spot-pts'].includes(h.layer.id) || h.layer.id.startsWith('res-'))) return;
       const f = e.features?.[0] as MapGeoJSONFeature | undefined;
       if (!f) return;
       const p = f.properties as {
@@ -800,7 +801,7 @@ export default function App() {
     });
     map.on('click', 'corr-gap-lines', (e) => {
       if (pickResolver.current || pickerRef.current) return;
-      if (map.queryRenderedFeatures(e.point).some((h) => h.layer.id === 'corr-camp-pts' || h.layer.id.startsWith('res-'))) return;
+      if (map.queryRenderedFeatures(e.point).some((h) => ['corr-camp-pts', 'corr-svc-pts', 'route-line', 'rider-place-pts', 'camp-spot-pts'].includes(h.layer.id) || h.layer.id.startsWith('res-'))) return;
       const f = e.features?.[0] as MapGeoJSONFeature | undefined;
       if (!f) return;
       new maplibregl.Popup({ maxWidth: '300px' }).setLngLat(e.lngLat)
@@ -889,7 +890,7 @@ export default function App() {
     map.on('click', 'route-line', (e) => {
       if (pickResolver.current || pickerRef.current) return;
       const hits = map.queryRenderedFeatures(e.point);
-      if (hits.some((f) => f.layer.id.startsWith('res-'))) return;
+      if (hits.some((f) => f.layer.id.startsWith('res-') || ['corr-camp-pts', 'corr-svc-pts', 'rider-place-pts', 'camp-spot-pts'].includes(f.layer.id))) return;
       const f = e.features?.[0];
       if (!f) return;
       const dayF = hits.find((x) => x.layer.id === 'plan-day-band');
@@ -956,12 +957,15 @@ export default function App() {
     map.setFilter('corr-line-casing', inIds('id', lineIds));
     map.setFilter('corr-gap-lines', inIds('corridor', gapIds));
     map.setFilter('corr-mark-labels', inIds('corridor', gapIds));
+    const NONE = false as never; // matches nothing; valid as an expression filter in MapLibre 4.7
     const flags = keys.map((k) => ['==', ['get', k === 'i10' ? 'c_i10' : k === 'i8' ? 'c_i8' : 'c_hyb'], true]);
-    const campFilter = (flags.length ? ['any', ...flags] : ['==', 1, 0]) as never;
+    const campFilter = (flags.length ? ['any', ...flags] : NONE) as never;
     map.setFilter('corr-camp-pts', campFilter);
     map.setFilter('corr-camp-labels', campFilter);
-    map.setFilter('corr-svc-pts', (keys.includes('i10') || keys.includes('hyb')
-      ? ['==', ['get', 'water'], true] : ['==', 1, 0]) as never);
+    const svcOn = keys.includes('i10') || keys.includes('hyb');
+    map.setFilter('corr-svc-pts', (svcOn ? ['==', ['get', 'water'], true] : NONE) as never);
+    for (const id of ['corr-camp-pts', 'corr-camp-labels']) map.setLayoutProperty(id, 'visibility', flags.length ? 'visible' : 'none');
+    map.setLayoutProperty('corr-svc-pts', 'visibility', svcOn ? 'visible' : 'none');
   }, [corr, layersReady, picker]);
   useEffect(() => {
     const map = mapRef.current;

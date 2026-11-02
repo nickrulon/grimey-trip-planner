@@ -91,7 +91,7 @@ try {
       const d = hav(f.lnglat, [p[0], p[1]]);
       if (d < bestD) { bestD = d; bestMile = p[2]; }
     }
-    if (bestD > 15) continue;
+    if (bestD > 3) continue; // keep in step with WAYPOINT_SNAP_MI in server/plan.mjs
     const clean = f.name.replace(/\s*\(.*\)$/, '');
     if (/\bline\b|×|\bexit\b/i.test(clean)) continue;
     places.push({ name: clean, mile: bestMile, weight: 2.5 });

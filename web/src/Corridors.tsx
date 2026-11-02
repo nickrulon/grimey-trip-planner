@@ -8,12 +8,13 @@ import STUDY_JSON from './corridor-study.json';
 // bundled, so it works without the API (and on a bad signal).
 
 export interface StudyNight { id: string; name: string; mile: number; dayMiles: number; tier: string; off: number; fallbacks?: { name: string; dayMiles: number; tier: string }[] }
-export interface StudyPlan { target: number; nights: StudyNight[]; lastDay: number; days: number; arrive: string }
+export interface StudyPlan { target: number; nights: StudyNight[]; lastDay: number; days: number; arrive: string; partial?: boolean; infeasible?: boolean }
 export interface StudyGap { fromName: string; fromMile: number; toName: string; toMile: number; miles: number }
 export interface StudyCorridor {
   id: string; label: string; name: string; miles: number; climbFt: number | null; highPointFt: number | null;
   color: string; summary: string;
   camps: { usable: number; full: number; tentsYes: number; maybe: number; checked: number };
+  coverage?: { complete: boolean; researchedTo: number; missing?: string[] };
   per100: number; gaps: StudyGap[]; gapsTentsKnown: StudyGap[]; longestGap: number; longestGapTentsKnown: number;
   over50: number; towns: { name: string; mile: number }[]; plans: StudyPlan[];
   legs: { from: string; to: string; miles: number; roads: string[]; costing: string }[];
@@ -44,7 +45,7 @@ export const CORR_ROWS: { key: CorrKey; id: string; short: string }[] = [
   { key: 'hyb', id: 'hybrid', short: 'Salton Sea hybrid' },
 ];
 export const CORR_LINE_IDS: Record<CorrKey, string[]> = { i10: ['i10', 'i10-salome', 'i10-mecca'], i8: ['i8'], hyb: ['hybrid'] };
-export const CORR_GAP_IDS: Record<CorrKey, string[]> = { i10: ['i10'], i8: ['i8'], hyb: ['hybrid'] };
+export const CORR_GAP_IDS: Record<CorrKey, string[]> = { i10: ['i10', 'i10-offinterstate'], i8: ['i8'], hyb: ['hybrid'] };
 
 export const TIER_FILL: Record<string, string> = { full: '#15803d', basic: '#86efac', maybe: '#fdf6d8' };
 export const TIER_LABEL: Record<string, string> = {
@@ -68,6 +69,17 @@ const yn = (v: unknown, label: string) => {
   const txt = s === 'potable' ? 'yes' : s === 'non_potable' ? 'not drinkable' : s === 'vault_or_pit' ? 'vault' : s === 'unknown' ? '?' : s;
   return `<span class="${cls}">${label} ${esc(txt)}</span>`;
 };
+const PHONE_RE = /(?:\+?1[\s.-]*)?\(?\d{3}\)?[\s.-]*\d{3}[\s.-]*\d{4}/g;
+/** Every dialable number in a free-text phone field becomes its own tel: link. */
+function phoneHtml(phone: string): string {
+  let out = '', last = 0;
+  for (const m of phone.matchAll(PHONE_RE)) {
+    out += esc(phone.slice(last, m.index)) + `<a href="tel:${esc(m[0].replace(/[^\d+]/g, ''))}">${esc(m[0])}</a>`;
+    last = (m.index ?? 0) + m[0].length;
+  }
+  return last ? out + esc(phone.slice(last)) : '';
+}
+const covNote = (c?: StudyCorridor) => (c?.coverage && !c.coverage.complete ? `researched to mi ${Math.round(c.coverage.researchedTo)} so far` : '');
 const parse = <T,>(v: unknown, fallback: T): T => {
   if (typeof v !== 'string') return (v as T) ?? fallback;
   try { return JSON.parse(v) as T; } catch { return fallback; }
@@ -93,14 +105,14 @@ export function corrCampPopup(p: Record<string, unknown>, active: Record<CorrKey
   const verdict = String(p.verdict ?? 'unchecked');
   const vLabel = verdict === 'confirmed' ? 'Checked twice' : verdict === 'corrected' ? 'Checked and corrected' : verdict === 'map-only' ? 'Map data only, not researched' : verdict === 'unverifiable' ? 'Could not be confirmed' : 'Researched once';
   const phone = String(p.phone ?? '');
-  const tel = phone.replace(/[^\d+]/g, '');
+  const phoneLinks = phoneHtml(phone);
   const web = String(p.website ?? '');
   return `<div class="popup corr-pop"><div class="popup-title" style="border-color:${TIER_FILL[tier] ?? '#999'}">⛺ ${esc(p.name)}</div>` +
     `<div><b>${esc(TIER_LABEL[tier] ?? tier)}</b> · ${esc(KIND_LABEL[String(p.kind)] ?? p.kind)}</div>` +
     (show.length ? `<div class="corr-anchor">${show.join('<br>')}</div>` : '') +
     `<div class="corr-amen">${yn(p.tents, 'tents')}${yn(p.showers, 'shower')}${yn(p.water, 'water')}${yn(p.toilets, 'toilets')}${yn(p.power, 'power')}</div>` +
     (p.price ? `<div>${esc(p.price)}</div>` : '') +
-    ((tel.length >= 7 || web.startsWith('http')) ? `<div>${tel.length >= 7 ? `<a href="tel:${esc(tel)}">${esc(phone)}</a>` : ''}${tel.length >= 7 && web.startsWith('http') ? ' · ' : ''}${web.startsWith('http') ? `<a href="${esc(web)}" target="_blank" rel="noopener">website</a>` : ''}</div>` : '') +
+    ((phoneLinks || web.startsWith('http')) ? `<div>${phoneLinks}${phoneLinks && web.startsWith('http') ? ' · ' : ''}${web.startsWith('http') ? `<a href="${esc(web)}" target="_blank" rel="noopener">website</a>` : ''}</div>` : '') +
     (p.open && p.open !== 'yes' ? `<div class="warn">Open in November: ${esc(p.open === 'no' ? 'NO' : 'not confirmed')}</div>` : '') +
     (p.reservations ? `<div class="dim">${esc(p.reservations)}</div>` : '') +
     (p.access ? `<div class="dim">Getting there: ${esc(p.access)}</div>` : '') +
@@ -118,7 +130,7 @@ export function corrLinePopup(p: Record<string, unknown>): string {
     (c && !variant ? `<p>${esc(c.summary)}</p><ul>` +
       `<li>Casa Grande → the Elysian: <b>${c.miles} mi</b>, ${c.climbFt?.toLocaleString() ?? '?'} ft of climbing</li>` +
       `<li>${c.camps.usable} places to pitch a tent (${c.camps.full} with showers); longest gap <b>${c.longestGap} mi</b></li>` +
-      `<li>At 85 mi a day: ${c.plans.find((x) => x.target === 85)?.days ?? '?'} riding days</li></ul>` : '') +
+      (covNote(c) ? `<li><b>${covNote(c)}</b>: numbers cover that stretch only</li></ul>` : `<li>At 85 mi a day: ${c.plans.find((x) => x.target === 85)?.days ?? '?'} riding days</li></ul>`) : '') +
     (legs.length && !variant ? `<ul>${legs.slice(0, 18).map((l) => `<li>${esc(l.from)} → ${esc(l.to)} <b>${l.miles} mi</b> <span class="dim">${esc(l.costing)}</span></li>`).join('')}</ul>` : '') +
     '</div>';
 }
@@ -151,7 +163,7 @@ export function CorridorLegend({ corr, setCorr, onOpen }: {
             <input type="checkbox" checked={corr[key]} onChange={(e) => setCorr({ ...corr, [key]: e.target.checked })} />
             <span className="dot corr-swatch" style={{ background: c.color }} />
             {short}
-            <span className="count" title={`${c.camps.usable} tent spots · longest gap ${c.longestGap} mi`}>{Math.round(c.miles)} mi</span>
+            <span className="count" title={covNote(c) || `${c.camps.usable} tent spots · longest gap ${c.longestGap} mi`}>{Math.round(c.miles)} mi</span>
           </label>
         );
       })}
@@ -216,6 +228,7 @@ export function CorridorSheet({ onClose, onShow }: { onClose: () => void; onShow
             <tbody>
               <tr><td>Miles to the Elysian</td>{cols.map((c) => <td key={c.id}><b>{Math.round(c.miles)}</b></td>)}</tr>
               <tr><td>Climbing</td>{cols.map((c) => <td key={c.id}>{c.climbFt ? `${c.climbFt.toLocaleString()} ft` : '–'}</td>)}</tr>
+              <tr><td>Research coverage</td>{cols.map((c) => <td key={c.id} className={covNote(c) ? 'meh' : ''}>{covNote(c) || 'whole line'}</td>)}</tr>
               <tr><td>Places to pitch a tent</td>{cols.map((c) => <td key={c.id}>{c.camps.usable} <span className="dim">({c.camps.full} w/ shower)</span></td>)}</tr>
               <tr><td>Tent spots per 100 mi</td>{cols.map((c) => <td key={c.id}>{c.per100}</td>)}</tr>
               <tr><td>Longest gap</td>{cols.map((c) => <td key={c.id} className={c.longestGap > 50 ? 'bad' : c.longestGap > 40 ? 'meh' : ''}>{c.longestGap} mi</td>)}</tr>
@@ -224,7 +237,10 @@ export function CorridorSheet({ onClose, onShow }: { onClose: () => void; onShow
               {[70, 85, 100].map((t) => (
                 <tr key={t}><td>At {t} mi/day</td>{cols.map((c) => {
                   const p = c.plans.find((x) => x.target === t);
-                  return <td key={c.id}>{p ? <>{p.days} days<br /><span className="dim">arrive {fmtDate(p.arrive)}</span></> : '–'}</td>;
+                  if (!p) return <td key={c.id}>–</td>;
+                  if (p.partial) return <td key={c.id} className="dim">not yet researched</td>;
+                  if (p.infeasible) return <td key={c.id} className="bad">– gap too long</td>;
+                  return <td key={c.id}>{p.days} days<br /><span className="dim">arrive {fmtDate(p.arrive)}</span></td>;
                 })}</tr>
               ))}
             </tbody>
@@ -241,7 +257,7 @@ export function CorridorSheet({ onClose, onShow }: { onClose: () => void; onShow
             return (
               <div key={c.id} className="corr-card" style={{ borderLeftColor: c.color }}>
                 <button type="button" className="corr-card-head" onClick={() => setOpen(isOpen ? '' : c.id)}>
-                  <b>{c.label}</b><span className="dim">{p ? `${p.days} days · arrive ${fmtDate(p.arrive)}` : ''}</span><span>{isOpen ? '–' : '+'}</span>
+                  <b>{c.label}</b><span className="dim">{!p ? '' : p.partial ? covNote(c) : p.infeasible ? 'a gap too long for this pace' : `${p.days} days · arrive ${fmtDate(p.arrive)}`}</span><span>{isOpen ? '–' : '+'}</span>
                 </button>
                 {isOpen && p && (
                   <div>
@@ -258,10 +274,14 @@ export function CorridorSheet({ onClose, onShow }: { onClose: () => void; onShow
                         )}
                       </div>
                     ))}
-                    <div className="corr-night">
-                      <span className="dim">{fmtDate(addDays(STUDY.startDate, p.nights.length))}</span>
-                      <span>The Elysian Theater</span><b>{Math.round(p.lastDay)} mi</b>
-                    </div>
+                    {p.partial ? (
+                      <div className="corr-night"><span /><span className="dim">Research stops at mile {Math.round(c.coverage?.researchedTo ?? 0)}; the rest of this line is still being checked.</span><b /></div>
+                    ) : (
+                      <div className="corr-night">
+                        <span className="dim">{fmtDate(addDays(STUDY.startDate, p.nights.length))}</span>
+                        <span>The Elysian Theater</span><b className={p.lastDay > pace + 15 ? 'bad' : ''}>{Math.round(p.lastDay)} mi</b>
+                      </div>
+                    )}
                     {c.gaps.length > 0 && (
                       <div className="corr-gaps">
                         <b>Gaps of 25+ mi</b>

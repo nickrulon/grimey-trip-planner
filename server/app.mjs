@@ -107,7 +107,7 @@ app.get('/api/resources', (req, res) => {
   const cats = req.query.cats ? String(req.query.cats).split(',') : null;
   let sql = `SELECT r.*, group_concat(s.provider || ':' || s.provider_ref) AS srcs
              FROM resources r LEFT JOIN resource_sources s ON s.resource_id = r.id
-             WHERE r.route_mile BETWEEN ? AND ?`;
+             WHERE r.route_mile BETWEEN ? AND ? AND r.status = 'active'`;
   const args = [minMile, maxMile];
   if (cats) {
     sql += ` AND r.category_id IN (${cats.map(() => '?').join(',')})`;
@@ -375,6 +375,37 @@ app.post('/api/plan/day/sleep-place', handle((req) => {
     actual = planner.recordActual({ dayNumber, endMile: loc.mile, endName: name, date: isoDate, notes: b.notes ?? undefined });
   }
   return { ok: true, id, mile: Math.round(loc.mile * 10) / 10, offRouteMi: Math.round(loc.offMi * 100) / 100, category, sleep: res, actual };
+}));
+
+// After a route retrace the rider's own places (state, in Netlify Blobs) still
+// carry the old route miles. Re-locate every place past `afterMile` on the
+// current line; drop ones now more than 25 mi off that no plan day sleeps at.
+app.post('/api/rider-places/reanchor', handle((req) => {
+  const afterMile = Number(req.body?.afterMile);
+  if (!Number.isFinite(afterMile)) throw new Error('afterMile required');
+  const rows = db.prepare(`SELECT id, name, lat, lng, route_mile FROM rider_places WHERE route_mile > ?`).all(afterMile);
+  // only beds in the ACTIVE plan protect a place; old revisions can't be restored onto the new route anyway
+  const used = new Set(db.prepare(`SELECT d.overnight_resource_id id FROM planned_days d JOIN plan_revisions r ON r.id = d.revision_id
+     WHERE r.active = 1 AND d.overnight_resource_id LIKE 'rider-%'`).all().map((r) => r.id));
+  const out = { moved: [], removed: [] };
+  const tx = db.transaction(() => {
+    for (const r of rows) {
+      const loc = planner.locate(r.lat, r.lng);
+      if ((!loc || loc.offMi > 25) && !used.has(r.id)) {
+        db.prepare(`UPDATE planned_days SET overnight_resource_id = NULL WHERE overnight_resource_id = ?`).run(r.id);
+        db.prepare(`DELETE FROM resources WHERE id=?`).run(r.id);
+        db.prepare(`DELETE FROM rider_places WHERE id=?`).run(r.id);
+        out.removed.push(r.name);
+        continue;
+      }
+      if (!loc) continue;
+      db.prepare(`UPDATE rider_places SET route_mile=?, off_route_mi=? WHERE id=?`).run(loc.mile, loc.offMi, r.id);
+      out.moved.push({ name: r.name, from: Math.round(r.route_mile * 10) / 10, to: Math.round(loc.mile * 10) / 10, offMi: Math.round(loc.offMi * 10) / 10 });
+    }
+  });
+  tx();
+  syncRiderPlaces(db);
+  return out;
 }));
 
 app.post('/api/plan/day/sleep', handle((req) => {

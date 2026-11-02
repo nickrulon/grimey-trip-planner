@@ -158,8 +158,11 @@ for (const c0 of raw.map(applyVerify)) {
     const t0 = n0.split(' ').slice(0, 2).join(' '), t1 = n1.split(' ').slice(0, 2).join(' ');
     return d < 1.2 && t0.length > 4 && t0 === t1;
   });
-  if (!twin) { merged.push({ ...c0, seen: [c0.seg] }); continue; }
+  const est0 = c0.corridor && Number(c0.offRouteMiApprox) > 0 ? { [c0.corridor]: Number(c0.offRouteMiApprox) } : {};
+  if (!twin) { merged.push({ ...c0, seen: [c0.seg], est: est0 }); continue; }
   twin.seen.push(c0.seg);
+  const est = { ...(twin.est ?? {}) };
+  for (const [k, v] of Object.entries(est0)) est[k] = Math.max(est[k] ?? 0, v);
   const better = (RANK[c0.verdict] ?? 0) > (RANK[twin.verdict] ?? 0)
     || ((RANK[c0.verdict] ?? 0) === (RANK[twin.verdict] ?? 0) && (CONF[c0.confidence] ?? 0) > (CONF[twin.confidence] ?? 0));
   const [a, b] = better ? [c0, twin] : [twin, c0];
@@ -167,6 +170,7 @@ for (const c0 of raw.map(applyVerify)) {
   a.sources = [...new Set([...(a.sources ?? []), ...(b.sources ?? [])])];
   a.seen = twin.seen;
   if (better) Object.assign(twin, a);
+  twin.est = est;
 }
 
 // ---------- hand-checked overrides (data/corridors/overrides.json) ----------
@@ -192,6 +196,8 @@ for (const e of osm) {
   if (!name || /^\d+$/.test(name)) continue;
   if (/mobile home|trailer park|manufactured|apartments|storage|scout|ymca|church camp|youth camp/i.test(name)) continue;
   if (t.tents === 'no' || t.access === 'private' || t.access === 'no') continue;
+  if (/^RV Spaces?\b/i.test(name)) continue;
+  if (merged.some((m) => haversineMi([m.lng, m.lat], [e.lng, e.lat]) < 0.25)) continue;
   const n = norm(name);
   const dup = merged.some((m) => haversineMi([m.lng, m.lat], [e.lng, e.lat]) < 1.2
     && (norm(m.name) === n || norm(m.name).includes(n) || n.includes(norm(m.name)) || norm(m.name).split(' ')[0] === n.split(' ')[0]));
@@ -221,10 +227,16 @@ for (const c of ALL) {
   c.id = `cs-${++seq}`;
   c.tier = tierOf(c);
   c.anchors = {};
+  const named = [];
+  for (const [cid, v] of Object.entries(c.est ?? {})) {
+    const pn = MEASURE[cid] ? project(MEASURE[cid], c.lat, c.lng, 25) : null;
+    if (pn) named.push({ off: pn.off, est: v });
+  }
   for (const [id, line] of Object.entries(MEASURE)) {
     const p = project(line, c.lat, c.lng, 25);
     if (!p) continue;
-    const off = Math.max(p.off, Number(c.offRouteMiApprox) > 0 && c.corridor === id ? Number(c.offRouteMiApprox) : 0);
+    let off = p.off;
+    for (const n of named) if (Math.abs(n.off - p.off) < 0.5) off = Math.max(off, n.est);
     if (off <= 20) c.anchors[id] = { mile: +p.mile.toFixed(1), off: +off.toFixed(1) };
   }
 }
@@ -236,8 +248,27 @@ function campsOn(lineId, maxOff = SERVE_MI) {
   return ALL.filter((c) => usable(c) && c.anchors[lineId] && c.anchors[lineId].off <= maxOff)
     .sort((a, b) => a.anchors[lineId].mile - b.anchors[lineId].mile);
 }
-function gapsOn(lineId, totalMiles, { tentsKnownOnly = false } = {}) {
-  const pts = campsOn(lineId).filter((c) => !tentsKnownOnly || c.tents === 'yes');
+// How far each line's research actually reaches. A line is only "complete"
+// when every segment it needs was researched; otherwise stats stop at the last
+// researched mile instead of inventing a 400-mile gap (2026-11-02 review).
+const NEED = {
+  i10: ['I10-A', 'I10-B', 'I10-C', 'I10-D', 'I10-E', 'I10-F'],
+  'i10-offinterstate': ['I10-A', 'I10-B', 'I10-C', 'I10-D', 'I10-E', 'I10-F'],
+  i8: ['I8-A', 'I8-B', 'I8-C', 'I8-D', 'I8-E', 'I8-F'],
+  hybrid: ['I8-A', 'I8-B', 'I8-C', 'HYB-A', 'I10-E', 'I10-F'],
+};
+const HAVE = new Set(runs.flatMap((r) => (r.data.segments ?? []).filter((x) => x?.research?.camps).map((x) => x.seg)));
+function coverageOf(lineId, totalMiles) {
+  const need = NEED[lineId] ?? [];
+  const prefix = [];
+  for (const sid of need) { if (!HAVE.has(sid)) break; prefix.push(sid); }
+  if (prefix.length === need.length) return { complete: true, researchedTo: totalMiles };
+  const miles = ALL.filter((c) => !c.mapOnly && c.anchors[lineId] && (c.seen ?? []).some((x) => prefix.includes(x)))
+    .map((c) => c.anchors[lineId].mile);
+  return { complete: false, researchedTo: +Math.max(0, ...miles).toFixed(1), missing: need.filter((x) => !HAVE.has(x)) };
+}
+function gapsOn(lineId, totalMiles, { tentsKnownOnly = false, upTo = totalMiles } = {}) {
+  const pts = campsOn(lineId).filter((c) => (!tentsKnownOnly || c.tents === 'yes') && c.anchors[lineId].mile <= upTo);
   const marks = [{ name: 'Casa Grande', mile: 0 }, ...pts.map((c) => ({ name: c.name, mile: c.anchors[lineId].mile, id: c.id }))];
   const gaps = [];
   for (let i = 1; i < marks.length; i++) {
@@ -248,34 +279,44 @@ function gapsOn(lineId, totalMiles, { tentsKnownOnly = false } = {}) {
   return { gaps, tailToEnd: +tail.toFixed(1), count: pts.length };
 }
 
-// sample nights: greedy, aim for `target`, never stop short of 40 if a camp lies beyond
-function nightsOn(lineId, totalMiles, target) {
-  const pts = campsOn(lineId).map((c) => ({ c, m: c.anchors[lineId].mile }));
-  const nights = []; let at = 0; let guard = 0;
-  while (totalMiles - at > target + 8 && guard++ < 20) {
-    const window = pts.filter((p) => p.m > at + 35 && p.m <= at + target + 8);
+// Sample nights: greedy toward `target` riding miles. Riding miles include the
+// detour off the line to the camp and back on next morning. Camps at or past
+// the theater are not nights. When the next camp is out of reach the plan is
+// flagged infeasible rather than counting a 400-mile "day".
+function nightsOn(lineId, totalMiles, target, upTo = totalMiles) {
+  const reach = target + 8;
+  const pts = campsOn(lineId).map((c) => ({ c, m: c.anchors[lineId].mile, off: c.anchors[lineId].off }))
+    .filter((p) => p.m < totalMiles - 1 && p.m <= upTo);
+  const partial = upTo < totalMiles - 1;
+  const nights = []; let at = 0, prevOff = 0, guard = 0, infeasible = false;
+  const ride = (p) => (p.m - at) + prevOff + p.off;
+  while (totalMiles - at + prevOff > reach && guard++ < 25) {
+    if (partial && at + reach > upTo) break;            // the research runs out here
+    const window = pts.filter((p) => p.m > at && ride(p) >= 35 && ride(p) <= reach);
     let pick = null;
     if (window.length) {
-      const score = (p) => -Math.abs(p.m - at - target) + (p.c.tier === 'full' ? 8 : p.c.tier === 'basic' ? 3 : 0)
-        - Math.min(6, p.c.anchors[lineId].off) - (p.m - at > target ? 4 : 0);
+      const score = (p) => -Math.abs(ride(p) - target) + (p.c.tier === 'full' ? 8 : p.c.tier === 'basic' ? 3 : 0)
+        - p.off - (ride(p) > target ? 4 : 0);
       pick = window.reduce((a, b) => (score(b) > score(a) ? b : a));
     } else {
-      pick = pts.find((p) => p.m > at + 8) ?? null; // nothing in reach: the next camp, however far
+      pick = pts.filter((p) => p.m > at + 8 && ride(p) <= reach).at(-1) ?? pts.find((p) => p.m > at && ride(p) > reach) ?? null;
     }
-    if (!pick) break;
-    // short-day fallbacks: other camps between 40 mi out and the pick (a wind day)
-    const fallbacks = pts.filter((p) => p.m >= at + 40 && p.m < pick.m - 8)
+    if (!pick) { infeasible = !partial; break; }
+    const dm = ride(pick);
+    if (dm > target * 1.5) infeasible = true;
+    const fallbacks = pts.filter((p) => p.m > at && ride(p) >= 40 && p.m < pick.m - 8)
       .sort((a, b) => (b.c.tier === 'full') - (a.c.tier === 'full') || b.m - a.m)
       .slice(0, 3).sort((a, b) => a.m - b.m)
-      .map((p) => ({ name: p.c.name, dayMiles: +(p.m - at).toFixed(1), tier: p.c.tier }));
-    nights.push({ id: pick.c.id, name: pick.c.name, mile: +pick.m.toFixed(1), dayMiles: +(pick.m - at).toFixed(1), tier: pick.c.tier, off: pick.c.anchors[lineId].off, fallbacks });
-    at = pick.m;
+      .map((p) => ({ name: p.c.name, dayMiles: +ride(p).toFixed(1), tier: p.c.tier }));
+    nights.push({ id: pick.c.id, name: pick.c.name, mile: +pick.m.toFixed(1), dayMiles: +dm.toFixed(1), tier: pick.c.tier, off: pick.off, fallbacks });
+    at = pick.m; prevOff = pick.off;
   }
-  const lastDay = +(totalMiles - at).toFixed(1);
+  const lastDay = +(totalMiles - at + prevOff).toFixed(1);
+  if (!partial && lastDay > target * 1.5) infeasible = true;
   const days = nights.length + 1;
   const d = new Date(`${START_DATE}T12:00:00Z`);
   const arrive = new Date(d.getTime() + (days - 1) * 86400000).toISOString().slice(0, 10);
-  return { target, nights, lastDay, days, arrive };
+  return { target, nights, lastDay, days, arrive, partial, infeasible };
 }
 
 const STUDY = [
@@ -286,20 +327,22 @@ const STUDY = [
 ];
 const corridors = STUDY.map(({ id, line, label }) => {
   const src = L[id] ?? null;
-  const g = gapsOn(id, line.miles);
-  const gk = gapsOn(id, line.miles, { tentsKnownOnly: true });
-  const camps = campsOn(id);
+  const coverage = coverageOf(id, line.miles);
+  const g = gapsOn(id, line.miles, { upTo: coverage.researchedTo });
+  const gk = gapsOn(id, line.miles, { tentsKnownOnly: true, upTo: coverage.researchedTo });
+  const camps = campsOn(id).filter((c) => c.anchors[id].mile <= coverage.researchedTo);
   return {
     id, label, name: line.name, miles: line.miles,
     climbFt: line.climbFt ?? null, highPointFt: line.highPointFt ?? null, color: src?.color ?? L.i10.color,
     summary: src?.summary ?? '',
     camps: { usable: camps.length, full: camps.filter((c) => c.tier === 'full').length, tentsYes: camps.filter((c) => c.tents === 'yes').length, maybe: camps.filter((c) => c.tier === 'maybe').length, checked: camps.filter((c) => ['confirmed', 'corrected'].includes(c.verdict)).length },
-    per100: +(camps.length / line.miles * 100).toFixed(1),
+    coverage,
+    per100: +(camps.length / Math.max(1, coverage.researchedTo) * 100).toFixed(1),
     gaps: g.gaps, gapsTentsKnown: gk.gaps,
     longestGap: Math.max(0, ...g.gaps.map((x) => x.miles)), longestGapTentsKnown: Math.max(0, ...gk.gaps.map((x) => x.miles)),
     over50: g.gaps.filter((x) => x.miles > 50).length,
     towns: (src?.towns ?? []).filter((t, i, a) => a.findIndex((u) => u.name === t.name) === i),
-    plans: [70, 85, 100].map((t) => nightsOn(id, line.miles, t)),
+    plans: [70, 85, 100].map((t) => nightsOn(id, line.miles, t, coverage.researchedTo)),
     legs: src?.legs ?? [],
   };
 });
@@ -322,9 +365,11 @@ addLine('i10-mecca', L['i10-mecca'].name, L['i10-mecca'].color, dec(L['i10-mecca
 addLine('i8', 'I-8 corridor via San Diego (the old plan)', L.i8.color, dec(L.i8.coords, 3), { miles: L.i8.miles, climbFt: L.i8.climbFt, kind: 'main' });
 // gap stretches (> 40 mi between usable camps) drawn on their line
 const gapFeatures = [];
+const i10GapKeys = new Set(corridors.find((c) => c.id === 'i10').gaps.map((g) => `${g.fromName}|${g.toName}`));
 for (const cor of corridors) {
   const line = MEASURE[cor.id];
   for (const g of cor.gaps.filter((x) => x.miles > 40)) {
+    if (cor.id === 'i10-offinterstate' && i10GapKeys.has(`${g.fromName}|${g.toName}`)) continue; // already banded on I-10
     gapFeatures.push({ type: 'Feature', properties: { corridor: cor.id, miles: g.miles, from: g.fromName, to: g.toName, severe: g.miles > 50 },
       geometry: { type: 'LineString', coordinates: dec(sliceByMile(line, g.fromMile, g.toMile), 4) } });
   }

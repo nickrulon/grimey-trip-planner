@@ -89,6 +89,8 @@ for (let i = spots.length - 1; i >= 0; i--) {
   // research that measured its own riding detour may allow more than the default
   const lim = Number.isFinite(s.maxOffMi) ? s.maxOffMi : MAX_OFF_MI;
   if (n.off > lim) { retired.push({ ...s, retiredReason: `${n.off.toFixed(0)} mi from the current route line` }); spots.splice(i, 1); continue; }
+  // the riding detour the planner shows: research's own figure when it measured one, else the straight line
+  s.offRouteMi = +Math.max(n.off, Number(s.detourMi) || 0).toFixed(1);
   if (Math.abs(n.mile - s.routeMile) > 2) s.routeMile = +n.mile.toFixed(1);
 }
 spots.sort((a, b) => a.routeMile - b.routeMile);

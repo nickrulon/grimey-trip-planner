@@ -7,6 +7,9 @@ import * as turf from '@turf/turf';
 import { makeDaylight, fmtClock, fmtDur } from './daylight.mjs';
 import { venueScore, clock12 } from './shared.mjs';
 
+// How close a reference-route waypoint must be to the line to name a place on it.
+export const WAYPOINT_SNAP_MI = 3;
+
 
 // Bundlers that emit CJS leave import.meta.url empty; fall back to the process
 // working directory so this module can be bundled for serverless.
@@ -172,7 +175,9 @@ export function makePlanner(db) {
         const d = haversineMi(f.lnglat, [p.lng, p.lat]);
         if (d < bestD) { bestD = d; bestMile = p.mile; }
       }
-      if (bestD <= 15) {
+      // 3 mi, not 15: after the 2026-10/11 retraces a stale waypoint 10 mi off the
+      // line (Tempe, Phoenix, Peoria...) was still naming days. Live waypoints snap at < 0.5 mi.
+      if (bestD <= WAYPOINT_SNAP_MI) {
         // Strip parenthetical annotations: "Pensacola, FL (Mile 0)" → "Pensacola, FL"
         const clean = f.name.replace(/\s*\(.*\)$/, '');
         if (/\bline\b|×|\bexit\b/i.test(clean)) continue;  // "FL/AL line", "SR 188 × SR 87"
@@ -587,6 +592,16 @@ export function makePlanner(db) {
     const days = db.prepare(`SELECT * FROM planned_days WHERE revision_id = ? ORDER BY day_number`)
       .all(revisionId)
       .map((d) => ({ ...d, flags: JSON.parse(d.flags || '[]') }));
+    // A plan made before the route last changed describes a different road past
+    // the change (e.g. the I-8 plans after the 2026-11-01 I-10 retrace). Refuse it.
+    const routeEnd = db.prepare(`SELECT MAX(mile) m FROM route_points`).get().m;
+    const changed = db.prepare(`SELECT retrieved_at at, MIN(start_mile) from_mile FROM route_segments
+       WHERE retrieved_at = (SELECT MAX(retrieved_at) FROM route_segments)`).get();
+    const maxEnd = Math.max(0, ...days.map((d) => d.end_mile));
+    if (maxEnd > routeEnd + 0.1
+      || (changed?.at && rev.created_at.slice(0, 10) < changed.at.slice(0, 10) && maxEnd > changed.from_mile + 0.5)) {
+      throw new Error(`Revision #${revisionId} was planned on an older route (the route changed on ${changed?.at?.slice(0, 10)}); restoring it would put days on roads you are no longer riding.`);
+    }
     const newId = saveRevision(`rollback to rev #${revisionId} (${rev.reason})`, days);
     geomCache.clear();
     return { ok: true, revisionId: newId, dayCount: days.length };
@@ -2326,8 +2341,18 @@ export function makePlanner(db) {
     const lastActual = db.prepare(`SELECT MAX(day_number) n FROM actual_days`).get()?.n ?? 0;
     if (from <= lastActual) throw new Error(`Day ${from} is already ridden`);
     if (!Array.isArray(days) || !days.length) throw new Error('days required');
+    // A replaced tail is a NEW revision (days before `from` copied over), not an
+    // in-place edit: history then keeps a clean entry to roll back to, and older
+    // revisions stay exactly as they were planned (2026-11-02 review).
+    let newRevId = null;
     const tx = db.transaction(() => {
-      db.prepare(`DELETE FROM planned_days WHERE revision_id=? AND day_number>=?`).run(rev.id, from);
+      newRevId = Number(db.prepare(`INSERT INTO plan_revisions (created_at, reason, active) VALUES (?,?,0)`)
+        .run(new Date().toISOString(), `new route tail from day ${from}`).lastInsertRowid);
+      db.prepare(`INSERT INTO planned_days (revision_id, day_number, start_mile, end_mile, start_name, end_name,
+          overnight_resource_id, status, flags, notes, rest, lodging_cost, misc_cost, overnight_camp_id)
+        SELECT ?, day_number, start_mile, end_mile, start_name, end_name, overnight_resource_id, status, flags, notes,
+          rest, lodging_cost, misc_cost, overnight_camp_id
+        FROM planned_days WHERE revision_id=? AND day_number<?`).run(newRevId, rev.id, from);
       db.prepare(`DELETE FROM planned_stops WHERE route_mile>?`).run(prev.end_mile + 0.01);
       for (const t of ['day_plans', 'canvas_marks']) db.prepare(`DELETE FROM ${t} WHERE day_number>=?`).run(from);
       let start = prev.end_mile, startName = prev.end_name, n = from;
@@ -2336,13 +2361,15 @@ export function makePlanner(db) {
         const end = rest ? start : Number(d.endMile);
         if (!rest && !(end > start)) throw new Error(`Day ${n}: end ${end} is not past start ${start}`);
         const endName = d.endName ?? (rest ? startName : nameNearMile(end));
-        insertDay.run(rev.id, n, start, end, startName, endName, d.overnightResourceId ?? null,
-          'planned', '[]', d.notes ?? null, rest, d.lodgingCost ?? null, null, d.overnightCampId ?? null);
+        insertDay.run(newRevId, n, start, end, startName, endName, d.overnightResourceId ?? null,
+          'planned', rest ? '[]' : dayFlags(start, end, !!(d.overnightResourceId ?? d.overnightCampId), n),
+          d.notes ?? null, rest, d.lodgingCost ?? null, null, d.overnightCampId ?? null);
         start = end; startName = endName; n++;
       }
+      db.prepare(`UPDATE plan_revisions SET active = CASE WHEN id = ? THEN 1 ELSE 0 END`).run(newRevId);
     });
     tx();
-    geomCache.delete(rev.id);
+    geomCache.clear();
     return planResponse();
   }
 

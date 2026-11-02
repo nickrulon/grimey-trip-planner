@@ -27,8 +27,28 @@ const hav = (a1, o1, a2, o2) => {
   return 2 * R * Math.asin(Math.sqrt(x));
 };
 
+// Ids must keep their meaning forever: plan days (in Netlify Blobs) point at
+// them by id, so an id that is reused for a different camp silently swaps a
+// past or planned bed. The mirror used to be `camp-res-${index}`, which a
+// rebuilt camping.json re-dealt to different camps (2026-11-02 review). Now:
+// reuse an existing camp-res row when it is the same place (normalized name,
+// within ~1 mi); otherwise mint a content id from name + coordinates.
+const GENERIC = new Set(['rv', 'park', 'resort', 'campground', 'camping', 'camp', 'area', 'blm', 'day', 'the', 'and',
+  'county', 'state', 'beach', 'regional', 'site', 'sites', 'dispersed', 'land', 'road', 'rd', 'ltva', 'long', 'term',
+  'visitor', 'of', 'at', 'formerly', 'aka', 'north', 'south', 'west', 'east', '14day', 'hipcamp', 'tent']);
+const tokens = (n) => new Set(String(n).toLowerCase().replace(/\([^)]*\)/g, ' ').replace(/(\w)-(\w)/g, '$1$2')
+  .split(/[^a-z0-9]+/).filter((t) => t.length >= 3 && !GENERIC.has(t)));
+const norm = (n) => String(n).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+const shareToken = (a, b) => { const tb = tokens(b); return [...tokens(a)].some((t) => tb.has(t)); };
+function contentId(s) {
+  const key = `${norm(s.name)}|${Number(s.lat).toFixed(4)}|${Number(s.lng).toFixed(4)}`;
+  let h = 2166136261; // FNV-1a, 32-bit
+  for (let i = 0; i < key.length; i++) { h ^= key.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return `camp-res-${(h >>> 0).toString(16).padStart(8, '0')}`;
+}
+
 /** Mirror researched camping spots into `resources` so the day planner can
- *  anchor nights on them. Idempotent. Returns {added, skipped}. */
+ *  anchor nights on them. Idempotent and id-stable. Returns {added, updated, skipped, retired}. */
 export function syncCampSpots(db) {
   const file = findDataFile();
   if (!file) return { added: 0, skipped: 0, note: 'camping.json not found' };
@@ -53,25 +73,56 @@ export function syncCampSpots(db) {
        route_mile, off_route_mi, wifi_status, attributes_json, status, first_seen, last_verified, user_notes)
      VALUES (?,'campground',?,NULL,?,?,?,?,?,NULL,?,?,NULL,?,'active',?,?,?)
      ON CONFLICT(id) DO UPDATE SET name=excluded.name, lat=excluded.lat, lng=excluded.lng,
-       route_mile=excluded.route_mile, off_route_mi=excluded.off_route_mi,
-       phone=excluded.phone, website=excluded.website, user_notes=excluded.user_notes`);
+       address=excluded.address, route_mile=excluded.route_mile, off_route_mi=excluded.off_route_mi,
+       phone=excluded.phone, website=excluded.website, attributes_json=excluded.attributes_json,
+       status='active', last_verified=excluded.last_verified, user_notes=excluded.user_notes`);
 
-  // Don't double-count a spot OSM already knows about: same name, same place.
-  const dupe = db.prepare(`SELECT 1 FROM resources WHERE id NOT LIKE 'camp-%'
-     AND category_id IN ('campground','hotel') AND lower(name)=lower(?)
-     AND route_mile BETWEEN ? AND ? LIMIT 1`);
+  const existing = db.prepare(`SELECT id, name, lat, lng FROM resources WHERE id LIKE 'camp-res-%'`).all();
+  // Don't double-count a spot OSM already knows about: an OSM id the research
+  // cites, or the same place (≤ 0.15 mi) under an overlapping name.
+  const osmRows = db.prepare(`SELECT id, name, lat, lng FROM resources WHERE id NOT LIKE 'camp-%'
+     AND id NOT LIKE 'rider-%' AND category_id IN ('campground','hotel')`).all();
+  const osmIds = new Set(osmRows.map((r) => r.id));
+  const osmTwin = (s) => {
+    for (const u of s.sources ?? []) {
+      const m = String(u).match(/openstreetmap\.org\/(node|way|relation)\/(\d+)/);
+      if (m && osmIds.has(`osm-${m[1]}-${m[2]}`)) return `osm-${m[1]}-${m[2]}`;
+    }
+    const near = osmRows.find((r) => hav(s.lat, s.lng, r.lat, r.lng) <= 0.15
+      && (norm(r.name) === norm(s.name) || shareToken(r.name, s.name)));
+    return near?.id ?? null;
+  };
 
-  let added = 0, skipped = 0;
+  // When OSM already has the place, the research enriches that row (one pin,
+  // with the researched name, phone, notes and amenities) instead of adding a twin.
+  const enrich = db.prepare(`UPDATE resources SET name=?, phone=COALESCE(?, phone), website=COALESCE(?, website),
+       address=COALESCE(?, address), attributes_json=?, user_notes=COALESCE(?, user_notes), status='active',
+       last_verified=? WHERE id=?`);
+  const attrsOf = (id) => { try { return JSON.parse(db.prepare('SELECT attributes_json a FROM resources WHERE id=?').get(id)?.a || '{}'); } catch { return {}; } };
+  let added = 0, updated = 0, skipped = 0, enriched = 0;
+  const touched = new Set();
   const today = new Date().toISOString().slice(0, 10);
   const tx = db.transaction(() => {
-    for (const [i, s] of spots.entries()) {
+    for (const s of spots) {
       const mile = s.routeMile;
       if (mile == null || s.lat == null || s.lng == null) { skipped++; continue; }
-      if (dupe.get(s.name, mile - 2, mile + 2)) { skipped++; continue; }
-      const off = offRoute(s.lat, s.lng, mile);
+      const twin = osmTwin(s);
+      if (twin) {
+        const web = /^https?:\/\//.test(s.website ?? '') ? s.website : null;
+        enrich.run(s.name, s.phone ?? null, web, s.locationNote ?? null,
+          JSON.stringify({ ...attrsOf(twin), researched: true, confidence: s.confidence ?? null, price: s.price ?? null,
+            tentsOk: s.tentsOk ?? null, showers: s.showers ?? null, water: s.water ?? null, toilets: s.toilets ?? null }),
+          s.cyclistIntel ?? null, today, twin);
+        enriched++; continue;
+      }
+      const off = Math.max(offRoute(s.lat, s.lng, mile), Number(s.offRouteMi) || 0);
       if (off > 12) { skipped++; continue; }            // too far to be a day-end
+      const prior = existing.find((r) => !touched.has(r.id) && hav(s.lat, s.lng, r.lat, r.lng) <= 1
+        && (norm(r.name) === norm(s.name) || shareToken(r.name, s.name)));
+      const id = prior?.id ?? contentId(s);
+      touched.add(id);
       up.run(
-        `camp-res-${i}`, s.name, s.lat, s.lng, s.locationNote ?? null, s.phone ?? null,
+        id, s.name, s.lat, s.lng, s.locationNote ?? null, s.phone ?? null,
         s.website ?? null, mile, off,
         JSON.stringify({
           researched: true, confidence: s.confidence ?? null, price: s.price ?? null,
@@ -80,9 +131,12 @@ export function syncCampSpots(db) {
         }),
         today, today, s.cyclistIntel ?? null
       );
-      added++;
+      if (prior) updated++; else added++;
     }
+    // Rows whose spot is gone stay (plan days may point at them) but go quiet.
+    const retire = db.prepare(`UPDATE resources SET status='retired' WHERE id=?`);
+    for (const r of existing) if (!touched.has(r.id)) retire.run(r.id);
   });
   tx();
-  return { added, skipped };
+  return { added, updated, enriched, skipped, retired: existing.filter((r) => !touched.has(r.id)).length };
 }

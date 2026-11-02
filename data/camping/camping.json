@@ -26,7 +26,8 @@
     "https://www.alapark.com/parks/gulf-state-park/rv-and-primitive-campground",
     "https://www.parkrangerjohn.com/gulf-state-park-campground/"
    ],
-   "researchDay": 1
+   "researchDay": 1,
+   "offRouteMi": 0.1
   },
   {
    "name": "Southport Campground",
@@ -52,7 +53,8 @@
     "https://www.gulfshores.com/lodging/campground-rv-park/southport-campground/",
     "https://thedyrt.com/camping/alabama/southport-campground"
    ],
-   "researchDay": 1
+   "researchDay": 1,
+   "offRouteMi": 1.3
   },
   {
    "name": "Fort Morgan RV Park",
@@ -79,7 +81,8 @@
     "https://fortmorganrvpark.com/",
     "https://www.hipcamp.com/en-US/land/alabama-fort-morgan-rv-park-9mxho8wl"
    ],
-   "researchDay": 1
+   "researchDay": 1,
+   "offRouteMi": 0.1
   },
   {
    "name": "Dauphin Island Campground",
@@ -105,7 +108,8 @@
     "https://www.townofdauphinisland.org/dicampground",
     "https://dauphinisland.city/policies-and-rates/"
    ],
-   "researchDay": 1
+   "researchDay": 1,
+   "offRouteMi": 0.1
   },
   {
    "name": "Shepard State Park (primitive tent areas)",
@@ -132,7 +136,8 @@
     "https://shepardstatepark.com/",
     "https://www.campendium.com/shepard-state-park"
    ],
-   "researchDay": 2
+   "researchDay": 2,
+   "offRouteMi": 1.4
   },
   {
    "name": "Davis Bayou Campground (Gulf Islands National Seashore)",
@@ -158,7 +163,8 @@
     "https://www.recreation.gov/camping/campsites/102929",
     "https://thedyrt.com/camping/mississippi/mississippi-davis-bayou-camping"
    ],
-   "researchDay": 2
+   "researchDay": 2,
+   "offRouteMi": 0.6
   },
   {
    "name": "Buccaneer State Park (Royal Cay primitive area)",
@@ -185,7 +191,8 @@
     "https://thedyrt.com/camping/mississippi/mississippi-buccaneer-state-park",
     "https://www.campsitephotos.com/campground/ms/buccaneer-state-park/"
    ],
-   "researchDay": 3
+   "researchDay": 3,
+   "offRouteMi": 0.9
   },
   {
    "name": "Bay Hide Away RV Park & Campground",
@@ -211,7 +218,8 @@
     "https://www.bayhideaway.com/rates",
     "https://www.goodsam.com/campgrounds-rv-parks/mississippi/bay-st-louis/bay-hide-away-rv-park-campground-230000044"
    ],
-   "researchDay": 3
+   "researchDay": 3,
+   "offRouteMi": 4.1
   },
   {
    "name": "India House Hostel",
@@ -237,7 +245,8 @@
     "https://www.momondo.com/hotels/new-orleans/India-House-Backpackers-Hostel.mhd114037.ksp",
     "https://www.tripadvisor.com/Hotel_Review-g60864-d288642-Reviews-India_House_Hostel-New_Orleans_Louisiana.html"
    ],
-   "researchDay": 5
+   "researchDay": 5,
+   "offRouteMi": 0.6
   },
   {
    "name": "Bayou Segnette State Park",
@@ -264,7 +273,8 @@
     "https://thedyrt.com/camping/louisiana/louisiana-bayou-segnette-state-park",
     "https://www.lastateparks.com/fees-and-facilities"
    ],
-   "researchDay": 5
+   "researchDay": 5,
+   "offRouteMi": 3.4
   },
   {
    "name": "New Orleans KOA Holiday (River Ridge)",
@@ -290,7 +300,8 @@
     "https://koa.com/campgrounds/new-orleans/site-type/tent-camping-sites/",
     "https://thetouringtorres.com/2025/02/25/new-orleans-koa-holiday-a-review/"
    ],
-   "researchDay": 5
+   "researchDay": 5,
+   "offRouteMi": 1
   },
   {
    "name": "Poche Plantation RV Resort",
@@ -315,7 +326,8 @@
    "sources": [
     "https://www.goodsam.com/campgrounds-rv-parks/louisiana/convent/poche-plantation-rv-resort/cgid-260000392"
    ],
-   "researchDay": 6
+   "researchDay": 6,
+   "offRouteMi": 2.2
   },
   {
    "name": "B & B RV Park",
@@ -341,7 +353,8 @@
     "https://bandbrvpark.com/",
     "https://www.yelp.com/biz/b-and-b-rv-park-donaldsonville"
    ],
-   "researchDay": 6
+   "researchDay": 6,
+   "offRouteMi": 4.2
   },
   {
    "name": "Farr Park RV Campground (BREC)",
@@ -367,7 +380,8 @@
     "https://www.brec.org/facility/FarrPark",
     "https://thedyrt.com/camping/louisiana/louisiana-farr-park-campground"
    ],
-   "researchDay": 6
+   "researchDay": 6,
+   "offRouteMi": 3.3
   },
   {
    "name": "Cajun Country Campground (Port Allen)",
@@ -393,7 +407,8 @@
     "https://cajuncountryrvparkofportallen.com/",
     "https://campgrounds.rvlife.com/regions/louisiana/port-allen/cajun-country-campground-1248"
    ],
-   "researchDay": 6
+   "researchDay": 6,
+   "offRouteMi": 3.8
   },
   {
    "name": "Shelby J's RV Park",
@@ -419,7 +434,8 @@
     "https://shelbyjsrvpark.com",
     "https://www.visitstfrancisvillela.com/stay/"
    ],
-   "researchDay": 7
+   "researchDay": 7,
+   "offRouteMi": 2.6
   },
   {
    "name": "Peaceful Pines RV Park (formerly Green Acres Campground)",
@@ -445,7 +461,8 @@
     "https://peacefulpinesrvpark.com",
     "https://www.yelp.com/biz/green-acres-campground-saint-francisville"
    ],
-   "researchDay": 7
+   "researchDay": 7,
+   "offRouteMi": 0.5
   },
   {
    "name": "Jim's Camping Area (False River)",
@@ -471,7 +488,8 @@
     "https://maps.campendium.com/us/ventress-la/camping-rv/jims-campground-rv-park",
     "https://countryroadsmagazine.com/travel/overnight-escapes/false-river-lake-life/"
    ],
-   "researchDay": 7
+   "researchDay": 7,
+   "offRouteMi": 0
   },
   {
    "name": "Maxey Care RV Park and Campground",
@@ -497,7 +515,8 @@
     "https://maxeycare.com/",
     "https://gocampingamerica.com/campgrounds-rv-parks/louisiana/morganza/maxey-care-rv-park"
    ],
-   "researchDay": 8
+   "researchDay": 8,
+   "offRouteMi": 0.5
   },
   {
    "name": "Morganza church/community ask",
@@ -522,7 +541,8 @@
    "sources": [
     "https://www.tripadvisor.com/Hotel_Review-g40327-d1646497-Reviews-Maxey_Care_RV_Park-Morganza_Louisiana.html"
    ],
-   "researchDay": 8
+   "researchDay": 8,
+   "offRouteMi": 0.2
   },
   {
    "name": "Yellow Bayou Civil War Memorial Park",
@@ -549,7 +569,8 @@
     "https://www.hmdb.org/m.asp?m=97437",
     "https://www.crazyguyonabike.com/doc/page/?page_id=399169"
    ],
-   "researchDay": 9
+   "researchDay": 9,
+   "offRouteMi": 0.2
   },
   {
    "name": "Simmesport church yard / town-hall ask",
@@ -575,7 +596,8 @@
     "https://www.crazyguyonabike.com/doc/page/?page_id=399169",
     "https://www.crazyguyonabike.com/doc/page/?page_id=669482"
    ],
-   "researchDay": 9
+   "researchDay": 9,
+   "offRouteMi": 0.1
   },
   {
    "name": "Chicot State Park",
@@ -601,7 +623,8 @@
     "https://www.lastateparks.com/parks-preserves/chicot-state-park",
     "https://louisianastateparks.reserveamerica.com/camping/chicot-state-park/r/campgroundDetails.do?contractCode=LA&parkId=240027"
    ],
-   "researchDay": 10
+   "researchDay": 10,
+   "offRouteMi": 0
   },
   {
    "name": "Mamou city ball field / church yard (police-arranged)",
@@ -626,7 +649,8 @@
    "sources": [
     "https://www.crazyguyonabike.com/doc/?doc_id=2041"
    ],
-   "researchDay": 10
+   "researchDay": 10,
+   "offRouteMi": 0
   },
   {
    "name": "Big Oak RV Park",
@@ -651,7 +675,8 @@
    "sources": [
     "https://www.beauregardtourism.com/places-to-stay.html"
    ],
-   "researchDay": 11
+   "researchDay": 11,
+   "offRouteMi": 1.3
   },
   {
    "name": "Happy Days RV Resort",
@@ -676,7 +701,8 @@
    "sources": [
     "https://www.beauregardtourism.com/places-to-stay.html"
    ],
-   "researchDay": 11
+   "researchDay": 11,
+   "offRouteMi": 0
   },
   {
    "name": "Beauregard Parish Civic Center RV area",
@@ -701,7 +727,8 @@
    "sources": [
     "https://www.beauregardtourism.com/places-to-stay.html"
    ],
-   "researchDay": 11
+   "researchDay": 11,
+   "offRouteMi": 0.3
   },
   {
    "name": "Merryville Museum cyclist camp",
@@ -728,7 +755,8 @@
     "https://www.beauregardtourism.com/merryville.html",
     "https://www.tripadvisor.com/ShowUserReviews-g40313-d7745652-r314933032-Merryville_Historical_Society_Museum-Merryville_Louisiana.html"
    ],
-   "researchDay": 11
+   "researchDay": 11,
+   "offRouteMi": 0.3
   },
   {
    "name": "Merryville Museum cyclist camp (Burk's Cabin grounds)",
@@ -754,7 +782,8 @@
     "https://www.beauregardtourism.com/merryville.html",
     "https://www.beauregardtourism.com/places-to-stay.html"
    ],
-   "researchDay": 12
+   "researchDay": 12,
+   "offRouteMi": 0.3
   },
   {
    "name": "Kirbyville church yards (ask permission)",
@@ -781,7 +810,8 @@
     "https://kirbyvilleareachamber.com/area-churches",
     "https://www.cycleblaze.com/journals/grampiesouth/day-45-deridder-louisiana-to-kirbyville-texas-shame-on-you-adventure-cycling-association/"
    ],
-   "researchDay": 12
+   "researchDay": 12,
+   "offRouteMi": 0
   },
   {
    "name": "Red Cloud RV Park",
@@ -807,7 +837,8 @@
     "https://www.allstays.com/Campgrounds-details/30897.htm",
     "https://www.marcusmillichap.com/properties/202254/red-cloud-rv-park"
    ],
-   "researchDay": 13
+   "researchDay": 13,
+   "offRouteMi": 1.8
   },
   {
    "name": "Indian Springs Camp",
@@ -832,7 +863,8 @@
    "sources": [
     "https://www.indianspringscamp.net/"
    ],
-   "researchDay": 13
+   "researchDay": 13,
+   "offRouteMi": 2.2
   },
   {
    "name": "Big Thicket Hideaway Campground",
@@ -858,7 +890,8 @@
     "https://www.roverpass.com/c/big-thicket-hideaway-campground-kountze-tx/",
     "https://www.yelp.com/biz/big-thicket-hideaway-rv-park-kountze"
    ],
-   "researchDay": 13
+   "researchDay": 13,
+   "offRouteMi": 5.6
   },
   {
    "name": "Big Thicket National Preserve backcountry (Turkey Creek unit)",
@@ -884,7 +917,8 @@
     "https://www.nps.gov/bith/planyourvisit/backcountry-camping.htm",
     "https://www.nps.gov/bith/planyourvisit/permitsandreservations.htm"
    ],
-   "researchDay": 13
+   "researchDay": 13,
+   "offRouteMi": 4.9
   },
   {
    "name": "Lone Star Hiking Trail designated hiker camps (Big Woods/Magnolia sections)",
@@ -910,7 +944,8 @@
     "https://lonestartrail.org/content.aspx?page_id=5&club_id=738078&item_id=124641",
     "https://www.fs.usda.gov/r08/texas/alerts/sam-houston-national-forest-closure-order"
    ],
-   "researchDay": 14
+   "researchDay": 14,
+   "offRouteMi": 1.9
   },
   {
    "name": "Double Lake Recreation Area (Sam Houston NF)",
@@ -937,7 +972,8 @@
     "https://www.recreation.gov/camping/campgrounds/232430",
     "https://www.fs.usda.gov/r08/texas/alerts/sam-houston-national-forest-closure-order"
    ],
-   "researchDay": 14
+   "researchDay": 14,
+   "offRouteMi": 1.4
   },
   {
    "name": "Lake Conroe / Houston North KOA Holiday",
@@ -963,7 +999,8 @@
     "https://koa.com/campgrounds/lake-conroe/site-type/tent-camping-sites/",
     "https://www.campendium.com/lake-conroe-houston-north-koa"
    ],
-   "researchDay": 15
+   "researchDay": 15,
+   "offRouteMi": 0.6
   },
   {
    "name": "Kelly's Pond Campground (Sam Houston NF)",
@@ -989,7 +1026,8 @@
     "https://www.fs.usda.gov/r08/texas/recreation/kellys-pond-campground",
     "https://campflare.com/campground/kellys-pond-campground-009"
    ],
-   "researchDay": 15
+   "researchDay": 15,
+   "offRouteMi": 2.2
   },
   {
    "name": "Little Lake Creek Wilderness / LSHT designated hiker camp",
@@ -1015,7 +1053,8 @@
     "https://lonestartrail.org/content.aspx?page_id=5&club_id=738078&item_id=124641",
     "https://www.fs.usda.gov/r08/texas/recreation/trails/lone-star-hiking-trail"
    ],
-   "researchDay": 15
+   "researchDay": 15,
+   "offRouteMi": 0.6
   },
   {
    "name": "Yegua Creek Park (USACE, Somerville Lake)",
@@ -1042,7 +1081,8 @@
     "https://www.swf-wc.usace.army.mil/somerville/Recreation/Parks/Corpsparks.shtml",
     "https://www.swf-wc.usace.army.mil/somerville/pdf/PARKRULES_5MAY2025.pdf"
    ],
-   "researchDay": 16
+   "researchDay": 16,
+   "offRouteMi": 3.9
   },
   {
    "name": "Overlook Park & Marina (private)",
@@ -1068,7 +1108,8 @@
     "https://overlookparkandmarina.com/lake-somerville-campground/",
     "https://www.goodsam.com/campgrounds-rv-parks/texas/somerville/overlook-park-940000079"
    ],
-   "researchDay": 16
+   "researchDay": 16,
+   "offRouteMi": 3.8
   },
   {
    "name": "Rocky Creek Park (USACE, Somerville Lake)",
@@ -1094,7 +1135,8 @@
     "https://www.swf-wc.usace.army.mil/somerville/Recreation/Parks/Corpsparks.shtml",
     "https://thedyrt.com/camping/texas/rocky-creek-lake-somerville"
    ],
-   "researchDay": 16
+   "researchDay": 16,
+   "offRouteMi": 5.9
   },
   {
    "name": "Vernon L. Richards Riverbend Park (City of Smithville)",
@@ -1120,7 +1162,8 @@
     "https://ci.smithville.tx.us/216/Camping-at-Riverbend",
     "https://www.austinchronicle.com/columns/2025-04-04/day-trips-vernon-l-richards-riverbend-park-smithville/"
    ],
-   "researchDay": 17
+   "researchDay": 17,
+   "offRouteMi": 0.5
   },
   {
    "name": "Buescher State Park (Oak Haven / Lakeview / primitive walk-in)",
@@ -1146,7 +1189,8 @@
     "https://tpwd.texas.gov/state-parks/buescher/fees-facilities/campsites",
     "https://texasstateparks.reserveamerica.com/camping/buescher-state-park/r/campgroundDetails.do?contractCode=TX&parkId=1200054"
    ],
-   "researchDay": 17
+   "researchDay": 17,
+   "offRouteMi": 0
   },
   {
    "name": "Bastrop State Park",
@@ -1171,7 +1215,8 @@
    "sources": [
     "https://tpwd.texas.gov/state-parks/bastrop/fees-facilities/campsites"
    ],
-   "researchDay": 17
+   "researchDay": 17,
+   "offRouteMi": 1.6
   },
   {
    "name": "McKinney Falls State Park",
@@ -1197,7 +1242,8 @@
     "https://tpwd.texas.gov/state-parks/mckinney-falls/fees-facilities/campsites",
     "https://texasstateparks.reserveamerica.com/camping/mckinney-falls-state-park/r/facilityDetails.do?contractCode=TX&parkId=1200066"
    ],
-   "researchDay": 18
+   "researchDay": 18,
+   "offRouteMi": 3.2
   },
   {
    "name": "Firehouse Hostel (downtown Austin)",
@@ -1223,7 +1269,8 @@
     "https://www.firehousehostel.com/",
     "https://www.hostelworld.com/hostels/p/64785/firehouse-hostel/"
    ],
-   "researchDay": 18
+   "researchDay": 18,
+   "offRouteMi": 0.1
   },
   {
    "name": "Pedernales Falls State Park",
@@ -1248,7 +1295,8 @@
    "sources": [
     "https://tpwd.texas.gov/state-parks/pedernales-falls/fees-facilities/campsites"
    ],
-   "researchDay": 19
+   "researchDay": 19,
+   "offRouteMi": 0.1
   },
   {
    "name": "Miller Creek RV Park",
@@ -1274,7 +1322,8 @@
     "https://millercreekrvpark.com/",
     "https://thedyrt.com/camping/texas/miller-creek-rv-resort"
    ],
-   "researchDay": 19
+   "researchDay": 19,
+   "offRouteMi": 3.2
   },
   {
    "name": "Kerrville-Schreiner Park",
@@ -1301,7 +1350,8 @@
     "https://www.kerrvilletx.gov/camp",
     "https://www.crazyguyonabike.com/doc/?doc_id=2041"
    ],
-   "researchDay": 20
+   "researchDay": 20,
+   "offRouteMi": 2.3
   },
   {
    "name": "Johnson Creek RV Resort & Park (Ingram)",
@@ -1327,7 +1377,8 @@
     "https://www.roverpass.com/c/johnson-creek-rv-resort-park-kerrville-tx/",
     "https://www.outdoorsy.com/rv-rental/texas/johnson-creek-rv-resort-park"
    ],
-   "researchDay": 20
+   "researchDay": 20,
+   "offRouteMi": 0.8
   },
   {
    "name": "Lost Maples State Natural Area — primitive hike-in sites",
@@ -1353,7 +1404,8 @@
     "https://tpwd.texas.gov/state-parks/lost-maples/fees-facilities/campsites",
     "https://tpwd.texas.gov/state-parks/lost-maples/fees-facilities/entrance-fees"
    ],
-   "researchDay": 21
+   "researchDay": 21,
+   "offRouteMi": 0.1
   },
   {
    "name": "Lost Maples State Natural Area — campsites with electricity",
@@ -1379,7 +1431,8 @@
     "https://tpwd.texas.gov/state-parks/lost-maples/fees-facilities/campsites",
     "https://www.backroadstexas.net/lost-maples/"
    ],
-   "researchDay": 21
+   "researchDay": 21,
+   "offRouteMi": 0.1
   },
   {
    "name": "Lost Maples RV and Camping (private)",
@@ -1405,7 +1458,8 @@
     "https://www.lostmaplesrvandcamping.com/rv_cabins_camping.html",
     "https://thedyrt.com/camping/texas/lost-maples-rv-and-camping"
    ],
-   "researchDay": 21
+   "researchDay": 21,
+   "offRouteMi": 0.1
   },
   {
    "name": "Los Rios Campground",
@@ -1431,7 +1485,8 @@
     "https://losrioscampground.com/",
     "https://thedyrt.com/camping/texas/los-rios-campground-tx"
    ],
-   "researchDay": 22
+   "researchDay": 22,
+   "offRouteMi": 2.4
   },
   {
    "name": "Wes Cooksey Park (Uvalde County)",
@@ -1458,7 +1513,8 @@
     "https://www.campendium.com/wes-cooksey-county-park",
     "https://texashighways.com/outdoors/water/find-rustic-relaxation-on-the-nueces-river-at-camp-wood-in-the-hill-country/"
    ],
-   "researchDay": 22
+   "researchDay": 22,
+   "offRouteMi": 0.2
   },
   {
    "name": "Nueces River RV and Cabin Resort (formerly Big Oak River Camp)",
@@ -1485,7 +1541,8 @@
     "https://www.rvparx.com/parks/nueces-river-rv-and-cabin-resort-formerly-big-oak-river-camp--camp-wood-tx.html",
     "https://www.allstays.com/Campgrounds-details/30106.htm"
    ],
-   "researchDay": 22
+   "researchDay": 22,
+   "offRouteMi": 0.1
   },
   {
    "name": "Fort Clark Springs (Brackettville) — behind-route fallback",
@@ -1511,7 +1568,8 @@
     "https://fortclark.com/camping.html",
     "https://thedyrt.com/camping/texas/fort-clark-springs-rv-park"
    ],
-   "researchDay": 23
+   "researchDay": 23,
+   "offRouteMi": 0.3
   },
   {
    "name": "Hidden Valley RV Park (Del Rio)",
@@ -1537,7 +1595,8 @@
     "https://www.campingroadtrip.com/campgrounds/campground/campground/25192/texas/hidden-valley-rv-park--del-rio-",
     "https://rvshare.com/blog/top-10-campgrounds/del-rio-texas"
    ],
-   "researchDay": 23
+   "researchDay": 23,
+   "offRouteMi": 0.1
   },
   {
    "name": "Lonesome Dove RV Ranch",
@@ -1562,7 +1621,8 @@
    "sources": [
     "https://www.tripadvisor.com/Hotel_Review-g60717-d1169564-Reviews-Lonesome_Dove_RV_Ranch-Del_Rio_Texas.html"
    ],
-   "researchDay": 23
+   "researchDay": 23,
+   "offRouteMi": 1.3
   },
   {
    "name": "Amistad NRA — 277 North Campground",
@@ -1587,7 +1647,8 @@
    "sources": [
     "https://www.nps.gov/amis/planyourvisit/camping.htm"
    ],
-   "researchDay": 23
+   "researchDay": 23,
+   "offRouteMi": 0.3
   },
   {
    "name": "Amistad NRA — Governors Landing Campground",
@@ -1612,7 +1673,8 @@
    "sources": [
     "https://www.nps.gov/amis/planyourvisit/camping.htm"
    ],
-   "researchDay": 23
+   "researchDay": 23,
+   "offRouteMi": 0.2
   },
   {
    "name": "Seminole Canyon State Park (Desert Vista / Roadrunner Flat primitive)",
@@ -1638,7 +1700,8 @@
     "https://tpwd.texas.gov/state-parks/seminole-canyon/fees-facilities/campsites",
     "https://tpwd.texas.gov/state-parks/seminole-canyon/fees-facilities/entrance-fees"
    ],
-   "researchDay": 24
+   "researchDay": 24,
+   "offRouteMi": 1.1
   },
   {
    "name": "Vashti Skiles Community Center (Langtry)",
@@ -1664,7 +1727,8 @@
     "https://maps.campendium.com/us/langtry-tx/services/vashti-skiles-community-center-overnight-parking",
     "https://www.txdot.gov/discover/rest-areas-travel-information-centers/travel-information-centers/langtry.html"
    ],
-   "researchDay": 24
+   "researchDay": 24,
+   "offRouteMi": 0.1
   },
   {
    "name": "Canyons RV Park",
@@ -1690,7 +1754,8 @@
     "https://www.allstays.com/Campgrounds-details/30876.htm",
     "https://thedyrt.com/camping/texas/canyons-rv-park-tx"
    ],
-   "researchDay": 25
+   "researchDay": 25,
+   "offRouteMi": 0.1
   },
   {
    "name": "Terrell County Visitor Center / picnic area grounds",
@@ -1717,7 +1782,8 @@
     "https://www.co.terrell.tx.us/page/terrell.Visitor.Center",
     "http://pididu.com/wordpress/bike2017/sanderson-tx/"
    ],
-   "researchDay": 25
+   "researchDay": 25,
+   "offRouteMi": 0.1
   },
   {
    "name": "La Loma del Chivo hostel",
@@ -1744,7 +1810,8 @@
     "https://www.booking.com/hotel/us/la-loma-del-chivo-marathon.html",
     "https://www.realadventures.com/listings/1277113_La-Loma-del-Chivo-A-Creative-Community"
    ],
-   "researchDay": 26
+   "researchDay": 26,
+   "offRouteMi": 0.3
   },
   {
    "name": "Marathon Motel & RV Park",
@@ -1771,7 +1838,8 @@
     "https://www.allstays.com/Campgrounds-details/30586.htm",
     "https://thedyrt.com/camping/texas/marathon-motel-and-rv-park"
    ],
-   "researchDay": 26
+   "researchDay": 26,
+   "offRouteMi": 0.2
   },
   {
    "name": "Post Park (Fort Pena Colorado County Park)",
@@ -1797,7 +1865,8 @@
     "https://visitbigbend.com/big-bend-post-park-marathon-tx/",
     "https://www.marathontexas.com/post/post-park-in-marathon"
    ],
-   "researchDay": 26
+   "researchDay": 26,
+   "offRouteMi": 4.8
   },
   {
    "name": "Lost Alaskan RV Park (Alpine - 26 mi before Marfa)",
@@ -1823,7 +1892,8 @@
     "https://lostalaskan.com/",
     "https://thedyrt.com/camping/texas/lost-alaskan-rv-park"
    ],
-   "researchDay": 27
+   "researchDay": 27,
+   "offRouteMi": 1.8
   },
   {
    "name": "Paisano Baptist Encampment",
@@ -1849,7 +1919,8 @@
     "https://www.paisanoencampment.org/",
     "https://bigbendsentinel.com/2026/07/07/paisano-baptist-encampment-holds-2026-summer-meeting/"
    ],
-   "researchDay": 27
+   "researchDay": 27,
+   "offRouteMi": 2.7
   },
   {
    "name": "Tumble In RV Park",
@@ -1876,7 +1947,8 @@
     "https://www.tumbleinmarfa.com/tent-camping",
     "https://elcosmico.com/"
    ],
-   "researchDay": 27
+   "researchDay": 27,
+   "offRouteMi": 0.4
   },
   {
    "name": "Rancho Estrella Marfa (Hipcamp)",
@@ -1901,7 +1973,8 @@
    "sources": [
     "https://www.hipcamp.com/en-US/land/texas-rancho-estrella-marfa-wz6hkyn1"
    ],
-   "researchDay": 27
+   "researchDay": 27,
+   "offRouteMi": 0.2
   },
   {
    "name": "Valentine School grounds (with permission)",
@@ -1927,7 +2000,8 @@
     "https://www.crazyguyonabike.com/doc/page/?page_id=649229",
     "https://en.wikipedia.org/wiki/Valentine_Independent_School_District"
    ],
-   "researchDay": 28
+   "researchDay": 28,
+   "offRouteMi": 0.1
   },
   {
    "name": "Love Shaks (Airbnb vintage trailers)",
@@ -1952,7 +2026,8 @@
    "sources": [
     "https://www.crazyguyonabike.com/doc/page/?page_id=649229"
    ],
-   "researchDay": 28
+   "researchDay": 28,
+   "offRouteMi": 0.1
   },
   {
    "name": "Van Horn RV Park (35 mi before, shortened-day option)",
@@ -1978,7 +2053,8 @@
     "https://www.vanhorntexasrvpark.com/van-horn-rv-park-tent-sites/",
     "https://www.vanhorntexasrvpark.com/"
    ],
-   "researchDay": 29
+   "researchDay": 29,
+   "offRouteMi": 0.1
   },
   {
    "name": "Mountain View RV Park (Van Horn)",
@@ -2003,7 +2079,8 @@
    "sources": [
     "https://www.allstays.com/Campgrounds/tx-van-horn-campgrounds.htm"
    ],
-   "researchDay": 29
+   "researchDay": 29,
+   "offRouteMi": 0.3
   },
   {
    "name": "Sierra Blanca Public Park",
@@ -2029,7 +2106,8 @@
     "https://ioverlander.com/places/141578-sierra-blanca-public-park",
     "https://www.biketexas.org/bikenews/community/the-road-to-ourselves-cycling-in-the-texas-mountains/"
    ],
-   "researchDay": 29
+   "researchDay": 29,
+   "offRouteMi": 0
   },
   {
    "name": "Fort Hancock Community Church (18 mi before Fabens)",
@@ -2055,7 +2133,8 @@
     "https://jimsbikeblog.wordpress.com/2010/04/09/anxiety-in-fort-hancock/",
     "https://storiesfromtheamericanroad.substack.com/p/a-border-town-in-texas"
    ],
-   "researchDay": 30
+   "researchDay": 30,
+   "offRouteMi": 0
   },
   {
    "name": "Cotton Valley Travel Center / RV parking (past Fabens)",
@@ -2080,7 +2159,8 @@
    "sources": [
     "https://www.hipcamp.com/en-US/d/united-states/texas/fabens/camping/rv"
    ],
-   "researchDay": 30
+   "researchDay": 30,
+   "offRouteMi": 0.5
   },
   {
    "name": "Gaslight Square RV Park",
@@ -2105,7 +2185,8 @@
    "sources": [
     "https://www.allstays.com/Campgrounds/nm-anthony-campgrounds.htm"
    ],
-   "researchDay": 31
+   "researchDay": 31,
+   "offRouteMi": 2.4
   },
   {
    "name": "El Paso West RV Park",
@@ -2132,7 +2213,8 @@
     "https://www.rvezy.com/rv-rentals/campground/121e2312-1707-4268-9ffa-826c8ade934c",
     "https://www.campspot.com/c/camping-in-new-mexico/near-anthony"
    ],
-   "researchDay": 31
+   "researchDay": 31,
+   "offRouteMi": 4.2
   },
   {
    "name": "Sunny Acres RV Park",
@@ -2157,7 +2239,8 @@
    "sources": [
     "https://www.allstays.com/Campgrounds/nm-anthony-campgrounds.htm"
    ],
-   "researchDay": 32
+   "researchDay": 32,
+   "offRouteMi": 0.8
   },
   {
    "name": "Veterans Park (City of Lordsburg)",
@@ -2183,7 +2266,8 @@
     "https://maps.campendium.com/us/lordsburg-nm/nature/veterans-park-lordsburg-nm",
     "https://www.sekr.com/location/new-mexico/lordsburg/veterans-park"
    ],
-   "researchDay": 36
+   "researchDay": 36,
+   "offRouteMi": 0.8
   },
   {
    "name": "Lordsburg KOA Journey",
@@ -2209,7 +2293,8 @@
     "https://www.allstays.com/Campgrounds-details/24878.htm",
     "https://koa.com/campgrounds/lordsburg/site-type/tent-camping-sites/"
    ],
-   "researchDay": 36
+   "researchDay": 36,
+   "offRouteMi": 0.2
   },
   {
    "name": "Pinal County Fairgrounds & Event Center campground",
@@ -2237,37 +2322,10 @@
     "https://pinalfairgrounds.com/camping"
    ],
    "maxOffMi": 13,
+   "detourMi": 11.5,
    "supersedes": [],
-   "researchDay": 1050
-  },
-  {
-   "name": "High Chaparral RV Park (OSM 'Unnamed campground')",
-   "type": "rv_park",
-   "price": 37,
-   "priceNote": "Tent rate unknown. RV overnight $37 with the 50% Passport America discount (reported Nov 1, 2026), so roughly double without it.",
-   "lat": 32.762603,
-   "lng": -111.649557,
-   "locationNote": "7575 W Battaglia Dr, Casa Grande, AZ 85193 — 10.2 mi off the I-10 line at corridor mile 0 from Casa Grande. About 10 mi south-east of I-8 exit 174 on paved roads (Arizona City side), behind you.",
-   "routeMile": 2131.6,
-   "website": "unknown (highchaparralrvpark.com now redirects to an unrelated spam site; do not use it)",
-   "phone": "520-466-5076",
-   "booking": "Office check-in; reviewers checked in easily. Late-arrival policy unknown.",
-   "tentsOk": null,
-   "water": true,
-   "showers": true,
-   "toilets": true,
-   "legalityNote": null,
-   "cyclistIntel": "Baseline 'Unnamed campground' node 13092955624 is this park. Adults-only (18+); kids allowed only Apr–Sep for up to 7 days. Mix of park models and RVs, pool, laundry. The Dyrt tags it 'tent sites' but no review or rule confirms tents. Call first.",
-   "seasonalNote": "Open in November 2026.",
-   "confidence": "low",
-   "sources": [
-    "https://maps.campendium.com/us/casa-grande-az/camping-rv/high-chaparral-rv-park",
-    "https://thedyrt.com/camping/arizona/high-chaparral-mobile-home-and-rv-park",
-    "https://www.openstreetmap.org/node/13092955624"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1050
+   "researchDay": 1050,
+   "offRouteMi": 11.5
   },
   {
    "name": "Motoland MX Park (weekend camping only)",
@@ -2295,8 +2353,10 @@
     "https://thedyrt.com/camping/arizona/motoland"
    ],
    "maxOffMi": 13,
+   "detourMi": 4.4,
    "supersedes": [],
-   "researchDay": 1050
+   "researchDay": 1050,
+   "offRouteMi": 4.4
   },
   {
    "name": "Unnamed OSM caravan site on N Pinal Ave (likely RV section beside Rodeo Estates MHP)",
@@ -2305,11 +2365,11 @@
    "priceNote": "unknown",
    "lat": 32.921173,
    "lng": -111.754742,
-   "locationNote": "N Pinal Ave, Casa Grande, AZ 85122 — 2.6 mi off the I-10 line at corridor mile 2 from Casa Grande. About 3 mi north of downtown on N Pinal Ave (paved), behind the direction of travel.",
+   "locationNote": "N Pinal Ave, Casa Grande, AZ 85122 — 3 mi off the I-10 line at corridor mile 2 from Casa Grande. About 3 mi north of downtown on N Pinal Ave (paved), behind the direction of travel.",
    "routeMile": 2144.1,
-   "website": "unknown",
-   "phone": "unknown",
-   "booking": "unknown",
+   "website": null,
+   "phone": null,
+   "booking": "unknown · unknown",
    "tentsOk": null,
    "water": null,
    "showers": null,
@@ -2323,118 +2383,10 @@
     "https://nominatim.openstreetmap.org"
    ],
    "maxOffMi": 13,
+   "detourMi": 3,
    "supersedes": [],
-   "researchDay": 1050
-  },
-  {
-   "name": "Mammoth Homestead (Hipcamp farm stay)",
-   "type": "private_campground",
-   "price": 32,
-   "priceNote": "$32/night base plus Hipcamp fees. One RV/tent site, up to 4 guests; includes main-house bathroom, shower, laundry, water, 30A power and Wi-Fi.",
-   "lat": 32.846049,
-   "lng": -111.868067,
-   "locationNote": "Casa Grande, AZ (exact address after booking) — 5.5 mi off the I-10 line at corridor mile 4 from Casa Grande. Listing says 'right off I-8'; Montgomery Rd exit 167 is the likely exit. Exact address is given after booking, and the Hipcamp pin is approximate.",
-   "routeMile": 2146.1,
-   "website": "https://www.hipcamp.com/en-US/land/arizona-mammoth-homestead-v1qh55w0",
-   "phone": "unknown",
-   "booking": "Hipcamp booking required. Check-in 2–10 PM, meet the host, strict cancellation policy.",
-   "tentsOk": true,
-   "water": true,
-   "showers": true,
-   "toilets": true,
-   "legalityNote": null,
-   "cyclistIntel": "The only full-service tent-friendly stop near the line in the Casa Grande area, but only about 11 mi into the day. New listing with no reviews yet. No campfires. Goats and chickens on site.",
-   "seasonalNote": "November 2026 status not confirmed.",
-   "confidence": "medium",
-   "sources": [
-    "https://www.hipcamp.com/en-US/land/arizona-mammoth-homestead-v1qh55w0",
-    "https://www.hipcamp.com/en-US/d/united-states/arizona/gila-bend/camping/all"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1050
-  },
-  {
-   "name": "Desert Springs 55+ RV Ranch (OSM 'Unnamed campground')",
-   "type": "rv_park",
-   "price": 30,
-   "priceNote": "Tent rate unknown. RV about $30/night (2023 report).",
-   "lat": 32.849593,
-   "lng": -111.860685,
-   "locationNote": "3290 S Montgomery Rd, Casa Grande, AZ 85193 — 5.1 mi off the I-10 line at corridor mile 4 from Casa Grande. I-8 exit 167, then 1.5 mi north on Montgomery Rd (paved).",
-   "routeMile": 2146.1,
-   "website": "https://www.desertspringsranch.com/",
-   "phone": "520-840-7156",
-   "booking": "Reservations accepted (Campendium). Late-arrival policy unknown.",
-   "tentsOk": null,
-   "water": true,
-   "showers": true,
-   "toilets": true,
-   "legalityNote": null,
-   "cyclistIntel": "Baseline 'Unnamed campground' way 761144406 is this park. Campendium: 55+ park, adults only (18+), full-time residents. The Dyrt's 'tent sites' tag is not backed by any review. Don't count on it; call. Feedlot and dairy smells on east winds.",
-   "seasonalNote": "November 2026 status not confirmed.",
-   "confidence": "low",
-   "sources": [
-    "https://maps.campendium.com/us/casa-grande-az/camping-rv/desert-springs-55-rv-ranch",
-    "https://thedyrt.com/camping/arizona/desert-springs-rv-ranch-and-resort"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1050
-  },
-  {
-   "name": "Supreme's Therapeutic Ranch (Hipcamp)",
-   "type": "private_campground",
-   "price": 36,
-   "priceNote": "$36/night base plus Hipcamp fees. One site, 6 guests max.",
-   "lat": 32.88603,
-   "lng": -112.12039,
-   "locationNote": "Maricopa, AZ (exact address after booking) — 11.9 mi off the I-10 line at corridor mile 18 from Casa Grande. About 3.5 mi north of AZ 84 near I-8 exit 151, on local roads of unknown surface. Exact address after booking; the pin is approximate.",
-   "routeMile": 2160,
-   "website": "https://www.hipcamp.com/en-US/land/arizona-supreme-s-therapeutic-ranch-llc-2ejhppld",
-   "phone": "unknown",
-   "booking": "Hipcamp. Check-in 2–10 PM, meet the host, strict cancellation.",
-   "tentsOk": true,
-   "water": null,
-   "showers": null,
-   "toilets": null,
-   "legalityNote": null,
-   "cyclistIntel": "The description says tent campers get bathroom and shower access, but the amenity list says no toilet, no showers and no potable water. Confirm with the host. Horses and chickens; campfires allowed. New listing with no reviews.",
-   "seasonalNote": "November 2026 status not confirmed.",
-   "confidence": "low",
-   "sources": [
-    "https://www.hipcamp.com/en-US/land/arizona-supreme-s-therapeutic-ranch-llc-2ejhppld"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1051
-  },
-  {
-   "name": "Off Road Camp @ Jurassic Ranch (Hipcamp)",
-   "type": "private_campground",
-   "price": 32,
-   "priceNote": "$32/night base plus Hipcamp fees. Includes water hookup and Wi-Fi.",
-   "lat": 32.939824,
-   "lng": -112.183564,
-   "locationNote": "Maricopa, AZ (exact address after booking) — 11.3 mi off the I-10 line at corridor mile 22 from Casa Grande. North of I-8 exit 151 toward Hidden Valley, about 9–10 mi on local roads, some likely unpaved. Exact address after booking; the pin is approximate.",
-   "routeMile": 2163.9,
-   "website": "https://www.hipcamp.com/en-US/land/arizona-off-road-camp-jurassic-ranch-mxvh867q",
-   "phone": "unknown",
-   "booking": "Hipcamp instant book.",
-   "tentsOk": true,
-   "water": true,
-   "showers": false,
-   "toilets": false,
-   "legalityNote": null,
-   "cyclistIntel": "Horse ranch 1,000 ft from a BLM off-road trailhead. Four dispersed RV/tent spaces with water and Wi-Fi but no toilet; campfires allowed. Booked once, no reviews. Far off the line; only worth it if everything else is full.",
-   "seasonalNote": "November 2026 status not confirmed.",
-   "confidence": "low",
-   "sources": [
-    "https://www.hipcamp.com/en-US/land/arizona-off-road-camp-jurassic-ranch-mxvh867q"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1051
+   "researchDay": 1050,
+   "offRouteMi": 3
   },
   {
    "name": "BLM dispersed: desert tracks between AZ 238 and Empire Blvd (south end of Sierra Estrella)",
@@ -2464,8 +2416,10 @@
     "https://www.openstreetmap.org/way/316332168"
    ],
    "maxOffMi": 13,
+   "detourMi": 10.6,
    "supersedes": [],
-   "researchDay": 1051
+   "researchDay": 1051,
+   "offRouteMi": 10.6
   },
   {
    "name": "BLM dispersed: unpaved W Riggs Rd section (miles 45-47)",
@@ -2493,8 +2447,10 @@
     "https://www.blm.gov/office/lower-sonoran-field-office"
    ],
    "maxOffMi": 13,
+   "detourMi": 10.3,
    "supersedes": [],
-   "researchDay": 1051
+   "researchDay": 1051,
+   "offRouteMi": 10.3
   },
   {
    "name": "BLM dispersed: west end of W Riggs Rd past Rainbow Valley Rd",
@@ -2521,8 +2477,10 @@
     "https://www.openstreetmap.org/way/566189336"
    ],
    "maxOffMi": 13,
+   "detourMi": 10.2,
    "supersedes": [],
-   "researchDay": 1052
+   "researchDay": 1052,
+   "offRouteMi": 10.2
   },
   {
    "name": "BLM dispersed: W Ray Rd west of S Tuthill Rd (Buckeye Hills east)",
@@ -2540,7 +2498,7 @@
    "water": false,
    "showers": false,
    "toilets": false,
-   "legalityNote": "BLM land open to camping (check the posted stay limit)",
+   "legalityNote": "Legality not confirmed: read the notes before you pitch",
    "cyclistIntel": "Land status comes only from BLM GIS; no camper reports found. The point is not inside the Lower Gila Terraces ACEC (checked against BLM's ACEC layer). Equestrian and other private parcels are nearby, so obey any 'no trespassing' signs. Fire Station 326 is right on the line at mile 61.2 for water.",
    "seasonalNote": "Open in November 2026.",
    "confidence": "low",
@@ -2550,8 +2508,10 @@
     "https://www.openstreetmap.org/way/5640635"
    ],
    "maxOffMi": 13,
+   "detourMi": 3,
    "supersedes": [],
-   "researchDay": 1052
+   "researchDay": 1052,
+   "offRouteMi": 3
   },
   {
    "name": "Vescent RV Park",
@@ -2562,9 +2522,9 @@
    "lng": -112.5484,
    "locationNote": "23056 W MC 85, Buckeye, AZ 85326 — 1.1 mi off the I-10 line at corridor mile 80 from Casa Grande. Paved, about 1 mi north of the line on Buckeye's east side, on MC 85 next to Vescent Church.",
    "routeMile": 2222.3,
-   "website": "unknown",
-   "phone": "unknown",
-   "booking": "unknown",
+   "website": null,
+   "phone": null,
+   "booking": "unknown · unknown",
    "tentsOk": null,
    "water": null,
    "showers": null,
@@ -2577,8 +2537,10 @@
     "https://www.openstreetmap.org/way/1567459764"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.1,
    "supersedes": [],
-   "researchDay": 1052
+   "researchDay": 1052,
+   "offRouteMi": 1.1
   },
   {
    "name": "The Sunset Nooks (Hipcamp tent site)",
@@ -2590,8 +2552,8 @@
    "locationNote": "Buckeye, AZ (exact address after booking) — 1 mi off the I-10 line at corridor mile 82 from Casa Grande. Small private lot in south Buckeye by the Gila River, about 1 mile off the line at the Buckeye end (street address shown after booking). Paved streets, walk-in tent pad.",
    "routeMile": 2224,
    "website": "https://www.hipcamp.com/en-US/land/arizona-the-sunset-nooks-ozxhqxk2",
-   "phone": "unknown (contact host Cory W. through the Hipcamp app)",
-   "booking": "Hipcamp instant book, 1-night minimum, no advance notice needed. Message the host with your ETA. Music down at 8pm, off at 10pm.",
+   "phone": null,
+   "booking": "Hipcamp instant book, 1-night minimum, no advance notice needed. Message the host with your ETA. Music down at 8pm, off at 10pm. · unknown (contact host Cory W. through the Hipcamp app)",
    "tentsOk": true,
    "water": true,
    "showers": true,
@@ -2605,8 +2567,10 @@
     "https://www.hipcamp.com/en-US/d/united-states/arizona/buckeye/camping/all"
    ],
    "maxOffMi": 13,
+   "detourMi": 1,
    "supersedes": [],
-   "researchDay": 1052
+   "researchDay": 1052,
+   "offRouteMi": 1
   },
   {
    "name": "Skyline Regional Park campground (City of Buckeye)",
@@ -2635,8 +2599,10 @@
     "https://www.openstreetmap.org/way/744218725"
    ],
    "maxOffMi": 13,
+   "detourMi": 8.5,
    "supersedes": [],
-   "researchDay": 1052
+   "researchDay": 1052,
+   "offRouteMi": 8.5
   },
   {
    "name": "BLM dispersed off W Robbins Butte Game Rd (south of Buckeye; 'Buckeye Hills BLM')",
@@ -2654,7 +2620,7 @@
    "water": false,
    "showers": false,
    "toilets": false,
-   "legalityNote": "BLM land open to camping (check the posted stay limit)",
+   "legalityNote": "Legality not confirmed: read the notes before you pitch",
    "cyclistIntel": "Last resort only. Legality is muddled: 'no overnight camping / no shooting' signs were seen in Apr 2025, rangers told campers 'no camping' in 2021, the adjoining Robbins Butte Wildlife Area (AZ Game & Fish) bans camping, and The Dyrt lists the nearby 'Buckeye Hills BLM' spot as CLOSED. People were still camping there in Jan-Feb 2026, and a sheriff patrols mornings. Reviews from 2021-2026 report heavy shooting (ricochets near a trailer in Aug 2024), theft, dumping and crowding. Not a good place for a solo tent.",
    "seasonalNote": "November 2026 status not confirmed.",
    "confidence": "low",
@@ -2663,8 +2629,10 @@
     "https://thedyrt.com/camping/arizona/buckeye-hills-blm"
    ],
    "maxOffMi": 13,
+   "detourMi": 6.5,
    "supersedes": [],
-   "researchDay": 1052
+   "researchDay": 1052,
+   "offRouteMi": 6.5
   },
   {
    "name": "3Acre Desert RV Camp (Hipcamp)",
@@ -2676,8 +2644,8 @@
    "locationNote": "near Tonopah/Arlington, AZ (exact address after booking) — 1 mi off the I-10 line at corridor mile 97 from Casa Grande. Private fenced 3-acre lot about 1 mile off the line, between Arlington and Wintersburg (address after booking). It borders a wash and State Trust land. Drive-in, 2WD access.",
    "routeMile": 2238.6,
    "website": "https://www.hipcamp.com/en-US/land/arizona-3acre-desert-rv-camp-w-5-fence-1xmhk52v",
-   "phone": "unknown (message host through Hipcamp)",
-   "booking": "Request-to-book, not instant. Message the host the day before. 1 booking so far, 100% recommend.",
+   "phone": null,
+   "booking": "Request-to-book, not instant. Message the host the day before. 1 booking so far, 100% recommend. · unknown (message host through Hipcamp)",
    "tentsOk": null,
    "water": true,
    "showers": false,
@@ -2690,13 +2658,15 @@
     "https://www.hipcamp.com/en-US/land/arizona-3acre-desert-rv-camp-w-5-fence-1xmhk52v"
    ],
    "maxOffMi": 13,
+   "detourMi": 1,
    "supersedes": [],
-   "researchDay": 1053
+   "researchDay": 1053,
+   "offRouteMi": 1
   },
   {
    "name": "Stage Stop RV Park / Wintersburg General Store",
    "type": "rv_park",
-   "price": 60,
+   "price": null,
    "priceNote": "No tent rate. RV daily is $60 with utilities, plus a $300 refundable deposit on all lodging.",
    "lat": 33.422367,
    "lng": -112.868486,
@@ -2719,8 +2689,10 @@
     "https://maps.campendium.com/us/tonopah-az/camping-rv/stage-stop-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.1,
    "supersedes": [],
-   "researchDay": 1053
+   "researchDay": 1053,
+   "offRouteMi": 0.1
   },
   {
    "name": "Saddle Mountain RV Park",
@@ -2749,8 +2721,10 @@
     "https://thedyrt.com/camping/arizona/saddle-mountain-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1053
+   "researchDay": 1053,
+   "offRouteMi": 0.5
   },
   {
    "name": "El Dorado Hot Spring",
@@ -2761,7 +2735,7 @@
    "lng": -112.9404654,
    "locationNote": "41225 W Indian School Rd, Tonopah, AZ 85354 — 0.3 mi off the I-10 line at corridor mile 108 from Casa Grande. 41225 W Indian School Rd, Tonopah, 0.3 mile on pavement from I-10 exit 94 (411th Ave).",
    "routeMile": 2249.7,
-   "website": "unknown (old eldoradohotspring.com no longer resolves; listings link to a Facebook page)",
+   "website": null,
    "phone": "(623) 386-5412",
    "booking": "Call ahead. A March 2026 guest reported no check-in instructions and a double booking, so confirm by phone the same day.",
    "tentsOk": true,
@@ -2778,8 +2752,10 @@
     "https://allstays.com/Campgrounds/az-tonopah-campgrounds.htm"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.3,
    "supersedes": [],
-   "researchDay": 1053
+   "researchDay": 1053,
+   "offRouteMi": 0.3
   },
   {
    "name": "Saddle Mountain BLM dispersed camping",
@@ -2807,8 +2783,10 @@
     "https://allstays.com/Campgrounds/az-tonopah-campgrounds.htm"
    ],
    "maxOffMi": 13,
+   "detourMi": 3.5,
    "supersedes": [],
-   "researchDay": 1053
+   "researchDay": 1053,
+   "offRouteMi": 3.5
   },
   {
    "name": "BLM land along Hovatter Rd (I-10 exit 53) - unverified fallback",
@@ -2826,7 +2804,7 @@
    "water": false,
    "showers": false,
    "toilets": false,
-   "legalityNote": "BLM land open to camping (check the posted stay limit)",
+   "legalityNote": "Legality not confirmed: read the notes before you pitch",
    "cyclistIntel": "This is the only spot right on the interstate between Tonopah and Quartzsite, about 41 miles from Tonopah. I found no camper reports. Check a land-status map (BLM vs State Trust) before pitching and stay well away from the freeway. Bouse Wash rest area (restrooms, water unreliable) is 1 mile west; the Pilot at exit 45 is 8 miles west.",
    "seasonalNote": "November 2026 status not confirmed.",
    "confidence": "low",
@@ -2836,126 +2814,10 @@
     "https://www.blm.gov/sites/default/files/documents/files/LTVALongTermCamping.pdf"
    ],
    "maxOffMi": 13,
+   "detourMi": 1,
    "supersedes": [],
-   "researchDay": 1054
-  },
-  {
-   "name": "Indian Hills RV Resort",
-   "type": "rv_park",
-   "price": 39.2,
-   "priceNote": "$39.20/night on Hipcamp for a 50x55 ft back-in 'RV/tent' site with full hookups and 30/50A (about $48.78 with fees). A furnished teepee is $85, casitas $125+.",
-   "lat": 33.7716,
-   "lng": -113.5994,
-   "locationNote": "67668 Salome Rd, Salome, AZ 85348 — 11.2 mi off the I-10 line at corridor mile 149 from Casa Grande. 67668 Salome Rd, on paved Salome Rd at the SE edge of Salome. The variant passes the gate.",
-   "routeMile": 2291.2,
-   "website": "https://indianhillsrvresort.com",
-   "phone": "(928) 575-9199",
-   "booking": "Hipcamp instant book (same-day OK, 1-night minimum) or call. Office hours aren't published.",
-   "tentsOk": true,
-   "water": true,
-   "showers": true,
-   "toilets": true,
-   "legalityNote": null,
-   "cyclistIntel": "The best-equipped tent stop on the variant: hot showers, laundry, free Wi-Fi, a store and fitness room, all ages. It's the first camp after the 41-mile empty Harquahala Valley stretch. 13 Hipcamp bookings, 100% recommend.",
-   "seasonalNote": "Open in November 2026.",
-   "confidence": "high",
-   "sources": [
-    "https://www.hipcamp.com/en-US/land/arizona-indian-hills-rv-resort-1-lz9hldv0",
-    "https://maps.campendium.com/us/salome-az/camping-rv/indian-hills-rv-resort",
-    "https://indianhillsrvresort.com/"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1054
-  },
-  {
-   "name": "Salome KOA Journey",
-   "type": "private_campground",
-   "price": 51,
-   "priceNote": "Tent rate not published. KOA lists Deluxe and Premium tent sites; Good Sam mentions a gravel overflow tent area. RV sites start around $51/night (Good Sam).",
-   "lat": 33.7613529,
-   "lng": -113.6487706,
-   "locationNote": "64812 Harcuvar Dr, Salome, AZ 85348 — 10 mi off the I-10 line at corridor mile 152 from Casa Grande. 64812 Harcuvar Dr, just off US 60 about 2.5 miles west of Salome (near milepost 54). The variant line passes the entrance. KOA's own directions say 'US 60 to MP 54, then 2 mi S on Harcuvar Dr', but mapped coordinates put the park about 0.2 mile from US 60.",
-   "routeMile": 2293.8,
-   "website": "https://koa.com/campgrounds/salome/",
-   "phone": "(928) 859-4639; reservations 1-800-562-7857",
-   "booking": "Online, KOA app or phone. Office is roughly 8am-4pm daily, with lit after-hours check-in. Open all year.",
-   "tentsOk": true,
-   "water": true,
-   "showers": true,
-   "toilets": true,
-   "legalityNote": null,
-   "cyclistIntel": "Pool, hot tub, laundry and a camp store. Salome Restaurant is about 0.2 mile away on US 60. New owners (the Johnston family, Dec 2025) are restoring a breakfast kitchen.",
-   "seasonalNote": "Open in November 2026.",
-   "confidence": "medium",
-   "sources": [
-    "https://koa.com/campgrounds/salome/",
-    "https://www.goodsam.com/campgrounds-rv-parks/arizona/salome/salome-koa-201131010",
-    "https://maps.campendium.com/us/salome-az/camping-rv/salome-koa-salome-az",
-    "https://rv-pro.com/news/koa-congratulates-owners-on-acquisition-of-the-salome-koa-journey/"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1054
-  },
-  {
-   "name": "Ramblin' Roads RV Resort (Hope)",
-   "type": "rv_park",
-   "price": null,
-   "priceNote": "Tent rate not published. The Dyrt lists sites 'from free to $35/night'.",
-   "lat": 33.72302,
-   "lng": -113.70381,
-   "locationNote": "60655 Hwy 60, Salome (Hope), AZ 85348 — 6.9 mi off the I-10 line at corridor mile 155 from Casa Grande. 60655 US 60 at Hope. The variant goes by the door.",
-   "routeMile": 2296.6,
-   "website": "https://ramblinroads.com",
-   "phone": "(928) 859-3187",
-   "booking": "Call or email. Arriving late: fill out an envelope at the after-hours registration on the front of the building (lobby open until 9pm). After 9pm, take any open site and pay when the lobby opens at 9am. Office Mon-Sat 9am-2pm, Oct 1 to Apr 1.",
-   "tentsOk": true,
-   "water": true,
-   "showers": true,
-   "toilets": true,
-   "legalityNote": null,
-   "cyclistIntel": "The operator's amenity list explicitly includes TENT CAMPING (plus good well water and free Wi-Fi), but it's a 55+ park. Confirm they'll take your party before relying on it.",
-   "seasonalNote": "Open in November 2026.",
-   "confidence": "medium",
-   "sources": [
-    "https://ramblinroads.com/amenities-we-offer/",
-    "https://ramblinroads.com/how-to-reserve-a-site/",
-    "https://thedyrt.com/camping/arizona/ramblin-roads-rv-park",
-    "https://allstays.com/Campgrounds/az-salome-campgrounds.htm"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1054
-  },
-  {
-   "name": "Vicksburg Pit Rd BLM dispersed",
-   "type": "dispersed",
-   "price": 0,
-   "priceNote": "Free, 14-day maximum.",
-   "lat": 33.747917,
-   "lng": -113.74781,
-   "locationNote": "Vicksburg Pit Rd, Salome, AZ 85348 — 8.1 mi off the I-10 line at corridor mile 157 from Casa Grande. From Vicksburg Junction (US 60, variant mile about 66.5), about 2-3 miles north toward SR 72 and Vicksburg to Vicksburg Pit Rd. The access is wide, well-graded gravel; cross the railroad tracks slowly. From the main I-10 line: exit 45 (mile about 145), then about 8 miles north on Vicksburg Rd.",
-   "routeMile": 2299.4,
-   "website": "https://maps.campendium.com/us/salome-az/nature/vicksburg-dispersed-camping",
-   "phone": "unknown (BLM Lake Havasu Field Office)",
-   "booking": "First-come.",
-   "tentsOk": true,
-   "water": false,
-   "showers": false,
-   "toilets": false,
-   "legalityNote": "BLM land open to camping (check the posted stay limit)",
-   "cyclistIntel": "Quiet, few campers and dark skies (Feb 2026 reviews). Flies even in December. The BLM land borders private parcels, so stay on BLM. No services: get water at the Pilot at I-10 exit 45 or in Salome.",
-   "seasonalNote": "Open in November 2026.",
-   "confidence": "high",
-   "sources": [
-    "https://maps.campendium.com/us/salome-az/nature/vicksburg-dispersed-camping",
-    "https://www.thedyrt.com/camping/arizona/vicksburg-pit-rd-blm",
-    "https://allstays.com/Campgrounds/az-salome-campgrounds.htm"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 1
   },
   {
    "name": "3 Dreamers RV Park",
@@ -2982,35 +2844,10 @@
     "https://dreamersrvpark.com/"
    ],
    "maxOffMi": 13,
+   "detourMi": 4.5,
    "supersedes": [],
-   "researchDay": 1054
-  },
-  {
-   "name": "Steve and Dawn Desert Getaway",
-   "type": "private_campground",
-   "price": 15,
-   "priceNote": "$15-30/night. There are 3 dry sites for tent or RV (no water or power at the site) and 2 full-hookup RV sites.",
-   "lat": 33.7893,
-   "lng": -113.83268,
-   "locationNote": "10.2 mi off the I-10 line at corridor mile 162 from Casa Grande. 10 fenced acres north of US 60 near Vicksburg; GPS may show Salome. About 5.6 miles in a straight line north of the variant, probably on dirt roads. Address comes with the booking.",
-   "routeMile": 2304.4,
-   "website": "https://thedyrt.com/camping/arizona/steve-and-dawn-desert-getaway",
-   "phone": "+1 360-914-1183",
-   "booking": "Request to Book through The Dyrt.",
-   "tentsOk": true,
-   "water": true,
-   "showers": false,
-   "toilets": false,
-   "legalityNote": null,
-   "cyclistIntel": "The listing says there is 'as yet no bathroom on-site'. It's far off the line, so only worth it if everything closer is full.",
-   "seasonalNote": "November 2026 status not confirmed.",
-   "confidence": "low",
-   "sources": [
-    "https://thedyrt.com/camping/arizona/steve-and-dawn-desert-getaway"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 4.5
   },
   {
    "name": "The Collier 15 (Hipcamp)",
@@ -3022,8 +2859,8 @@
    "locationNote": "3.4 mi off the I-10 line at corridor mile 163 from Casa Grande. Fenced 55-acre property just off US 60 between Vicksburg Junction and Brenda (address after booking). Short dirt driveway.",
    "routeMile": 2304.6,
    "website": "https://www.hipcamp.com/en-US/land/arizona-the-collier-15-88lhqqxe",
-   "phone": "unknown (host Lane C. via Hipcamp)",
-   "booking": "Hipcamp instant book, 1-night minimum, no advance notice. 17 bookings, 86% recommend.",
+   "phone": null,
+   "booking": "Hipcamp instant book, 1-night minimum, no advance notice. 17 bookings, 86% recommend. · unknown (host Lane C. via Hipcamp)",
    "tentsOk": true,
    "water": true,
    "showers": false,
@@ -3036,8 +2873,10 @@
     "https://www.hipcamp.com/en-US/land/arizona-the-collier-15-88lhqqxe"
    ],
    "maxOffMi": 13,
+   "detourMi": 3.4,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 3.4
   },
   {
    "name": "The Dusty 40 (Hipcamp)",
@@ -3049,8 +2888,8 @@
    "locationNote": "3.6 mi off the I-10 line at corridor mile 163 from Casa Grande. 40-acre desert parcel next to The Collier 15, just off US 60 between Vicksburg Junction and Brenda. Dirt access.",
    "routeMile": 2304.6,
    "website": "https://www.hipcamp.com/en-US/land/arizona-the-dusty-40-lz9h5eqv",
-   "phone": "unknown (host Lane C. via Hipcamp)",
-   "booking": "Hipcamp instant book, 1-night minimum. 5 bookings, 100% recommend.",
+   "phone": null,
+   "booking": "Hipcamp instant book, 1-night minimum. 5 bookings, 100% recommend. · unknown (host Lane C. via Hipcamp)",
    "tentsOk": true,
    "water": false,
    "showers": false,
@@ -3063,13 +2902,15 @@
     "https://www.hipcamp.com/en-US/land/arizona-the-dusty-40-lz9h5eqv"
    ],
    "maxOffMi": 13,
+   "detourMi": 3.6,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 3.6
   },
   {
    "name": "Black Rock RV Village (Brenda)",
    "type": "rv_park",
-   "price": 40,
+   "price": null,
    "priceNote": "No tent rate. RV sites are $40-45/night.",
    "lat": 33.680511,
    "lng": -113.945444,
@@ -3091,8 +2932,10 @@
     "https://www.hipcamp.com/en-US/land/arizona-black-rock-rv-park-resort-5x5hkl29"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.8,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 1.8
   },
   {
    "name": "Ramsey Mine Rd BLM dispersed",
@@ -3101,7 +2944,7 @@
    "priceNote": "Free, 14-day maximum.",
    "lat": 33.666685,
    "lng": -113.961755,
-   "locationNote": "Ramsey Mine Rd, Brenda/Salome, AZ 85348 — 0.7 mi off the I-10 line at corridor mile 168 from Casa Grande. Ramsey Mine Rd runs south from US 60 about 1 mile west of Brenda and crosses over I-10 on a bridge (no interchange). Camp along the smaller parallel gravel road on flat, hard ground. From the main I-10 line: exit 31 (mile about 159.5), then about 3.5 miles east on US 60 and south.",
+   "locationNote": "Ramsey Mine Rd, Brenda/Salome, AZ 85348 — 0.8 mi off the I-10 line at corridor mile 168 from Casa Grande. Ramsey Mine Rd runs south from US 60 about 1 mile west of Brenda and crosses over I-10 on a bridge (no interchange). Camp along the smaller parallel gravel road on flat, hard ground. From the main I-10 line: exit 31 (mile about 159.5), then about 3.5 miles east on US 60 and south.",
    "routeMile": 2310.4,
    "website": "https://maps.campendium.com/us/salome-az/nature/ramsey-mine-road-dispersed-camping",
    "phone": "(623) 580-5500 (BLM Phoenix District)",
@@ -3119,8 +2962,10 @@
     "https://thedyrt.com/camping/arizona/ramsey-mine-rd-blm-dispersed-camping"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.8,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.8
   },
   {
    "name": "Gold Nugget Rd BLM dispersed (I-10 exit 26)",
@@ -3138,7 +2983,7 @@
    "water": false,
    "showers": false,
    "toilets": false,
-   "legalityNote": "BLM land open to camping (check the posted stay limit)",
+   "legalityNote": "Legality not confirmed: read the notes before you pitch",
    "cyclistIntel": "The first free pitch right on the interstate after Tonopah, 7-8 miles before Quartzsite. Cactus debris means puncture risk (reviewers say it isn't dog-friendly), plus freeway hum and ATVs. BLM says short-term camping around Quartzsite is limited to five designated areas and this isn't one of them, so obey any 'no camping' signs (Scaddan Wash is 6 miles on). The newest review is Feb 2024.",
    "seasonalNote": "November 2026 status not confirmed.",
    "confidence": "medium",
@@ -3148,8 +2993,10 @@
     "https://allstays.com/Campgrounds/az-quartzsite-campgrounds.htm"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.3,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.3
   },
   {
    "name": "Scaddan Wash BLM 14-day camping area",
@@ -3178,13 +3025,15 @@
     "https://www.openstreetmap.org/way/1259580910"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.8,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 1.8
   },
   {
    "name": "Quartzsite RV Resort",
    "type": "rv_park",
-   "price": 55,
+   "price": null,
    "priceNote": "Tent rate not published. A full-hookup RV night is $55 in November 2026.",
    "lat": 33.67149,
    "lng": -114.20029,
@@ -3207,8 +3056,10 @@
     "https://www.openstreetmap.org/way/1340353312"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.4,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.4
   },
   {
    "name": "Plomosa Road BLM 14-Day Camping Area",
@@ -3217,7 +3068,7 @@
    "priceNote": "Free, 14 days in 28. One Campendium user entered '$44' in Feb 2026; every other report says free.",
    "lat": 33.74882,
    "lng": -114.21615,
-   "locationNote": "US 95 at Plomosa Rd, about 6 mi north of Quartzsite, AZ — 6.5 mi off the I-10 line at corridor mile 182 from Casa Grande. Paved US 95 north about 5.5 mi, then east on asphalt Plomosa Rd. Camp on the gravel flats on either side and respect the marked day-use boundaries.",
+   "locationNote": "US 95 at Plomosa Rd, about 6 mi north of Quartzsite, AZ — 7 mi off the I-10 line at corridor mile 182 from Casa Grande. Paved US 95 north about 5.5 mi, then east on asphalt Plomosa Rd. Camp on the gravel flats on either side and respect the marked day-use boundaries.",
    "routeMile": 2324.5,
    "website": "https://www.blm.gov/office/yuma-field-office",
    "phone": "(928) 317-3200",
@@ -3236,13 +3087,15 @@
     "https://www.openstreetmap.org/way/1262004053"
    ],
    "maxOffMi": 13,
+   "detourMi": 7,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 7
   },
   {
    "name": "Arizona Sun RV Park",
    "type": "rv_park",
-   "price": 47,
+   "price": null,
    "priceNote": "Tent rate not published. A daily RV site is $47 + $6.20 tax.",
    "lat": 33.6737,
    "lng": -114.20309,
@@ -3264,8 +3117,10 @@
     "https://thedyrt.com/camping/arizona/arizona-sun-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.6,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.6
   },
   {
    "name": "Desert Edge RV Park",
@@ -3276,7 +3131,7 @@
    "lng": -114.2023,
    "locationNote": "855 Rogers Pl, Quartzsite, AZ 85346 — 0.3 mi off the I-10 line at corridor mile 183 from Casa Grande. Paved, near I-10 exit 19.",
    "routeMile": 2324.7,
-   "website": "unknown",
+   "website": null,
    "phone": "(928) 927-6605",
    "booking": "OSM says reservations are recommended. Call.",
    "tentsOk": null,
@@ -3291,8 +3146,10 @@
     "https://www.openstreetmap.org/way/753519450"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.3,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.3
   },
   {
    "name": "Hi Jolly BLM 14-day camping area",
@@ -3301,7 +3158,7 @@
    "priceNote": "Free, 14-day limit. Register with the camp host for a free 14-day pass when one is on duty.",
    "lat": 33.70948,
    "lng": -114.21581,
-   "locationNote": "US Hwy 95 N, Quartzsite, AZ 85346 — 3.5 mi off the I-10 line at corridor mile 183 from Casa Grande. 3 miles north of Quartzsite on US 95 at milepost 112 (paved highway), gravel inside.",
+   "locationNote": "US Hwy 95 N, Quartzsite, AZ 85346 — 3.8 mi off the I-10 line at corridor mile 183 from Casa Grande. 3 miles north of Quartzsite on US 95 at milepost 112 (paved highway), gravel inside.",
    "routeMile": 2324.9,
    "website": "https://maps.campendium.com/us/quartzsite-az/nature/hi-jolly-camping-area",
    "phone": "(928) 317-3200 (BLM Yuma Field Office)",
@@ -3321,13 +3178,17 @@
     "https://www.openstreetmap.org/way/1262004052"
    ],
    "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1054
+   "detourMi": 3.8,
+   "supersedes": [
+    "Hi Jolly BLM 14-Day Camping Area"
+   ],
+   "researchDay": 1054,
+   "offRouteMi": 3.8
   },
   {
    "name": "Tumbleweed RV Park (Rose's RV Park)",
    "type": "rv_park",
-   "price": 0,
+   "price": 8,
    "priceNote": "$8-40/night per The Dyrt, which lists 'Standard (tent/RV)' sites. Showers were coin-op ($5 in 2019) and free in 2023.",
    "lat": 33.660416,
    "lng": -114.212204,
@@ -3349,8 +3210,10 @@
     "https://allstays.com/Campgrounds/az-quartzsite-campgrounds.htm"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.4,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.5
   },
   {
    "name": "Pattie's RV Park & Propane",
@@ -3361,7 +3224,7 @@
    "lng": -114.20937,
    "locationNote": "455 E Main St, Quartzsite, AZ 85346 — 0.2 mi off the I-10 line at corridor mile 183 from Casa Grande. On paved E Main St (Business 10), between exits 19 and 17.",
    "routeMile": 2324.9,
-   "website": "unknown",
+   "website": null,
    "phone": "(928) 927-4223",
    "booking": "Small park, call ahead.",
    "tentsOk": null,
@@ -3377,13 +3240,15 @@
     "https://www.openstreetmap.org/way/759435884"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.2,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.2
   },
   {
    "name": "Crawford's RV Park",
    "type": "rv_park",
-   "price": 45,
+   "price": null,
    "priceNote": "Tent rate not published. Off-season daily RV site is $45 + tax (2026–27 rates).",
    "lat": 33.66632,
    "lng": -114.21203,
@@ -3405,8 +3270,10 @@
     "https://www.openstreetmap.org/way/759435882"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.3,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.4
   },
   {
    "name": "Texas BBQ RV Park",
@@ -3417,9 +3284,9 @@
    "lng": -114.21394,
    "locationNote": "Quartzsite, AZ (on Main St near I-10) — 0.4 mi off the I-10 line at corridor mile 183 from Casa Grande. Paved, in town.",
    "routeMile": 2324.9,
-   "website": "unknown",
-   "phone": "unknown",
-   "booking": "unknown",
+   "website": null,
+   "phone": null,
+   "booking": "unknown · unknown",
    "tentsOk": null,
    "water": null,
    "showers": null,
@@ -3432,13 +3299,15 @@
     "https://thedyrt.com/camping/arizona/texas-bbq-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.4,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.5
   },
   {
    "name": "Split Rail RV Park",
    "type": "rv_park",
-   "price": 50,
+   "price": null,
    "priceNote": "Tent rate not published. Nightly site is $50.",
    "lat": 33.68517,
    "lng": -114.21734,
@@ -3460,13 +3329,15 @@
     "https://www.openstreetmap.org/way/457539466"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.5,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 1.6
   },
   {
    "name": "Shady Lane RV Park",
    "type": "rv_park",
-   "price": 35,
+   "price": null,
    "priceNote": "Tent rate not published. RV was $35 in 2024.",
    "lat": 33.66963,
    "lng": -114.21687,
@@ -3488,13 +3359,15 @@
     "https://www.openstreetmap.org/way/580292664"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.6
   },
   {
    "name": "Kofa Mountain 55+ RV Park",
    "type": "rv_park",
-   "price": 35,
+   "price": null,
    "priceNote": "Tent rate not published. RV was $35 (Mar 2026).",
    "lat": 33.66999,
    "lng": -114.2173,
@@ -3516,13 +3389,15 @@
     "https://maps.campendium.com/us/quartzsite-az/camping-rv/kofa-mountain-55-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.6
   },
   {
    "name": "American Trails RV Park & Tiny Cabins",
    "type": "rv_park",
-   "price": 45,
+   "price": null,
    "priceNote": "Tent rate not published. Daily RV is $45 (30 A) or $50 (50 A), March to November.",
    "lat": 33.6719,
    "lng": -114.21793,
@@ -3544,8 +3419,10 @@
     "https://thedyrt.com/camping/arizona/american-trails-rv-park-tiny-cabins"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.6,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.7
   },
   {
    "name": "La Mirage RV Park",
@@ -3556,9 +3433,9 @@
    "lng": -114.21931,
    "locationNote": "Quartzsite, AZ (near Main St & Central Blvd) — 0.4 mi off the I-10 line at corridor mile 184 from Casa Grande. Paved, in town.",
    "routeMile": 2325.6,
-   "website": "unknown",
-   "phone": "unknown",
-   "booking": "unknown",
+   "website": null,
+   "phone": null,
+   "booking": "unknown · unknown",
    "tentsOk": null,
    "water": true,
    "showers": false,
@@ -3571,8 +3448,10 @@
     "https://thedyrt.com/camping/arizona/la-mirage-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.4,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.4
   },
   {
    "name": "Tyson Wells RV Park (Tyson Wells Market Center)",
@@ -3599,13 +3478,15 @@
     "https://thedyrt.com/camping/arizona/tyson-wells-rv"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.5
   },
   {
    "name": "Holiday Palms RV Resort",
    "type": "rv_park",
-   "price": 65,
+   "price": null,
    "priceNote": "Tent rate not published. Peak-season (Nov 1 to Apr 30) RV sites start at $65/night plus tax and electric.",
    "lat": 33.6656,
    "lng": -114.22311,
@@ -3628,8 +3509,10 @@
     "https://holidaypalmsrv.com/rules/"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.2,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.2
   },
   {
    "name": "Hassler's RV Park",
@@ -3656,33 +3539,10 @@
     "https://thedyrt.com/camping/arizona/hasslers-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.3,
    "supersedes": [],
-   "researchDay": 1054
-  },
-  {
-   "name": "Hi Jolly BLM 14-Day Camping Area",
-   "type": "blm",
-   "price": 0,
-   "priceNote": "FREE, 14-day limit",
-   "lat": 33.688,
-   "lng": -114.221,
-   "locationNote": "~2 mi N of Main St on US-95 N — short off-route detour the wrong direction; Dome Rock is the better free pick westbound",
-   "routeMile": 2325.9,
-   "website": "https://www.allstays.com/Campgrounds/az-quartzsite-campgrounds.htm",
-   "phone": "(928) 317-3200",
-   "booking": "first-come",
-   "tentsOk": true,
-   "water": false,
-   "showers": false,
-   "toilets": false,
-   "legalityNote": "Legal BLM free 14-day dispersed area, ~100 sites",
-   "cyclistIntel": "No water — haul from town",
-   "seasonalNote": "Open year-round",
-   "confidence": "high",
-   "sources": [
-    "https://www.allstays.com/Campgrounds/az-quartzsite-campgrounds.htm"
-   ],
-   "researchDay": 45
+   "researchDay": 1054,
+   "offRouteMi": 0.3
   },
   {
    "name": "Q View RV Park (formerly B-10 Campground)",
@@ -3691,7 +3551,7 @@
    "priceNote": "$25/night 'Dry Camping', plus a $2.50 booking fee, a 3% card fee and tax ($125/week). Hookup sites are $35-50.",
    "lat": 33.663458,
    "lng": -114.227508,
-   "locationNote": "615 W Main St, Quartzsite, AZ 85346 — 0.1 mi off the I-10 line at corridor mile 184 from Casa Grande. 615 W Main St in central Quartzsite, near I-10 exit 17/19. City streets.",
+   "locationNote": "615 W Main St, Quartzsite, AZ 85346 — 0.4 mi off the I-10 line at corridor mile 184 from Casa Grande. 615 W Main St in central Quartzsite, near I-10 exit 17/19. City streets.",
    "routeMile": 2326.1,
    "website": "https://qviewaz.com",
    "phone": "(928) 927-4393 (site says this line is temporarily down; temporary number 501-691-5757)",
@@ -3715,10 +3575,12 @@
     "https://www.openstreetmap.org/way/580289688"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.4,
    "supersedes": [
     "B-10 Campground (B10 RV Park & Campground)"
    ],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.4
   },
   {
    "name": "La Posa LTVA (North/South/West/Tyson Wash)",
@@ -3727,7 +3589,7 @@
    "priceNote": "In season (Sept 15-Apr 15) the cheapest legal permit is the $40 short-visit permit covering any 14 consecutive days; there's no one-night rate. The long-term permit is $180. A 2024 BLM plan proposed $200/$600, but I found no sign it was adopted.",
    "lat": 33.627,
    "lng": -114.221,
-   "locationNote": "US 95 south of I-10, Quartzsite, AZ 85346. Coordinates are the Tyson Wash host station, where permits are sold. — 2.5 mi off the I-10 line at corridor mile 184 from Casa Grande. About 2 miles south of Quartzsite on US 95 (from I-10 exit 17), with four sub-areas. Permits are sold at the entrance host station. Dirt roads inside, reported rough after the 2026 flooding.",
+   "locationNote": "US 95 south of I-10, Quartzsite, AZ 85346. Coordinates are the Tyson Wash host station, where permits are sold. — 3.6 mi off the I-10 line at corridor mile 184 from Casa Grande. About 2 miles south of Quartzsite on US 95 (from I-10 exit 17), with four sub-areas. Permits are sold at the entrance host station. Dirt roads inside, reported rough after the 2026 flooding.",
    "routeMile": 2326.1,
    "website": "https://www.blm.gov/visit/la-posa-long-term-visitor-area",
    "phone": "(928) 317-3200 (BLM Yuma Field Office)",
@@ -3752,10 +3614,12 @@
     "https://www.blm.gov/visit/midland-long-term-visitor-area"
    ],
    "maxOffMi": 13,
+   "detourMi": 3.6,
    "supersedes": [
     "La Posa LTVA (West/North/South)"
    ],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 3.6
   },
   {
    "name": "Road Runner BLM 14-day camping area",
@@ -3764,7 +3628,7 @@
    "priceNote": "Free, 14-day limit. A host issues free permits in season.",
    "lat": 33.58106,
    "lng": -114.22073,
-   "locationNote": "La Paz Valley Rd, Quartzsite, AZ 85346 — 6 mi off the I-10 line at corridor mile 184 from Casa Grande. About 6 miles south of I-10 on US 95 to milepost 99, then just west via N 53rd St / La Paz Valley Rd. Hard-packed gravel, with a steep drop-off at the road edge.",
+   "locationNote": "La Paz Valley Rd, Quartzsite, AZ 85346 — 6.5 mi off the I-10 line at corridor mile 184 from Casa Grande. About 6 miles south of I-10 on US 95 to milepost 99, then just west via N 53rd St / La Paz Valley Rd. Hard-packed gravel, with a steep drop-off at the road edge.",
    "routeMile": 2326.5,
    "website": "https://maps.campendium.com/us/quartzsite-az/nature/road-runner-camping-area",
    "phone": "(928) 317-3200 (BLM Yuma Field Office)",
@@ -3783,13 +3647,15 @@
     "https://www.openstreetmap.org/way/1259580909"
    ],
    "maxOffMi": 13,
+   "detourMi": 6.5,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 6.5
   },
   {
    "name": "Desert Gardens RV Park (Sky Resorts)",
    "type": "rv_park",
-   "price": 36,
+   "price": null,
    "priceNote": "Tent rate not published. RV sites start at $36/night (Good Sam).",
    "lat": 33.65466,
    "lng": -114.23756,
@@ -3813,8 +3679,10 @@
     "https://desertgardenspark.com/rules"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.5
   },
   {
    "name": "Gunny's RV Park & Military Museum",
@@ -3825,9 +3693,9 @@
    "lng": -114.2288,
    "locationNote": "Quartzsite, AZ (north side of town) — 1 mi off the I-10 line at corridor mile 186 from Casa Grande. Paved, in town.",
    "routeMile": 2327.6,
-   "website": "unknown",
-   "phone": "unknown",
-   "booking": "unknown",
+   "website": null,
+   "phone": null,
+   "booking": "unknown · unknown",
    "tentsOk": null,
    "water": null,
    "showers": null,
@@ -3840,8 +3708,10 @@
     "https://thedyrt.com/camping/arizona/gunny-s-rv-park-military-museum"
    ],
    "maxOffMi": 13,
+   "detourMi": 1,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 1
   },
   {
    "name": "La Paz RV Park",
@@ -3852,7 +3722,7 @@
    "lng": -114.24521,
    "locationNote": "52301 Century, Quartzsite, AZ (about 5 mi south on US 95) — 5.8 mi off the I-10 line at corridor mile 188 from Casa Grande. Paved US 95 south about 5 mi.",
    "routeMile": 2329.6,
-   "website": "unknown",
+   "website": null,
    "phone": "(928) 927-9754",
    "booking": "unknown",
    "tentsOk": null,
@@ -3867,8 +3737,10 @@
     "https://www.openstreetmap.org/way/753519451"
    ],
    "maxOffMi": 13,
+   "detourMi": 5.8,
    "supersedes": [],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 5.8
   },
   {
    "name": "Dome Rock Mountain BLM 14-day camping area",
@@ -3900,10 +3772,12 @@
     "https://www.openstreetmap.org/way/751581480"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.6,
    "supersedes": [
     "Dome Rock BLM 14-Day Camping Area"
    ],
-   "researchDay": 1054
+   "researchDay": 1054,
+   "offRouteMi": 0.8
   },
   {
    "name": "Ehrenberg–Cibola Road BLM Dispersed Camping",
@@ -3931,19 +3805,21 @@
     "https://www.blm.gov/visit/ehrenberg-sandbowl"
    ],
    "maxOffMi": 13,
+   "detourMi": 3.5,
    "supersedes": [],
-   "researchDay": 1055
+   "researchDay": 1055,
+   "offRouteMi": 3.5
   },
   {
    "name": "Villa Verde RV & Mobile Park",
    "type": "rv_park",
-   "price": 21,
+   "price": null,
    "priceNote": "Unknown. $21 was reported earlier and $40 cash in 2022.",
    "lat": 33.60608,
    "lng": -114.52205,
    "locationNote": "50221 Ehrenberg-Poston Hwy, Ehrenberg, AZ 85334 — 0.2 mi off the I-10 line at corridor mile 203 from Casa Grande. Paved. I-10 exit 1, then 1/4 mi north on Poston Rd and 1/8 mi west.",
    "routeMile": 2345.4,
-   "website": "unknown",
+   "website": null,
    "phone": "(928) 923-7911",
    "booking": "Pay cash at the office. A 2022 camper said the office staff disappeared.",
    "tentsOk": null,
@@ -3959,8 +3835,10 @@
     "https://maps.campendium.com/us/ehrenberg-az/camping-rv/villa-verde-rv-mobile-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.2,
    "supersedes": [],
-   "researchDay": 1055
+   "researchDay": 1055,
+   "offRouteMi": 0.2
   },
   {
    "name": "Ehrenberg Sandbowl (BLM OHV area)",
@@ -3987,13 +3865,15 @@
     "https://thedyrt.com/camping/arizona/the-sandbowl"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.7,
    "supersedes": [],
-   "researchDay": 1055
+   "researchDay": 1055,
+   "offRouteMi": 1.7
   },
   {
    "name": "Arizona Oasis RV Resort",
    "type": "rv_park",
-   "price": 63,
+   "price": null,
    "priceNote": "No tent rate published. RV sites run $63–115.",
    "lat": 33.60602,
    "lng": -114.52386,
@@ -4017,8 +3897,10 @@
     "https://thedyrt.com/camping/arizona/arizona-oasis-rv-resort"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.2,
    "supersedes": [],
-   "researchDay": 1055
+   "researchDay": 1055,
+   "offRouteMi": 0.2
   },
   {
    "name": "Levee Road BLM Dispersed Camping (Colorado River, AZ side)",
@@ -4044,8 +3926,10 @@
     "https://maps.campendium.com/us/ehrenberg-az/nature/levee-road-dispersed-camping"
    ],
    "maxOffMi": 13,
+   "detourMi": 8.5,
    "supersedes": [],
-   "researchDay": 1055
+   "researchDay": 1055,
+   "offRouteMi": 8.5
   },
   {
    "name": "McIntyre RV Resort (Peter McIntyre County Park)",
@@ -4054,7 +3938,7 @@
    "priceNote": "Standard tent site from $38/night, beachfront tent site from $43 (Campspot, Nov 2026). A 30-amp RV site is $50 if you need power.",
    "lat": 33.51562,
    "lng": -114.5655,
-   "locationNote": "8750 Peter D McIntyre Ave, Blythe, CA 92225 — 6.6 mi off the I-10 line at corridor mile 204 from Casa Grande. All paved. From Hobsonway at Intake Blvd, go south on Intake Blvd under I-10 for about 6 mi, then turn left onto Peter D McIntyre Ave (asphalt). About 6.6 mi one way.",
+   "locationNote": "8750 Peter D McIntyre Ave, Blythe, CA 92225 — 7.5 mi off the I-10 line at corridor mile 204 from Casa Grande. All paved. From Hobsonway at Intake Blvd, go south on Intake Blvd under I-10 for about 6 mi, then turn left onto Peter D McIntyre Ave (asphalt). About 6.6 mi one way.",
    "routeMile": 2346.1,
    "website": "https://www.mcintyreresort.com/",
    "phone": "(760) 922-8205",
@@ -4074,8 +3958,10 @@
     "https://thedyrt.com/camping/california/destiny-mc-intyre-rv-resort"
    ],
    "maxOffMi": 13,
+   "detourMi": 7.5,
    "supersedes": [],
-   "researchDay": 1055
+   "researchDay": 1055,
+   "offRouteMi": 7.5
   },
   {
    "name": "The Cove RV Resort (formerly Riviera RV Resort)",
@@ -4084,7 +3970,7 @@
    "priceNote": "Tent rate by phone. RV sites are $60/night plus Blythe's 10% lodging tax.",
    "lat": 33.6038,
    "lng": -114.53586,
-   "locationNote": "500 Riviera Dr, Blythe, CA 92225 — 0.4 mi off the I-10 line at corridor mile 204 from Casa Grande. Paved. Just over the Colorado River on the California side, at Riviera Dr (I-10 exit 243). It is 0.1–0.5 mi from where the bike/foot bridge and I-10 land. One reviewer called the access road 'sketchy'.",
+   "locationNote": "500 Riviera Dr, Blythe, CA 92225 — 0.5 mi off the I-10 line at corridor mile 204 from Casa Grande. Paved. Just over the Colorado River on the California side, at Riviera Dr (I-10 exit 243). It is 0.1–0.5 mi from where the bike/foot bridge and I-10 land. One reviewer called the access road 'sketchy'.",
    "routeMile": 2346.2,
    "website": "https://www.thecovervresort.com/",
    "phone": "(760) 922-5350",
@@ -4103,8 +3989,10 @@
     "https://maps.campendium.com/us/blythe-ca/camping-rv/the-cove-rv-resort"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1055
+   "researchDay": 1055,
+   "offRouteMi": 0.5
   },
   {
    "name": "Mayflower County Park (Riverside County)",
@@ -4113,7 +4001,7 @@
    "priceNote": "Tent or dry site about $35 (2023 dry-camp rate) and possibly higher now. Sites with water and electric were $49 in Sept 2026. Booking yourself online added an $8 fee in 2023.",
    "lat": 33.67116,
    "lng": -114.53396,
-   "locationNote": "4980 Colorado River Rd, Blythe, CA 92225 — 6.7 mi off the I-10 line at corridor mile 205 from Casa Grande. All paved. From Hobsonway at Intake Blvd, go north on Intake Blvd (US 95) about 3.3 mi, east on 6th Ave 2.5 mi, then follow Colorado River Rd 0.5 mi to its end in the park. About 6.7 mi one way.",
+   "locationNote": "4980 Colorado River Rd, Blythe, CA 92225 — 7.8 mi off the I-10 line at corridor mile 205 from Casa Grande. All paved. From Hobsonway at Intake Blvd, go north on Intake Blvd (US 95) about 3.3 mi, east on 6th Ave 2.5 mi, then follow Colorado River Rd 0.5 mi to its end in the park. About 6.7 mi one way.",
    "routeMile": 2347.2,
    "website": "https://www.rivcoparks.org/",
    "phone": "(760) 922-4665",
@@ -4131,8 +4019,10 @@
     "https://thedyrt.com/camping/california/california-mayflower-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 7.8,
    "supersedes": [],
-   "researchDay": 1055
+   "researchDay": 1055,
+   "offRouteMi": 7.8
   },
   {
    "name": "BLM land at Wiley's Well Rd, I-10 exit 222 (beside Wiley's Well Rest Area)",
@@ -4150,7 +4040,7 @@
    "water": true,
    "showers": false,
    "toilets": true,
-   "legalityNote": "BLM land open to camping (check the posted stay limit)",
+   "legalityNote": "Legality not confirmed: read the notes before you pitch",
    "cyclistIntel": "Not a documented campsite; legal by land status. The BLM surface-management map shows BLM on every side of the interchange, inside Chuckwalla National Monument, and OSM shows no solar fencing here. It is the only spot between Blythe and Chiriaco where a dry camp sits beside water and toilets. It is 10 mi past the last store (BB Travel Center, exit 232) and 50 mi before Chiriaco. Two state prisons are 3 mi south, so stay north of I-10. Check for 'closed to camping' signs. Caltrans plans a rest-area water rebuild with no dates announced.",
    "seasonalNote": "Open in November 2026.",
    "confidence": "low",
@@ -4160,8 +4050,10 @@
     "https://www.blm.gov/visit/wileys-well-campground"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.4,
    "supersedes": [],
-   "researchDay": 1056
+   "researchDay": 1056,
+   "offRouteMi": 0.8
   },
   {
    "name": "Wiley's Well Campground (Mule Mountain LTVA, BLM)",
@@ -4190,8 +4082,10 @@
     "https://maps.campendium.com/us/blythe-ca/camping-rv/wileys-well-ltva-campground"
    ],
    "maxOffMi": 13,
+   "detourMi": 9,
    "supersedes": [],
-   "researchDay": 1056
+   "researchDay": 1056,
+   "offRouteMi": 9
   },
   {
    "name": "BLM land at Corn Springs Rd, I-10 exit 201 (south-west of the interchange)",
@@ -4218,8 +4112,10 @@
     "https://www.openstreetmap.org/relation/14297872"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1057
+   "researchDay": 1057,
+   "offRouteMi": 0.6
   },
   {
    "name": "Corn Springs Campground (BLM)",
@@ -4246,8 +4142,10 @@
     "https://maps.campendium.com/us/desert-center-ca/points-of-interest/corn-springs-campground-ca"
    ],
    "maxOffMi": 13,
+   "detourMi": 7.8,
    "supersedes": [],
-   "researchDay": 1057
+   "researchDay": 1057,
+   "offRouteMi": 7.8
   },
   {
    "name": "BLM land south of Desert Center, I-10 exit 192",
@@ -4274,8 +4172,10 @@
     "https://www.openstreetmap.org/relation/20052425"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.6,
    "supersedes": [],
-   "researchDay": 1057
+   "researchDay": 1057,
+   "offRouteMi": 0.6
   },
   {
    "name": "BLM land north of Eagle Mountain Rd, I-10 exit 189",
@@ -4301,8 +4201,10 @@
     "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1057
+   "researchDay": 1057,
+   "offRouteMi": 0.5
   },
   {
    "name": "Red Cloud Mine Road Dispersed Camping (BLM)",
@@ -4329,8 +4231,10 @@
     "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.9,
    "supersedes": [],
-   "researchDay": 1058
+   "researchDay": 1058,
+   "offRouteMi": 0.9
   },
   {
    "name": "Chiriaco Summit - Patton Museum Dry Camp Area",
@@ -4360,8 +4264,10 @@
     "https://www.countribike.com/archives/biking-interstate-10-california"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.3,
    "supersedes": [],
-   "researchDay": 1058
+   "researchDay": 1058,
+   "offRouteMi": 0.3
   },
   {
    "name": "Joshua Tree South BLM Dispersed Camping (Cottonwood Springs Rd)",
@@ -4390,8 +4296,10 @@
     "https://gis.blm.gov/arcgis/rest/services/lands/BLM_Natl_SMA_LimitedScale/MapServer"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.4,
    "supersedes": [],
-   "researchDay": 1058
+   "researchDay": 1058,
+   "offRouteMi": 0.5
   },
   {
    "name": "Cottonwood Campground (Joshua Tree National Park)",
@@ -4420,125 +4328,76 @@
     "https://developer.nps.gov/api/v1/alerts?parkCode=jotr"
    ],
    "maxOffMi": 13,
+   "detourMi": 7,
    "supersedes": [],
-   "researchDay": 1058
+   "researchDay": 1058,
+   "offRouteMi": 7
   },
   {
-   "name": "Salton Sea SRA - Headquarters / New Camp (hike-and-bike sites)",
-   "type": "state_park",
-   "price": 20,
-   "priceNote": "Developed tent site $20/night; primitive $10; hookup $30. Hike-and-bike sites are listed but no fee is posted; in 2016 the host told a cyclist to take any site.",
-   "lat": 33.5015,
-   "lng": -115.912,
-   "locationNote": "100-225 State Park Rd, Mecca, CA 92254 — 11.4 mi off the I-10 line at corridor mile 285 from Casa Grande. Paved and flat, at -230 ft. From Mecca take 66th Ave/Lincoln St to Hwy 111 south, about 11.6 mi each way; a 2016 rider reported a wide, clean shoulder. This is on the hybrid line's CA 111 route.",
-   "routeMile": 2427.5,
-   "website": "https://www.parks.ca.gov/?page_id=639",
-   "phone": "760-393-3052",
-   "booking": "ReserveCalifornia Oct-May; on Nov 1 it showed availability for every start date Nov 4-16. The campground is open 24 h; the visitor center 9-4.",
+   "name": "BLM Mecca Hills – Painted Canyon Rd dispersed camping",
+   "type": "dispersed",
+   "price": 0,
+   "priceNote": "Free (BLM limit: 14 days in any 28)",
+   "lat": 33.61177077,
+   "lng": -116.00870075,
+   "locationNote": "Painted Canyon Rd off Box Canyon Rd, Mecca, CA 92254 — 4.8 mi off the I-10 line at corridor mile 292 from Casa Grande. From Mecca, about 4.5 mi NE on paved Box Canyon Rd (gradual climb), then Painted Canyon Rd: 1–4.5 mi of soft, deep sand wash where cars need 4WD. On a loaded bike that is mostly pushing. BLM: Box Canyon Rd has been CLOSED from Pinto Rd to Painted Canyon Rd since Oct 21, 2026 (flood damage from Post-Tropical Cyclone Rachel), so the pull-offs east of the Painted Canyon Rd junction are cut off.",
+   "routeMile": 2433.8,
+   "website": "https://www.blm.gov/visit/mecca-hills-wilderness",
+   "phone": "760-833-7100 (BLM Palm Springs-South Coast Field Office)",
+   "booking": "None.",
    "tentsOk": true,
-   "water": true,
-   "showers": true,
+   "water": false,
+   "showers": false,
    "toilets": true,
-   "legalityNote": null,
-   "cyclistIntel": "CA State Parks restrictions (checked 11/1/2026) say the main campground is open; Mecca Beach and Bombay Beach are closed. Showers and potable water are mapped at New Camp. Freight trains beside Hwy 111 run all night. It is 12 mi off the variant each way, so it only makes sense on the hybrid's Salton Sea line.",
-   "seasonalNote": "Open in November 2026.",
-   "confidence": "high",
+   "legalityNote": "Legality not confirmed: read the notes before you pitch",
+   "cyclistIntel": "Camp only along the non-wilderness road corridor: bicycles are banned inside the wilderness. Pit toilets halfway up Painted Canyon Rd (2025). Recreational shooting nearby. The sand wash was probably damaged by the storm. Last resort only.",
+   "seasonalNote": "November 2026 status not confirmed.",
+   "confidence": "low",
    "sources": [
-    "https://www.parks.ca.gov/?page_id=639",
-    "https://www.openstreetmap.org/node/6074578181",
-    "https://www.openstreetmap.org/node/11034435338",
-    "https://cycleblaze.com/journals/salton2016/day-1-29-february-2016-indio-to-salton-sea-state-recreation-area-i-dream-of-gardens-in-the-desert-sand"
+    "https://www.blm.gov/visit/mecca-hills-wilderness",
+    "https://thedyrt.com/camping/california/california-painted-canyon",
+    "https://thedyrt.com/camping/california/painted-canyon",
+    "https://thedyrt.com/camping/california/california-box-canyon-dispersed"
    ],
    "maxOffMi": 13,
+   "detourMi": 4.8,
    "supersedes": [],
-   "researchDay": 1058
+   "researchDay": 1059,
+   "offRouteMi": 4.8
   },
   {
-   "name": "Forsythe Equestrian Club (Hipcamp)",
-   "type": "private_campground",
-   "price": 75,
-   "priceNote": "$75/night for the site, $88.30 with Hipcamp fees. Tent or RV site with 30A power, water and septic hookups.",
-   "lat": 33.64957,
-   "lng": -116.22448,
-   "locationNote": "Vista Santa Rosa, south of Indio/Coachella (exact address after booking) — 6.3 mi off the I-10 line at corridor mile 303 from Casa Grande. Paved and flat. About 6.3 mi south of the line in Indio via Jackson St, Monroe St and Ave 54 to Vista Santa Rosa (bike router). The exact address comes after booking.",
-   "routeMile": 2445.5,
-   "website": "https://www.hipcamp.com/en-US/land/california-forsythe-equestrian-club-6p0hl12j",
-   "phone": "unknown (message the host through Hipcamp)",
-   "booking": "Hipcamp Instant Book. A 3-night minimum applies only on the Apr 2027 Coachella festival weekends.",
-   "tentsOk": true,
-   "water": true,
-   "showers": true,
-   "toilets": null,
-   "legalityNote": null,
-   "cyclistIntel": "A 20-acre horse property 2.7 mi from the Coachella festival grounds, quiet at night. Expensive for one tent, but it is instant-book with showers and power. 93% recommend (20 ratings, 39 bookings).",
-   "seasonalNote": "Open in November 2026.",
-   "confidence": "medium",
-   "sources": [
-    "https://www.hipcamp.com/en-US/land/california-forsythe-equestrian-club-6p0hl12j",
-    "https://www.hipcamp.com/en-US/d/united-states/california/indio/camping/all"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1059
-  },
-  {
-   "name": "Lake Cahuilla Veterans Regional Park (Riverside County)",
-   "type": "county_park",
-   "price": 20,
-   "priceNote": "Unknown for 2026. Primitive/dry sites were about $20 in 2023; an Apr 2026 review put hookup sites at about $45 on weeknights and $75 Fri-Sun. Showers take a few quarters.",
-   "lat": 33.629103,
-   "lng": -116.277645,
-   "locationNote": "58075 Jefferson St, La Quinta, CA 92253 — 10 mi off the I-10 line at corridor mile 306 from Casa Grande. Paved and flat. About 10 mi south-west of central Indio by the bike router (Jackson/Monroe/Jefferson St to Avenue 58), or about 9.4 mi from the Mecca variant near Thermal (variant mile ~33). Over 10 mi, but there is no closer public campground in Indio.",
-   "routeMile": 2448.5,
-   "website": "https://www.rivcoparks.org",
-   "phone": "(760) 564-4712",
-   "booking": "Riverside County Parks online reservations or phone. Rarely full midweek. 14-night max. Late-arrival rules unknown.",
-   "tentsOk": true,
-   "water": true,
-   "showers": true,
-   "toilets": true,
-   "legalityNote": null,
-   "cyclistIntel": "A proper campground with hot coin showers and a seasonal pool. Primitive sites sit on the concrete-lined reservoir (no swimming). The sheriff's gun range across the lake is loud by day, and it gets dusty in wind. The latest review (Apr 2026) is positive. A ~20-mi round trip, so best for a rest/shower day.",
-   "seasonalNote": "Open in November 2026.",
-   "confidence": "medium",
-   "sources": [
-    "https://maps.campendium.com/us/la-quinta-ca/camping-rv/lake-cahuilla-recreation-area",
-    "https://thedyrt.com/camping/california/california-lake-cahuilla-county-park",
-    "https://www.openstreetmap.org/way/44486294"
-   ],
-   "maxOffMi": 13,
-   "supersedes": [],
-   "researchDay": 1060
-  },
-  {
-   "name": "Shadow Hills RV Resort (Desert Glamping Oasis tent spaces)",
+   "name": "Shadow Hills RV Resort",
    "type": "rv_park",
-   "price": 42,
-   "priceNote": "Tent rate not published. The Dyrt shows rates from $42/night, which is probably the tent space but that is not confirmed. RV sites run about $65 (Campendium, Jun 2026). Tent spaces are about 10x20 ft with an outdoor power outlet and fresh water, plus use of the resort (heated pool, hot tub, showers, laundry).",
-   "lat": 33.75336,
-   "lng": -116.26913,
-   "locationNote": "40655 Jefferson St, Indio, CA 92203 — 0.5 mi off the I-10 line at corridor mile 311 from Casa Grande. Paved and flat. About 0.4 mi off the line where it crosses Jefferson St in north Indio, just south of I-10. Gated resort.",
+   "price": 39,
+   "priceNote": "Hipcamp from $39/night plus fees; the lowest rate, probably the tent site. 21 grass tent sites, 10 × 20 ft, no tent supplied.",
+   "lat": 33.75390031,
+   "lng": -116.26919018,
+   "locationNote": "40655 Jefferson St, Indio, CA 92203 — 1.2 mi off the I-10 line at corridor mile 311 from Casa Grande. Half a mile off the line in north Indio: Jefferson St at Varner Rd, near I-10.",
    "routeMile": 2452.8,
    "website": "https://shadowhillsrvresort.com/",
    "phone": "(760) 360-4040",
-   "booking": "Book online with the resort's 'Book Now' button (Newbook) or by phone or office@shadowhillsrvresort.com. Office hours and late-arrival rules are not published, so call ahead. Bookings cancelled 29 days or less before arrival are not refunded.",
+   "booking": "Hipcamp instant book, same day OK (0 hours' notice), or call. Check in on arrival.",
    "tentsOk": true,
    "water": true,
    "showers": true,
    "toilets": true,
    "legalityNote": null,
-   "cyclistIntel": "The best tent spot in the Coachella Valley: the operator's 'Ways to Stay' page and FAQ both list tent sites ('Desert Glamping Oasis' spaces by the ponds and walking trail), and tent guests get full use of the resort. It sits right on the line at the east end of the valley. Reviews mention some noise from the local road and the freeway. Good last night before the 30-mi stretch through Palm Desert and Palm Springs, where there is no on-line campground confirmed to take tents.",
+   "cyclistIntel": "The operator advertises tent sites. Restrooms are a short walk, showers free (2021 review). Pool and spa, laundry, wifi, gated. Can be very windy. Sites by Jefferson St get road noise. Best confirmed tent spot in Indio, at the end of this segment.",
    "seasonalNote": "Open in November 2026.",
    "confidence": "high",
    "sources": [
+    "https://shadowhillsrvresort.com/",
+    "https://www.hipcamp.com/en-US/land/california-shadow-hills-rv-resort-r57hwz91",
+    "https://thedyrt.com/camping/california/shadow-hills-rv-resort",
     "https://shadowhillsrvresort.com/ways-to-stay/",
     "https://shadowhillsrvresort.com/frequently-asked-questions/",
-    "https://maps.campendium.com/us/indio-ca/accommodation/shadow-hills-rv-resort",
-    "https://thedyrt.com/camping/california/shadow-hills-rv-resort"
+    "https://maps.campendium.com/us/indio-ca/accommodation/shadow-hills-rv-resort"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.2,
    "supersedes": [],
-   "researchDay": 1060
+   "researchDay": 1060,
+   "offRouteMi": 1.2
   },
   {
    "name": "Thousand Trails Palm Springs RV Resort",
@@ -4566,19 +4425,21 @@
     "https://thedyrt.com/camping/california/thousand-trails-palm-springs"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.6,
    "supersedes": [],
-   "researchDay": 1060
+   "researchDay": 1060,
+   "offRouteMi": 0.6
   },
   {
    "name": "Palm Springs Oasis RV Resort",
    "type": "rv_park",
-   "price": 95,
+   "price": null,
    "priceNote": "No tent rate. Non-member RV site about $95 (Jan 2024 review).",
    "lat": 33.78618,
    "lng": -116.45702,
    "locationNote": "36100 Date Palm Dr, Cathedral City, CA 92234 — 0.5 mi off the I-10 line at corridor mile 323 from Casa Grande. Paved and flat. On Date Palm Dr in Cathedral City, about 0.4 mi off the line.",
    "routeMile": 2464.8,
-   "website": "unknown",
+   "website": null,
    "phone": "(760) 328-4813",
    "booking": "Thousand Trails/Encore booking; ask by phone.",
    "tentsOk": null,
@@ -4594,13 +4455,15 @@
     "https://thedyrt.com/camping/california/palm-springs-oasis-rv-resort"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.5,
    "supersedes": [],
-   "researchDay": 1061
+   "researchDay": 1061,
+   "offRouteMi": 0.5
   },
   {
    "name": "Happy Traveler RV Park (aka Happy Traveller)",
    "type": "rv_park",
-   "price": 100,
+   "price": null,
    "priceNote": "No tent rate published (call for rates). RV sites about $100 (Nov 2025).",
    "lat": 33.80844,
    "lng": -116.547024,
@@ -4622,8 +4485,10 @@
     "https://maps.campendium.com/us/palm-springs-ca/camping-rv/happy-traveler-rv-park-palm-springs-ca"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.4,
    "supersedes": [],
-   "researchDay": 1061
+   "researchDay": 1061,
+   "offRouteMi": 1.4
   },
   {
    "name": "DragonflyHill Desert Farm (Hipcamp)",
@@ -4635,8 +4500,8 @@
    "locationNote": "21st Ave area between Palm Springs and Desert Hot Springs (exact address after booking) — 9.6 mi off the I-10 line at corridor mile 332 from Casa Grande. About 9.6 mi from the line in north Palm Springs (N Palm Canyon at Via Escuela) via Gene Autry Trail, 20th Ave, Mountain View Rd and Long Canyon Rd/21st Ave (bike router). The last mile is a maintained dirt road. About 200-250 ft of net climbing (to about 770 ft). The host sends directions because phone GPS is often wrong.",
    "routeMile": 2473.8,
    "website": "https://www.hipcamp.com/en-US/land/california-dragonflyhill-desert-farm-7rvhrwxv",
-   "phone": "unknown (message the host through Hipcamp)",
-   "booking": "Request to book (not instant). The host approves, then emails registration and waiver forms, and gives a 15-minute orientation on arrival. Full refund if you cancel 3 or more days ahead. Request at least a day or two before you arrive.",
+   "phone": null,
+   "booking": "Request to book (not instant). The host approves, then emails registration and waiver forms, and gives a 15-minute orientation on arrival. Full refund if you cancel 3 or more days ahead. Request at least a day or two before you arrive. · unknown (message the host through Hipcamp)",
    "tentsOk": true,
    "water": true,
    "showers": true,
@@ -4650,8 +4515,10 @@
     "https://www.hipcamp.com/en-US/d/united-states/california/desert-hot-springs/camping/all"
    ],
    "maxOffMi": 13,
+   "detourMi": 9.6,
    "supersedes": [],
-   "researchDay": 1061
+   "researchDay": 1061,
+   "offRouteMi": 9.6
   },
   {
    "name": "Palm Springs / Joshua Tree KOA",
@@ -4678,8 +4545,10 @@
     "https://maps.campendium.com/us/desert-hot-springs-ca/camping-rv/palm-springs-joshua-tree-koa"
    ],
    "maxOffMi": 13,
+   "detourMi": 11.7,
    "supersedes": [],
-   "researchDay": 1061
+   "researchDay": 1061,
+   "offRouteMi": 11.7
   },
   {
    "name": "Joshua Tree, Palm Springs, Coachella Adjacent (private campground, The Dyrt)",
@@ -4705,13 +4574,15 @@
     "https://thedyrt.com/camping/california/joshua-tree-palm-springs-coachella-adjacent"
    ],
    "maxOffMi": 13,
+   "detourMi": 11.1,
    "supersedes": [],
-   "researchDay": 1061
+   "researchDay": 1061,
+   "offRouteMi": 11.1
   },
   {
    "name": "Catalina Spa & RV Resort",
    "type": "rv_park",
-   "price": 0,
+   "price": null,
    "priceNote": "No tent rate. RV sites from $45/night with free electricity and water (operator site, 2026).",
    "lat": 33.91313,
    "lng": -116.44012,
@@ -4734,8 +4605,10 @@
     "https://thedyrt.com/camping/california/catalina-spa-and-rv-resort"
    ],
    "maxOffMi": 13,
+   "detourMi": 10.4,
    "supersedes": [],
-   "researchDay": 1061
+   "researchDay": 1061,
+   "offRouteMi": 10.4
   },
   {
    "name": "Windy Point x Palm Springs (Hipcamp off-grid lot)",
@@ -4747,8 +4620,8 @@
    "locationNote": "Palm Oasis Ave area, Windy Point, north Palm Springs (exact address after booking) — 0.6 mi off the I-10 line at corridor mile 337 from Casa Grande. Paved and flat. Just off CA-111 at Windy Point via Overture Dr/Palm Oasis Ave, about 0.5 mi off the line. You enter over a 6-inch curb.",
    "routeMile": 2479.2,
    "website": "https://www.hipcamp.com/en-US/land/california-windy-point-x-palm-springs-zwjh1xjx",
-   "phone": "unknown (message the host through Hipcamp)",
-   "booking": "Hipcamp Instant Book. The host sends a custom wind report before your stay.",
+   "phone": null,
+   "booking": "Hipcamp Instant Book. The host sends a custom wind report before your stay. · unknown (message the host through Hipcamp)",
    "tentsOk": true,
    "water": false,
    "showers": false,
@@ -4761,8 +4634,10 @@
     "https://www.hipcamp.com/en-US/land/california-windy-point-x-palm-springs-zwjh1xjx"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.6,
    "supersedes": [],
-   "researchDay": 1061
+   "researchDay": 1061,
+   "offRouteMi": 0.6
   },
   {
    "name": "BLM land along lower Whitewater Canyon Rd (Sand to Snow NM), unverified dispersed camping",
@@ -4780,7 +4655,7 @@
    "water": false,
    "showers": false,
    "toilets": false,
-   "legalityNote": "BLM land open to camping (check the posted stay limit)",
+   "legalityNote": "Legality not confirmed: read the notes before you pitch",
    "cyclistIntel": "The BLM land-status map shows BLM parcels beside the lower canyon road inside Sand to Snow National Monument. The monument page sends campers to BLM's general dispersed-camping rules but says nothing about this canyon, and no camper or rider report was found. Last resort only, for example if you miss the preserve's 4:15 pm check-in. Stay out of sight of homes and make no fire. The pass mouth is very windy.",
    "seasonalNote": "November 2026 status not confirmed.",
    "confidence": "low",
@@ -4789,8 +4664,10 @@
     "https://www.blm.gov/programs/national-conservation-lands/california/sand-to-snow-national-monument"
    ],
    "maxOffMi": 13,
+   "detourMi": 5,
    "supersedes": [],
-   "researchDay": 1062
+   "researchDay": 1062,
+   "offRouteMi": 5
   },
   {
    "name": "Whitewater Preserve campground (Wildlands Conservancy)",
@@ -4818,8 +4695,10 @@
     "https://maps.campendium.com/us/whitewater-ca/nature/whitewater-wilderness-preserve"
    ],
    "maxOffMi": 13,
+   "detourMi": 7.5,
    "supersedes": [],
-   "researchDay": 1062
+   "researchDay": 1062,
+   "offRouteMi": 7.5
   },
   {
    "name": "Cabazon Escape (private lot, The Dyrt)",
@@ -4845,8 +4724,10 @@
     "https://thedyrt.com/camping/california/cabazon-escape-ca"
    ],
    "maxOffMi": 13,
+   "detourMi": 3.5,
    "supersedes": [],
-   "researchDay": 1062
+   "researchDay": 1062,
+   "offRouteMi": 3.5
   },
   {
    "name": "Silent Valley Club (membership RV resort)",
@@ -4858,8 +4739,8 @@
    "locationNote": "Poppet Flats Rd off CA-243, south of Banning — 10.6 mi off the I-10 line at corridor mile 353 from Casa Grande. Paved but a big climb. About 9 mi south up CA-243 (San Gorgonio Ave) from Banning, then about 1 mi west on Poppet Flats Rd (10.6 mi by bike router). Net climb about 1,250 ft, to roughly 3,580 ft. Not practical on a loaded bike.",
    "routeMile": 2494.9,
    "website": "https://thedyrt.com/camping/california/silent-valley-club",
-   "phone": "unknown",
-   "booking": "Membership basis; whether non-members can stay is not stated.",
+   "phone": null,
+   "booking": "Membership basis; whether non-members can stay is not stated. · unknown",
    "tentsOk": null,
    "water": true,
    "showers": true,
@@ -4873,8 +4754,10 @@
     "https://www.openstreetmap.org/way/104107044"
    ],
    "maxOffMi": 13,
+   "detourMi": 10.6,
    "supersedes": [],
-   "researchDay": 1063
+   "researchDay": 1063,
+   "offRouteMi": 10.6
   },
   {
    "name": "Banning Stagecoach KOA",
@@ -4902,13 +4785,15 @@
     "https://www.openstreetmap.org/way/103627770"
    ],
    "maxOffMi": 13,
+   "detourMi": 1,
    "supersedes": [],
-   "researchDay": 1063
+   "researchDay": 1063,
+   "offRouteMi": 1
   },
   {
    "name": "Country Hills RV Park",
    "type": "rv_park",
-   "price": 68,
+   "price": null,
    "priceNote": "No tent rate. Full-hookup RV site $68/night for 2 people, plus a one-time $15 resort fee (operator site, 2026). Showers take quarters.",
    "lat": 33.908394,
    "lng": -116.966125,
@@ -4932,8 +4817,10 @@
     "https://maps.campendium.com/us/beaumont-ca/camping-rv/country-hills-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.7,
    "supersedes": [],
-   "researchDay": 1064
+   "researchDay": 1064,
+   "offRouteMi": 1.7
   },
   {
    "name": "Noble Creek Regional Park RV campground (Beaumont-Cherry Valley Recreation and Park District)",
@@ -4963,8 +4850,10 @@
     "https://www.bcvparks.com/no-campfires-at-bogart-regional-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 0.8,
    "supersedes": [],
-   "researchDay": 1064
+   "researchDay": 1064,
+   "offRouteMi": 0.8
   },
   {
    "name": "Bogart Regional Park campground (Cherry Valley)",
@@ -4973,7 +4862,7 @@
    "priceNote": "$35/night (sites 1-30); pets $2/day (district fee page).",
    "lat": 33.98715,
    "lng": -116.95412,
-   "locationNote": "9600 International Park Rd (Cherry Ave), Cherry Valley, CA 92223 — 2.3 mi off the I-10 line at corridor mile 362 from Casa Grande. Paved, with about 400 ft of climbing (2,785 to 3,180 ft). From the line at Beaumont Ave and Cherry Valley Blvd, ride 2.3 mi via Cherry Valley Blvd, Live Oak Ave, Vineland/Noble/Dutton St and Cherry Ave (bike router). It is about 2 mi past the segment end.",
+   "locationNote": "9600 International Park Rd (Cherry Ave), Cherry Valley, CA 92223 — 2.7 mi off the I-10 line at corridor mile 362 from Casa Grande. Paved, with about 400 ft of climbing (2,785 to 3,180 ft). From the line at Beaumont Ave and Cherry Valley Blvd, ride 2.3 mi via Cherry Valley Blvd, Live Oak Ave, Vineland/Noble/Dutton St and Cherry Ave (bike router). It is about 2 mi past the segment end.",
    "routeMile": 2504.5,
    "website": "https://www.bcvparks.com/bogart-regional-park-7f2cc65",
    "phone": "(951) 845-3818 (park); reservations (951) 845-9555 (district office)",
@@ -4997,8 +4886,10 @@
     "https://www.bcvparks.com/no-campfires-at-bogart-regional-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 2.7,
    "supersedes": [],
-   "researchDay": 1064
+   "researchDay": 1064,
+   "offRouteMi": 2.7
   },
   {
    "name": "Fisherman's Retreat (San Timoteo Canyon)",
@@ -5025,8 +4916,10 @@
     "https://www.openstreetmap.org/way/681862607"
    ],
    "maxOffMi": 13,
+   "detourMi": 6.3,
    "supersedes": [],
-   "researchDay": 1064
+   "researchDay": 1064,
+   "offRouteMi": 6.3
   },
   {
    "name": "Yucaipa Regional Park",
@@ -5056,8 +4949,10 @@
     "https://maps.campendium.com/us/yucaipa-ca/nature/yucaipa-regional-park-campground"
    ],
    "maxOffMi": 13,
+   "detourMi": 4.7,
    "supersedes": [],
-   "researchDay": 1065
+   "researchDay": 1065,
+   "offRouteMi": 4.7
   },
   {
    "name": "The Unhitched Ranch (Hipcamp)",
@@ -5069,8 +4964,8 @@
    "locationNote": "Reche Canyon, Colton/Loma Linda area (exact address after booking) — 9.1 mi off the I-10 line at corridor mile 381 from Casa Grande. Paved but hilly: about 9 mi from Barton Rd (Loma Linda, mile ~372.7) via Barton Rd and Reche Canyon Rd, a narrow two-lane canyon road with commuter traffic; about 900 ft of climbing. Leave via Reche Canyon Rd and Washington St to Colton (7.5 mi, rejoining at ~mile 375), so the detour costs about 14 mi. The exact address comes after booking.",
    "routeMile": 2522.9,
    "website": "https://www.hipcamp.com/en-US/land/california-the-unhitched-ranch-g2ejh0zz",
-   "phone": "unknown (message the host through Hipcamp)",
-   "booking": "Hipcamp request-to-book (the host approves). Usually one group at a time on the ranch.",
+   "phone": null,
+   "booking": "Hipcamp request-to-book (the host approves). Usually one group at a time on the ranch. · unknown (message the host through Hipcamp)",
    "tentsOk": true,
    "water": true,
    "showers": null,
@@ -5083,8 +4978,10 @@
     "https://www.hipcamp.com/en-US/land/california-the-unhitched-ranch-g2ejh0zz"
    ],
    "maxOffMi": 13,
+   "detourMi": 9.1,
    "supersedes": [],
-   "researchDay": 1065
+   "researchDay": 1065,
+   "offRouteMi": 9.1
   },
   {
    "name": "Riverview Ranch (Hipcamp)",
@@ -5096,8 +4993,8 @@
    "locationNote": "Jurupa Valley near Mt. Rubidoux (exact address after booking) — 8.7 mi off the I-10 line at corridor mile 390 from Casa Grande. Paved: about 8.7 mi south from the line in Rialto (mile ~383) via Cactus Ave, Bloomington Ave, Cedar Ave, 34th St and Riverview Dr, mostly downhill (about 550 ft). Back to the Pacific Electric Trail is about 11 mi via Crestmore Rd, Rubidoux Blvd and Locust Ave (about 650 ft up, rejoining at ~mile 386), so the detour costs about 16 mi.",
    "routeMile": 2532.2,
    "website": "https://www.hipcamp.com/en-US/land/california-riverview-ranch-3-qeohqqkx",
-   "phone": "unknown (message the host through Hipcamp)",
-   "booking": "Hipcamp instant book; arrival details come after booking.",
+   "phone": null,
+   "booking": "Hipcamp instant book; arrival details come after booking. · unknown (message the host through Hipcamp)",
    "tentsOk": true,
    "water": true,
    "showers": true,
@@ -5110,8 +5007,10 @@
     "https://www.hipcamp.com/en-US/land/california-riverview-ranch-3-qeohqqkx"
    ],
    "maxOffMi": 13,
+   "detourMi": 8.7,
    "supersedes": [],
-   "researchDay": 1065
+   "researchDay": 1065,
+   "offRouteMi": 8.7
   },
   {
    "name": "Rancho Jurupa Regional Park",
@@ -5139,8 +5038,10 @@
     "https://rivcoparks.org/regional-parks-campgrounds/rancho-jurupa-regional-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 8.9,
    "supersedes": [],
-   "researchDay": 1065
+   "researchDay": 1065,
+   "offRouteMi": 8.9
   },
   {
    "name": "Harmony Heaven Campyard (Hipcamp)",
@@ -5152,8 +5053,8 @@
    "locationNote": "Alta Loma, Rancho Cucamonga (exact address after booking) — 3.5 mi off the I-10 line at corridor mile 406 from Casa Grande. Paved: about 3.5 mi north of the Pacific Electric Trail (mile ~397.6) via Hellman Ave, Lemon Ave, Beryl St and Carnelian St, about 570 ft of climbing. Back down to the trail at Carnelian St is 4 mi (~mile 399), so the detour costs about 6 mi. The exact address comes after booking.",
    "routeMile": 2547.9,
    "website": "https://www.hipcamp.com/en-US/land/california-harmony-heaven-campyard-1xmhr81o",
-   "phone": "unknown (message the host through Hipcamp)",
-   "booking": "Hipcamp instant book.",
+   "phone": null,
+   "booking": "Hipcamp instant book. · unknown (message the host through Hipcamp)",
    "tentsOk": true,
    "water": true,
    "showers": true,
@@ -5166,8 +5067,10 @@
     "https://www.hipcamp.com/en-US/land/california-harmony-heaven-campyard-1xmhr81o"
    ],
    "maxOffMi": 13,
+   "detourMi": 3.5,
    "supersedes": [],
-   "researchDay": 1066
+   "researchDay": 1066,
+   "offRouteMi": 3.5
   },
   {
    "name": "Marshall Canyon Regional Park campground",
@@ -5179,8 +5082,8 @@
    "locationNote": "La Verne foothills, CA 91750 (street address not verified) — 6.3 mi off the I-10 line at corridor mile 415 from Casa Grande. Paved and steep: about 6.3 mi north from Bonita Ave/White Ave in La Verne (mile ~407) into the foothills, about 1,070 ft of climbing.",
    "routeMile": 2557.1,
    "website": "https://parks.lacounty.gov/marshall-canyon-regional-park/",
-   "phone": "unknown",
-   "booking": "Reservation only, through LA County Parks (reservations.lacounty.gov). It appears geared to groups. LA County regional parks are closed Mondays and Tuesdays.",
+   "phone": null,
+   "booking": "Reservation only, through LA County Parks (reservations.lacounty.gov). It appears geared to groups. LA County regional parks are closed Mondays and Tuesdays. · unknown",
    "tentsOk": true,
    "water": null,
    "showers": null,
@@ -5195,13 +5098,15 @@
     "https://www.openstreetmap.org/way/921619585"
    ],
    "maxOffMi": 13,
+   "detourMi": 6.3,
    "supersedes": [],
-   "researchDay": 1066
+   "researchDay": 1066,
+   "offRouteMi": 6.3
   },
   {
    "name": "Fairplex RV Park (former Los Angeles/Pomona Fairplex KOA)",
    "type": "rv_park",
-   "price": 50,
+   "price": null,
    "priceNote": "unknown; call (2020 reports: about $50–75 per site)",
    "lat": 34.08872,
    "lng": -117.76308,
@@ -5225,8 +5130,10 @@
     "https://maps.campendium.com/us/pomona-ca/camping-rv/fairplex-rv-park"
    ],
    "maxOffMi": 13,
+   "detourMi": 1.1,
    "supersedes": [],
-   "researchDay": 1066
+   "researchDay": 1066,
+   "offRouteMi": 1.1
   },
   {
    "name": "Bonelli Bluffs RV Resort & Campground",
@@ -5256,8 +5163,10 @@
     "https://parks.lacounty.gov/frank-g-bonelli-regional-park/"
    ],
    "maxOffMi": 13,
+   "detourMi": 2.6,
    "supersedes": [],
-   "researchDay": 1066
+   "researchDay": 1066,
+   "offRouteMi": 2.6
   },
   {
    "name": "Gould Mesa Trail Camp (Angeles NF)",
@@ -5284,11 +5193,17 @@
     "https://www.fs.usda.gov/r05/angeles/alerts/eaton-fire-area-closure",
     "https://www.fs.usda.gov/r05/angeles/alerts/planning-camp-stay-limits-dispersed-camping-restrictions-until-dec-15-2026",
     "https://www.fs.usda.gov/r05/angeles/alerts",
-    "https://www.openstreetmap.org/node/351493860"
+    "https://www.openstreetmap.org/node/351493860",
+    "https://campflare.com/campground/gould-mesa-campground-014",
+    "https://moderncampground.com/angeles-national-forest-reopens-key-trails-campgrounds-after-eaton-fire",
+    "https://trails.lacounty.gov/Alert/4257/eaton-canyon-trails-and-anf-closures",
+    "https://www.openstreetmap.org/node/9258086060"
    ],
    "maxOffMi": 13,
+   "detourMi": 6.2,
    "supersedes": [],
-   "researchDay": 1067
+   "researchDay": 1067,
+   "offRouteMi": 6.2
   }
  ],
  "dayAdvice": [
@@ -5568,7 +5483,7 @@
   {
    "nearMile": 2164.2,
    "researchDay": 1051,
-   "bestBet": "Supreme's Therapeutic Ranch (Hipcamp) — tents allowed",
+   "bestBet": "BLM dispersed: desert tracks between AZ 238 and Empire Blvd (south end of Sierra Estrella) — tents allowed",
    "gap": false,
    "gapAdvice": null
   },
@@ -5631,7 +5546,7 @@
   {
    "nearMile": 2327.7,
    "researchDay": 1054,
-   "bestBet": "Indian Hills RV Resort — tents, showers, water",
+   "bestBet": "Q View RV Park (formerly B-10 Campground) — tents, showers, water",
    "gap": false,
    "gapAdvice": null
   },
@@ -5680,7 +5595,7 @@
   {
    "nearMile": 2418,
    "researchDay": 1058,
-   "bestBet": "Salton Sea SRA - Headquarters / New Camp (hike-and-bike sites) — tents, showers, water",
+   "bestBet": "Red Cloud Mine Road Dispersed Camping (BLM) — tents allowed",
    "gap": false,
    "gapAdvice": null
   },
@@ -5694,14 +5609,14 @@
   {
    "nearMile": 2444.5,
    "researchDay": 1059,
-   "bestBet": "Forsythe Equestrian Club (Hipcamp) — tents, showers, water",
+   "bestBet": "BLM Mecca Hills – Painted Canyon Rd dispersed camping — tents allowed",
    "gap": false,
    "gapAdvice": null
   },
   {
    "nearMile": 2448.8,
    "researchDay": 1060,
-   "bestBet": "Lake Cahuilla Veterans Regional Park (Riverside County) — tents, showers, water",
+   "bestBet": "Shadow Hills RV Resort — tents, showers, water",
    "gap": false,
    "gapAdvice": null
   },
@@ -5984,6 +5899,32 @@
    ],
    "researchDay": 45,
    "retiredReason": "superseded by Q View RV Park (formerly B-10 Campground)"
+  },
+  {
+   "name": "Hi Jolly BLM 14-Day Camping Area",
+   "type": "blm",
+   "price": 0,
+   "priceNote": "FREE, 14-day limit",
+   "lat": 33.688,
+   "lng": -114.221,
+   "locationNote": "~2 mi N of Main St on US-95 N — short off-route detour the wrong direction; Dome Rock is the better free pick westbound",
+   "routeMile": 2552.3,
+   "website": "https://www.allstays.com/Campgrounds/az-quartzsite-campgrounds.htm",
+   "phone": "(928) 317-3200",
+   "booking": "first-come",
+   "tentsOk": true,
+   "water": false,
+   "showers": false,
+   "toilets": false,
+   "legalityNote": "Legal BLM free 14-day dispersed area, ~100 sites",
+   "cyclistIntel": "No water — haul from town",
+   "seasonalNote": "Open year-round",
+   "confidence": "high",
+   "sources": [
+    "https://www.allstays.com/Campgrounds/az-quartzsite-campgrounds.htm"
+   ],
+   "researchDay": 45,
+   "retiredReason": "superseded by Hi Jolly BLM 14-day camping area"
   },
   {
    "name": "Dome Rock BLM 14-Day Camping Area",

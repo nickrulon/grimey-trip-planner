@@ -154,7 +154,7 @@ export function makeCamping(db, planner) {
             booking: s.booking ?? '', legalityNote: s.legalityNote ?? '',
             cyclistIntel: s.cyclistIntel ?? '', seasonalNote: s.seasonalNote ?? '',
             confidence: s.confidence ?? 'medium',
-            tentsOk: s.tentsOk !== false, water: !!s.water,
+            tentsOk: s.tentsOk === true, water: !!s.water,
             showers: !!s.showers, toilets: !!s.toilets,
             sources: (s.sources ?? []).join(' '),
           },
