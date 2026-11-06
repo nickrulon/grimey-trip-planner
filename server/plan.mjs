@@ -551,8 +551,19 @@ export function makePlanner(db) {
   function carryCosts(days) {
     const { days: prev } = activeDays();
     if (!prev.length) return days;
+    // Days already ridden are history, not choices: their recorded cost
+    // follows the DAY NUMBER into every new revision, whatever the rebuilt
+    // row says about the bed. (Rebuilds on the phone were silently dropping
+    // three weeks of logged costs — 2026-11-05.)
+    const lastActual = db.prepare(`SELECT MAX(day_number) n FROM actual_days`).get()?.n ?? 0;
     return days.map((d) => {
       if (d.lodging_cost != null || d.misc_cost != null || d.overnight_camp_id != null) return d;
+      if (d.day_number <= lastActual) {
+        const same = prev.find((p) => p.day_number === d.day_number);
+        if (same && (same.lodging_cost != null || same.misc_cost != null)) {
+          return { ...d, lodging_cost: same.lodging_cost ?? null, misc_cost: same.misc_cost ?? null, overnight_camp_id: d.overnight_camp_id ?? same.overnight_camp_id ?? null };
+        }
+      }
       const match = prev.find((p) =>
         (d.overnight_resource_id && p.overnight_resource_id === d.overnight_resource_id) ||
         (p.overnight_camp_id && Math.abs(p.end_mile - d.end_mile) < 0.5) ||
