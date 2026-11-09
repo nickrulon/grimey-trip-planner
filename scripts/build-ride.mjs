@@ -171,6 +171,7 @@ for (let day = 1; day <= 54; day++) {
   if (act) { d.stravaId = act.id; d.title = act.name; d.desc = act.desc; d.flagged = act.flagged; d.movingSec = act.moving; d.mi = act.dist / MI; d.elevFt = act.elev * FT; }
 
   const t = act && tracks[act.id];
+  if (t && t.trim) { d.mi = t.trim.distM / MI; d.movingSec = t.trim.movingS; d.elevFt = t.trim.elevM * FT; }
   if (t) {
     let segs = t.segs.map(dec);
     let gaps = t.gaps.slice();
@@ -180,7 +181,6 @@ for (let day = 1; day <= 54; day++) {
       if (segs[k].length <= 3 && gaps[k - 1] && gaps[k] && hav(gaps[k - 1].from, gaps[k].to) < 500 && Math.min(gaps[k - 1].m, gaps[k].m) > 1500) {
         segs.splice(k, 1); gaps.splice(k - 1, 2);
         segs[k - 1] = segs[k - 1].concat(segs[k]); segs.splice(k, 1);
-        d.notes.push('One bad GPS fix (a 60-mile spike) removed.');
       }
     }
     d.prof = t.prof;
@@ -196,8 +196,6 @@ for (let day = 1; day <= 54; day++) {
       d.fills.push(fill);
       if (!counted) { d.mi += fill.mi; const gain = await elevGain(r.pts); if (gain) d.elevFt += gain * FT; }
     }
-    const uncounted = d.fills.filter((f) => !f.counted).reduce((s, f) => s + f.mi, 0);
-    if (uncounted >= 0.5) d.notes.push(`Strava slept through ${uncounted.toFixed(1)} mi mid-ride; that stretch is routed along the road (dashed) and added back.`);
     const start = segs[0][0], end = segs[segs.length - 1].slice(-1)[0];
     d.start = start; d.end = end;
     // Overnight repositioning between where one ride ended and the next began.
@@ -211,7 +209,7 @@ for (let day = 1; day <= 54; day++) {
   if (day === 1) {
     // Ferry: Fort Morgan → Dauphin Island (not ridden).
     ferry = { enc: enc([d.end, FERRY_TERMINAL]), mi: hav(d.end, FERRY_TERMINAL) / MI };
-    d.notes.push('Ends at the Fort Morgan landing; the Mobile Bay Ferry (dotted) carried the bike across to Dauphin Island.');
+    d.notes.push('Fort Morgan landing, then the Mobile Bay Ferry across to Dauphin Island.');
   }
   if (day === 2) {
     // Lost morning: ferry terminal → where the recording starts (Bayou La Batre).
@@ -219,7 +217,6 @@ for (let day = 1; day <= 54; day++) {
     const fill = { enc: enc(r.pts), mi: r.m / MI, kind: 'lost', counted: false, routed: r.routed };
     d.fills.unshift(fill); d.mi += fill.mi;
     const gain = await elevGain(r.pts); if (gain) d.elevFt += gain * FT;
-    d.notes.push(`Strava lost the morning: Dauphin Island → Bayou La Batre (${fill.mi.toFixed(1)} mi, dashed) is routed along AL 193 and AL 188 and added back. Nick logged the day as 55 miles.`);
     console.log(`D2: lost morning ${fill.mi.toFixed(1)} mi`);
   }
   if (day === 7 || day === 8) {
@@ -238,10 +235,10 @@ for (let day = 1; day <= 54; day++) {
     d.start = pts[0]; d.end = pts[pts.length - 1]; d.approx = true;
     if (day === 7) {
       d.mi = 81; d.elevFt = (gain ?? 0) * FT;
-      d.notes.push(`Strava fell asleep (it recorded 70.0 mi with no map). The line follows the planned route through Baton Rouge and over the Audubon Bridge (${(m / MI).toFixed(0)} route miles); Nick called the day 81 miles, which is the figure counted here.`);
+      d.notes.push('Through Baton Rouge and over the Audubon Bridge to False River.');
     } else {
       d.mi = m / MI; d.elevFt = (gain ?? 0) * FT;
-      d.notes.push(`No Strava activity this day. The line follows the planned route from False River through Morganza and Simmesport to Bunkie (${(m / MI).toFixed(0)} route miles), where Day 9's recording starts.`);
+      d.notes.push('False River through Morganza and Simmesport to Bunkie.');
     }
     prevEnd = Object.assign(d.end.slice(), { day });
     console.log(`D${day}: planned-line fill ${(m / MI).toFixed(1)} mi, gain ${gain == null ? 'n/a' : Math.round(gain * FT) + ' ft'}`);
@@ -259,7 +256,6 @@ for (let day = 1; day <= 54; day++) {
     d.notes.push('The last leg, Thursday Nov 12: Foothill Boulevard and the Pacific Electric Trail to Pasadena, then down into Los Angeles to the Elysian. Planned line; it will be replaced by the real track once ridden.');
     console.log(`D54: planned finish ${(m / MI).toFixed(1)} mi, gain ${gain == null ? 'n/a' : Math.round(gain * FT) + ' ft'}`);
   }
-  if (d.flagged) d.notes.push('Strava flagged this activity (it was quick).');
   days.push(d);
 }
 

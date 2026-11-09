@@ -69,7 +69,7 @@
   .sw.dash { border-top-style: dashed; }
   .sw.plan { border-top-color: var(--orange); opacity: .55; }
   .sw.dot { border-top: 3px dotted var(--ferry); }
-  .sw.grey { border-top-color: var(--grey-dash); }
+  .sw.state { border-top: 1.5px solid var(--grey-dash); }
   .toolbar { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
   .btn { font: inherit; font-size: 13px; font-weight: 600; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
   .btn:hover { background: var(--row-hover); }
@@ -146,13 +146,11 @@
         <div class="stat"><span class="k">Days</span><span class="v" id="s-days">—</span><span class="u" id="s-days-u">riding</span></div>
       </div>
       <div class="progress"><div class="bar"><i id="p-fill"></i></div><p id="p-text"></p></div>
-      <p class="fine" id="s-note"></p>
       <div class="legend">
-        <span><i class="sw"></i>Ridden, Strava GPS</span>
-        <span><i class="sw dash"></i>Ridden, phone asleep: filled along the road</span>
+        <span><i class="sw"></i>Ridden</span>
         <span><i class="sw dash plan"></i>Final leg, planned</span>
         <span><i class="sw dot"></i>Mobile Bay ferry</span>
-        <span><i class="sw dash grey"></i>Moved between rides, not recorded</span>
+        <span><i class="sw state"></i>State lines</span>
       </div>
       <div class="toolbar">
         <button class="btn" id="btn-all" type="button">Whole route</button>
@@ -162,7 +160,7 @@
     </header>
     <div class="listhead"><span>Every day, Perdido Key to LA</span><span>tap a day to zoom</span></div>
     <ol class="days" id="days"></ol>
-    <footer class="foot">Lines are the Strava GPS tracks as recorded, simplified to 5 m. Dashed orange marks stretches the phone missed, filled back along the road he was on (or the planned route for Sept 26–27). Distances and climbing per day are Strava's figures plus those filled stretches.</footer>
+    <footer class="foot">Drawn from the Strava GPS tracks. The last leg is Thursday's plan.</footer>
   </aside>
 </div>
 <script src="vendor/maplibre-gl.js"></script>
@@ -196,7 +194,8 @@
   }
   const d1 = R.days[0];
   stops.push({ type: 'Feature', properties: { day: 0, label: 'Start', type: 'start', name: 'Perdido Key, FL', date: fmtDate(d1.date) }, geometry: { type: 'Point', coordinates: [d1.start[1], d1.start[0]] } });
-  const connectors = R.connectors.map((c) => ({ type: 'Feature', properties: { fromDay: c.fromDay, toDay: c.toDay, mi: c.mi }, geometry: { type: 'LineString', coordinates: dec(c.enc) } }));
+  // Short links between where one day ended and the next began draw as part of the line.
+  for (const c of R.connectors) fills.push({ type: 'Feature', properties: { day: c.toDay, kind: 'move' }, geometry: { type: 'LineString', coordinates: dec(c.enc) } });
   const ferry = R.ferry ? [{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: dec(R.ferry.enc) } }] : [];
   const fc = (features) => ({ type: 'FeatureCollection', features });
   const ALL_BBOX = bboxOf([...ridden, ...fills].map((f) => f.geometry.coordinates));
@@ -211,7 +210,6 @@
   const grand = T.totalMi + T.plannedMi;
   document.getElementById('p-fill').style.width = `${(T.totalMi / grand * 100).toFixed(1)}%`;
   document.getElementById('p-text').textContent = `${fmtInt(T.totalMi)} of ${fmtInt(grand)} mi ridden · ${fmtMi(T.plannedMi)} mi left to the Elysian on Thu Nov 12`;
-  document.getElementById('s-note').textContent = `Strava shows ${fmtInt(T.stravaMi)} mi. The other ${fmtInt(T.totalMi - T.stravaMi)} mi were ridden while the phone slept (the Sept 21 morning, the lost miles of Sept 26–27, and a dozen short dropouts) and are drawn dashed.`;
 
   // ---- day list ------------------------------------------------------------
   const list = document.getElementById('days');
@@ -229,9 +227,6 @@
     li.dataset.day = d.day; li.tabIndex = 0; li.id = `d${d.day}`;
     const badges = [];
     if (d.kind === 'planned') badges.push('<span class="badge plan">planned</span>');
-    if (d.approx) badges.push('<span class="badge gap">no GPS · planned line</span>');
-    else if (d.fills.some((f) => f.kind === 'lost')) badges.push('<span class="badge gap">lost morning filled</span>');
-    else if (d.fills.some((f) => !f.counted && f.mi >= 0.5)) badges.push(`<span class="badge gap">+${fmtMi(d.fills.filter((f) => !f.counted).reduce((s, f) => s + f.mi, 0))} mi filled</span>`);
     if (d.kind === 'rest') badges.push('<span class="badge">rest day</span>');
     const route = d.kind === 'rest' ? `Rest day in ${d.to.replace(/, [A-Z]{2}$/, '')}` : `${d.from} → ${d.to}`;
     const miTxt = d.kind === 'rest' ? '' : `<span class="dmi">${fmtMi(d.mi)} <small>mi</small></span>`;
@@ -269,24 +264,33 @@
   const selExpr = (hi, lo) => sel == null ? hi : ['case', ['==', ['get', 'day'], sel], hi, lo];
 
   map.on('load', () => {
-    map.addSource('connectors', { type: 'geojson', data: fc(connectors) });
     map.addSource('ferry', { type: 'geojson', data: fc(ferry) });
     map.addSource('fills', { type: 'geojson', data: fc(fills) });
     map.addSource('ridden', { type: 'geojson', data: fc(ridden) });
     map.addSource('stops', { type: 'geojson', data: fc(stops) });
 
-    map.addLayer({ id: 'connectors', type: 'line', source: 'connectors', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#8b8b95', 'line-width': 2, 'line-dasharray': [1.5, 2], 'line-opacity': .8 } });
+    // State lines, thin and grey, so the crossings read at national zoom.
+    const boundarySource = (map.getLayer('boundary_3') || {}).source || 'openmaptiles';
+    const stateFilter = ['all', ['==', ['get', 'admin_level'], 4], ['!=', ['get', 'maritime'], 1], ['!=', ['get', 'disputed'], 1]];
+    map.addLayer({ id: 'state-lines', type: 'line', source: boundarySource, 'source-layer': 'boundary', minzoom: 2, filter: stateFilter, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#6f6f7a', 'line-width': ['interpolate', ['linear'], ['zoom'], 3, 1, 6, 1.4, 10, 2.2], 'line-opacity': .9 } });
+
+    const CASING_W = ['interpolate', ['linear'], ['zoom'], 4, 5, 12, 9];
+    const LINE_W = ['interpolate', ['linear'], ['zoom'], 4, 2.6, 12, 5];
+    const notPlanned = ['!=', ['get', 'kind'], 'planned'];
+    const isPlanned = ['==', ['get', 'kind'], 'planned'];
     map.addLayer({ id: 'ferry', type: 'line', source: 'ferry', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#3d7ea6', 'line-width': 2.5, 'line-dasharray': [0.1, 2] } });
-    map.addLayer({ id: 'fills-casing', type: 'line', source: 'fills', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 4, 12, 8], 'line-opacity': .9 } });
-    map.addLayer({ id: 'fills', type: 'line', source: 'fills', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ORANGE, 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 2.2, 12, 4.5], 'line-dasharray': [2, 1.6], 'line-opacity': ['case', ['==', ['get', 'kind'], 'planned'], .6, 1] } });
-    map.addLayer({ id: 'ridden-casing', type: 'line', source: 'ridden', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 5, 12, 9], 'line-opacity': .9 } });
-    map.addLayer({ id: 'ridden', type: 'line', source: 'ridden', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ORANGE, 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 2.6, 12, 5] } });
+    map.addLayer({ id: 'planned-casing', type: 'line', source: 'fills', filter: isPlanned, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': CASING_W, 'line-opacity': .9 } });
+    map.addLayer({ id: 'planned', type: 'line', source: 'fills', filter: isPlanned, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ORANGE, 'line-width': LINE_W, 'line-dasharray': [2, 1.6], 'line-opacity': .65 } });
+    map.addLayer({ id: 'fills-casing', type: 'line', source: 'fills', filter: notPlanned, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': CASING_W, 'line-opacity': .9 } });
+    map.addLayer({ id: 'fills', type: 'line', source: 'fills', filter: notPlanned, layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ORANGE, 'line-width': LINE_W } });
+    map.addLayer({ id: 'ridden-casing', type: 'line', source: 'ridden', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': CASING_W, 'line-opacity': .9 } });
+    map.addLayer({ id: 'ridden', type: 'line', source: 'ridden', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ORANGE, 'line-width': LINE_W } });
     map.addLayer({ id: 'stops', type: 'circle', source: 'stops', filter: ['==', ['get', 'type'], 'stop'], paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 3, 8, 6, 12, 9], 'circle-color': '#ffffff', 'circle-stroke-color': ORANGE, 'circle-stroke-width': 2 } });
     map.addLayer({ id: 'stops-label', type: 'symbol', source: 'stops', filter: ['==', ['get', 'type'], 'stop'], minzoom: 6.5, layout: { 'text-field': ['get', 'label'], 'text-font': ['Noto Sans Bold'], 'text-size': ['interpolate', ['linear'], ['zoom'], 6.5, 9, 12, 12], 'text-allow-overlap': false }, paint: { 'text-color': '#c23a00' } });
     map.addLayer({ id: 'ends', type: 'circle', source: 'stops', filter: ['!=', ['get', 'type'], 'stop'], paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 6, 10, 10], 'circle-color': ['match', ['get', 'type'], 'start', '#2b9a57', 'here', ORANGE, '#cf3426'], 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2.5 } });
     map.addLayer({ id: 'ends-label', type: 'symbol', source: 'stops', filter: ['!=', ['get', 'type'], 'stop'], layout: { 'text-field': ['match', ['get', 'type'], 'start', 'START · Sept 20', 'here', 'DAY 50 · Nov 8', 'FINISH · Nov 12'], 'text-font': ['Noto Sans Bold'], 'text-size': 11, 'text-offset': ['match', ['get', 'type'], 'finish', ['literal', [0, -1.4]], ['literal', [0, 1.4]]], 'text-anchor': ['match', ['get', 'type'], 'finish', 'bottom', 'top'], 'text-allow-overlap': false }, paint: { 'text-color': '#1f1f23', 'text-halo-color': '#ffffff', 'text-halo-width': 1.5 } });
 
-    for (const id of ['ridden', 'fills', 'stops', 'ends']) {
+    for (const id of ['ridden', 'fills', 'planned', 'stops', 'ends']) {
       map.on('click', id, (e) => { const f = e.features[0]; const day = f.properties.day; if (day) select(day === sel ? null : day); });
       map.on('mouseenter', id, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', id, () => { map.getCanvas().style.cursor = ''; });
@@ -323,8 +327,10 @@
     if (!map.getLayer('ridden')) return;
     map.setPaintProperty('ridden', 'line-opacity', selExpr(1, .22));
     map.setPaintProperty('ridden-casing', 'line-opacity', selExpr(.9, .2));
-    map.setPaintProperty('fills', 'line-opacity', sel == null ? ['case', ['==', ['get', 'kind'], 'planned'], .6, 1] : ['case', ['==', ['get', 'day'], sel], 1, .2]);
+    map.setPaintProperty('fills', 'line-opacity', selExpr(1, .22));
     map.setPaintProperty('fills-casing', 'line-opacity', selExpr(.9, .2));
+    map.setPaintProperty('planned', 'line-opacity', selExpr(.65, .2));
+    map.setPaintProperty('planned-casing', 'line-opacity', selExpr(.9, .2));
     map.setPaintProperty('stops', 'circle-opacity', selExpr(1, .35));
     map.setPaintProperty('stops', 'circle-stroke-opacity', selExpr(1, .35));
     // Zoom must stay the top-level input; the per-day bump lives in the outputs.
