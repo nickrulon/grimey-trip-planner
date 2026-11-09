@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grimey's Great American Trash Tour</title>
+<meta name="description" content="Every mile Grimey rode from Perdido Key to Los Angeles, straight from the Strava GPS tracks: dates, miles and climbing for each day, on one map.">
+<meta name="theme-color" content="#fc4c02">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="vendor/maplibre-gl.css">
+<style>
+  /* Layout: a Strava activity page turned inside out — the map is the page,
+     the ride log sits beside it as a scrolling rail. Light map in both themes. */
+  :root {
+    --bg: #f5f4f0;
+    --panel: #ffffff;
+    --fg: #1f1f23;
+    --muted: #6d6d78;
+    --line: #e4e3df;
+    --row-hover: #faf7f3;
+    --orange: #fc4c02;
+    --orange-soft: #ffe9de;
+    --orange-ink: #c23a00;
+    --green: #2b9a57;
+    --red: #cf3426;
+    --grey-dash: #8b8b95;
+    --ferry: #3d7ea6;
+    --spark: #fc4c02;
+    --spark-fill: rgba(252, 76, 2, .14);
+    --font-display: 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+    --font-body: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121215; --panel: #1a1a1f; --fg: #f1efe9; --muted: #9d9da8; --line: #2b2b33; --row-hover: #212128;
+      --orange-soft: #3b2219; --orange-ink: #ff7a3d; --spark-fill: rgba(252, 76, 2, .22);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121215; --panel: #1a1a1f; --fg: #f1efe9; --muted: #9d9da8; --line: #2b2b33; --row-hover: #212128;
+    --orange-soft: #3b2219; --orange-ink: #ff7a3d; --spark-fill: rgba(252, 76, 2, .22);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.4; -webkit-font-smoothing: antialiased; }
+  .app { height: 100%; display: grid; grid-template-columns: minmax(360px, 440px) 1fr; }
+  .panel { order: 1; display: flex; flex-direction: column; min-height: 0; background: var(--panel); border-right: 1px solid var(--line); }
+  .mapwrap { order: 2; }
+  .hdr { padding-block: 18px 12px; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: 18px; border-bottom: 1px solid var(--line); }
+  .eyebrow { margin: 0 0 4px; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  h1 { margin: 0 0 14px; font-family: var(--font-display); font-weight: 700; font-size: 34px; line-height: 1; letter-spacing: -.01em; text-wrap: balance; }
+  h1 em { font-style: normal; color: var(--orange); }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px 8px; margin-bottom: 12px; }
+  .stat .k { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+  .stat .v { font-family: var(--font-display); font-weight: 700; font-size: 28px; line-height: 1.05; font-variant-numeric: tabular-nums; }
+  .stat .u { font-size: 12px; color: var(--muted); margin-left: 3px; }
+  .progress .bar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+  .progress .bar i { display: block; height: 100%; width: 0; background: var(--orange); border-radius: 3px; transition: width .6s ease; }
+  .progress p { margin: 6px 0 0; font-size: 12.5px; color: var(--muted); }
+  .fine { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; font-size: 12px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { display: inline-block; width: 26px; height: 0; border-top: 3px solid var(--orange); border-radius: 2px; }
+  .sw.dash { border-top-style: dashed; }
+  .sw.plan { border-top-color: var(--orange); opacity: .55; }
+  .sw.dot { border-top: 3px dotted var(--ferry); }
+  .sw.grey { border-top-color: var(--grey-dash); }
+  .toolbar { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+  .btn { font: inherit; font-size: 13px; font-weight: 600; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
+  .btn:hover { background: var(--row-hover); }
+  .btn:focus-visible, .day:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+  .listhead { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 18px 6px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .days { list-style: none; margin: 0; padding: 0 0 24px; overflow: auto; flex: 1; min-height: 0; overscroll-behavior: contain; }
+  .day { display: grid; grid-template-columns: 44px 1fr; gap: 0 10px; padding: 10px 18px 10px max(18px, env(safe-area-inset-left, 0px)); border-top: 1px solid var(--line); cursor: pointer; }
+  .day:hover { background: var(--row-hover); }
+  .day.sel { background: var(--orange-soft); }
+  .dnum { font-family: var(--font-display); font-weight: 700; font-size: 20px; line-height: 1; color: var(--orange-ink); padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .dnum small { display: block; font-family: var(--font-body); font-weight: 600; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+  .dbody { min-width: 0; }
+  .dtop { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .ddate { font-weight: 600; font-size: 13px; color: var(--muted); }
+  .dmi { font-family: var(--font-display); font-weight: 700; font-size: 22px; line-height: 1; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .dmi small { font-family: var(--font-body); font-size: 12px; font-weight: 600; color: var(--muted); }
+  .droute { font-weight: 500; margin-top: 2px; }
+  .dmeta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 3px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .badge { font-size: 11px; font-weight: 600; letter-spacing: .03em; padding: 1px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .badge.gap { border-color: var(--orange); color: var(--orange-ink); }
+  .badge.plan { border-style: dashed; border-color: var(--orange); color: var(--orange-ink); }
+  .spark { display: block; width: 100%; height: 30px; margin-top: 6px; }
+  .spark path.area { fill: var(--spark-fill); }
+  .spark path.lineel { fill: none; stroke: var(--spark); stroke-width: 1.5; }
+  .day.rest { color: var(--muted); }
+  .day.rest .dnum { color: var(--muted); }
+  .day.rest .droute { font-style: italic; font-weight: 400; }
+  .dnotes { margin: 8px 0 0; font-size: 13px; color: var(--fg); }
+  .dnotes p { margin: 0 0 4px; }
+  .dnotes .where { color: var(--muted); }
+  .dnotes a { color: var(--orange-ink); }
+  .foot { padding: 12px 18px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+  .mapwrap { position: relative; min-width: 0; min-height: 0; }
+  #map { position: absolute; inset: 0; }
+  .maptag { position: absolute; left: 12px; bottom: 32px; max-width: calc(100% - 24px); background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 13px; box-shadow: 0 6px 24px rgba(0,0,0,.12); }
+  .maptag b { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-right: 6px; color: var(--orange-ink); }
+  .maplibregl-popup-content { font-family: var(--font-body); font-size: 13px; border-radius: 8px; }
+  .maplibregl-ctrl-attrib { font-size: 10px; }
+  @media (max-width: 760px) {
+    /* Phone: the page scrolls as one column and the map rides along, stuck to
+       the top, so tapping a day down the list zooms the map still in view. */
+    html, body { height: auto; }
+    .app { display: block; height: auto; }
+    .mapwrap { position: sticky; top: 0; z-index: 3; height: min(46vh, 420px); border-bottom: 1px solid var(--line); }
+    .panel { display: block; border-right: 0; }
+    .days { overflow: visible; }
+    h1 { font-size: 28px; }
+    .stats { grid-template-columns: repeat(4, 1fr); gap: 8px 6px; }
+    .stat .v { font-size: 22px; }
+    .hdr { padding-block: 12px 10px; }
+    .legend { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .progress .bar i { transition: none; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <main class="mapwrap">
+    <div id="map" role="img" aria-label="Map of the whole ride from Perdido Key to Los Angeles"></div>
+    <div class="maptag" id="maptag" hidden></div>
+  </main>
+  <aside class="panel">
+    <header class="hdr">
+      <p class="eyebrow" id="eyebrow">Perdido Key, FL → Los Angeles, CA · Sept 20 – Nov 12, 2026</p>
+      <h1>Grimey's Great American <em>Trash Tour</em></h1>
+      <div class="stats">
+        <div class="stat"><span class="k">Distance</span><span class="v" id="s-dist">—</span><span class="u">mi</span></div>
+        <div class="stat"><span class="k">Elev gain</span><span class="v" id="s-elev">—</span><span class="u">ft</span></div>
+        <div class="stat"><span class="k">Moving</span><span class="v" id="s-time">—</span><span class="u">hrs</span></div>
+        <div class="stat"><span class="k">Days</span><span class="v" id="s-days">—</span><span class="u" id="s-days-u">riding</span></div>
+      </div>
+      <div class="progress"><div class="bar"><i id="p-fill"></i></div><p id="p-text"></p></div>
+      <p class="fine" id="s-note"></p>
+      <div class="legend">
+        <span><i class="sw"></i>Ridden, Strava GPS</span>
+        <span><i class="sw dash"></i>Ridden, phone asleep: filled along the road</span>
+        <span><i class="sw dash plan"></i>Final leg, planned</span>
+        <span><i class="sw dot"></i>Mobile Bay ferry</span>
+        <span><i class="sw dash grey"></i>Moved between rides, not recorded</span>
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="btn-all" type="button">Whole route</button>
+        <button class="btn" id="btn-here" type="button">Where he is now</button>
+      </div>
+    </header>
+    <div class="listhead"><span>Every day, Perdido Key to LA</span><span>tap a day to zoom</span></div>
+    <ol class="days" id="days"></ol>
+    <footer class="foot">Lines are the Strava GPS tracks as recorded, simplified to 5 m. Dashed orange marks stretches the phone missed, filled back along the road he was on (or the planned route for Sept 26–27). Distances and climbing per day are Strava's figures plus those filled stretches.</footer>
+  </aside>
+</div>
+<script src="vendor/maplibre-gl.js"></script>
+<script src="ride-data.js"></script>
+<script>
+(() => {
+  const R = window.RIDE;
+  const ORANGE = '#fc4c02';
+  const MI = 1609.344;
+
+  // ---- geometry helpers ----------------------------------------------------
+  const dec = (str) => { const out = []; let i = 0, lat = 0, lng = 0; while (i < str.length) { for (const k of [0, 1]) { let sh = 0, res = 0, b; do { b = str.charCodeAt(i++) - 63; res |= (b & 0x1f) << sh; sh += 5; } while (b >= 0x20); const d = (res & 1) ? ~(res >> 1) : (res >> 1); if (k === 0) lat += d; else lng += d; } out.push([lng / 1e5, lat / 1e5]); } return out; };
+  const bboxOf = (coordsList) => { const b = [180, 90, -180, -90]; for (const cs of coordsList) for (const [x, y] of cs) { if (x < b[0]) b[0] = x; if (y < b[1]) b[1] = y; if (x > b[2]) b[2] = x; if (y > b[3]) b[3] = y; } return b; };
+  const fmtDate = (iso, long) => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-US', long ? { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' } : { weekday: 'short', month: 'short', day: 'numeric', timeZone: 'UTC' });
+  const fmtTime = (s) => { const h = Math.floor(s / 3600), m = Math.round((s % 3600) / 60); return s ? `${h}h ${String(m).padStart(2, '0')}m` : ''; };
+  const fmtInt = (n) => Math.round(n).toLocaleString('en-US');
+  const fmtMi = (n) => (Math.round(n * 10) / 10).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+  // ---- data → GeoJSON ------------------------------------------------------
+  const dayGeom = {};
+  const ridden = [], fills = [], stops = [];
+  for (const d of R.days) {
+    const coords = [];
+    for (const s of d.segs) { const c = dec(s); coords.push(c); ridden.push({ type: 'Feature', properties: { day: d.day }, geometry: { type: 'LineString', coordinates: c } }); }
+    for (const f of d.fills) { const c = dec(f.enc); coords.push(c); fills.push({ type: 'Feature', properties: { day: d.day, kind: f.kind }, geometry: { type: 'LineString', coordinates: c } }); }
+    if (coords.length) dayGeom[d.day] = { bbox: bboxOf(coords) };
+    if (d.end && d.kind !== 'rest') {
+      const type = d.day === 54 ? 'finish' : d.day === 50 ? 'here' : 'stop';
+      stops.push({ type: 'Feature', properties: { day: d.day, label: String(d.day), type, name: d.to, date: fmtDate(d.date) }, geometry: { type: 'Point', coordinates: [d.end[1], d.end[0]] } });
+    }
+  }
+  const d1 = R.days[0];
+  stops.push({ type: 'Feature', properties: { day: 0, label: 'Start', type: 'start', name: 'Perdido Key, FL', date: fmtDate(d1.date) }, geometry: { type: 'Point', coordinates: [d1.start[1], d1.start[0]] } });
+  const connectors = R.connectors.map((c) => ({ type: 'Feature', properties: { fromDay: c.fromDay, toDay: c.toDay, mi: c.mi }, geometry: { type: 'LineString', coordinates: dec(c.enc) } }));
+  const ferry = R.ferry ? [{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: dec(R.ferry.enc) } }] : [];
+  const fc = (features) => ({ type: 'FeatureCollection', features });
+  const ALL_BBOX = bboxOf([...ridden, ...fills].map((f) => f.geometry.coordinates));
+
+  // ---- header stats --------------------------------------------------------
+  const T = R.totals;
+  document.getElementById('s-dist').textContent = fmtInt(T.totalMi);
+  document.getElementById('s-elev').textContent = fmtInt(T.elevFt);
+  document.getElementById('s-time').textContent = fmtInt(T.movingSec / 3600);
+  document.getElementById('s-days').textContent = T.rideDays;
+  document.getElementById('s-days-u').textContent = `riding · ${T.restDays} rest`;
+  const grand = T.totalMi + T.plannedMi;
+  document.getElementById('p-fill').style.width = `${(T.totalMi / grand * 100).toFixed(1)}%`;
+  document.getElementById('p-text').textContent = `${fmtInt(T.totalMi)} of ${fmtInt(grand)} mi ridden · ${fmtMi(T.plannedMi)} mi left to the Elysian on Thu Nov 12`;
+  document.getElementById('s-note').textContent = `Strava shows ${fmtInt(T.stravaMi)} mi. The other ${fmtInt(T.totalMi - T.stravaMi)} mi were ridden while the phone slept (the Sept 21 morning, the lost miles of Sept 26–27, and a dozen short dropouts) and are drawn dashed.`;
+
+  // ---- day list ------------------------------------------------------------
+  const list = document.getElementById('days');
+  const sparkSvg = (prof) => {
+    if (!prof || prof.length < 2) return '';
+    const W = 300, H = 30, pad = 2;
+    const mn = Math.min(...prof), mx = Math.max(...prof), span = Math.max(mx - mn, 30);
+    const pts = prof.map((v, i) => [pad + i * (W - 2 * pad) / (prof.length - 1), H - pad - (v - mn) / span * (H - 2 * pad)]);
+    const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join('');
+    return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path class="area" d="${line}L${(W - pad).toFixed(1)} ${H}L${pad} ${H}Z"></path><path class="lineel" d="${line}"></path></svg>`;
+  };
+  for (const d of R.days) {
+    const li = document.createElement('li');
+    li.className = 'day' + (d.kind === 'rest' ? ' rest' : '') + (d.kind === 'planned' ? ' planned' : '');
+    li.dataset.day = d.day; li.tabIndex = 0; li.id = `d${d.day}`;
+    const badges = [];
+    if (d.kind === 'planned') badges.push('<span class="badge plan">planned</span>');
+    if (d.approx) badges.push('<span class="badge gap">no GPS · planned line</span>');
+    else if (d.fills.some((f) => f.kind === 'lost')) badges.push('<span class="badge gap">lost morning filled</span>');
+    else if (d.fills.some((f) => !f.counted && f.mi >= 0.5)) badges.push(`<span class="badge gap">+${fmtMi(d.fills.filter((f) => !f.counted).reduce((s, f) => s + f.mi, 0))} mi filled</span>`);
+    if (d.kind === 'rest') badges.push('<span class="badge">rest day</span>');
+    const route = d.kind === 'rest' ? `Rest day in ${d.to.replace(/, [A-Z]{2}$/, '')}` : `${d.from} → ${d.to}`;
+    const miTxt = d.kind === 'rest' ? '' : `<span class="dmi">${fmtMi(d.mi)} <small>mi</small></span>`;
+    const meta = d.kind === 'rest' ? '' : `<span>▲ ${fmtInt(d.elevFt)} ft</span>${d.movingSec ? `<span>${fmtTime(d.movingSec)}</span>` : ''}`;
+    li.innerHTML = `<div class="dnum">${d.day}<small>${d.date.slice(5).replace('-', '/')}</small></div>
+      <div class="dbody">
+        <div class="dtop"><span class="ddate">${fmtDate(d.date)}</span>${miTxt}</div>
+        <div class="droute">${route}</div>
+        <div class="dmeta">${meta}${badges.join('')}</div>
+        ${d.kind === 'rest' ? '' : sparkSvg(d.prof)}
+        <div class="dnotes" hidden>
+          <p class="where">Slept: ${d.sleepAt}${d.title && !/^(Morning|Afternoon|Lunch|Evening) Ride$/.test(d.title) ? ` · Strava: “${d.title.replace(/^Grimey[’']s (Great )?American Trash Tour, /, '')}”` : ''}</p>
+          ${d.desc ? `<p>“${d.desc}”</p>` : ''}
+          ${d.notes.map((n) => `<p>${n}</p>`).join('')}
+          ${d.stravaId ? `<p><a href="https://www.strava.com/activities/${d.stravaId}" target="_blank" rel="noopener">Open on Strava</a></p>` : ''}
+        </div>
+      </div>`;
+    li.addEventListener('click', () => select(d.day));
+    li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(d.day); } });
+    list.appendChild(li);
+  }
+
+  // ---- map -----------------------------------------------------------------
+  const map = new maplibregl.Map({
+    container: 'map',
+    style: 'https://tiles.openfreemap.org/styles/liberty',
+    bounds: ALL_BBOX,
+    fitBoundsOptions: { padding: 40 },
+    attributionControl: { compact: true },
+  });
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+  map.on('error', (e) => console.error('[maplibre]', e.error?.message ?? e));
+
+  let sel = null;
+  const selExpr = (hi, lo) => sel == null ? hi : ['case', ['==', ['get', 'day'], sel], hi, lo];
+
+  map.on('load', () => {
+    map.addSource('connectors', { type: 'geojson', data: fc(connectors) });
+    map.addSource('ferry', { type: 'geojson', data: fc(ferry) });
+    map.addSource('fills', { type: 'geojson', data: fc(fills) });
+    map.addSource('ridden', { type: 'geojson', data: fc(ridden) });
+    map.addSource('stops', { type: 'geojson', data: fc(stops) });
+
+    map.addLayer({ id: 'connectors', type: 'line', source: 'connectors', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#8b8b95', 'line-width': 2, 'line-dasharray': [1.5, 2], 'line-opacity': .8 } });
+    map.addLayer({ id: 'ferry', type: 'line', source: 'ferry', layout: { 'line-cap': 'round' }, paint: { 'line-color': '#3d7ea6', 'line-width': 2.5, 'line-dasharray': [0.1, 2] } });
+    map.addLayer({ id: 'fills-casing', type: 'line', source: 'fills', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 4, 12, 8], 'line-opacity': .9 } });
+    map.addLayer({ id: 'fills', type: 'line', source: 'fills', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ORANGE, 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 2.2, 12, 4.5], 'line-dasharray': [2, 1.6], 'line-opacity': ['case', ['==', ['get', 'kind'], 'planned'], .6, 1] } });
+    map.addLayer({ id: 'ridden-casing', type: 'line', source: 'ridden', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 5, 12, 9], 'line-opacity': .9 } });
+    map.addLayer({ id: 'ridden', type: 'line', source: 'ridden', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ORANGE, 'line-width': ['interpolate', ['linear'], ['zoom'], 4, 2.6, 12, 5] } });
+    map.addLayer({ id: 'stops', type: 'circle', source: 'stops', filter: ['==', ['get', 'type'], 'stop'], paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 3, 8, 6, 12, 9], 'circle-color': '#ffffff', 'circle-stroke-color': ORANGE, 'circle-stroke-width': 2 } });
+    map.addLayer({ id: 'stops-label', type: 'symbol', source: 'stops', filter: ['==', ['get', 'type'], 'stop'], minzoom: 6.5, layout: { 'text-field': ['get', 'label'], 'text-font': ['Noto Sans Bold'], 'text-size': ['interpolate', ['linear'], ['zoom'], 6.5, 9, 12, 12], 'text-allow-overlap': false }, paint: { 'text-color': '#c23a00' } });
+    map.addLayer({ id: 'ends', type: 'circle', source: 'stops', filter: ['!=', ['get', 'type'], 'stop'], paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 6, 10, 10], 'circle-color': ['match', ['get', 'type'], 'start', '#2b9a57', 'here', ORANGE, '#cf3426'], 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2.5 } });
+    map.addLayer({ id: 'ends-label', type: 'symbol', source: 'stops', filter: ['!=', ['get', 'type'], 'stop'], layout: { 'text-field': ['match', ['get', 'type'], 'start', 'START · Sept 20', 'here', 'DAY 50 · Nov 8', 'FINISH · Nov 12'], 'text-font': ['Noto Sans Bold'], 'text-size': 11, 'text-offset': ['match', ['get', 'type'], 'finish', ['literal', [0, -1.4]], ['literal', [0, 1.4]]], 'text-anchor': ['match', ['get', 'type'], 'finish', 'bottom', 'top'], 'text-allow-overlap': false }, paint: { 'text-color': '#1f1f23', 'text-halo-color': '#ffffff', 'text-halo-width': 1.5 } });
+
+    for (const id of ['ridden', 'fills', 'stops', 'ends']) {
+      map.on('click', id, (e) => { const f = e.features[0]; const day = f.properties.day; if (day) select(day === sel ? null : day); });
+      map.on('mouseenter', id, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', id, () => { map.getCanvas().style.cursor = ''; });
+    }
+    map.on('mousemove', 'stops', (e) => { const p = e.features[0].properties; tag(`<b>Day ${p.day}</b> ${p.date} · ${p.name}`); });
+    map.on('mouseleave', 'stops', () => { if (sel == null) tag(null); });
+
+    const h = (location.hash || '').match(/^#d(\d+)$/);
+    if (h) select(+h[1], true);
+  });
+
+  const tagEl = document.getElementById('maptag');
+  function tag(html) { if (!html) { tagEl.hidden = true; return; } tagEl.innerHTML = html; tagEl.hidden = false; }
+
+  function applySelection() {
+    if (!map.getLayer('ridden')) return;
+    map.setPaintProperty('ridden', 'line-opacity', selExpr(1, .22));
+    map.setPaintProperty('ridden-casing', 'line-opacity', selExpr(.9, .2));
+    map.setPaintProperty('fills', 'line-opacity', sel == null ? ['case', ['==', ['get', 'kind'], 'planned'], .6, 1] : ['case', ['==', ['get', 'day'], sel], 1, .2]);
+    map.setPaintProperty('fills-casing', 'line-opacity', selExpr(.9, .2));
+    map.setPaintProperty('stops', 'circle-opacity', selExpr(1, .35));
+    map.setPaintProperty('stops', 'circle-stroke-opacity', selExpr(1, .35));
+    // Zoom must stay the top-level input; the per-day bump lives in the outputs.
+    const r = (base, big) => sel == null ? base : ['case', ['==', ['get', 'day'], sel], big, base];
+    map.setPaintProperty('stops', 'circle-radius', ['interpolate', ['linear'], ['zoom'], 4, r(3, 7), 8, r(6, 10), 12, r(9, 13)]);
+  }
+
+  function select(day, quiet) {
+    sel = day;
+    for (const li of list.children) {
+      const on = +li.dataset.day === day;
+      li.classList.toggle('sel', on);
+      li.querySelector('.dnotes').hidden = !on;
+    }
+    applySelection();
+    if (day == null) {
+      map.fitBounds(ALL_BBOX, { padding: 40, duration: quiet ? 0 : 900 });
+      tag(null);
+      history.replaceState(null, '', location.pathname + location.search);
+      return;
+    }
+    const d = R.days[day - 1];
+    let g = dayGeom[day];
+    if (!g) { // rest day: show where he was
+      const prev = R.days.slice(0, day - 1).reverse().find((x) => x.end);
+      if (prev) { const c = [prev.end[1], prev.end[0]]; map.flyTo({ center: c, zoom: 11, duration: quiet ? 0 : 900 }); }
+    } else {
+      map.fitBounds(g.bbox, { padding: window.innerWidth < 760 ? 36 : 70, duration: quiet ? 0 : 900, maxZoom: 13 });
+    }
+    const li = document.getElementById(`d${day}`);
+    li.scrollIntoView({ block: 'nearest', behavior: quiet ? 'auto' : 'smooth' });
+    tag(`<b>Day ${day}</b> ${fmtDate(d.date, true)} · ${d.kind === 'rest' ? `rest day in ${d.to}` : `${d.from} → ${d.to} · ${fmtMi(d.mi)} mi · ▲ ${fmtInt(d.elevFt)} ft`}`);
+    history.replaceState(null, '', `#d${day}`);
+  }
+
+  window.__ride = { map, select, data: R };
+  document.getElementById('btn-all').addEventListener('click', () => select(null));
+  document.getElementById('btn-here').addEventListener('click', () => select(50));
+  window.addEventListener('hashchange', () => { const h = (location.hash || '').match(/^#d(\d+)$/); if (h && +h[1] !== sel) select(+h[1]); });
+})();
+</script>
+</body>
+</html>
