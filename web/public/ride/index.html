@@ -104,6 +104,9 @@
   .foot { padding: 12px 18px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
   .mapwrap { position: relative; min-width: 0; min-height: 0; }
   #map { position: absolute; inset: 0; }
+  .mapbtn { position: absolute; top: 10px; left: 10px; z-index: 2; font: inherit; font-size: 12.5px; font-weight: 600; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px 11px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+  .mapbtn[aria-pressed="false"] { background: var(--orange); color: #fff; border-color: var(--orange); }
+  .mapbtn:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
   .maptag { position: absolute; left: 12px; bottom: 32px; max-width: calc(100% - 24px); background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font-size: 13px; box-shadow: 0 6px 24px rgba(0,0,0,.12); }
   .maptag b { font-family: var(--font-display); font-size: 18px; font-weight: 700; margin-right: 6px; color: var(--orange-ink); }
   .maplibregl-popup-content { font-family: var(--font-body); font-size: 13px; border-radius: 8px; }
@@ -129,6 +132,7 @@
 <div class="app">
   <main class="mapwrap">
     <div id="map" role="img" aria-label="Map of the whole ride from Perdido Key to Los Angeles"></div>
+    <button class="mapbtn" id="map-dots" type="button" aria-pressed="true" title="Show or hide the day markers">Line only</button>
     <div class="maptag" id="maptag" hidden></div>
   </main>
   <aside class="panel">
@@ -153,6 +157,7 @@
       <div class="toolbar">
         <button class="btn" id="btn-all" type="button">Whole route</button>
         <button class="btn" id="btn-here" type="button">Where he is now</button>
+        <button class="btn" id="btn-dots" type="button" aria-pressed="true">Hide day markers</button>
       </div>
     </header>
     <div class="listhead"><span>Every day, Perdido Key to LA</span><span>tap a day to zoom</span></div>
@@ -289,9 +294,27 @@
     map.on('mousemove', 'stops', (e) => { const p = e.features[0].properties; tag(`<b>Day ${p.day}</b> ${p.date} · ${p.name}`); });
     map.on('mouseleave', 'stops', () => { if (sel == null) tag(null); });
 
+    setDots(dots);
     const h = (location.hash || '').match(/^#d(\d+)$/);
     if (h) select(+h[1], true);
   });
+
+  // Day markers on or off: off leaves nothing but the line across the country.
+  let dots = true;
+  try { dots = localStorage.getItem('ride-dots') !== 'off'; } catch (e) { /* storage unavailable */ }
+  const MARKER_LAYERS = ['stops', 'stops-label', 'ends', 'ends-label'];
+  function setDots(on) {
+    dots = on;
+    if (map.getLayer('stops')) for (const id of MARKER_LAYERS) map.setLayoutProperty(id, 'visibility', on ? 'visible' : 'none');
+    const tb = document.getElementById('btn-dots'), mb = document.getElementById('map-dots');
+    tb.textContent = on ? 'Hide day markers' : 'Show day markers';
+    tb.setAttribute('aria-pressed', String(on));
+    mb.textContent = on ? 'Line only' : 'Show days';
+    mb.setAttribute('aria-pressed', String(on));
+    try { localStorage.setItem('ride-dots', on ? 'on' : 'off'); } catch (e) { /* ignore */ }
+  }
+  document.getElementById('btn-dots').addEventListener('click', () => setDots(!dots));
+  document.getElementById('map-dots').addEventListener('click', () => setDots(!dots));
 
   const tagEl = document.getElementById('maptag');
   function tag(html) { if (!html) { tagEl.hidden = true; return; } tagEl.innerHTML = html; tagEl.hidden = false; }
